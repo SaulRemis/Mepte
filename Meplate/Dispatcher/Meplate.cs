@@ -21,7 +21,7 @@ namespace Meplate
             _DispatcherThreads.Add("Procesamiento", new HiloProcesamiento(this, "Procesamiento",arch));
 
 
-            ConnectMemory("Perfiles", new SharedData<CMedida>(20), "Adquisicion", "Procesamiento");
+            ConnectMemory("Chapas", new SharedData<List<CMedida>>(20), "Adquisicion", "Procesamiento");
             ConnectMemory("Resultados", new SharedData<Resultados>(1), "Procesamiento");
 
             CreateEvent("ChapaMedida", new AutoResetEvent(false), "Adquisicion", "Procesamiento");

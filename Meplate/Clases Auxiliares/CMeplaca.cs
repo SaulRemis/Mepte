@@ -12,10 +12,13 @@ namespace Meplate
         CSerie serie;
         CModulosCal calibracion;
         int numeroModulos;
+        double _MinimoAvanceParaMedir;
+
+        public double MinimoAvanceParaMedir{get { return _MinimoAvanceParaMedir; }}
         
         public CMeplaca(CArchivos arch)
-        {             
-            
+        {
+            _MinimoAvanceParaMedir = double.Parse(arch.LeerXML("MinimoAvanceParaMedir"));
             numeroModulos = int.Parse(arch.LeerXML("numeroModulos"));
             string puerto = arch.LeerXML("puertoSerie");
             string[] pathDatosCalibracion = new string[numeroModulos];
