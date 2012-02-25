@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SpinPlatform.Dispatcher;
 using SpinPlatform.Data;
+using System.Threading;
 
 namespace Meplate
 {
@@ -18,7 +19,9 @@ namespace Meplate
             ConnectMemory("Perfiles", new SharedData<CMedida>(20), "Adquisicion", "Procesamiento");
             ConnectMemory("Resultados", new SharedData<Resultados>(1), "Procesamiento");
 
-          //  CreateEvent("NuevaMedida", new AutoResetEvent(false), "Consumidor", "Productor");
+            CreateEvent("ChapaMedida", new AutoResetEvent(false), "Adquisicion", "Procesamiento");
+            CreateEvent("ComenzarMedida", new AutoResetEvent(false), "Adquisicion");
+            CreateEvent("FinalizarMedida", new AutoResetEvent(false), "Adquisicion");
 
          }
 

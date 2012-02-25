@@ -9,6 +9,10 @@ namespace Meplate.Dispatcher
 {
     class MeplateData: ModuleData
     {
+        //parametros de entrada
+
+        public bool GetResultados = false;
+
 
         //parametros de salida
 
