@@ -5,7 +5,7 @@ using System.Text;
 using HalconDotNet;
 using SpinPlatform.Data;
 
-namespace Meplate.Dispatcher
+namespace Meplate
 {
     class MeplateData: ModuleData
     {

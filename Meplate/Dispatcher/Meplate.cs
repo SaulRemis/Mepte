@@ -32,33 +32,34 @@ namespace Meplate
 
         public override object GetData(object parameters)
         {
-           /* if (parameters.GetType()==typeof(DispatcherData))
+            if (parameters.GetType()==typeof(MeplateData))
             {
-                DispatcherData data = (DispatcherData)parameters;
+                MeplateData data = (MeplateData)parameters;
 
                 data.ResetData();
-                if (data.GetFecha)
+                if (data.GetResultados)
                 {
-                    ResultsDataDate temp = (ResultsDataDate)((SharedData<ResultsDataDate>)_DispatcherSharedMemory["Resultados"]).Get(0);
-                    data.Hora = temp.Hora;
-                    data.Minutos = temp.Minutos;
-                    data.Segundos = temp.Segundos;
-                    data.Milisegundos = temp.Milisegundos;
+                    Resultados temp = ( Resultados)((SharedData< Resultados>)_DispatcherSharedMemory["Resultados"]).Get(0);
+                    data.Z=temp.Z;
+                    data.Puntos= temp.Puntos;
+                    data.Pixeles= temp.Pixeles;
+                    data.Perfiles = temp.Perfiles;
+                    data.Distancia_nominal = temp.Distancia_nominal;
 
                 }
                 return data;
             }
-            else */       return null;
+            else        return null;
         }
         public void PrepareEvent(string thread )
         {
           
-          /*  DispatcherData temp = new DispatcherData();
+            MeplateData temp = new MeplateData();
 
             switch (thread)
             {
                 case "Consumidor":
-                    temp.GetFecha = true;
+                    temp.GetResultados = true;
                     break;
                 default:
                     break;
@@ -69,7 +70,7 @@ namespace Meplate
             if (Status == SpinDispatcherStatus.Running)  // Por si nadie escucha el evento o esta en proceso de parar
             {
                 SetEvent(args);
-            }*/
+            }
              
         }
 
