@@ -18,7 +18,8 @@ namespace Meplate
         { 
         }
         public override void Initializate()
-        { 
+        {
+            _WakeUpThreadEvent = _Events["ChapaMedida"];
         }
     }
 }
