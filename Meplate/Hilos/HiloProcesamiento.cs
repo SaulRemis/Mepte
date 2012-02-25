@@ -9,10 +9,12 @@ namespace Meplate
     class HiloProcesamiento: SpinThreadEvent
     {
         SpinDispatcher _Padre;
-        public HiloProcesamiento(SpinDispatcher padre, string name)
+        CProcesamiento _Proc;
+        public HiloProcesamiento(SpinDispatcher padre, string name, CArchivos arch)
             : base(name)
         {
-             _Padre = padre;
+            _Proc = new CProcesamiento(arch);
+            _Padre = padre;
         }
         public override void FunctionToExecuteByThread()
         { 

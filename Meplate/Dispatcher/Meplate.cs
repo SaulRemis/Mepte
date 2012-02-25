@@ -10,10 +10,15 @@ namespace Meplate
 {
     class Meplate: SpinDispatcher
     {
+            //Clases auxiliares
+           CArchivos arch ;
+
         Meplate()
         {
-            _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion("Adquisicion"));
-            _DispatcherThreads.Add("Procesamiento", new HiloProcesamiento(this, "Procesamiento"));
+            arch = new CArchivos("MeplateIni.xml");
+
+            _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion("Adquisicion",arch));
+            _DispatcherThreads.Add("Procesamiento", new HiloProcesamiento(this, "Procesamiento",arch));
 
 
             ConnectMemory("Perfiles", new SharedData<CMedida>(20), "Adquisicion", "Procesamiento");

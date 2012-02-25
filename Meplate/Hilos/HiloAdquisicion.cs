@@ -8,9 +8,11 @@ namespace Meplate
 {
     class HiloAdquisicion : SpinThread
     {
-        public HiloAdquisicion(string name)
+        CMeplaca _Meplaca; 
+        public HiloAdquisicion(string name, CArchivos arch)
             : base(name)
         {
+            _Meplaca = new CMeplaca(arch);
             _MillisecondsToSleep = 0;
         }
 

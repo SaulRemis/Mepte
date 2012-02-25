@@ -49,6 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clases Auxiliares\CArchivos.cs" />
+    <Compile Include="Clases Auxiliares\CMeplaca.cs" />
+    <Compile Include="Clases Auxiliares\CModulosCal.cs" />
+    <Compile Include="Clases Auxiliares\CProcesamiento.cs" />
+    <Compile Include="Clases Auxiliares\CSerie.cs" />
     <Compile Include="Dispatcher\MeplateData.cs" />
     <Compile Include="Memorias\CMedida.cs" />
     <Compile Include="Form1.cs">
@@ -91,9 +96,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Clases Auxiliares\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
