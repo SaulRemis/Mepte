@@ -7,11 +7,11 @@ using System.Threading;
 
 namespace Meplate
 {
-    [Serializable()]
+    [Serializable]
         public class Resultados
         {
         //mienbros privados
-            HImage _Z; // imagen para pintar
+          HImage _Z; // imagen para pintar
           int _Perfiles; // numero de perfiles
           double[,] _Puntos; // las coordenadas (x,y,z) de los max y min para enviar y la distancia entre max y min
           double[,] _Pixeles; //las coordenadas (f,c) de los pixeles para pintar con la distancia entre max y min
