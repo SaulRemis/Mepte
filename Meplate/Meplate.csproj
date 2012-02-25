@@ -73,6 +73,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="P:\Mis documentos\PROYECTOS\PROYECTOS\MEPLATE\TECNICO\Meplate\SpinPlatform\SpinPlatform.csproj">
+      <Project>{6CA428E1-FF39-453C-B775-2806EBECC474}</Project>
+      <Name>SpinPlatform</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
