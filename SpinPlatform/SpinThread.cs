@@ -127,6 +127,9 @@ namespace SpinPlatform
             {
             }
 
+            public virtual void Closing()
+            {
+            }
             /// <summary>
             /// The main thread will call this function when it starts.
             /// </summary>
@@ -139,7 +142,7 @@ namespace SpinPlatform
                 } while (!_StopEvent.WaitOne(_MillisecondsToSleep, true));
                 Trace.WriteLine("Saliendo del hilo adquisicion");
                 //Trace.WriteLine("Estado del evento stop al salir del hilo: " + _StopEvent.WaitOne(0, true));
-
+                Closing();
             }
             #endregion
 

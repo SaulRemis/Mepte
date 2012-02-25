@@ -31,7 +31,7 @@ namespace Meplate
                 _Z = imagen.CopyImage();
                 _Perfiles = medidas;
                 //_Pixeles = new double[5, numMedidas];
-                _Pixeles = pixeles;
+                _Pixeles = (double[,])pixeles.Clone();
                 _NumMedidas=numMedidas;               
                 _Distancia_nominal = distancia;
 

@@ -18,7 +18,7 @@ namespace Meplate
             arch = new CArchivos("MeplateIni.xml");
 
             _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion("Adquisicion",arch));
-            _DispatcherThreads.Add("Procesamiento", new HiloProcesamiento(this, "Procesamiento",arch));
+            _DispatcherThreads.Add("Procesamiento", new HiloProcesamiento((Meplate)this, "Procesamiento",arch));
 
 
             ConnectMemory("Chapas", new SharedData<List<CMedida>>(20), "Adquisicion", "Procesamiento");

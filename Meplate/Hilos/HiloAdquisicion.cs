@@ -15,7 +15,7 @@ namespace Meplate
         TimeSpan elapsedTime;
         DateTime t1 ;
         DateTime t2;
-        double RESOLUCION = 0;
+
         List<CMedida> medidas;// lista donde se van guardando todos los perfiles de una chapa
 
 
@@ -115,7 +115,10 @@ namespace Meplate
             _Meplaca.Inicializar();
             medidas = new List<CMedida>();
         }
-        //Funciones calculo avance
+
+
+
+        //Funciones calculo avance QUITAR DE AQUI
         private double LeerAvance(TimeSpan elapsedTime)//Calcula el avance medido en mm
         {
             velocidad = LeerVelocidad();
