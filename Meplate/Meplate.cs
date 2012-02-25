@@ -10,13 +10,13 @@ namespace Meplate
     {
         Meplate()
         {
-            _DispatcherThreads.Add("Productor", new HiloProductor("Productor"));
-            _DispatcherThreads.Add("Consumidor", new HiloConsumidor(this, "Consumidor"));
+            _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion("Adquisicion"));
+            _DispatcherThreads.Add("Procesamiento", new HiloProcesamiento(this, "Procesamiento"));
 
-            ConnectMemory("Fecha", new SharedData<DateTime>(10), "Consumidor", "Productor");
-            ConnectMemory("Resultados", new SharedData<ResultsDataDate>(1), "Consumidor");
+         //   ConnectMemory("Fecha", new SharedData<DateTime>(10), "Consumidor", "Productor");
+         //   ConnectMemory("Resultados", new SharedData<ResultsDataDate>(1), "Consumidor");
 
-            CreateEvent("NuevaMedida", new AutoResetEvent(false), "Consumidor", "Productor");
+          //  CreateEvent("NuevaMedida", new AutoResetEvent(false), "Consumidor", "Productor");
 
          }
 
