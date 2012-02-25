@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SpinPlatform.Dispatcher;
+using SpinPlatform.Data;
 
 namespace Meplate
 {
@@ -13,8 +14,9 @@ namespace Meplate
             _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion("Adquisicion"));
             _DispatcherThreads.Add("Procesamiento", new HiloProcesamiento(this, "Procesamiento"));
 
-         //   ConnectMemory("Fecha", new SharedData<DateTime>(10), "Consumidor", "Productor");
-         //   ConnectMemory("Resultados", new SharedData<ResultsDataDate>(1), "Consumidor");
+
+            ConnectMemory("Perfiles", new SharedData<CMedida>(20), "Adquisicion", "Procesamiento");
+            ConnectMemory("Resultados", new SharedData<Resultados>(1), "Procesamiento");
 
           //  CreateEvent("NuevaMedida", new AutoResetEvent(false), "Consumidor", "Productor");
 
