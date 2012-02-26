@@ -54,6 +54,7 @@
             this.MedirPararButton.TabIndex = 15;
             this.MedirPararButton.Text = "Medir";
             this.MedirPararButton.UseVisualStyleBackColor = false;
+            this.MedirPararButton.Click += new System.EventHandler(this.MedirPararButton_Click);
             // 
             // StopButton
             // 

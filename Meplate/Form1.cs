@@ -101,5 +101,25 @@ namespace Meplate
         {
             _Meplate.Stop();
         }
+
+        private void MedirPararButton_Click(object sender, EventArgs e)
+        {
+            MeplateData temp = new MeplateData();
+
+            if (MedirPararButton.Text == "Medir")
+            {
+                MedirPararButton.Text = "Parar";
+                temp.SetEventoEmpezarMedida = true;
+
+            }
+
+            else
+            {
+                MedirPararButton.Text = "Medir";
+                temp.SetEventoFinalizarMedida = true;
+            }
+
+            _Meplate.SetData(temp);
+        }
     }
 }
