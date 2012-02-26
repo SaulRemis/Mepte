@@ -71,6 +71,7 @@
             this.StopButton.Size = new System.Drawing.Size(48, 48);
             this.StopButton.TabIndex = 14;
             this.StopButton.UseVisualStyleBackColor = false;
+            this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
             // 
             // StartButton
             // 
@@ -87,6 +88,7 @@
             this.StartButton.Size = new System.Drawing.Size(48, 48);
             this.StartButton.TabIndex = 13;
             this.StartButton.UseVisualStyleBackColor = false;
+            this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
             // 
             // VentanaHalconPrincipal
             // 

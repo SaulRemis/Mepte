@@ -8,15 +8,13 @@ using System.Threading;
 
 namespace Meplate
 {
-    class Meplate: SpinDispatcher
+    public class Meplate: SpinDispatcher
     {
             //Clases auxiliares
-           CArchivos arch ;
+        CArchivos arch ;
 
-        Meplate()
+        public Meplate()
         {
-            arch = new CArchivos("MeplateIni.xml");
-
             _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion("Adquisicion",arch));
             _DispatcherThreads.Add("Procesamiento", new HiloProcesamiento((Meplate)this, "Procesamiento",arch));
 
@@ -27,6 +25,9 @@ namespace Meplate
             CreateEvent("ChapaMedida", new AutoResetEvent(false), "Adquisicion", "Procesamiento");
             CreateEvent("ComenzarMedida", new AutoResetEvent(false), "Adquisicion");
             CreateEvent("FinalizarMedida", new AutoResetEvent(false), "Adquisicion");
+
+            //Clases auxiliares
+            arch = new CArchivos("MeplateIni.xml");
 
          }
 
