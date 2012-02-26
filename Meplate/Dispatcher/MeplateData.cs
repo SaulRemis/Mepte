@@ -12,6 +12,8 @@ namespace Meplate
         //parametros de entrada
 
         public bool GetResultados = false;
+        public bool SetEventoEmpezarMedida = false;
+        public bool SetEventoFinalizarMedida = false;
 
 
         //parametros de salida

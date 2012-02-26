@@ -74,6 +74,24 @@ namespace Meplate
             }
              
         }
+        public override object SetData(object parameters)
+        {
+            if (parameters.GetType() == typeof(MeplateData))
+            {
+                MeplateData data = (MeplateData)parameters;
 
+                if (data.SetEventoEmpezarMedida)
+                {
+                    _Events["ComenzarMedida"].Set();
+                }
+                if (data.SetEventoFinalizarMedida)
+                {
+                    _Events["FinalizarMedida"].Set();
+                
+                }
+                return data;
+            }
+            else return null;
+        }
     }
 }

@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace Meplate
 {
-    class HiloAdquisicion : SpinThread
+    class HiloAdquisicion : SpinThreadEvent
     {
         CMeplaca _Meplaca;
         double avance, avanceAcumulado, velocidad, velocidadAnterior = 0;
@@ -29,13 +29,12 @@ namespace Meplate
         public override void FunctionToExecuteByThread()
         {
             //Espero a que llegue un mensaje de empezar a medir
-            while (_Events["ComenzarMedida"].WaitOne())
-            {
+           
                 //Compruebo que no pulsaron Stop mientras esperaba
                 if (_StopEvent.WaitOne(0, true))
                 {
                     _Meplaca.Cerrar();
-                    break; // si se pulso stop se sale    
+                    return; // si se pulso stop se sale del while del Spinthreadevent
                 }
 
                 // Inicializo todo
@@ -104,7 +103,7 @@ namespace Meplate
                     }
 
                 }
-            }
+            
             Trace.WriteLine("ADRI:   saliendo  del HILO ADQUISICION");
             
         }
@@ -116,8 +115,7 @@ namespace Meplate
             medidas = new List<CMedida>();
         }
 
-
-
+       
         //Funciones calculo avance QUITAR DE AQUI
         private double LeerAvance(TimeSpan elapsedTime)//Calcula el avance medido en mm
         {
