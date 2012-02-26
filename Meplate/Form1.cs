@@ -46,36 +46,38 @@ namespace Meplate
 
         void PintarResultados(MeplateData resultados)
         {
-
-            if (resultados.Perfiles > 0)
+            if (resultados.GetResultados)
             {
-                double[,] puntos = resultados.Puntos;
-                int ancho, alto;
-                resultados.Z.GetImageSize(out ancho, out alto);
-
-
-                perfiles.Text = ancho.ToString() + " perfiles";
-
-                VentanaHalconPrincipal.HalconWindow.SetPart(0, 0, alto - 1, ancho - 1);
-
-                resultados.Z.SetGrayval(0, 0, resultados.Distancia_nominal - 100);  // para fijar la escala de colores
-                resultados.Z.SetGrayval(alto - 1, ancho - 1, resultados.Distancia_nominal + 10); // para fijar la escala de valores
-
-
-                VentanaHalconPrincipal.HalconWindow.DispObj(resultados.Z);
-
-
-
-                for (int i = 0; i < puntos.Length / 5; i++)
+                if (resultados.Perfiles > 0)
                 {
-                    VentanaHalconPrincipal.HalconWindow.SetColor("blue");
-                    VentanaHalconPrincipal.HalconWindow.DispLine(puntos[0, i], puntos[1, i], puntos[2, i], puntos[3, i]);
-                    VentanaHalconPrincipal.HalconWindow.SetColor("black");
-                    VentanaHalconPrincipal.HalconWindow.SetTposition((int)puntos[2, i], (int)puntos[3, i]);
-                    VentanaHalconPrincipal.HalconWindow.WriteString(puntos[4, i].ToString("F1"));
+                    double[,] puntos = resultados.Puntos;
+                    int ancho, alto;
+                    resultados.Z.GetImageSize(out ancho, out alto);
 
-                }
-                //formPrincipal.VentanaHalconPrincipal.HalconWindow.DumpWindow("jpeg", "meplaca_lab");
+
+                    perfiles.Text = ancho.ToString() + " perfiles";
+
+                    VentanaHalconPrincipal.HalconWindow.SetPart(0, 0, alto - 1, ancho - 1);
+
+                    resultados.Z.SetGrayval(0, 0, resultados.Distancia_nominal - 100);  // para fijar la escala de colores
+                    resultados.Z.SetGrayval(alto - 1, ancho - 1, resultados.Distancia_nominal + 10); // para fijar la escala de valores
+
+
+                    VentanaHalconPrincipal.HalconWindow.DispObj(resultados.Z);
+
+
+
+                    for (int i = 0; i < puntos.Length / 5; i++)
+                    {
+                        VentanaHalconPrincipal.HalconWindow.SetColor("blue");
+                        VentanaHalconPrincipal.HalconWindow.DispLine(puntos[0, i], puntos[1, i], puntos[2, i], puntos[3, i]);
+                        VentanaHalconPrincipal.HalconWindow.SetColor("black");
+                        VentanaHalconPrincipal.HalconWindow.SetTposition((int)puntos[2, i], (int)puntos[3, i]);
+                        VentanaHalconPrincipal.HalconWindow.WriteString(puntos[4, i].ToString("F1"));
+
+                    }
+                    //formPrincipal.VentanaHalconPrincipal.HalconWindow.DumpWindow("jpeg", "meplaca_lab");
+                } 
             }
         }
         private void StartButton_Click(object sender, EventArgs e)
