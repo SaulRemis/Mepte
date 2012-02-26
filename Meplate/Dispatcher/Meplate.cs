@@ -74,7 +74,7 @@ namespace Meplate
             }
              
         }
-        public override object SetData(object parameters)
+        public override void SetData(object parameters)
         {
             if (parameters.GetType() == typeof(MeplateData))
             {
@@ -89,9 +89,9 @@ namespace Meplate
                     _Events["FinalizarMedida"].Set();
                 
                 }
-                return data;
+
             }
-            else return null;
+
         }
     }
 }

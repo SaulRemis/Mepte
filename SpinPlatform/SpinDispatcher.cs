@@ -48,9 +48,8 @@ namespace SpinPlatform
             public void Init(object obj)
             {
             }
-            public void SetData(object obj)
-            {
-            }
+            abstract public void SetData(object obj);
+           
             public void Stop()
             {
                 Status = SpinDispatcherStatus.Stopping;
@@ -85,7 +84,7 @@ namespace SpinPlatform
             }
             public event ResultEventHandler NewResultEvent;  // evento para enviar nuevos resultados
            
-            public void SetEvent(DataEventArgs args)
+             protected void SetEvent(DataEventArgs args)
             {
 
                 if (NewResultEvent != null )  // Por si nadie escucha el evento o esta en proceso de parar
