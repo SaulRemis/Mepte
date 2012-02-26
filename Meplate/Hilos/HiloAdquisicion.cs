@@ -28,7 +28,7 @@ namespace Meplate
 
         public override void FunctionToExecuteByThread()
         {
-            //Espero a que llegue un mensaje de empezar a medir
+            //Espero a que llegue un mensaje de empezar a medir en el while del Spinthreadevent
            
                 //Compruebo que no pulsaron Stop mientras esperaba
                 if (_StopEvent.WaitOne(0, true))
@@ -109,6 +109,8 @@ namespace Meplate
         }
         public override void Initializate()
         {
+
+            _WakeUpThreadEvent = _Events["ComenzarMedida"];
             Trace.WriteLine("ADRI:   Entrando en el HILO ADQUISICION");
             //INICIALIZAR
             _Meplaca.Inicializar();
