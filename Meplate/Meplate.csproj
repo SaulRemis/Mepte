@@ -49,12 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Clases Auxiliares\CArchivos.cs" />
-    <Compile Include="Clases Auxiliares\CMeplaca.cs" />
-    <Compile Include="Clases Auxiliares\CModulosCal.cs" />
     <Compile Include="Clases Auxiliares\CProcesamiento.cs" />
-    <Compile Include="Clases Auxiliares\CSerie.cs" />
-    <Compile Include="Clases Auxiliares\MeplacaData.cs" />
     <Compile Include="Dispatcher\MeplateData.cs" />
     <Compile Include="Memorias Compartidas\CMedida.cs" />
     <Compile Include="Form1.cs">

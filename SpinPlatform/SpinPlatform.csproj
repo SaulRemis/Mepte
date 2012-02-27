@@ -40,16 +40,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataEventArgs.cs" />
+    <Compile Include="Data\DataEventArgs.cs" />
     <Compile Include="ISpinPlatformInterface.cs" />
-    <Compile Include="ModuleData.cs" />
+    <Compile Include="Data\ModuleData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResultsData.cs" />
-    <Compile Include="SharedData.cs" />
-    <Compile Include="SpinDispatcher.cs" />
-    <Compile Include="SpinThread.cs" />
-    <Compile Include="SpinThreadEvent.cs" />
+    <Compile Include="Data\ResultsData.cs" />
+    <Compile Include="Data\SharedData.cs" />
+    <Compile Include="Dispatcher\SpinDispatcher.cs" />
+    <Compile Include="Dispatcher\SpinThread.cs" />
+    <Compile Include="Dispatcher\SpinThreadEvent.cs" />
+    <Compile Include="IO\CArchivos.cs" />
+    <Compile Include="Sensors\Meplaca\CMeplaca.cs" />
+    <Compile Include="Sensors\Meplaca\CModulosCal.cs" />
+    <Compile Include="Sensors\Meplaca\CSerie.cs" />
+    <Compile Include="Sensors\Meplaca\MeplacaData.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

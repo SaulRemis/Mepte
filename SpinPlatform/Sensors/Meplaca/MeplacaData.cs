@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SpinPlatform.Data;
+using SpinPlatform.IO;
 
-namespace Meplate
+namespace SpinPlatform.Sensors.Meplaca
 {
-    class MeplacaData : ModuleData
+   public class MeplacaData : ModuleData
     {
         //parametros de entrada
 

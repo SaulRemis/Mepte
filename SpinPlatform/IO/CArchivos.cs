@@ -1,14 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-
 using System.Threading;
 using System.Xml;
 using System.Runtime.InteropServices;
 
 
-
-namespace Meplate
+namespace SpinPlatform.IO
 {
     public class CArchivos
     {

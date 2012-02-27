@@ -5,6 +5,7 @@ using System.Text;
 using SpinPlatform.Dispatcher;
 using SpinPlatform.Data;
 using System.Threading;
+using SpinPlatform.IO;
 
 namespace Meplate
 {

@@ -5,10 +5,11 @@ using System.Text;
 using System.Xml;
 using System.Threading;
 using SpinPlatform;
+using SpinPlatform.IO;
 
-namespace Meplate
+namespace SpinPlatform.Sensors.Meplaca
 {
-    class CMeplaca : ISpinPlatformInterface
+    public class CMeplaca : ISpinPlatformInterface
     {
         CSerie serie;
         CModulosCal calibracion;
