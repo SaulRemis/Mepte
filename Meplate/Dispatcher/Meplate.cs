@@ -24,6 +24,7 @@ namespace Meplate
 
 
             ConnectMemory("Chapas", new SharedData<List<CMedida>>(20), "Adquisicion", "Procesamiento");
+            ConnectMemory("Informacion", new SharedData<Informacion>(1), "Adquisicion");
             ConnectMemory("Resultados", new SharedData<Resultados>(1), "Procesamiento");
 
             CreateEvent("ChapaMedida", new AutoResetEvent(false), "Adquisicion", "Procesamiento");
