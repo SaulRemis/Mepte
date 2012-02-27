@@ -11,16 +11,16 @@ namespace Meplate
     public class Meplate: SpinDispatcher
     {
             //Clases auxiliares
-        CArchivos arch ;
+        public CArchivos _Arch ;
 
         public Meplate()
         {
             //Clases auxiliares
-            arch = new CArchivos("MeplateIni.xml");
+            _Arch = new CArchivos("MeplateIni.xml");
 
 
-            _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion((Meplate)this, "Adquisicion", arch));
-            _DispatcherThreads.Add("Procesamiento", new HiloProcesamiento((Meplate)this, "Procesamiento",arch));
+            _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion((Meplate)this, "Adquisicion", _Arch));
+            _DispatcherThreads.Add("Procesamiento", new HiloProcesamiento((Meplate)this, "Procesamiento",_Arch));
 
 
             ConnectMemory("Chapas", new SharedData<List<CMedida>>(20), "Adquisicion", "Procesamiento");

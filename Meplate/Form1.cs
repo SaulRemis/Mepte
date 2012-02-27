@@ -27,9 +27,6 @@ namespace Meplate
 
             VentanaHalconPrincipal.HalconWindow.SetLineWidth(3);
             VentanaHalconPrincipal.HalconWindow.SetLut("temperature");
-
-
-      
         }
 
         void _Meplate_NewResultEvent(object sender, DataEventArgs res)

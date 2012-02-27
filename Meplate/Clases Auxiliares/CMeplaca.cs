@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Threading;
+using SpinPlatform;
 
 namespace Meplate
 {
-    class CMeplaca
+    class CMeplaca : ISpinPlatformInterface
     {
         CSerie serie;
         CModulosCal calibracion;
@@ -16,37 +17,28 @@ namespace Meplate
 
         public double MinimoAvanceParaMedir{get { return _MinimoAvanceParaMedir; }}
         
-        public CMeplaca(CArchivos arch)
+        public CMeplaca()
         {
-            _MinimoAvanceParaMedir = double.Parse(arch.LeerXML("MinimoAvanceParaMedir"));
-            numeroModulos = int.Parse(arch.LeerXML("numeroModulos"));
-            string puerto = arch.LeerXML("puertoSerie");
-            string[] pathDatosCalibracion = new string[numeroModulos];
-            for (int i = 0; i < numeroModulos; i++)
-            {
-                pathDatosCalibracion[i] = arch.LeerXML("calibracionModulo" + (i + 1).ToString());
-            }
-            calibracion = new CModulosCal(numeroModulos, pathDatosCalibracion);
-            serie = new CSerie(numeroModulos, puerto);
+           
         }
-        public void Inicializar()
+        void Inicializar()
         {
             serie.AbrirPuerto();
             enviarOffsetsArchivo();
         
         }
-        public void Cerrar()
+        void Cerrar()
         {
             serie.CerrarPuerto();
         
 
         }
-        public int[] UltimaTension()
+         int[] UltimaTension()
         {
             return serie.UltimaTension();
         
         }
-        public List<double []> LeerMedidas()
+        List<double []> LeerMedidas()
         {
             List<double[]> distancias = new List<double[]>();
 
@@ -85,12 +77,12 @@ namespace Meplate
             return distancias;
 
         }
-        public List<int[]> LeerTensiones()
+         List<int[]> LeerTensiones()
         {
             return serie.LeerTensiones();
         
         }
-        public double[] UltimaMedida()
+        double[] UltimaMedida()
         {
             double[] temp = new double[numeroModulos * 6];
             int[] tensiones = serie.UltimaTension();
@@ -111,7 +103,7 @@ namespace Meplate
             return temp;
         
         }
-        public void enviarOffsetsArchivo()
+         void enviarOffsetsArchivo()
         {
 
             for (int i = 0; i < numeroModulos; i++)
@@ -124,7 +116,7 @@ namespace Meplate
             serie.EnviarOffsets();
         
         }
-        public void enviarOffsets(UInt16[] offsets)
+        void enviarOffsets(UInt16[] offsets)
         {
 
             for (int i = 0; i < numeroModulos * 6; i++)
@@ -133,7 +125,87 @@ namespace Meplate
             }
             serie.EnviarOffsets();
         }
-    
+
+
+        #region Miembros de ISpinPlatformInterface
+
+        public void Start()
+        {
+            Inicializar();
+        }
+
+        public void Stop()
+        {
+            Cerrar();
+        }
+
+        public object GetData(object parameters)
+        {
+            if (parameters.GetType() == typeof(MeplacaData))
+            {
+                MeplacaData data = (MeplacaData)parameters;
+
+                data.ResetData();
+                if (data.GetMedidas)
+                {
+                    data.Perfiles = LeerMedidas();
+                }
+                if (data.GetUltimaMedida)
+                {
+                    data.UltimoPerfil = UltimaMedida();
+                }
+                if (data.GetTensiones)
+                {
+                    data.Tensiones = LeerTensiones();
+                }
+                if (data.GetUltimaTension)
+                {
+                    data.UltimaTension = UltimaTension();
+                }
+                return data;
+            }
+            else return null;
+        }
+
+        public void Init(object parameters)
+        {
+            CArchivos arch = ((MeplacaData)parameters).File;
+
+            _MinimoAvanceParaMedir = double.Parse(arch.LeerXML("MinimoAvanceParaMedir"));
+            numeroModulos = int.Parse(arch.LeerXML("numeroModulos"));
+            string puerto = arch.LeerXML("puertoSerie");
+            string[] pathDatosCalibracion = new string[numeroModulos];
+            for (int i = 0; i < numeroModulos; i++)
+            {
+                pathDatosCalibracion[i] = arch.LeerXML("calibracionModulo" + (i + 1).ToString());
+            }
+            calibracion = new CModulosCal(numeroModulos, pathDatosCalibracion);
+            serie = new CSerie(numeroModulos, puerto);
+
+
+        }
+
+        public void SetData(object parameters)
+        {
+            if (parameters.GetType() == typeof(MeplacaData))
+            {
+                MeplacaData data = (MeplacaData)parameters;
+
+                if (data.EnviarOffsetsArchivo)
+                {
+                    enviarOffsetsArchivo();
+                }
+                if (data.EnviarOffsets)
+                {
+                    enviarOffsets(data.Offsets);
+                }
+
+            }
+        }
+
+        public event SpinPlatform.Dispatcher.ResultEventHandler NewResultEvent;
+
+        #endregion
     }
 
 }

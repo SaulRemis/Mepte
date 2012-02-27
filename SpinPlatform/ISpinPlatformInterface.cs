@@ -5,13 +5,13 @@ using System.Text;
 
 namespace SpinPlatform
 {
-    interface ISpinPlatformInterface
+    public interface ISpinPlatformInterface
     {
         void Start();
         void Stop();
         object GetData(object parameters);
         void Init(object parameters);
-        void SetData(object paramenters);
+        void SetData(object parameters);
         event Dispatcher.ResultEventHandler NewResultEvent; 
     }
 }

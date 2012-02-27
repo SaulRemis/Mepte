@@ -18,12 +18,13 @@ namespace Meplate
         DateTime t2;
 
         List<CMedida> medidas;// lista donde se van guardando todos los perfiles de una chapa
+        
 
 
         public HiloAdquisicion(Meplate padre, string name, CArchivos arch)
             : base(name)
         {
-            _Meplaca = new CMeplaca(arch);
+            _Meplaca = new CMeplaca();
             _MillisecondsToSleep = 0;
             _Padre = padre;
         }
@@ -35,12 +36,12 @@ namespace Meplate
                 //Compruebo que no pulsaron Stop mientras esperaba
                 if (_StopEvent.WaitOne(0, true))
                 {
-                    _Meplaca.Cerrar();
+                    _Meplaca.Stop();
                     return; // si se pulso stop se sale del while del Spinthreadevent
                 }
 
                 // Inicializo todo
-                _Meplaca.LeerMedidas(); //Lo usamos para limpiar la lista de medidas                
+                _Meplaca.GetData(new MeplacaData(true,false,false,false,false,false)); //Lo usamos para limpiar la lista de medidas                
                 avance = 0;
                 avanceAcumulado = 0;
                 t1 = DateTime.Now;
@@ -62,7 +63,8 @@ namespace Meplate
                     if (avance > _Meplaca.MinimoAvanceParaMedir)
                     {
                         // Leo los perfiles que haya en el meplaca (Pueden ser mas de un perfil) 
-                        List<double[]> medidasAux = new List<double[]>(_Meplaca.LeerMedidas());
+                        MeplacaData aux = (MeplacaData)_Meplaca.GetData(new MeplacaData(true, false, false, false, false, false));
+                        List<double[]> medidasAux = new List<double[]>(aux.Perfiles);
                         if (medidasAux.Count > 0)
                         {
                             double[] vectorAvance = CalcularAvance(avance, medidasAux.Count); //Descomponemos el avance en avances correspondientes a cada perfil.
@@ -97,7 +99,7 @@ namespace Meplate
                     }
                     if (_StopEvent.WaitOne(0, true))
                     {
-                        _Meplaca.Cerrar();
+                        _Meplaca.Stop();
                         break; // si se pulso stop se sale  
 
                     }
@@ -113,7 +115,10 @@ namespace Meplate
             _WakeUpThreadEvent = _Events["ComenzarMedida"];
             Trace.WriteLine("ADRI:   Entrando en el HILO ADQUISICION");
             //INICIALIZAR
-            _Meplaca.Inicializar();
+             MeplacaData temp = new MeplacaData();
+            temp.File= _Padre._Arch;
+            _Meplaca.Init(temp);
+            _Meplaca.Start();
             medidas = new List<CMedida>();
         }
          public override void Closing()
