@@ -26,6 +26,8 @@ namespace SpinPlatform
             protected Dictionary<string, AutoResetEvent> _Events;
             protected SpinDispatcherStatus Status;
 
+            public event ResultEventHandler NewResultEvent;  // evento para enviar nuevos resultados
+
 
             public SpinDispatcher()
             {
@@ -52,14 +54,17 @@ namespace SpinPlatform
            
             public void Stop()
             {
-                Status = SpinDispatcherStatus.Stopping;
-                //recorro todos los hilos
-                foreach (KeyValuePair<string, SpinThread> item in _DispatcherThreads)
+                if (Status==SpinDispatcherStatus.Running)
                 {
-                    item.Value.Stop();
-                    item.Value.Join();
+                    Status = SpinDispatcherStatus.Stopping;
+                    //recorro todos los hilos
+                    foreach (KeyValuePair<string, SpinThread> item in _DispatcherThreads)
+                    {
+                        item.Value.Stop();
+                        item.Value.Join();
+                    }
+                    Status = SpinDispatcherStatus.Stopped; 
                 }
-                Status = SpinDispatcherStatus.Stopped;
             }
 
             abstract public object GetData(object parameters);
@@ -82,7 +87,7 @@ namespace SpinPlatform
 
                 }
             }
-            public event ResultEventHandler NewResultEvent;  // evento para enviar nuevos resultados
+           
            
              protected void SetEvent(DataEventArgs args)
             {
