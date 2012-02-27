@@ -45,18 +45,14 @@ namespace Meplate
                 if (data.GetResultados)
                 {
                     Resultados temp = ( Resultados)((SharedData< Resultados>)_DispatcherSharedMemory["Resultados"]).Get(0);
-                    data.Z=temp.Z;
-                    data.Puntos= temp.Puntos;
-                    data.Pixeles= temp.Pixeles;
-                    data.Perfiles = temp.Perfiles;
-                    data.Distancia_nominal = temp.Distancia_nominal;
+                    data.Resultados=temp;
 
                 }
                 if (data.GetInformacion)
                 {
                     Informacion temp = (Informacion)((SharedData<Informacion>)_DispatcherSharedMemory["Informacion"]).Get(0);
-                    data.Perfiles = temp.Perfiles;
-                    data.FrameRate = temp.Rate;
+                    data.Informacion = temp;
+
 
                 }
                 return data;
