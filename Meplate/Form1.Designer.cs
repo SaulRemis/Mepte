@@ -33,6 +33,7 @@
             this.StopButton = new System.Windows.Forms.Button();
             this.StartButton = new System.Windows.Forms.Button();
             this.VentanaHalconPrincipal = new HalconDotNet.HWindowControl();
+            this._LabelFrameRate = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // perfiles
@@ -102,11 +103,21 @@
             this.VentanaHalconPrincipal.TabIndex = 12;
             this.VentanaHalconPrincipal.WindowSize = new System.Drawing.Size(792, 314);
             // 
+            // _LabelFrameRate
+            // 
+            this._LabelFrameRate.AutoSize = true;
+            this._LabelFrameRate.Location = new System.Drawing.Point(375, 34);
+            this._LabelFrameRate.Name = "_LabelFrameRate";
+            this._LabelFrameRate.Size = new System.Drawing.Size(62, 13);
+            this._LabelFrameRate.TabIndex = 17;
+            this._LabelFrameRate.Text = "perfiles/sec";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(826, 433);
+            this.Controls.Add(this._LabelFrameRate);
             this.Controls.Add(this.perfiles);
             this.Controls.Add(this.MedirPararButton);
             this.Controls.Add(this.StopButton);
@@ -127,6 +138,7 @@
         private System.Windows.Forms.Button StopButton;
         private System.Windows.Forms.Button StartButton;
         private HalconDotNet.HWindowControl VentanaHalconPrincipal;
+        private System.Windows.Forms.Label _LabelFrameRate;
 
     }
 }

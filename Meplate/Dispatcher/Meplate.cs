@@ -52,9 +52,9 @@ namespace Meplate
                     data.Distancia_nominal = temp.Distancia_nominal;
 
                 }
-                if (data.GetResultados)
+                if (data.GetInformacion)
                 {
-                    Informacion temp = (Informacion)((SharedData<Informacion>)_DispatcherSharedMemory["Adquisicion"]).Get(0);
+                    Informacion temp = (Informacion)((SharedData<Informacion>)_DispatcherSharedMemory["Informacion"]).Get(0);
                     data.Perfiles = temp.Perfiles;
                     data.FrameRate = temp.Rate;
 
@@ -74,7 +74,7 @@ namespace Meplate
                     temp.GetResultados = true;
                     break;
                 case "Adquisicion":
-                    temp.GetResultados = true;
+                    temp.GetInformacion = true;
                     break;
                 default:
                     break;

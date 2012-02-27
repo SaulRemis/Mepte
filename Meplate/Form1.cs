@@ -49,6 +49,9 @@ namespace Meplate
         {
             if (resultados.GetResultados)
             {
+                #region resultados
+		
+
                 if (resultados.Perfiles > 0)
                 {
                     double[,] puntos = resultados.Pixeles;
@@ -77,8 +80,23 @@ namespace Meplate
                         VentanaHalconPrincipal.HalconWindow.WriteString(puntos[4, i].ToString("F1"));
 
                     }
-                    //formPrincipal.VentanaHalconPrincipal.HalconWindow.DumpWindow("jpeg", "meplaca_lab");
+                    //formPrincipal.VentanaHalconPrincipal.HalconWindow.DumpWindow("jpeg", "meplaca_lab"); 
+
                 } 
+                #endregion
+            }
+            if (resultados.GetInformacion)
+            {
+                #region informacion
+
+
+                if (resultados.Perfiles > 0)
+                {
+                    perfiles.Text = resultados.Perfiles.ToString() + " perfiles";
+                   _LabelFrameRate.Text=resultados.FrameRate.ToString("F1")+ " perfiles / sec";
+
+                }
+                #endregion
             }
         }
         private void StartButton_Click(object sender, EventArgs e)
