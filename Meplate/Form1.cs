@@ -45,13 +45,13 @@ namespace Meplate
             }
         }
 
-        void PintarResultados(MeplateData resultados)
+        void PintarResultados(MeplateData datos)
         {
-            if (resultados.GetResultados)
+            if (datos.GetResultados)
             {
                 #region resultados
-		
 
+                Resultados resultados = datos.Resultados;
                 if (resultados.Perfiles > 0)
                 {
                     double[,] puntos = resultados.Pixeles;
@@ -85,15 +85,15 @@ namespace Meplate
                 } 
                 #endregion
             }
-            if (resultados.GetInformacion)
+            if (datos.GetInformacion)
             {
                 #region informacion
 
-
-                if (resultados.Perfiles > 0)
+                Informacion informacion = datos.Informacion;
+                if (informacion.Perfiles > 0)
                 {
-                    perfiles.Text = resultados.Perfiles.ToString() + " perfiles";
-                   _LabelFrameRate.Text=resultados.FrameRate.ToString("F1")+ " perfiles / sec";
+                    perfiles.Text = informacion.Perfiles.ToString() + " perfiles";
+                    _LabelFrameRate.Text = informacion.Rate.ToString("F1") + " perfiles / sec";
 
                 }
                 #endregion
