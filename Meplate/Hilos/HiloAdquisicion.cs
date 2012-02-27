@@ -10,6 +10,7 @@ namespace Meplate
 {
     class HiloAdquisicion : SpinThreadEvent
     {
+        Meplate _Padre;
         CMeplaca _Meplaca;
         double avance, avanceAcumulado, velocidad, velocidadAnterior = 0;
         TimeSpan elapsedTime, totalElapsedTime;
@@ -19,11 +20,12 @@ namespace Meplate
         List<CMedida> medidas;// lista donde se van guardando todos los perfiles de una chapa
 
 
-        public HiloAdquisicion(string name, CArchivos arch)
+        public HiloAdquisicion(Meplate padre, string name, CArchivos arch)
             : base(name)
         {
             _Meplaca = new CMeplaca(arch);
             _MillisecondsToSleep = 0;
+            _Padre = padre;
         }
 
         public override void FunctionToExecuteByThread()
@@ -42,7 +44,7 @@ namespace Meplate
                 avance = 0;
                 avanceAcumulado = 0;
                 t1 = DateTime.Now;
-                totalElapsedTime = 0;
+                totalElapsedTime = TimeSpan.Zero;
 
 
                 // Mido de continuo hasta que hay señal de fin de chapa
@@ -53,7 +55,7 @@ namespace Meplate
                     elapsedTime = t2 - t1;
                     avance = avance + LeerAvance(elapsedTime);
         
-                    totalElapsedTime = totalElapsedTime + elapsedTime.TotalSeconds;
+                    totalElapsedTime = totalElapsedTime + elapsedTime;
              
                     t1 = t2;
                     // Si se avanzo lo suficiente para una nueva medida sigo
@@ -72,10 +74,9 @@ namespace Meplate
                 
                                 if ((medidas.Count % 10) == 0)
                                 {
-                                    numPerfiles = medidas.Count;
-                                    rate = 10 / totalElapsedTime;
-                                    totalElapsedTime = 0;
-                                    mainForm.Invoke(delegateDisplay);
+                                    ((SharedData<Informacion>)SharedMemory["Informacion"]).Set(0, new Informacion(medidas.Count, (double)10 / totalElapsedTime.TotalSeconds));
+                                    _Padre.PrepareEvent(_Name);
+                                    totalElapsedTime = TimeSpan.Zero;
                                 }
                             }
                         }

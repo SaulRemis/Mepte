@@ -19,7 +19,7 @@ namespace Meplate
             arch = new CArchivos("MeplateIni.xml");
 
 
-            _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion("Adquisicion",arch));
+            _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion((Meplate)this, "Adquisicion", arch));
             _DispatcherThreads.Add("Procesamiento", new HiloProcesamiento((Meplate)this, "Procesamiento",arch));
 
 
@@ -52,6 +52,13 @@ namespace Meplate
                     data.Distancia_nominal = temp.Distancia_nominal;
 
                 }
+                if (data.GetResultados)
+                {
+                    Informacion temp = (Informacion)((SharedData<Informacion>)_DispatcherSharedMemory["Adquisicion"]).Get(0);
+                    data.Perfiles = temp.Perfiles;
+                    data.FrameRate = temp.Rate;
+
+                }
                 return data;
             }
             else        return null;
@@ -64,6 +71,9 @@ namespace Meplate
             switch (thread)
             {
                 case "Procesamiento":
+                    temp.GetResultados = true;
+                    break;
+                case "Adquisicion":
                     temp.GetResultados = true;
                     break;
                 default:
