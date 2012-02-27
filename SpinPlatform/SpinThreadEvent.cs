@@ -45,8 +45,7 @@ namespace SpinPlatform
 
                     if (_StopEvent.WaitOne(0, true)) break;
                 }
-                Closing();
-                Trace.WriteLine("Sale el hilo procesamiento");
+
             }
             public override bool Stop()
             {

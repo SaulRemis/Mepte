@@ -104,7 +104,7 @@ namespace Meplate
 
                 }
             
-            Trace.WriteLine("ADRI:   saliendo  del HILO ADQUISICION");
+
             
         }
         public override void Initializate()
@@ -116,6 +116,14 @@ namespace Meplate
             _Meplaca.Inicializar();
             medidas = new List<CMedida>();
         }
+         public override void Closing()
+        {
+
+            Trace.WriteLine("ADRI:   saliendo  del HILO ADQUISICION");
+
+        }
+
+                  
 
        
         //Funciones calculo avance QUITAR DE AQUI
