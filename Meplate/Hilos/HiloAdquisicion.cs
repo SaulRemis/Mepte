@@ -12,7 +12,7 @@ namespace Meplate
     {
         CMeplaca _Meplaca;
         double avance, avanceAcumulado, velocidad, velocidadAnterior = 0;
-        TimeSpan elapsedTime;
+        TimeSpan elapsedTime, totalElapsedTime;
         DateTime t1 ;
         DateTime t2;
 
@@ -42,9 +42,8 @@ namespace Meplate
                 avance = 0;
                 avanceAcumulado = 0;
                 t1 = DateTime.Now;
-                /*DEBUG
                 totalElapsedTime = 0;
-                 */
+
 
                 // Mido de continuo hasta que hay señal de fin de chapa
                 while (true)
@@ -53,9 +52,9 @@ namespace Meplate
                     t2 = DateTime.Now;
                     elapsedTime = t2 - t1;
                     avance = avance + LeerAvance(elapsedTime);
-                    /*DEBUG
+        
                     totalElapsedTime = totalElapsedTime + elapsedTime.TotalSeconds;
-                    */
+             
                     t1 = t2;
                     // Si se avanzo lo suficiente para una nueva medida sigo
                     if (avance > _Meplaca.MinimoAvanceParaMedir)
@@ -70,14 +69,14 @@ namespace Meplate
 
                                 //Añado los perfiles y la posicion en la lista
                                 medidas.Add(new CMedida(medidasAux[i], avanceAcumulado + vectorAvance[i]));
-                                /*DEBUG
+                
                                 if ((medidas.Count % 10) == 0)
                                 {
                                     numPerfiles = medidas.Count;
                                     rate = 10 / totalElapsedTime;
                                     totalElapsedTime = 0;
                                     mainForm.Invoke(delegateDisplay);
-                                }*/
+                                }
                             }
                         }
 
