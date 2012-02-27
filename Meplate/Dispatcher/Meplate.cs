@@ -15,6 +15,10 @@ namespace Meplate
 
         public Meplate()
         {
+            //Clases auxiliares
+            arch = new CArchivos("MeplateIni.xml");
+
+
             _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion("Adquisicion",arch));
             _DispatcherThreads.Add("Procesamiento", new HiloProcesamiento((Meplate)this, "Procesamiento",arch));
 
@@ -26,8 +30,7 @@ namespace Meplate
             CreateEvent("ComenzarMedida", new AutoResetEvent(false), "Adquisicion");
             CreateEvent("FinalizarMedida", new AutoResetEvent(false), "Adquisicion");
 
-            //Clases auxiliares
-            arch = new CArchivos("MeplateIni.xml");
+
 
          }
 
@@ -59,7 +62,7 @@ namespace Meplate
 
             switch (thread)
             {
-                case "Consumidor":
+                case "Procesamiento":
                     temp.GetResultados = true;
                     break;
                 default:

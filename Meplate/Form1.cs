@@ -19,6 +19,7 @@ namespace Meplate
 
         public Form1()
         {
+            InitializeComponent();
             _Meplate = new Meplate();
             _Meplate.NewResultEvent += new ResultEventHandler(_Meplate_NewResultEvent);
             d_PintarResultados = new delegatePintarresultados(PintarResultados);
@@ -28,7 +29,7 @@ namespace Meplate
             VentanaHalconPrincipal.HalconWindow.SetLut("temperature");
 
 
-            InitializeComponent();
+      
         }
 
         void _Meplate_NewResultEvent(object sender, DataEventArgs res)
@@ -50,7 +51,7 @@ namespace Meplate
             {
                 if (resultados.Perfiles > 0)
                 {
-                    double[,] puntos = resultados.Puntos;
+                    double[,] puntos = resultados.Pixeles;
                     int ancho, alto;
                     resultados.Z.GetImageSize(out ancho, out alto);
 

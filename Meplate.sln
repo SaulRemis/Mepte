@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meplate", "Meplate\Meplate.csproj", "{1A5C8A38-A171-43F3-BF44-9DF54B0C3647}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpinPlatform", "P:\Mis documentos\PROYECTOS\PROYECTOS\MEPLATE\TECNICO\Meplate\SpinPlatform\SpinPlatform.csproj", "{6CA428E1-FF39-453C-B775-2806EBECC474}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpinPlatform", "SpinPlatform\SpinPlatform.csproj", "{6CA428E1-FF39-453C-B775-2806EBECC474}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
