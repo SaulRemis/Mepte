@@ -171,15 +171,21 @@ namespace SpinPlatform.Sensors.Meplaca
 
         public void Init(object parameters)
         {
-            CArchivos arch = ((MeplacaData)parameters).File;
+            CFiles arch = ((MeplacaData)parameters).File;
 
-            _MinimoAvanceParaMedir = double.Parse(arch.LeerXML("MinimoAvanceParaMedir"));
-            numeroModulos = int.Parse(arch.LeerXML("numeroModulos"));
-            string puerto = arch.LeerXML("puertoSerie");
+            CFilesData data = new CFilesData();
+            data.GetVariable = true; data.ReadVariable = "MinimoAvanceParaMedir"; arch.GetData(data);
+            _MinimoAvanceParaMedir = double.Parse(data.ReadValue);
+            data.ReadVariable = "numeroModulos";arch.GetData(data);
+            numeroModulos = int.Parse(data.ReadValue);
+            data.ReadVariable = "puertoSerie";arch.GetData(data);
+            string puerto = data.ReadValue;
             string[] pathDatosCalibracion = new string[numeroModulos];
             for (int i = 0; i < numeroModulos; i++)
             {
-                pathDatosCalibracion[i] = arch.LeerXML("calibracionModulo" + (i + 1).ToString());
+                data.ReadVariable = "calibracionModulo" + (i + 1).ToString();
+                arch.GetData(data);
+                pathDatosCalibracion[i] = data.ReadValue;
             }
             calibracion = new CModulosCal(numeroModulos, pathDatosCalibracion);
             serie = new CSerie(numeroModulos, puerto);

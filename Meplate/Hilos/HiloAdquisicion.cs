@@ -24,7 +24,7 @@ namespace Meplate
         
 
 
-        public HiloAdquisicion(Meplate padre, string name, CArchivos arch)
+        public HiloAdquisicion(Meplate padre, string name, CFiles arch)
             : base(name)
         {
  

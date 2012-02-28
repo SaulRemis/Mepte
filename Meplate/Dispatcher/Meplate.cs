@@ -12,12 +12,17 @@ namespace Meplate
     public class Meplate: SpinDispatcher
     {
             //Clases auxiliares
-        public CArchivos _Arch ;
+        public CFiles _Arch ;
 
         public Meplate()
         {
             //Clases auxiliares
-            _Arch = new CArchivos("MeplateIni.xml");
+            _Arch = new CFiles();
+            CFilesData data = new CFilesData();
+            data.ConfigFilePath = "MeplateIni.xml";
+            data.LogFilePath = "./MeplateLog.txt";
+            data.ErrorFilePath = "./MeplateError.txt";
+            _Arch.Init(data);
 
 
             _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion((Meplate)this, "Adquisicion", _Arch));

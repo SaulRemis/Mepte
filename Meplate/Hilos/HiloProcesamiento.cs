@@ -16,7 +16,7 @@ namespace Meplate
 
         double duracion;
 
-        public HiloProcesamiento(Meplate padre, string name, CArchivos arch)
+        public HiloProcesamiento(Meplate padre, string name, CFiles arch)
             : base(name)
         {
             _Proc = new CProcesamiento(arch);

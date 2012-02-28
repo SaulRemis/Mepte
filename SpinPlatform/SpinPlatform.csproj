@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\DataEventArgs.cs" />
+    <Compile Include="IO\CFiles.cs" />
+    <Compile Include="IO\CFilesData.cs" />
     <Compile Include="ISpinPlatformInterface.cs" />
     <Compile Include="Data\ModuleData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -49,7 +51,6 @@
     <Compile Include="Dispatcher\SpinDispatcher.cs" />
     <Compile Include="Dispatcher\SpinThread.cs" />
     <Compile Include="Dispatcher\SpinThreadEvent.cs" />
-    <Compile Include="IO\CArchivos.cs" />
     <Compile Include="Sensors\Meplaca\CMeplaca.cs" />
     <Compile Include="Sensors\Meplaca\CModulosCal.cs" />
     <Compile Include="Sensors\Meplaca\CSerie.cs" />

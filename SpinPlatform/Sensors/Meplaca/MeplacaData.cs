@@ -22,7 +22,7 @@ namespace SpinPlatform.Sensors.Meplaca
 
         //parametros de salida
 
-        public CArchivos File = null;
+        public CFiles File = null;
         public List<double[]> Perfiles = null;
         public List<int[]> Tensiones = null;
         public int[] UltimaTension = null;

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using SpinPlatform.Data;
 
-namespace Meplate
+namespace SpinPlatform.IO
 {
-    class CFilesData: ModuleData
+    public class CFilesData: ModuleData
     {
         /// <summary>
         /// Entry parameters

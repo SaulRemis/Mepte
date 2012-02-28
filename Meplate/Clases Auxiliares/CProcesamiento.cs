@@ -24,14 +24,28 @@ namespace Meplate
         public double[,] puntos;
 
 
-        public CProcesamiento(CArchivos arch)
+        public CProcesamiento(CFiles arch)
         {
-            numeroModulos = int.Parse(arch.LeerXML("numeroModulos"));
-            distancia_entre_sensores = double.Parse(arch.LeerXML("distancia_entre_sensores"));
-            distancia_a_la_chapa = double.Parse(arch.LeerXML("distancia_nominal_trabajo"));
-            numeroMedidas = int.Parse(arch.LeerXML("numeroMedidas"));
-            sigma_bordes = double.Parse(arch.LeerXML("sigma_bordes"));
-            umbral_bordes = double.Parse(arch.LeerXML("umbral_bordes"));
+            CFilesData data = new CFilesData();
+            data.GetVariable = true;
+            data.ReadVariable = "numeroModulos";
+            arch.GetData(data);
+            numeroModulos = int.Parse(data.ReadValue);
+            data.ReadVariable = "distancia_entre_sensores";
+            arch.GetData(data);
+            distancia_entre_sensores = double.Parse(data.ReadValue);
+            data.ReadVariable = "distancia_nominal_trabajo";
+            arch.GetData(data);
+            distancia_a_la_chapa = double.Parse(data.ReadValue);
+            data.ReadVariable = "numeroMedidas";
+            arch.GetData(data);
+            numeroMedidas = int.Parse(data.ReadValue);
+            data.ReadVariable = "sigma_bordes";
+            arch.GetData(data);
+            sigma_bordes = double.Parse(data.ReadValue);
+            data.ReadVariable = "umbral_bordes";
+            arch.GetData(data);
+            umbral_bordes = double.Parse(data.ReadValue);
             filas = numeroModulos * 6;
             offset = new double[filas];
             puntos = new double[5, numeroMedidas];

@@ -9,8 +9,7 @@ using System.Runtime.InteropServices;
 using SpinPlatform;
 
 
-
-namespace Meplate
+namespace SpinPlatform.IO
 {
     public class CFiles: ISpinPlatformInterface
     {
@@ -175,7 +174,7 @@ namespace Meplate
                 }
                 else
                 {
-                    _LogFilePath = "./AppError.txt";
+                    _ErrorFilePath = "./AppError.txt";
                 }
                 _XMLConfigFile = new XmlDocument();
                 _XMLConfigFile.Load(_ConfigFilePath);
