@@ -30,6 +30,7 @@ namespace SpinPlatform.Sensors.Meplaca
         }
         void Cerrar()
         {
+            
             serie.CerrarPuerto();
         
 

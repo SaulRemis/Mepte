@@ -26,7 +26,7 @@ namespace Meplate
         public HiloAdquisicion(Meplate padre, string name, CArchivos arch)
             : base(name)
         {
-            _Meplaca = new CMeplaca();
+ 
             _MillisecondsToSleep = 0;
             _Padre = padre;
         }
@@ -38,7 +38,7 @@ namespace Meplate
                 //Compruebo que no pulsaron Stop mientras esperaba
                 if (_StopEvent.WaitOne(0, true))
                 {
-                    _Meplaca.Stop();
+
                     return; // si se pulso stop se sale del while del Spinthreadevent
                 }
 
@@ -54,7 +54,12 @@ namespace Meplate
                 // Mido de continuo hasta que hay señal de fin de chapa
                 while (true)
                 {
+                    if (_StopEvent.WaitOne(0, true))
+                    {
+                        _Meplaca.Stop();
 
+                        return; // si se pulso stop se sale del while del Spinthreadevent
+                    }
                     t2 = DateTime.Now;
                     elapsedTime = t2 - t1;
                     avance = avance + LeerAvance(elapsedTime);
@@ -102,9 +107,10 @@ namespace Meplate
                     if (_StopEvent.WaitOne(0, true))
                     {
                         _Meplaca.Stop();
-                        break; // si se pulso stop se sale  
 
+                        return; // si se pulso stop se sale del while del Spinthreadevent
                     }
+                   
 
                 }
             
@@ -119,13 +125,15 @@ namespace Meplate
             //INICIALIZAR
              MeplacaData temp = new MeplacaData();
             temp.File= _Padre._Arch;
+            _Meplaca = new CMeplaca();
             _Meplaca.Init(temp);
             _Meplaca.Start();
             medidas = new List<CMedida>();
+
         }
          public override void Closing()
         {
-
+            _Meplaca.Stop();
             Trace.WriteLine("ADRI:   saliendo  del HILO ADQUISICION");
 
         }

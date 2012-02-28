@@ -35,11 +35,14 @@ namespace SpinPlatform.Sensors.Meplaca
 
        void PuertoSerie_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
        {
-           int NumBytes = PuertoSerie.BytesToRead;
+           if (PuertoSerie.IsOpen)
+           {
+               int NumBytes = PuertoSerie.BytesToRead;
 
-           PuertoSerie.Read(bufferlocal, marcador, NumBytes);
-           marcador = marcador + NumBytes;
-           if (Buscar_Final())     ProcesarTramas();
+               PuertoSerie.Read(bufferlocal, marcador, NumBytes);
+               marcador = marcador + NumBytes;
+               if (Buscar_Final()) ProcesarTramas();
+           }
        }
 
 
@@ -143,7 +146,7 @@ namespace SpinPlatform.Sensors.Meplaca
        }
        public void CerrarPuerto()
        {
-           PuertoSerie.Close();
+           if (PuertoSerie.IsOpen) PuertoSerie.Close();
            bufferlocal.Initialize();
            tramas.Clear();
            tensiones.Clear();

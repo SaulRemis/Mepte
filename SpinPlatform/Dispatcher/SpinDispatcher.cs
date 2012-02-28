@@ -43,7 +43,7 @@ namespace SpinPlatform
                 Status = SpinDispatcherStatus.Starting;
                 foreach (KeyValuePair<string, SpinThread> item in _DispatcherThreads)
                 {
-                    item.Value.Start();
+                     item.Value.Start();
                 }
                 Status = SpinDispatcherStatus.Running;
             }

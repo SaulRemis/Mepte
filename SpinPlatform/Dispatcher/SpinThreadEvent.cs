@@ -39,12 +39,16 @@ namespace SpinPlatform
                 Initializate();
                 while (_WakeUpThreadEvent.WaitOne())
                 {
-                    if (_StopEvent.WaitOne(0, true)) break;
+                    if (_StopEvent.WaitOne(0, true)) 
+                        break;
 
                     FunctionToExecuteByThread();
 
-                    if (_StopEvent.WaitOne(0, true)) break;
+                    if (_StopEvent.WaitOne(0, true)) 
+                        break;
                 }
+                Closing();
+                _WakeUpThreadEvent.Reset();
 
             }
             public override bool Stop()
