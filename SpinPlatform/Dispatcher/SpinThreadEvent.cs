@@ -12,6 +12,7 @@ namespace SpinPlatform
         public class SpinThreadEvent : SpinThread
         {
             protected AutoResetEvent _WakeUpThreadEvent;
+
             /// <summary>
             /// Constructor of the SpinThread Class
             /// </summary>
@@ -47,8 +48,9 @@ namespace SpinPlatform
                     if (_StopEvent.WaitOne(0, true)) 
                         break;
                 }
+               // _WakeUpThreadEvent.Reset();
                 Closing();
-                _WakeUpThreadEvent.Reset();
+
 
             }
             public override bool Stop()

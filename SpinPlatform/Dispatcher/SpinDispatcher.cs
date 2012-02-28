@@ -88,7 +88,6 @@ namespace SpinPlatform
                 }
             }
            
-           
              protected void SetEvent(DataEventArgs args)
             {
 
@@ -96,7 +95,6 @@ namespace SpinPlatform
                 {
                     NewResultEvent(this, args);
                 }
-          
             }
         }
     }

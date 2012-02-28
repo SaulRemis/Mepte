@@ -62,7 +62,8 @@ namespace Meplate
         }
         public void PrepareEvent(string thread )
         {
-          
+       if (Status == SpinDispatcherStatus.Running)  // Por si nadie escucha el evento o esta en proceso de parar
+            {
             MeplateData temp = new MeplateData();
 
             switch (thread)
@@ -79,8 +80,7 @@ namespace Meplate
 
             object data = GetData(temp);
             DataEventArgs args = new DataEventArgs(data);
-            if (Status == SpinDispatcherStatus.Running)  // Por si nadie escucha el evento o esta en proceso de parar
-            {
+
                 SetEvent(args);
             }
              

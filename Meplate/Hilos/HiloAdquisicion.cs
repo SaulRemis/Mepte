@@ -19,6 +19,7 @@ namespace Meplate
         DateTime t1 ;
         DateTime t2;
 
+
         List<CMedida> medidas;// lista donde se van guardando todos los perfiles de una chapa
         
 
@@ -52,69 +53,62 @@ namespace Meplate
 
 
                 // Mido de continuo hasta que hay señal de fin de chapa
-                while (true)
-                {
-                    if (_StopEvent.WaitOne(0, true))
-                    {
-                        _Meplaca.Stop();
 
-                        return; // si se pulso stop se sale del while del Spinthreadevent
-                    }
-                    t2 = DateTime.Now;
-                    elapsedTime = t2 - t1;
-                    avance = avance + LeerAvance(elapsedTime);
-        
-                    totalElapsedTime = totalElapsedTime + elapsedTime;
-             
-                    t1 = t2;
-                    // Si se avanzo lo suficiente para una nueva medida sigo
-                    if (avance > _Meplaca.MinimoAvanceParaMedir)
+                    do
                     {
-                        // Leo los perfiles que haya en el meplaca (Pueden ser mas de un perfil) 
-                        aux = (MeplacaData)_Meplaca.GetData(new MeplacaData(true, false, false, false, false, false));
-                        if (aux.Perfiles.Count > 0)
+                       
+                        t2 = DateTime.Now;
+                        elapsedTime = t2 - t1;
+                        avance = avance + LeerAvance(elapsedTime);
+
+                        totalElapsedTime = totalElapsedTime + elapsedTime;
+
+                        t1 = t2;
+                        // Si se avanzo lo suficiente para una nueva medida sigo
+                        if (avance > _Meplaca.MinimoAvanceParaMedir)
                         {
-                            double[] vectorAvance = CalcularAvance(avance, aux.Perfiles.Count); //Descomponemos el avance en avances correspondientes a cada perfil.
-                            for (int i = 0; i < aux.Perfiles.Count; i++)
+                            // Leo los perfiles que haya en el meplaca (Pueden ser mas de un perfil) 
+                            aux = (MeplacaData)_Meplaca.GetData(new MeplacaData(true, false, false, false, false, false));
+                            if (aux.Perfiles.Count > 0)
                             {
-
-                                //Añado los perfiles y la posicion en la lista
-                                medidas.Add(new CMedida(aux.Perfiles[i], avanceAcumulado + vectorAvance[i]));
-                
-                                if ((medidas.Count % 10) == 0)
+                                double[] vectorAvance = CalcularAvance(avance, aux.Perfiles.Count); //Descomponemos el avance en avances correspondientes a cada perfil.
+                                for (int i = 0; i < aux.Perfiles.Count; i++)
                                 {
-                                    ((SharedData<Informacion>)SharedMemory["Informacion"]).Set(0, new Informacion(medidas.Count, (double)10 / totalElapsedTime.TotalSeconds));
-                                    _Padre.PrepareEvent(_Name);
-                                    totalElapsedTime = TimeSpan.Zero;
+
+                                    //Añado los perfiles y la posicion en la lista
+                                    medidas.Add(new CMedida(aux.Perfiles[i], avanceAcumulado + vectorAvance[i]));
+
+                                    if (medidas.Count % 10 == 0) 
+                                    {
+                                        ((SharedData<Informacion>)SharedMemory["Informacion"]).Set(0, new Informacion(medidas.Count, (double)10 / totalElapsedTime.TotalSeconds));
+
+                                       _Padre.PrepareEvent(_Name);   /// ERROR al darle stop con el 
+                                        totalElapsedTime = TimeSpan.Zero;
+                                    }
                                 }
                             }
+
+                            avanceAcumulado = avanceAcumulado + avance;
+                            avance = 0;
                         }
 
-                        avanceAcumulado = avanceAcumulado + avance;
-                        avance = 0;
-                    }
+                        // Si llego la señal de find e chapa guardo la medida de toda la chapa en el memoria
+                        // compratida y envio la señal de nueva medida ("ChapaMedida")
+                        if (_Events["FinalizarMedida"].WaitOne(0, true))
+                        {
+                            ((SharedData<List<CMedida>>)_SharedMemory["Chapas"]).Add(new List<CMedida>(medidas)); // envio las medidas de la chapa medida a la memoria compartida
+                            medidas.Clear();
+                            _Events["ChapaMedida"].Set();
 
-                    // Si llego la señal de find e chapa guardo la medida de toda la chapa en el memoria
-                    // compratida y envio la señal de nueva medida ("ChapaMedida")
-                    if (_Events["FinalizarMedida"].WaitOne(0, true))
-                    {
-                        ((SharedData<List<CMedida>>)_SharedMemory["Chapas"]).Add(new List<CMedida>(medidas)); // envio las medidas de la chapa medida a la memoria compartida
-                        medidas.Clear();
-                        _Events["ChapaMedida"].Set();
+                            break;
+                        }
 
-                        break;
-                    }
-                    if (_StopEvent.WaitOne(0, true))
-                    {
-                        _Meplaca.Stop();
 
-                        return; // si se pulso stop se sale del while del Spinthreadevent
-                    }
-                   
+                    } while (!_StopEvent.WaitOne(0, true));              // Mido de continuo hasta que hay señal de fin de chapa o Stop
 
-                }
-            
-
+                  Trace.WriteLine("ADRI:   Chapa Medida");
+                  
+                 
             
         }
         public override void Initializate()
@@ -135,10 +129,19 @@ namespace Meplate
         {
             _Meplaca.Stop();
             Trace.WriteLine("ADRI:   saliendo  del HILO ADQUISICION");
+      
 
         }
 
-                  
+         public override bool Stop()
+         {
+
+             _Events["ComenzarMedida"].Set();
+             _StopEvent.Set();
+             _WakeUpThreadEvent.Set();
+             return true;
+    
+         }         
 
        
         //Funciones calculo avance QUITAR DE AQUI
