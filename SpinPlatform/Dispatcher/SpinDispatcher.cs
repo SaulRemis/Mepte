@@ -62,6 +62,7 @@ namespace SpinPlatform
                     {
                         item.Value.Stop();
                         item.Value.Join();
+
                     }
                     Status = SpinDispatcherStatus.Stopped; 
                 }
