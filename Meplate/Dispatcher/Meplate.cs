@@ -24,15 +24,18 @@ namespace Meplate
             data.ErrorFilePath = "./MeplateError.txt";
             _Arch.Init(data);
 
-
+            // Hilos
             _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion((Meplate)this, "Adquisicion", _Arch));
             _DispatcherThreads.Add("Procesamiento", new HiloProcesamiento((Meplate)this, "Procesamiento",_Arch));
 
-
+            //memorias
             ConnectMemory("Chapas", new SharedData<List<CMedida>>(20), "Adquisicion", "Procesamiento");
+            ConnectMemory("Offset", new SharedData<double[]>(1), "Adquisicion", "Procesamiento");
             ConnectMemory("Informacion", new SharedData<Informacion>(1), "Adquisicion");
             ConnectMemory("Resultados", new SharedData<Resultados>(1), "Procesamiento");
 
+
+            //Eventos de sincronizacion
             CreateEvent("ChapaMedida", new AutoResetEvent(false), "Adquisicion", "Procesamiento");
             CreateEvent("ComenzarMedida", new AutoResetEvent(false), "Adquisicion");
             CreateEvent("FinalizarMedida", new AutoResetEvent(false), "Adquisicion");

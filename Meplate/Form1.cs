@@ -33,7 +33,7 @@ namespace Meplate
         {
             try
             {
-                this.Invoke(d_PintarResultados, res.DataArgs);
+                this.BeginInvoke(d_PintarResultados, res.DataArgs);
             }
             catch (Exception)
             {
@@ -60,7 +60,7 @@ namespace Meplate
 
                     VentanaHalconPrincipal.HalconWindow.SetPart(0, 0, alto - 1, ancho - 1);
 
-                    resultados.Z.SetGrayval(0, 0, resultados.Distancia_nominal - 100);  // para fijar la escala de colores
+                    resultados.Z.SetGrayval(0, 0, resultados.Distancia_nominal - 30);  // para fijar la escala de colores
                     resultados.Z.SetGrayval(alto - 1, ancho - 1, resultados.Distancia_nominal + 10); // para fijar la escala de valores
 
 

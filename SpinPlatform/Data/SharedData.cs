@@ -99,6 +99,7 @@ namespace SpinPlatform
                     _lista.Add(obj);
                     _elementos = _lista.Count;
                     if (_elementos >= _maxelem) _lleno = true;
+                    _vacio = false;
 
                     _mutex.ReleaseMutex();//Fin Seccion Critica
                 
@@ -117,6 +118,7 @@ namespace SpinPlatform
 
                     if (_lista.Count == 0) _vacio = true;
                     else _vacio = false;
+                    _lleno = false;
 
                     _mutex.ReleaseMutex();//Fin Seccion Critica
 
@@ -157,6 +159,7 @@ namespace SpinPlatform
                     _lista.Add(element);
                     _elementos = _lista.Count;
                     if (_elementos >= _maxelem) _lleno = true;
+                    _vacio = false;
                 
                 }
                 _mutex.ReleaseMutex();//Fin Seccion Critica

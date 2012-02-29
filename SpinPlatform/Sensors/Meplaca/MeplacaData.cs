@@ -27,7 +27,7 @@ namespace SpinPlatform.Sensors.Meplaca
         public List<int[]> Tensiones = null;
         public int[] UltimaTension = null;
         public double[] UltimoPerfil = null;
-        public UInt16[] Offsets = null;
+        public double[] Offsets = null;
 
         public MeplacaData(bool getMedidas = false, bool getTensiones = false, bool getUltimaMedida = false, bool getUltimaTension = false, bool enviarOffsetsArchivo = false, bool enviarOffsets = false)
         {

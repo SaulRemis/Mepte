@@ -49,6 +49,7 @@ namespace Meplate
          void ActualizarResultados()
         {
              ((SharedData<Resultados>)SharedMemory["Resultados"]).Set(0, new Resultados(_Proc.Z, _Proc.columnas, _Proc.puntos, _Proc.numeroMedidas, _Proc.distancia_a_la_chapa));
+             ((SharedData<double[]>)SharedMemory["Offset"]).Set(0, _Proc.offset);
             _Padre.PrepareEvent(_Name);
 
         } 

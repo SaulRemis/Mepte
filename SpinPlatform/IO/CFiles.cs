@@ -122,12 +122,12 @@ namespace SpinPlatform.IO
 
         public void Start()
         {
-            throw new NotImplementedException();
+          
         }
 
         public void Stop()
         {
-            throw new NotImplementedException();
+          
         }
 
         public object GetData(object parameters)

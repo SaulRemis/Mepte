@@ -113,11 +113,11 @@ namespace Meplate
 
                         X.SetGrayval(j, i, distancia_entre_sensores);
                         Y.SetGrayval(j, i, medidas[i].distancia - distancia_inicial);
-                        Z.SetGrayval(j, i, medidas[i].perfil[j]);
+                        Z.SetGrayval(j, i, medidas[i].perfil[j]*10);  // lo paso a mm
                     }
                 }
             }
-            Z.WriteImage("tiff", 0, "Z.jpg");
+          //  Z.WriteImage("tiff", 0, "Z.jpg");
 
         }
         private void CorregirImagen()
@@ -125,17 +125,22 @@ namespace Meplate
 
             HImage media = Z.MeanImage(columnas - 1, 1);
             double valor, med;
+            
 
 
             for (int i = 0; i < columnas; i++)
             {
                 for (int j = 0; j < filas; j++)
                 {
-                    if (j < borde_izquierdo || j > borde_derecho)
+                   
+                   
+                    if (j > borde_izquierdo && j < borde_derecho)
                     {
-
-                        valor = Z.GetGrayval(j, i);
+                       
                         med = media.GetGrayval(j, 0);
+                        offset[j] = (-1 *( med - distancia_a_la_chapa)) / 10;
+     
+                        valor = Z.GetGrayval(j, i);
                         Z.SetGrayval(j, i, distancia_a_la_chapa + valor - med);
                     }
                 }
@@ -539,7 +544,7 @@ hv_Index), (hv_columnasmaximos.TupleSelect(hv_Index)) + 5);
                 hv_filasminimos = hv_filasminimos.TupleConcat(hv_Row1);
                 hv_columnasminimos = hv_columnasminimos.TupleConcat(hv_Column1);
 
-                hv_Diff = hv_Diff.TupleConcat(hv_Range3 * 10);
+                hv_Diff = hv_Diff.TupleConcat(hv_Range3 );
             }
 
 

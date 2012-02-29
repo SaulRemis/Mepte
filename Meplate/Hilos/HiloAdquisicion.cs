@@ -49,7 +49,18 @@ namespace Meplate
                 avanceAcumulado = 0;
                 t1 = DateTime.Now;
                 totalElapsedTime = TimeSpan.Zero;
-                MeplacaData aux;
+                MeplacaData aux = new MeplacaData(false, false, false, false, false, false);
+
+            //envio los offsets
+            if(false)
+               // if (!((SharedData<double[]>)_SharedMemory["Offset"]).Vacio)
+                {
+                   
+                    aux.Offsets = (double[])((SharedData<double[]>)SharedMemory["Offset"]).Get(0);
+
+                    aux.EnviarOffsets = true;
+                    _Meplaca.SetData(aux);
+                }
 
 
                 // Mido de continuo hasta que hay señal de fin de chapa

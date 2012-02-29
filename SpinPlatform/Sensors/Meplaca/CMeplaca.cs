@@ -118,13 +118,30 @@ namespace SpinPlatform.Sensors.Meplaca
             serie.EnviarOffsets();
         
         }
-        void enviarOffsets(UInt16[] offsets)
-        {
 
-            for (int i = 0; i < numeroModulos * 6; i++)
-            {
-                serie.offset[i] = offsets[i];
-            }
+        /// <summary>
+        /// Envia un vector con nuevos offset al meplaca. Internamente los pasa de mm a tensiones
+        /// </summary>
+        /// <param name="offsets">offset en mm </param>
+        void enviarOffsets(double[] offsets)
+        {
+                       
+             for (int i = 0; i < numeroModulos; i++)
+                {
+                    for (int j = 0; j < 6; j++)
+                    {
+                        if (offsets[6 * i + j] == 0)
+                        {
+                            serie.offset[6 * i + j] = serie.offset[6 * i + j];
+
+                        }
+                        else
+                        {
+                            serie.offset[6 * i + j] = (UInt16)Math.Round((calibracion.Modulos[i].Sensores[j].a / (offsets[6 * i + j] - calibracion.Modulos[i].Sensores[j].c)) + calibracion.Modulos[i].Sensores[j].b);
+                        }
+                    }
+                
+                }
             serie.EnviarOffsets();
         }
 
