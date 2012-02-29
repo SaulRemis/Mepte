@@ -117,7 +117,7 @@ namespace Meplate
                     }
                 }
             }
-            Z.WriteImage("tiff", 0, "Z.jpg");
+           // Z.WriteImage("tiff", 0, "Z.jpg");
 
         }
         private void CorregirImagen()
