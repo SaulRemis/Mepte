@@ -15,6 +15,8 @@ namespace SpinPlatform.Sensors.Meplaca
         CModulosCal calibracion;
         int numeroModulos;
         double _MinimoAvanceParaMedir;
+        double _Distancia_a_la_chapa;
+
 
         public double MinimoAvanceParaMedir{get { return _MinimoAvanceParaMedir; }}
         
@@ -125,6 +127,7 @@ namespace SpinPlatform.Sensors.Meplaca
         /// <param name="offsets">offset en mm </param>
         void enviarOffsets(double[] offsets)
         {
+            UInt16 dist, valor;
                        
              for (int i = 0; i < numeroModulos; i++)
                 {
@@ -137,7 +140,9 @@ namespace SpinPlatform.Sensors.Meplaca
                         }
                         else
                         {
-                            serie.offset[6 * i + j] = (UInt16)Math.Round((calibracion.Modulos[i].Sensores[j].a / (offsets[6 * i + j] - calibracion.Modulos[i].Sensores[j].c)) + calibracion.Modulos[i].Sensores[j].b);
+                             dist=(UInt16)Math.Round((calibracion.Modulos[i].Sensores[j].a / (_Distancia_a_la_chapa - calibracion.Modulos[i].Sensores[j].c)) + calibracion.Modulos[i].Sensores[j].b);
+                             valor=(UInt16)Math.Round((calibracion.Modulos[i].Sensores[j].a / (offsets[6 * i + j] - calibracion.Modulos[i].Sensores[j].c)) + calibracion.Modulos[i].Sensores[j].b);
+                             serie.offset[6 * i + j] = (UInt16)(serie.offset[6 * i + j]+ valor - dist);
                         }
                     }
                 
@@ -193,6 +198,9 @@ namespace SpinPlatform.Sensors.Meplaca
             CFilesData data = new CFilesData();
             data.GetVariable = true; data.ReadVariable = "MinimoAvanceParaMedir"; arch.GetData(data);
             _MinimoAvanceParaMedir = double.Parse(data.ReadValue);
+            data.ReadVariable = "distancia_nominal_trabajo";  arch.GetData(data);
+            _Distancia_a_la_chapa = double.Parse(data.ReadValue);
+           
             data.ReadVariable = "numeroModulos";arch.GetData(data);
             numeroModulos = int.Parse(data.ReadValue);
             data.ReadVariable = "puertoSerie";arch.GetData(data);
@@ -206,8 +214,6 @@ namespace SpinPlatform.Sensors.Meplaca
             }
             calibracion = new CModulosCal(numeroModulos, pathDatosCalibracion);
             serie = new CSerie(numeroModulos, puerto);
-
-
         }
 
         public void SetData(object parameters)

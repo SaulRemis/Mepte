@@ -117,7 +117,7 @@ namespace Meplate
                     }
                 }
             }
-          //  Z.WriteImage("tiff", 0, "Z.jpg");
+            Z.WriteImage("tiff", 0, "Z.jpg");
 
         }
         private void CorregirImagen()
@@ -126,8 +126,6 @@ namespace Meplate
             HImage media = Z.MeanImage(columnas - 1, 1);
             double valor, med;
             
-
-
             for (int i = 0; i < columnas; i++)
             {
                 for (int j = 0; j < filas; j++)
@@ -138,7 +136,7 @@ namespace Meplate
                     {
                        
                         med = media.GetGrayval(j, 0);
-                        offset[j] = (-1 *( med - distancia_a_la_chapa)) / 10;
+                        offset[j] = med;
      
                         valor = Z.GetGrayval(j, i);
                         Z.SetGrayval(j, i, distancia_a_la_chapa + valor - med);
@@ -147,7 +145,7 @@ namespace Meplate
             }
 
             media.Dispose();
-
+        
 
         }
         public void ObtenerBordes(double ancho)

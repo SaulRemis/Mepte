@@ -52,12 +52,11 @@ namespace Meplate
                 MeplacaData aux = new MeplacaData(false, false, false, false, false, false);
 
             //envio los offsets
-            if(false)
-               // if (!((SharedData<double[]>)_SharedMemory["Offset"]).Vacio)
+
+                if (!((SharedData<double[]>)_SharedMemory["Offset"]).Vacio)
                 {
                    
                     aux.Offsets = (double[])((SharedData<double[]>)SharedMemory["Offset"]).Get(0);
-
                     aux.EnviarOffsets = true;
                     _Meplaca.SetData(aux);
                 }
