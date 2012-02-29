@@ -15,7 +15,6 @@ namespace SpinPlatform
             //mienbros privados
            List<T> _lista;//Lista con los datos
 
-            Mutex _mutex;
             readonly object _locker ;
             int _elementos; // numero de elementos en la lista
             bool _lleno; // señal de lista vacia 
@@ -28,34 +27,40 @@ namespace SpinPlatform
             public int Elementos
             {
                 get
-                {
-                    _mutex.WaitOne();
-                    int elementos = _elementos;
-                    _mutex.ReleaseMutex();//Fin Seccion Critica
+                {int elementos;
+               
+                    lock (_locker)
+                    {
+                        elementos = _elementos; 
+                    }
+//Fin Seccion Critica
                     return elementos;
                 }
                    
             }
             public bool LLeno { get {
-                _mutex.WaitOne();
-                bool lleno = _lleno;
-                _mutex.ReleaseMutex();//Fin Seccion Critica
+                lock (_locker)
+                {
+                    bool lleno = _lleno;
+                }//Fin Seccion Critica
                 return _lleno;
             } }
             public bool Vacio {
 
                 get
                 {
-                    _mutex.WaitOne();
-                    bool vacio = _vacio;
-                    _mutex.ReleaseMutex();//Fin Seccion Critica
+                    lock (_locker)
+                    {
+                        bool vacio = _vacio;
+                    }//Fin Seccion Critica
                 return _vacio; } 
             }
             public int MaxElem {
                 get {
-                    _mutex.WaitOne();
-                    int maxelem = _maxelem;
-                    _mutex.ReleaseMutex();//Fin Seccion Critica
+                    lock (_locker)
+                    {
+                        int maxelem = _maxelem;
+                    }//Fin Seccion Critica
                     
                     return _maxelem; } }
 
@@ -64,7 +69,7 @@ namespace SpinPlatform
             {
                 _lista = new List<T>(MaxElem);
                 _locker = new object();
-                _mutex = new Mutex();
+
                 _maxelem = MaxElem;
                 _lleno = false;
                 _vacio = true;

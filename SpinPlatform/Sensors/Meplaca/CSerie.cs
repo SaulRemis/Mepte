@@ -16,7 +16,8 @@ namespace SpinPlatform.Sensors.Meplaca
         List<int[]> tensiones;
         System.IO.Ports.SerialPort PuertoSerie;
 
-        Mutex tensionesMutex;
+        readonly object _locker;
+
         public UInt16[] offset;
 
        public CSerie(int mod,string puerto)
@@ -28,7 +29,7 @@ namespace SpinPlatform.Sensors.Meplaca
             tensiones= new List<int[]>();
             PuertoSerie = new System.IO.Ports.SerialPort(puerto, 250000);
             PuertoSerie.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(PuertoSerie_DataReceived);
-            tensionesMutex = new Mutex();
+            _locker = new object();
             offset = new UInt16[modulos * 6];
 
         }
@@ -126,9 +127,12 @@ namespace SpinPlatform.Sensors.Meplaca
                
                }
 
-               tensionesMutex.WaitOne(); //Inicio seccion critica
-               tensiones.Add(vector);
-               tensionesMutex.ReleaseMutex();//Fin seccion critica
+              //Inicio seccion critica
+               lock (_locker)
+               {
+                   tensiones.Add(vector); 
+               }
+               //Fin seccion critica
            }
            tramas.Clear();
        
@@ -154,10 +158,14 @@ namespace SpinPlatform.Sensors.Meplaca
        }
        public List<int[]> LeerTensiones()
        {
-           tensionesMutex.WaitOne(); //Inicio seccion critica
-           List<int[]> temp = new List<int[]>(tensiones);
-           tensiones.Clear();
-           tensionesMutex.ReleaseMutex();//Fin seccion critica
+           List<int[]> temp;
+ //Inicio seccion critica
+           lock (_locker)
+           {
+               temp = new List<int[]>(tensiones);
+               tensiones.Clear(); 
+           }
+//Fin seccion critica
            return temp;
 
        }
@@ -165,10 +173,13 @@ namespace SpinPlatform.Sensors.Meplaca
        {
            int [] temp= new int[modulos*6];
            if (tensiones.Count>0)
-               tensionesMutex.WaitOne(); //Inicio seccion critica
-           temp = tensiones[tensiones.Count - 1];
-           tensiones.Clear();
-           tensionesMutex.ReleaseMutex();//Fin seccion critica
+ //Inicio seccion critica
+           lock (_locker)
+           {
+               temp = tensiones[tensiones.Count - 1];
+               tensiones.Clear(); 
+           }
+//Fin seccion critica
 
             return temp;
             
@@ -250,30 +261,33 @@ namespace SpinPlatform.Sensors.Meplaca
        //Corregir la influencia de la banda qu eno esta directamente debajo del sensor  si no al lado 
        public void CorregirInfluenciaLateral()
        {
-           tensionesMutex.WaitOne(); //Inicio seccion critica
-          
-           int valor_2, valor_1, valor, valor1, valor2, val;
+ //Inicio seccion critica
 
-           for (int k = 0; k < tensiones.Count; k++)
+           lock (_locker)
            {
+               int valor_2, valor_1, valor, valor1, valor2, val;
 
-               for (int i = 2; i < (modulos*6)-2; i++)
+               for (int k = 0; k < tensiones.Count; k++)
                {
-                   valor_2 = tensiones[k][i - 2];
-                   valor_1 = tensiones[k][i - 1];
-                   valor = tensiones[k][i ];
-                   valor1 = tensiones[k][i +1];
-                   valor2 = tensiones[k][i + 2];
-                   val =(int) Math.Round(valor - 0.7 * valor_2 * .05 - 0.7 * valor2 * 0.05 - 0.7 * valor_1 * 0.1 - 0.7 * valor1 * 0.1);
 
-                   tensiones[k][i] = val;
+                   for (int i = 2; i < (modulos * 6) - 2; i++)
+                   {
+                       valor_2 = tensiones[k][i - 2];
+                       valor_1 = tensiones[k][i - 1];
+                       valor = tensiones[k][i];
+                       valor1 = tensiones[k][i + 1];
+                       valor2 = tensiones[k][i + 2];
+                       val = (int)Math.Round(valor - 0.7 * valor_2 * .05 - 0.7 * valor2 * 0.05 - 0.7 * valor_1 * 0.1 - 0.7 * valor1 * 0.1);
+
+                       tensiones[k][i] = val;
 
 
-               }
-               
+                   }
+
+               } 
            }
 
-           tensionesMutex.ReleaseMutex();//Fin seccion critica
+//Fin seccion critica
        
        }
     }
