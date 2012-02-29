@@ -16,6 +16,7 @@ namespace SpinPlatform
            List<T> _lista;//Lista con los datos
 
             Mutex _mutex;
+            readonly object _locker ;
             int _elementos; // numero de elementos en la lista
             bool _lleno; // señal de lista vacia 
             bool _vacio;// señal de lista llena
@@ -62,6 +63,7 @@ namespace SpinPlatform
             public SharedData(int MaxElem)
             {
                 _lista = new List<T>(MaxElem);
+                _locker = new object();
                 _mutex = new Mutex();
                 _maxelem = MaxElem;
                 _lleno = false;
@@ -71,15 +73,16 @@ namespace SpinPlatform
             }
             public void Reset()
             {
-                _mutex.WaitOne();//Inicio Seccion Critica
+                lock (_locker)
+                {
+                    _lista.Clear();
+                    _maxelem = MaxElem;
+                    _lleno = false;
+                    _vacio = true;
+                    _elementos = 0; 
+                }
 
-                _lista.Clear();
-                _maxelem = MaxElem;
-                _lleno = false;
-                _vacio = true;
-                _elementos = 0;
 
-                _mutex.ReleaseMutex();//Fin Seccion Critica
 
             }
             public SharedData<T> Copy()
@@ -88,11 +91,12 @@ namespace SpinPlatform
             }
             public void Add(T obj)
             {
-                
-                    _mutex.WaitOne();//Inicio Seccion Critica
+
+                lock (_locker)
+                {//Inicio Seccion Critica
 
                     if (_lleno)
-                    {                     
+                    {
                         _lista.RemoveAt(0);
 
                     }
@@ -101,7 +105,7 @@ namespace SpinPlatform
                     if (_elementos >= _maxelem) _lleno = true;
                     _vacio = false;
 
-                    _mutex.ReleaseMutex();//Fin Seccion Critica
+                }//Fin Seccion Critica
                 
 
             }
@@ -109,18 +113,20 @@ namespace SpinPlatform
             {
                 if (Elementos > 0)
                 {
-                    _mutex.WaitOne();//Inicio Seccion Critica
+                    object elemento;
+                    lock (_locker)
+                    {//Inicio Seccion Critica
 
-                    object elemento = (object)_lista[0];
+                       elemento = (object)_lista[0];
 
-                    _lista.RemoveAt(0);
-                    _elementos = _lista.Count;
+                        _lista.RemoveAt(0);
+                        _elementos = _lista.Count;
 
-                    if (_lista.Count == 0) _vacio = true;
-                    else _vacio = false;
-                    _lleno = false;
+                        if (_lista.Count == 0) _vacio = true;
+                        else _vacio = false;
+                        _lleno = false;
 
-                    _mutex.ReleaseMutex();//Fin Seccion Critica
+                    }//Fin Seccion Critica
 
                     return elemento;
                 }
@@ -132,10 +138,12 @@ namespace SpinPlatform
             {
                 if (Elementos > index)
                 {
-                    _mutex.WaitOne();//Inicio Seccion Critica
+                    object elemento;
+                    lock (_locker)
+                    {//Inicio Seccion Critica
 
-                    object elemento = (object)_lista[index];
-                    _mutex.ReleaseMutex();//Fin Seccion Critica
+                        elemento = (object)_lista[index];
+                    }//Fin Seccion Critica
 
                     return elemento;
                 }
@@ -144,25 +152,26 @@ namespace SpinPlatform
             }
             public void Set(int index, T element)
             {
-                _mutex.WaitOne();//Inicio Seccion Critica
-                if (Elementos > index)
-                {
-                   
-                    _lista[index] = element;
-                
-                  
+                lock (_locker)
+                {//Inicio Seccion Critica
+                    if (Elementos > index)
+                    {
 
-                }
-                else if (Elementos == 0)
-                {
+                        _lista[index] = element;
 
-                    _lista.Add(element);
-                    _elementos = _lista.Count;
-                    if (_elementos >= _maxelem) _lleno = true;
-                    _vacio = false;
-                
-                }
-                _mutex.ReleaseMutex();//Fin Seccion Critica
+
+
+                    }
+                    else if (Elementos == 0)
+                    {
+
+                        _lista.Add(element);
+                        _elementos = _lista.Count;
+                        if (_elementos >= _maxelem) _lleno = true;
+                        _vacio = false;
+
+                    }
+                }//Fin Seccion Critica
 
 
 
