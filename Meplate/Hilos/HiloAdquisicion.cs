@@ -51,15 +51,7 @@ namespace Meplate
                 totalElapsedTime = TimeSpan.Zero;
                 MeplacaData aux = new MeplacaData(false, false, false, false, false, false);
 
-            //envio los offsets
-
-                if (!((SharedData<double[]>)_SharedMemory["Offset"]).Vacio)
-                {
-                   
-                    aux.Offsets = (double[])((SharedData<double[]>)SharedMemory["Offset"]).Get(0);
-                    aux.EnviarOffsets = true;
-                    _Meplaca.SetData(aux);
-                }
+           
 
 
                 // Mido de continuo hasta que hay señal de fin de chapa
@@ -109,6 +101,16 @@ namespace Meplate
                             ((SharedData<List<CMedida>>)_SharedMemory["Chapas"]).Add(new List<CMedida>(medidas)); // envio las medidas de la chapa medida a la memoria compartida
                             medidas.Clear();
                             _Events["ChapaMedida"].Set();
+
+                            //envio los offsets
+
+                            if (!((SharedData<double[]>)_SharedMemory["Offset"]).Vacio)
+                            {
+                                aux.ResetData();
+                                aux.Offsets = (double[])((SharedData<double[]>)SharedMemory["Offset"]).Get(0);
+                                aux.EnviarOffsets = true;
+                                _Meplaca.SetData(aux);
+                            }
 
                             break;
                         }
