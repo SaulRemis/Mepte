@@ -140,9 +140,7 @@ namespace SpinPlatform
                 {
                     FunctionToExecuteByThread();
                 } while (!_StopEvent.WaitOne(_MillisecondsToSleep, true));
-                Trace.WriteLine("Saliendo del hilo adquisicion");
-                //Trace.WriteLine("Estado del evento stop al salir del hilo: " + _StopEvent.WaitOne(0, true));
-                Closing();
+                 Closing();
             }
             #endregion
 
