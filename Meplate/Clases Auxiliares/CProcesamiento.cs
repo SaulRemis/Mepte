@@ -21,7 +21,8 @@ namespace Meplate
         public double[] offset;
         public double BI, BD;
         public int borde_derecho, borde_izquierdo;
-        public double[,] puntos;
+        public double[,] Pixeles;
+        public string[,] Puntos;
 
 
         public CProcesamiento(CFiles arch)
@@ -48,7 +49,8 @@ namespace Meplate
             umbral_bordes = double.Parse(data.ReadValue);
             filas = numeroModulos * 6;
             offset = new double[filas];
-            puntos = new double[5, numeroMedidas];
+            Pixeles = new double[5, numeroMedidas];
+            Puntos = new string[7, numeroMedidas];
 
         }
         public double ProcesamientoDatos(List<CMedida> measurement)
@@ -317,11 +319,20 @@ namespace Meplate
 
             for (int i = 0; i <filas_max.Length; i++)
             {
-                puntos[0, i] = filas_max.DArr[i];
-                puntos[1, i] = columnas_max.DArr[i];
-                puntos[2, i] = filas_min.DArr[i];
-                puntos[3, i] = columnas_min.DArr[i];
-                puntos[4, i] = diff.DArr[i];
+                Pixeles[0, i] = filas_max.DArr[i];
+                Pixeles[1, i] = columnas_max.DArr[i];
+                Pixeles[2, i] = filas_min.DArr[i];
+                Pixeles[3, i] = columnas_min.DArr[i];
+                Pixeles[4, i] = diff.DArr[i];
+
+
+                Puntos[0, i] = X.GetGrayval((int)Pixeles[0, i], (int)Pixeles[1, i]).ToString("F02");
+                Puntos[1, i] = Y.GetGrayval((int)Pixeles[0, i], (int)Pixeles[1, i]).ToString("F02");
+                Puntos[2, i] = Z.GetGrayval((int)Pixeles[0, i], (int)Pixeles[1, i]).ToString("F02");
+                Puntos[3, i] = X.GetGrayval((int)Pixeles[2, i], (int)Pixeles[3, i]).ToString("F02");
+                Puntos[4, i] = Y.GetGrayval((int)Pixeles[2, i], (int)Pixeles[3, i]).ToString("F02");
+                Puntos[5, i] = Z.GetGrayval((int)Pixeles[2, i], (int)Pixeles[3, i]).ToString("F02");
+                Puntos[6, i] = Pixeles[4, i].ToString("F02");
             }
 
 
