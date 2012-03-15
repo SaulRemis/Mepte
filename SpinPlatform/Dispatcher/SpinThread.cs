@@ -140,7 +140,7 @@ namespace SpinPlatform
                 {
                     FunctionToExecuteByThread();
                 } while (!_StopEvent.WaitOne(_MillisecondsToSleep, true));
-                 Closing();
+                Closing();
             }
             #endregion
 

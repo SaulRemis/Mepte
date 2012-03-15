@@ -24,6 +24,8 @@ namespace Meplate
             _Meplate.NewResultEvent += new ResultEventHandler(_Meplate_NewResultEvent);
             d_PintarResultados = new delegatePintarresultados(PintarResultados);
 
+            InicializarListView();
+
 
             VentanaHalconPrincipal.HalconWindow.SetLineWidth(3);
             VentanaHalconPrincipal.HalconWindow.SetLut("temperature");
@@ -138,6 +140,21 @@ namespace Meplate
             }
 
             _Meplate.SetData(temp);
+        }
+
+        void InicializarListView()
+        {
+            _listViewPuntos.Items.Clear();
+            for (int i = 0; i < 5; i++)
+            {
+                 _listViewPuntos.Items.Add((i+1).ToString(), i);
+                 _listViewPuntos.Items[i].Group = _listViewPuntos.Groups[0];
+                 for (int j = 0; j <7; j++)
+                 {
+                     _listViewPuntos.Items[i].SubItems.Add("0");
+                 }
+            }
+
         }
     }
 }
