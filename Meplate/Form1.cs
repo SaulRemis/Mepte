@@ -24,8 +24,6 @@ namespace Meplate
             _Meplate.NewResultEvent += new ResultEventHandler(_Meplate_NewResultEvent);
             d_PintarResultados = new delegatePintarresultados(PintarResultados);
 
-            InicializarListView();
-
 
             VentanaHalconPrincipal.HalconWindow.SetLineWidth(3);
             VentanaHalconPrincipal.HalconWindow.SetLut("temperature");
@@ -53,7 +51,8 @@ namespace Meplate
                 Resultados resultados = datos.Resultados;
                 if (resultados.Perfiles > 0)
                 {
-                    double[,] puntos = resultados.Pixeles;
+                    double[,] pixeles = resultados.Pixeles;
+                    double[,] puntos = resultados.Puntos;
                     int ancho, alto;
                     resultados.Z.GetImageSize(out ancho, out alto);
 
@@ -68,17 +67,34 @@ namespace Meplate
 
                     VentanaHalconPrincipal.HalconWindow.DispObj(resultados.Z);
 
+                    //pinto los defectos en el mapa
 
-
-                    for (int i = 0; i < puntos.Length / 5; i++)
+                    for (int i = 0; i < pixeles.Length / 5; i++)
                     {
                         VentanaHalconPrincipal.HalconWindow.SetColor("blue");
-                        VentanaHalconPrincipal.HalconWindow.DispLine(puntos[0, i], puntos[1, i], puntos[2, i], puntos[3, i]);
+                        VentanaHalconPrincipal.HalconWindow.DispLine(pixeles[i, 0], pixeles[i,1], pixeles[i,2], pixeles[i,3]);
                         VentanaHalconPrincipal.HalconWindow.SetColor("black");
-                        VentanaHalconPrincipal.HalconWindow.SetTposition((int)puntos[2, i], (int)puntos[3, i]);
-                        VentanaHalconPrincipal.HalconWindow.WriteString(puntos[4, i].ToString("F1"));
+                        VentanaHalconPrincipal.HalconWindow.SetTposition((int)pixeles[i,2], (int)pixeles[i,3]);
+                        VentanaHalconPrincipal.HalconWindow.WriteString(pixeles[i,4].ToString("F1"));
 
                     }
+
+
+                    // Añado los defectos al ListView
+
+                    _listViewPuntos.Items.Clear();
+                    for (int i = 0; i < puntos.Length / 7; i++)
+                    {
+                        _listViewPuntos.Items.Add((i + 1).ToString(), i);
+                        _listViewPuntos.Items[i].Group = _listViewPuntos.Groups[0];
+                        for (int j = 0; j < 7; j++)
+                        {
+                            _listViewPuntos.Items[i].SubItems.Add(puntos[i,j].ToString("F2"));
+                        }
+                    }
+
+
+
                     //formPrincipal.VentanaHalconPrincipal.HalconWindow.DumpWindow("jpeg", "meplaca_lab"); 
 
                 } 

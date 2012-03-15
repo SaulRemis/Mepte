@@ -49,8 +49,8 @@ namespace Meplate
             umbral_bordes = double.Parse(data.ReadValue);
             filas = numeroModulos * 6;
             offset = new double[filas];
-            Pixeles = new double[5, numeroMedidas];
-            Puntos = new double[7, numeroMedidas];
+            Pixeles = new double[ numeroMedidas,5];
+            Puntos = new double[ numeroMedidas,7];
 
         }
         public double ProcesamientoDatos(List<CMedida> measurement)
@@ -319,20 +319,20 @@ namespace Meplate
 
             for (int i = 0; i <filas_max.Length; i++)
             {
-                Pixeles[0, i] = filas_max.DArr[i];
-                Pixeles[1, i] = columnas_max.DArr[i];
-                Pixeles[2, i] = filas_min.DArr[i];
-                Pixeles[3, i] = columnas_min.DArr[i];
-                Pixeles[4, i] = diff.DArr[i];
+                Pixeles[i,0] = filas_max.DArr[i];
+                Pixeles[i,1] = columnas_max.DArr[i];
+                Pixeles[i,2] = filas_min.DArr[i];
+                Pixeles[i,3] = columnas_min.DArr[i];
+                Pixeles[i,4] = diff.DArr[i];
 
 
-                Puntos[0, i] = X.GetGrayval((int)Pixeles[0, i], (int)Pixeles[1, i]);
-                Puntos[1, i] = Y.GetGrayval((int)Pixeles[0, i], (int)Pixeles[1, i]);
-                Puntos[2, i] = Z.GetGrayval((int)Pixeles[0, i],(int) Pixeles[1, i]);
-                Puntos[3, i] = X.GetGrayval((int)Pixeles[2, i],(int) Pixeles[3, i]);
-                Puntos[4, i] = Y.GetGrayval((int)Pixeles[2, i],(int) Pixeles[3, i]);
-                Puntos[5, i] = Z.GetGrayval((int)Pixeles[2, i],(int) Pixeles[3, i]);
-                Puntos[6, i] = Pixeles[4, i];
+                Puntos[i, 0] = X.GetGrayval((int)Pixeles[i, 0], (int) Pixeles[i,1]);
+                Puntos[i, 1] = Y.GetGrayval((int)Pixeles[i, 0], (int)Pixeles[i, 1]);
+                Puntos[i, 2] = Z.GetGrayval((int)Pixeles[i, 0], (int)Pixeles[i, 1]);
+                Puntos[i, 3] = X.GetGrayval((int)Pixeles[i, 2], (int)Pixeles[i, 3]);
+                Puntos[i, 4] = Y.GetGrayval((int)Pixeles[i, 2], (int)Pixeles[i, 3]);
+                Puntos[i, 5] = Z.GetGrayval((int)Pixeles[i, 2], (int)Pixeles[i, 3]);
+                Puntos[i,6] = Pixeles[i,4];
             }
 
 

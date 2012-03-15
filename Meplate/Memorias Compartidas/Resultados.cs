@@ -26,11 +26,11 @@ namespace Meplate
           public double Distancia_nominal { get { return _Distancia_nominal; } }
 
         //metodos
-          public Resultados(HImage imagen,int medidas,double[,] pixeles,int numMedidas, double distancia)
+          public Resultados(HImage imagen, int medidas, double[,] pixeles, double[,] puntos, int numMedidas, double distancia)
             {
                 _Z = imagen.CopyImage();
                 _Perfiles = medidas;
-                //_Pixeles = new double[5, numMedidas];
+                _Puntos = (double[,])puntos.Clone();
                 _Pixeles = (double[,])pixeles.Clone();
                 _NumMedidas=numMedidas;               
                 _Distancia_nominal = distancia;
