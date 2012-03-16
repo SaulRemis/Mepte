@@ -16,11 +16,13 @@ namespace Meplate
     {
         Meplate _Meplate;
         delegatePintarresultados d_PintarResultados;  //puntero a la funcion de pintar
+        dynamic ConfigData;
 
         public Form1()
         {
             InitializeComponent();
             _Meplate = new Meplate();
+            _Meplate.Init(ref ConfigData);
             _Meplate.NewResultEvent += new ResultEventHandler(_Meplate_NewResultEvent);
             d_PintarResultados = new delegatePintarresultados(PintarResultados);
 

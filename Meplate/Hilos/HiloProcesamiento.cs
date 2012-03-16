@@ -16,10 +16,10 @@ namespace Meplate
 
         double duracion;
 
-        public HiloProcesamiento(Meplate padre, string name, CFiles arch)
+        public HiloProcesamiento(Meplate padre, string name, dynamic parametros)
             : base(name)
         {
-            _Proc = new CProcesamiento(arch);
+            _Proc = new CProcesamiento(parametros);
             _Padre = padre;
         }
         public override void FunctionToExecuteByThread()

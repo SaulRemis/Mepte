@@ -7,6 +7,7 @@ using SpinPlatform.Data;
 using System.Diagnostics;
 using SpinPlatform.Sensors.Meplaca;
 using SpinPlatform.IO;
+using System.Dynamic;
 
 namespace Meplate
 {
@@ -18,17 +19,17 @@ namespace Meplate
         TimeSpan elapsedTime, totalElapsedTime;
         DateTime t1 ;
         DateTime t2;
+        dynamic Parametros;
 
 
         List<CMedida> medidas;// lista donde se van guardando todos los perfiles de una chapa
-        
 
 
-        public HiloAdquisicion(Meplate padre, string name, CFiles arch)
+
+        public HiloAdquisicion(Meplate padre, string name, dynamic parametros)
             : base(name)
         {
- 
-            _MillisecondsToSleep = 0;
+            Parametros = parametros;
             _Padre = padre;
         }
 
@@ -129,10 +130,8 @@ namespace Meplate
             _WakeUpThreadEvent = _Events["ComenzarMedida"];
             Trace.WriteLine("ADRI:   Entrando en el HILO ADQUISICION");
             //INICIALIZAR
-             MeplacaData temp = new MeplacaData();
-            temp.File= _Padre._Arch;
             _Meplaca = new CMeplaca();
-            _Meplaca.Init(temp);
+            _Meplaca.Init(Parametros);
             _Meplaca.Start();
             medidas = new List<CMedida>();
 

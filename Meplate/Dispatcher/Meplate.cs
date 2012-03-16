@@ -6,27 +6,33 @@ using SpinPlatform.Dispatcher;
 using SpinPlatform.Data;
 using System.Threading;
 using SpinPlatform.IO;
+using System.Dynamic;
+using SpinPlatform.Config;
 
 namespace Meplate
 {
     public class Meplate: SpinDispatcher
     {
-            //Clases auxiliares
-        public CFiles _Arch ;
+        //Objetos auxiliares
+
+        dynamic Data = new ExpandoObject();
 
         public Meplate()
         {
-            //Clases auxiliares
-            _Arch = new CFiles();
-            CFilesData data = new CFilesData();
-            data.ConfigFilePath = "MeplateIni.xml";
-            data.LogFilePath = "./MeplateLog.txt";
-            data.ErrorFilePath = "./MeplateError.txt";
-            _Arch.Init(data);
 
+            
+
+         }
+
+        public void Init(ref dynamic parameters)
+        {
+            SpinConfig con = new SpinConfig();
+            parameters = con.GetData(SpinConfigConstants.SPIN_CONFIG_XML_NAME);
+
+            
             // Hilos
-            _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion((Meplate)this, "Adquisicion", _Arch));
-            _DispatcherThreads.Add("Procesamiento", new HiloProcesamiento((Meplate)this, "Procesamiento",_Arch));
+            _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion((Meplate)this, "Adquisicion", parameters));
+            _DispatcherThreads.Add("Procesamiento", new HiloProcesamiento((Meplate)this, "Procesamiento", parameters));
 
             //memorias
             ConnectMemory("Chapas", new SharedData<List<CMedida>>(20), "Adquisicion", "Procesamiento");
@@ -41,8 +47,7 @@ namespace Meplate
             CreateEvent("FinalizarMedida", new AutoResetEvent(false), "Adquisicion");
 
 
-
-         }
+        }
 
         public override object GetData(object parameters)
         {

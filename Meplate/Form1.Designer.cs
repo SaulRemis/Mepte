@@ -35,11 +35,12 @@
             this.VentanaHalconPrincipal = new HalconDotNet.HWindowControl();
             this._LabelFrameRate = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.StartButton = new System.Windows.Forms.Button();
             this.StopButton = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this._listViewPuntos = new System.Windows.Forms.ListView();
+            this.DEFECT = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.X = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Y = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Z = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -47,7 +48,6 @@
             this.Y2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Z2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.DIFF = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.DEFECT = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -106,15 +106,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Control";
             // 
-            // panel1
-            // 
-            this.panel1.BackgroundImage = global::Meplate.Properties.Resources.meplatelogo;
-            this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel1.Location = new System.Drawing.Point(18, 13);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(582, 126);
-            this.panel1.TabIndex = 19;
-            // 
             // StartButton
             // 
             this.StartButton.BackColor = System.Drawing.Color.Transparent;
@@ -149,6 +140,15 @@
             this.StopButton.TabIndex = 14;
             this.StopButton.UseVisualStyleBackColor = false;
             this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.BackgroundImage = global::Meplate.Properties.Resources.meplatelogo;
+            this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel1.Location = new System.Drawing.Point(18, 13);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(582, 126);
+            this.panel1.TabIndex = 19;
             // 
             // panel2
             // 
@@ -185,6 +185,12 @@
             this._listViewPuntos.TabIndex = 21;
             this._listViewPuntos.UseCompatibleStateImageBehavior = false;
             this._listViewPuntos.View = System.Windows.Forms.View.Details;
+            // 
+            // DEFECT
+            // 
+            this.DEFECT.Text = "DEFECT";
+            this.DEFECT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.DEFECT.Width = 70;
             // 
             // X
             // 
@@ -226,12 +232,6 @@
             this.DIFF.Text = "DIFF";
             this.DIFF.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.DIFF.Width = 50;
-            // 
-            // DEFECT
-            // 
-            this.DEFECT.Text = "DEFECT";
-            this.DEFECT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.DEFECT.Width = 70;
             // 
             // Form1
             // 

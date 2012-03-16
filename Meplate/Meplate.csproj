@@ -98,12 +98,6 @@
     <None Include="Resources\icon_play.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SpinPlatform\SpinPlatform.csproj">
-      <Project>{6CA428E1-FF39-453C-B775-2806EBECC474}</Project>
-      <Name>SpinPlatform</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Diapositiva1.JPG" />
   </ItemGroup>
   <ItemGroup>
@@ -111,6 +105,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\meplatelogo.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Final Spinplatform\SpinPlatform.csproj">
+      <Project>{6CA428E1-FF39-453C-B775-2806EBECC474}</Project>
+      <Name>SpinPlatform</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
