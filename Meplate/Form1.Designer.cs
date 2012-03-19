@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("1 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("2 m RULER", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("2 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
             this.perfiles = new System.Windows.Forms.Label();
             this.MedirPararButton = new System.Windows.Forms.Button();
             this.VentanaHalconPrincipal = new HalconDotNet.HWindowControl();
@@ -161,6 +161,7 @@
             // 
             // _listViewPuntos
             // 
+            this._listViewPuntos.Alignment = System.Windows.Forms.ListViewAlignment.Default;
             this._listViewPuntos.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.DEFECT,
             this.X,
@@ -175,13 +176,14 @@
             listViewGroup1.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
             listViewGroup1.Name = "listViewGroup1m";
             listViewGroup2.Header = "2 m RULER";
+            listViewGroup2.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
             listViewGroup2.Name = "listViewGroup2m";
             this._listViewPuntos.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
             listViewGroup1,
             listViewGroup2});
-            this._listViewPuntos.Location = new System.Drawing.Point(379, 157);
+            this._listViewPuntos.Location = new System.Drawing.Point(368, 157);
             this._listViewPuntos.Name = "_listViewPuntos";
-            this._listViewPuntos.Size = new System.Drawing.Size(435, 173);
+            this._listViewPuntos.Size = new System.Drawing.Size(446, 173);
             this._listViewPuntos.TabIndex = 21;
             this._listViewPuntos.UseCompatibleStateImageBehavior = false;
             this._listViewPuntos.View = System.Windows.Forms.View.Details;
@@ -190,7 +192,6 @@
             // 
             this.DEFECT.Text = "DEFECT";
             this.DEFECT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.DEFECT.Width = 70;
             // 
             // X
             // 
@@ -201,7 +202,6 @@
             // 
             this.Y.Text = "Y";
             this.Y.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Y.Width = 50;
             // 
             // Z
             // 
@@ -219,7 +219,6 @@
             // 
             this.Y2.Text = "Y";
             this.Y2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Y2.Width = 50;
             // 
             // Z2
             // 

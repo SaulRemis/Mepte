@@ -36,10 +36,10 @@ namespace Meplate
             umbral_bordes = double.Parse(parametros.Procesamiento.umbral_bordes);
             filas = numeroModulos * 6;
             offset = new double[filas];
-            Pixeles = new double[ numeroMedidas,5];
-            Puntos = new double[ numeroMedidas,7];
-            Pixeles2 = new double[numeroMedidas, 5];
-            Puntos2 = new double[numeroMedidas, 7];
+            Pixeles = new double[ numeroMedidas*2,5];
+            Puntos = new double[ numeroMedidas*2,7];
+            //Pixeles2 = new double[numeroMedidas, 5];
+            //Puntos2 = new double[numeroMedidas, 7];
 
         }
         public double ProcesamientoDatos(List<CMedida> measurement, double ancho=900.0)
@@ -52,6 +52,7 @@ namespace Meplate
             ObtenerBordes(ancho);
             CorregirImagen();
             CalcularDefectos_1metro();
+            CalcularDefectos_2metro();
 
 
             DateTime t2 = DateTime.Now;
@@ -327,6 +328,37 @@ namespace Meplate
 
 
         }
+        private void CalcularDefectos_2metro()
+        {
+
+            HTuple filas_max, columnas_max, filas_min, columnas_min, diff;
+
+
+            // "fibras" o "circulos" 
+            //Planitud_regla_1m(Z,"fibras", out filas_max, out columnas_max, out filas_min, out columnas_min, out diff);
+            Planitud_regla_cuadricula(2, Z, out filas_max, out columnas_max, out filas_min, out columnas_min, out diff);
+
+            for (int i = numeroMedidas; i < numeroMedidas+filas_max.Length; i++)
+            {
+                Pixeles[i, 0] = filas_max.DArr[i-numeroMedidas];
+                Pixeles[i, 1] = columnas_max.DArr[i-numeroMedidas];
+                Pixeles[i, 2] = filas_min.DArr[i-numeroMedidas];
+                Pixeles[i, 3] = columnas_min.DArr[i-numeroMedidas];
+                Pixeles[i, 4] = diff.DArr[i-numeroMedidas];
+
+
+                Puntos[i, 0] = X.GetGrayval((int)Pixeles[i, 0], (int)Pixeles[i, 1]);
+                Puntos[i, 1] = Y.GetGrayval((int)Pixeles[i, 0], (int)Pixeles[i, 1]);
+                Puntos[i, 2] = Z.GetGrayval((int)Pixeles[i, 0], (int)Pixeles[i, 1]);
+                Puntos[i, 3] = X.GetGrayval((int)Pixeles[i, 2], (int)Pixeles[i, 3]);
+                Puntos[i, 4] = Y.GetGrayval((int)Pixeles[i, 2], (int)Pixeles[i, 3]);
+                Puntos[i, 5] = Z.GetGrayval((int)Pixeles[i, 2], (int)Pixeles[i, 3]);
+                Puntos[i, 6] = Pixeles[i, 4];
+            }
+
+
+
+        }
         private void Planitud_regla_1m(HObject ho_Imagen, string modo, out HTuple hv_filasmaximos, out HTuple hv_columnasmaximos, out HTuple hv_filasminimos, out HTuple hv_columnasminimos, out HTuple hv_Diff)
         {
 
@@ -496,7 +528,7 @@ hv_Index), (hv_columnasmaximos.TupleSelect(hv_Index)) + 5);
             HOperatorSet.GetImageSize(ho_ImagenOut, out hv_Width, out hv_Height);
             HOperatorSet.GenRectangle1(out ho_Region, borde_izquierdo, 0, borde_derecho, hv_Width);
            // hv_ancho_cuadro = hv_Width / 10;
-            hv_ancho_cuadro = 100;
+            hv_ancho_cuadro = 50;
             hv_ancho_cuadro.TupleFloor();
             //hv_ancho_cuadro = 10;
             HOperatorSet.TupleRound(hv_ancho_cuadro, out hv_ancho_cuadro);

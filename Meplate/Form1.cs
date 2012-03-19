@@ -73,10 +73,11 @@ namespace Meplate
 
                     for (int i = 0; i < pixeles.Length / 5; i++)
                     {
-                        VentanaHalconPrincipal.HalconWindow.SetColor("blue");
+                        if (i<5) VentanaHalconPrincipal.HalconWindow.SetColor("blue");
+                        else VentanaHalconPrincipal.HalconWindow.SetColor("green");
                         VentanaHalconPrincipal.HalconWindow.DispLine(pixeles[i, 0], pixeles[i,1], pixeles[i,2], pixeles[i,3]);
                         VentanaHalconPrincipal.HalconWindow.SetColor("black");
-                        VentanaHalconPrincipal.HalconWindow.SetTposition((int)pixeles[i,2], (int)pixeles[i,3]);
+                        VentanaHalconPrincipal.HalconWindow.SetTposition((int)pixeles[i,0], (int)pixeles[i,1]);
                         VentanaHalconPrincipal.HalconWindow.WriteString(pixeles[i,4].ToString("F1"));
 
                     }
@@ -88,7 +89,8 @@ namespace Meplate
                     for (int i = 0; i < puntos.Length / 7; i++)
                     {
                         _listViewPuntos.Items.Add((i + 1).ToString(), i);
-                        _listViewPuntos.Items[i].Group = _listViewPuntos.Groups[0];
+                        if (i < 5)  _listViewPuntos.Items[i].Group = _listViewPuntos.Groups[0];
+                        else _listViewPuntos.Items[i].Group = _listViewPuntos.Groups[1];
                         for (int j = 0; j < 7; j++)
                         {
                             _listViewPuntos.Items[i].SubItems.Add(puntos[i,j].ToString("F2"));
