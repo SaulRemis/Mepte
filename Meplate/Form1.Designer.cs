@@ -28,15 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("1 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("2 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("1 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("2 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
             this.perfiles = new System.Windows.Forms.Label();
             this.MedirPararButton = new System.Windows.Forms.Button();
             this.VentanaHalconPrincipal = new HalconDotNet.HWindowControl();
             this._LabelFrameRate = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
             this._listViewPuntos = new System.Windows.Forms.ListView();
             this.DEFECT = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.X = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -49,6 +47,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -77,7 +83,7 @@
             this.VentanaHalconPrincipal.BackColor = System.Drawing.Color.Black;
             this.VentanaHalconPrincipal.BorderColor = System.Drawing.Color.Black;
             this.VentanaHalconPrincipal.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
-            this.VentanaHalconPrincipal.Location = new System.Drawing.Point(12, 343);
+            this.VentanaHalconPrincipal.Location = new System.Drawing.Point(12, 372);
             this.VentanaHalconPrincipal.Name = "VentanaHalconPrincipal";
             this.VentanaHalconPrincipal.Size = new System.Drawing.Size(738, 314);
             this.VentanaHalconPrincipal.TabIndex = 12;
@@ -107,24 +113,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Control";
             // 
-            // panel1
-            // 
-            this.panel1.BackgroundImage = global::Meplate.Properties.Resources.meplatelogo;
-            this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel1.Location = new System.Drawing.Point(18, 13);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(582, 126);
-            this.panel1.TabIndex = 19;
-            // 
-            // panel2
-            // 
-            this.panel2.BackgroundImage = global::Meplate.Properties.Resources.Diapositiva2;
-            this.panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel2.Location = new System.Drawing.Point(607, 13);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(214, 126);
-            this.panel2.TabIndex = 20;
-            // 
             // _listViewPuntos
             // 
             this._listViewPuntos.Alignment = System.Windows.Forms.ListViewAlignment.Default;
@@ -138,15 +126,15 @@
             this.Z2,
             this.DIFF});
             this._listViewPuntos.FullRowSelect = true;
-            listViewGroup5.Header = "1 m RULER";
-            listViewGroup5.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup5.Name = "listViewGroup1m";
-            listViewGroup6.Header = "2 m RULER";
-            listViewGroup6.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup6.Name = "listViewGroup2m";
+            listViewGroup1.Header = "1 m RULER";
+            listViewGroup1.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup1.Name = "listViewGroup1m";
+            listViewGroup2.Header = "2 m RULER";
+            listViewGroup2.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup2.Name = "listViewGroup2m";
             this._listViewPuntos.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup5,
-            listViewGroup6});
+            listViewGroup1,
+            listViewGroup2});
             this._listViewPuntos.Location = new System.Drawing.Point(368, 157);
             this._listViewPuntos.Name = "_listViewPuntos";
             this._listViewPuntos.Size = new System.Drawing.Size(446, 173);
@@ -228,12 +216,91 @@
             this.label3.TabIndex = 18;
             this.label3.Text = "WIDTH";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(29, 336);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(117, 24);
+            this.label4.TabIndex = 22;
+            this.label4.Text = "DEFECTS :";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(340, 336);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(111, 24);
+            this.label5.TabIndex = 22;
+            this.label5.Text = "1m RULER";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(555, 336);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(111, 24);
+            this.label6.TabIndex = 22;
+            this.label6.Text = "2m RULER";
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.RoyalBlue;
+            this.panel3.Location = new System.Drawing.Point(309, 336);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(25, 23);
+            this.panel3.TabIndex = 23;
+            // 
+            // panel4
+            // 
+            this.panel4.BackColor = System.Drawing.Color.GreenYellow;
+            this.panel4.Location = new System.Drawing.Point(524, 336);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(25, 23);
+            this.panel4.TabIndex = 23;
+            // 
+            // panel5
+            // 
+            this.panel5.BackgroundImage = global::Meplate.Properties.Resources.escale1;
+            this.panel5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel5.Location = new System.Drawing.Point(772, 370);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(14, 316);
+            this.panel5.TabIndex = 24;
+            // 
+            // panel2
+            // 
+            this.panel2.BackgroundImage = global::Meplate.Properties.Resources.Diapositiva2;
+            this.panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel2.Location = new System.Drawing.Point(607, 13);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(214, 126);
+            this.panel2.TabIndex = 20;
+            // 
+            // panel1
+            // 
+            this.panel1.BackgroundImage = global::Meplate.Properties.Resources.meplatelogo;
+            this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel1.Location = new System.Drawing.Point(18, 13);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(582, 126);
+            this.panel1.TabIndex = 19;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(826, 668);
+            this.ClientSize = new System.Drawing.Size(826, 698);
+            this.Controls.Add(this.panel5);
+            this.Controls.Add(this.panel4);
+            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this._listViewPuntos);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -245,6 +312,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -269,6 +337,12 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Panel panel5;
 
     }
 }

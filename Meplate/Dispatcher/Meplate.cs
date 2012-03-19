@@ -31,14 +31,15 @@ namespace Meplate
 
             
             // Hilos
-            _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion((Meplate)this, "Adquisicion", parameters));
-            _DispatcherThreads.Add("Procesamiento", new HiloProcesamiento((Meplate)this, "Procesamiento", parameters));
+            _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion(this, "Adquisicion", parameters));
+            _DispatcherThreads.Add("Procesamiento", new HiloProcesamiento(this, "Procesamiento", parameters));
 
             //memorias
             ConnectMemory("Chapas", new SharedData<List<CMedida>>(20), "Adquisicion", "Procesamiento");
             ConnectMemory("Offset", new SharedData<double[]>(1), "Adquisicion", "Procesamiento");
             ConnectMemory("Informacion", new SharedData<Informacion>(1), "Adquisicion");
             ConnectMemory("Resultados", new SharedData<Resultados>(1), "Procesamiento");
+            ConnectMemory("Tarjeta",new SharedData<Tarjeta>(1),"Adquisicion");
 
 
             //Eventos de sincronizacion

@@ -74,6 +74,20 @@ namespace Meplate.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap escale {
+            get {
+                object obj = ResourceManager.GetObject("escale", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap escale1 {
+            get {
+                object obj = ResourceManager.GetObject("escale1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap icon_play {
             get {
                 object obj = ResourceManager.GetObject("icon_play", resourceCulture);
