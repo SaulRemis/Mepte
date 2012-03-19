@@ -166,7 +166,7 @@ namespace Meplate
         private double LeerVelocidad()
         {
             //***Leer velocidad de la tarjeta analogica.
-            return 20; // m/min
+            return 60; // m/min
 
 
         }//Debe leer la velocidad de la tarjeta de adquisicion o por mensaje
