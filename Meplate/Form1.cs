@@ -29,6 +29,8 @@ namespace Meplate
 
             VentanaHalconPrincipal.HalconWindow.SetLineWidth(3);
             VentanaHalconPrincipal.HalconWindow.SetLut("temperature");
+
+            _Meplate.Start();
         }
 
         void _Meplate_NewResultEvent(object sender, DataEventArgs res)
@@ -118,24 +120,7 @@ namespace Meplate
                 #endregion
             }
         }
-        private void StartButton_Click(object sender, EventArgs e)
-        {
-            _Meplate.Start();
-
-            StartButton.Enabled = false;
-            StopButton.Enabled = true;
-            MedirPararButton.Enabled = true;
-        }
-
-        private void StopButton_Click(object sender, EventArgs e)
-        {
-            _Meplate.Stop();
-
-            MedirPararButton.Text = "Medir";
-            StopButton.Enabled = false;
-            StartButton.Enabled = true;
-            MedirPararButton.Enabled = false;
-        }
+       
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
