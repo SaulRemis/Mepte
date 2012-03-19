@@ -27,7 +27,7 @@ namespace Meplate
             d_PintarResultados = new delegatePintarresultados(PintarResultados);
 
 
-            VentanaHalconPrincipal.HalconWindow.SetLineWidth(3);
+            VentanaHalconPrincipal.HalconWindow.SetLineWidth(2);
             VentanaHalconPrincipal.HalconWindow.SetLut("temperature");
 
             _Meplate.Start();
@@ -65,8 +65,13 @@ namespace Meplate
 
                     VentanaHalconPrincipal.HalconWindow.SetPart(0, 0, alto - 1, ancho - 1);
 
-                    resultados.Z.SetGrayval(0, 0, resultados.Distancia_nominal - 30);  // para fijar la escala de colores
+                    resultados.Z.SetGrayval(0, 0, 0);  // para fijar la escala de colores
+                   // label_escala_min.Text = "0";
+
                     resultados.Z.SetGrayval(alto - 1, ancho - 1, resultados.Distancia_nominal + 10); // para fijar la escala de valores
+                    label_escala_max.Text = (resultados.Distancia_nominal + 10).ToString() + " mm";
+                    label_escala_inter.Text = ((resultados.Distancia_nominal + 10)/2).ToString() + " mm";
+
 
 
                     VentanaHalconPrincipal.HalconWindow.DispObj(resultados.Z);

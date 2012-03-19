@@ -55,6 +55,9 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label_escala_min = new System.Windows.Forms.Label();
+            this.label_escala_max = new System.Windows.Forms.Label();
+            this.label_escala_inter = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -135,9 +138,9 @@
             this._listViewPuntos.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
             listViewGroup1,
             listViewGroup2});
-            this._listViewPuntos.Location = new System.Drawing.Point(368, 157);
+            this._listViewPuntos.Location = new System.Drawing.Point(360, 157);
             this._listViewPuntos.Name = "_listViewPuntos";
-            this._listViewPuntos.Size = new System.Drawing.Size(446, 173);
+            this._listViewPuntos.Size = new System.Drawing.Size(454, 173);
             this._listViewPuntos.TabIndex = 21;
             this._listViewPuntos.UseCompatibleStateImageBehavior = false;
             this._listViewPuntos.View = System.Windows.Forms.View.Details;
@@ -266,7 +269,7 @@
             // 
             this.panel5.BackgroundImage = global::Meplate.Properties.Resources.escale1;
             this.panel5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel5.Location = new System.Drawing.Point(772, 370);
+            this.panel5.Location = new System.Drawing.Point(756, 370);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(14, 316);
             this.panel5.TabIndex = 24;
@@ -289,12 +292,42 @@
             this.panel1.Size = new System.Drawing.Size(582, 126);
             this.panel1.TabIndex = 19;
             // 
+            // label_escala_min
+            // 
+            this.label_escala_min.AutoSize = true;
+            this.label_escala_min.Location = new System.Drawing.Point(776, 673);
+            this.label_escala_min.Name = "label_escala_min";
+            this.label_escala_min.Size = new System.Drawing.Size(32, 13);
+            this.label_escala_min.TabIndex = 25;
+            this.label_escala_min.Text = "0 mm";
+            // 
+            // label_escala_max
+            // 
+            this.label_escala_max.AutoSize = true;
+            this.label_escala_max.Location = new System.Drawing.Point(776, 370);
+            this.label_escala_max.Name = "label_escala_max";
+            this.label_escala_max.Size = new System.Drawing.Size(38, 13);
+            this.label_escala_max.TabIndex = 25;
+            this.label_escala_max.Text = "60 mm";
+            // 
+            // label_escala_inter
+            // 
+            this.label_escala_inter.AutoSize = true;
+            this.label_escala_inter.Location = new System.Drawing.Point(776, 532);
+            this.label_escala_inter.Name = "label_escala_inter";
+            this.label_escala_inter.Size = new System.Drawing.Size(38, 13);
+            this.label_escala_inter.TabIndex = 25;
+            this.label_escala_inter.Text = "30 mm";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(826, 698);
+            this.Controls.Add(this.label_escala_inter);
+            this.Controls.Add(this.label_escala_max);
+            this.Controls.Add(this.label_escala_min);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
@@ -343,6 +376,9 @@
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Label label_escala_min;
+        private System.Windows.Forms.Label label_escala_max;
+        private System.Windows.Forms.Label label_escala_inter;
 
     }
 }
