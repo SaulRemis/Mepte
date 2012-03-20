@@ -23,8 +23,7 @@ namespace Meplate
         public int borde_derecho, borde_izquierdo;
         public double[,] Pixeles;
         public double[,] Puntos;
-        public double[,] Pixeles2;
-        public double[,] Puntos2;
+
 
         public CProcesamiento(dynamic parametros)
         {

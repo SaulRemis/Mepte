@@ -51,6 +51,8 @@
   <ItemGroup>
     <Compile Include="Clases Auxiliares\CProcesamiento.cs" />
     <Compile Include="Dispatcher\MeplateData.cs" />
+    <Compile Include="Hilos\HiloComunicacionOP.cs" />
+    <Compile Include="Hilos\HiloComunicacionTarjeta.cs" />
     <Compile Include="Memorias Compartidas\CMedida.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -62,6 +64,7 @@
     <Compile Include="Hilos\HiloProcesamiento.cs" />
     <Compile Include="Dispatcher\Meplate.cs" />
     <Compile Include="Memorias Compartidas\Informacion.cs" />
+    <Compile Include="Memorias Compartidas\PlateID.cs" />
     <Compile Include="Memorias Compartidas\Tarjeta.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

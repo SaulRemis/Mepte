@@ -33,19 +33,23 @@ namespace Meplate
             // Hilos
             _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion(this, "Adquisicion", parameters));
             _DispatcherThreads.Add("Procesamiento", new HiloProcesamiento(this, "Procesamiento", parameters));
+            _DispatcherThreads.Add("ComunicacionOP", new ComunicacionOP(this, "Procesamiento", parameters));
+            _DispatcherThreads.Add("ComunicacionTarjeta", new ComunicacionTarjeta(this, "Procesamiento", parameters));
 
             //memorias Ompartidas
             ConnectMemory("Chapas", new SharedData<List<CMedida>>(20), "Adquisicion", "Procesamiento");
             ConnectMemory("Offset", new SharedData<double[]>(1), "Adquisicion", "Procesamiento");
             ConnectMemory("Informacion", new SharedData<Informacion>(1), "Adquisicion");
             ConnectMemory("Resultados", new SharedData<Resultados>(1), "Procesamiento");
-            ConnectMemory("Tarjeta",new SharedData<Tarjeta>(1),"Adquisicion");
+            ConnectMemory("Velocidad", new SharedData<Tarjeta>(1), "Adquisicion", "ComunicacionTarjeta");
+            ConnectMemory("IDChapa", new SharedData<PlateID>(1), "Procesamiento", "ComunicacionOP");
 
 
             //Eventos de sincronizacion
             CreateEvent("ChapaMedida", new AutoResetEvent(false), "Adquisicion", "Procesamiento");
-            CreateEvent("ComenzarMedida", new AutoResetEvent(false), "Adquisicion");
-            CreateEvent("FinalizarMedida", new AutoResetEvent(false), "Adquisicion");
+            CreateEvent("ComenzarMedida", new AutoResetEvent(false), "Adquisicion", "ComunicacionTarjeta");
+            CreateEvent("FinalizarMedida", new AutoResetEvent(false), "Adquisicion", "ComunicacionTarjeta");
+            CreateEvent("IDChapa", new AutoResetEvent(false), "Procesamiento", "ComunicacionOP");
 
 
         }
