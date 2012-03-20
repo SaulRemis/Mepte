@@ -34,7 +34,7 @@ namespace Meplate
             _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion(this, "Adquisicion", parameters));
             _DispatcherThreads.Add("Procesamiento", new HiloProcesamiento(this, "Procesamiento", parameters));
 
-            //memorias
+            //memorias Ompartidas
             ConnectMemory("Chapas", new SharedData<List<CMedida>>(20), "Adquisicion", "Procesamiento");
             ConnectMemory("Offset", new SharedData<double[]>(1), "Adquisicion", "Procesamiento");
             ConnectMemory("Informacion", new SharedData<Informacion>(1), "Adquisicion");

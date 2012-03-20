@@ -65,6 +65,7 @@
     <Compile Include="Dispatcher\SpinDispatcher.cs" />
     <Compile Include="Dispatcher\SpinThread.cs" />
     <Compile Include="Dispatcher\SpinThreadEvent.cs" />
+    <Compile Include="Dispatcher\SpinThreadSocket.cs" />
     <Compile Include="Dispatcher\SpinThreadWhile.cs" />
     <Compile Include="Errores\SpinException.cs" />
     <Compile Include="Errores\SpinExceptionConstants.cs" />

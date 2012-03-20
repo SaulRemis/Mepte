@@ -22,10 +22,11 @@ namespace SpinPlatform
         {
 
             protected Dictionary<string, object> _DispatcherSharedMemory;
-            protected Dictionary<string, SpinThread> _DispatcherThreads;
             protected Dictionary<string, AutoResetEvent> _Events;
             protected SpinDispatcherStatus Status;
 
+
+            public Dictionary<string, SpinThread> _DispatcherThreads;
             public event ResultEventHandler NewResultEvent;  // evento para enviar nuevos resultados
 
 
