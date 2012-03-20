@@ -57,7 +57,7 @@ namespace Meplate
         public void SendMessageM5(string plateid, double[,] data)
         {
             string cadena = "M5" + plateid;
-            foreach (Double fila in data)
+            foreach (double fila in data)
             {
                 string val = Convert.ToString(Math.Truncate(fila));
                 int tam = val.Length;
