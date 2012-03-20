@@ -90,21 +90,17 @@ namespace Meplate
         private void ObtenerImagenes(List<CMedida> medidas)
         {
 
-           
+            // la X la creo cuando conozca los bordes
             if (medidas.Count > 0)
             {
-
-
                 double distancia_inicial = medidas[0].distancia;
 
                 for (int i = 0; i < columnas; i++)
                 {
                     for (int j = 0; j < filas; j++)
                     {
-
-                       // X.SetGrayval(j, i, ((j + 1) * distancia_entre_sensores) - (distancia_entre_sensores/2));
                         Y.SetGrayval(j, i, medidas[i].distancia - distancia_inicial);
-                        Z.SetGrayval(j, i, medidas[i].perfil[j]*10);  // lo paso a mm
+                        Z.SetGrayval(j, i, medidas[i].perfil[j] * 10);  // lo paso a mm
                     }
                 }
             }
@@ -160,6 +156,8 @@ namespace Meplate
                         Z.SetGrayval(j, i, 0);
                         X.SetGrayval(j, i, 0);                       
                     }
+                    //considero como punto la distancia media entre 2 sensores , por lo que empizo en 100 (distancia_entre_sensores / 2). 
+                    //Empiezo a conta en el borde por lo que le resto el borde izq a la j 
                     else X.SetGrayval(j, i, (((j - borde_izquierdo) + 1) * distancia_entre_sensores) - (distancia_entre_sensores / 2));
                        
                 }
