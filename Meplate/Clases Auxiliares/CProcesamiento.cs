@@ -102,7 +102,7 @@ namespace Meplate
                     for (int j = 0; j < filas; j++)
                     {
 
-                        X.SetGrayval(j, i, distancia_entre_sensores);
+                        X.SetGrayval(j, i, ((j + 1) * distancia_entre_sensores) - (distancia_entre_sensores/2));
                         Y.SetGrayval(j, i, medidas[i].distancia - distancia_inicial);
                         Z.SetGrayval(j, i, medidas[i].perfil[j]*10);  // lo paso a mm
                     }

@@ -19,10 +19,7 @@ namespace Meplate
 
         public Meplate()
         {
-
-            
-
-         }
+        }
 
         public void Init(ref dynamic parameters)
         {
