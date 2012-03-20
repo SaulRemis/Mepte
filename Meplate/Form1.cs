@@ -100,7 +100,7 @@ namespace Meplate
                         else _listViewPuntos.Items[i].Group = _listViewPuntos.Groups[1];
                         for (int j = 0; j < 7; j++)
                         {
-                            _listViewPuntos.Items[i].SubItems.Add(puntos[i,j].ToString("F2"));
+                            _listViewPuntos.Items[i].SubItems.Add(puntos[i,j].ToString("F0"));
                         }
                     }
 

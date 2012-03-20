@@ -102,7 +102,7 @@ namespace Meplate
                     for (int j = 0; j < filas; j++)
                     {
 
-                        X.SetGrayval(j, i, ((j + 1) * distancia_entre_sensores) - (distancia_entre_sensores/2));
+                       // X.SetGrayval(j, i, ((j + 1) * distancia_entre_sensores) - (distancia_entre_sensores/2));
                         Y.SetGrayval(j, i, medidas[i].distancia - distancia_inicial);
                         Z.SetGrayval(j, i, medidas[i].perfil[j]*10);  // lo paso a mm
                     }
@@ -148,7 +148,7 @@ namespace Meplate
                 ObtenerBordesSinAncho();
             }
 
-            // pongo a 0 todos los valores fuera de la chapa
+            // pongo a 0 todos los valores fuera de la chapa y creo la imgen de X
 
             for (int i = 0; i < columnas; i++)
             {
@@ -158,7 +158,10 @@ namespace Meplate
                     if (j < borde_izquierdo || j > borde_derecho)
                     {
                         Z.SetGrayval(j, i, 0);
+                        X.SetGrayval(j, i, 0);                       
                     }
+                    else X.SetGrayval(j, i, (((j - borde_izquierdo) + 1) * distancia_entre_sensores) - (distancia_entre_sensores / 2));
+                       
                 }
             }
 
