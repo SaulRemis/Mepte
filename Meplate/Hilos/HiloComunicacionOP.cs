@@ -111,5 +111,9 @@ namespace Meplate
              
             }
         }
+        public override void Closing()
+        {
+            Trace.WriteLine("ADRI:   saliendo  del HILO COMUNICACION OP");
+        }
     }
 }

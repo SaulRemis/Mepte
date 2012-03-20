@@ -10,6 +10,7 @@ using SpinPlatform.Dispatcher;
 using SpinPlatform.Data;
 using System.Dynamic;
 using System.Threading;
+using System.Diagnostics;
 
 namespace SpinPlatform.Comunicaciones
 {
@@ -175,9 +176,12 @@ namespace SpinPlatform.Comunicaciones
                 //paro hilos
                 if (_socketType=="SERVER")
                 {
-                    ((HiloComunicacionesAccept)_DispatcherThreads["ComunicacionesAccept"])._socketDatos.Shutdown(SocketShutdown.Both);
-                    ((HiloComunicacionesAccept)_DispatcherThreads["ComunicacionesAccept"])._socketDatos.Disconnect(false);
-                    ((HiloComunicacionesAccept)_DispatcherThreads["ComunicacionesAccept"])._socketDatos.Close();
+                    if (((HiloComunicacionesAccept)_DispatcherThreads["ComunicacionesAccept"])._socketDatos != null)
+                    {
+                        ((HiloComunicacionesAccept)_DispatcherThreads["ComunicacionesAccept"])._socketDatos.Shutdown(SocketShutdown.Both);
+                        ((HiloComunicacionesAccept)_DispatcherThreads["ComunicacionesAccept"])._socketDatos.Disconnect(false);
+                        ((HiloComunicacionesAccept)_DispatcherThreads["ComunicacionesAccept"])._socketDatos.Close();
+                    }
                     ((HiloComunicacionesAccept)_DispatcherThreads["ComunicacionesAccept"]).Stop();
                     ((HiloComunicacionesAccept)_DispatcherThreads["ComunicacionesAccept"]).Join();
                 }
@@ -192,6 +196,7 @@ namespace SpinPlatform.Comunicaciones
                         _socketEscucha.Close();
                 }
                 Status = SpinDispatcherStatus.Stopped;
+                Trace.WriteLine("saliendo  del MODULO DE SOCKETS");
             }
             catch (Exception ex)
             {
