@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meplate", "Meplate\Meplate.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpinPlatform", "Final Spinplatform\SpinPlatform.csproj", "{6CA428E1-FF39-453C-B775-2806EBECC474}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimuladorOP", "Simulador OP\SimuladorOP.csproj", "{BA81E177-B4FE-4E85-B517-01633ABF0F3B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,16 @@ Global
 		{6CA428E1-FF39-453C-B775-2806EBECC474}.Release|Mixed Platforms.Build.0 = Release|x86
 		{6CA428E1-FF39-453C-B775-2806EBECC474}.Release|x86.ActiveCfg = Release|x86
 		{6CA428E1-FF39-453C-B775-2806EBECC474}.Release|x86.Build.0 = Release|x86
+		{BA81E177-B4FE-4E85-B517-01633ABF0F3B}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{BA81E177-B4FE-4E85-B517-01633ABF0F3B}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{BA81E177-B4FE-4E85-B517-01633ABF0F3B}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{BA81E177-B4FE-4E85-B517-01633ABF0F3B}.Debug|x86.ActiveCfg = Debug|x86
+		{BA81E177-B4FE-4E85-B517-01633ABF0F3B}.Debug|x86.Build.0 = Debug|x86
+		{BA81E177-B4FE-4E85-B517-01633ABF0F3B}.Release|Any CPU.ActiveCfg = Release|x86
+		{BA81E177-B4FE-4E85-B517-01633ABF0F3B}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{BA81E177-B4FE-4E85-B517-01633ABF0F3B}.Release|Mixed Platforms.Build.0 = Release|x86
+		{BA81E177-B4FE-4E85-B517-01633ABF0F3B}.Release|x86.ActiveCfg = Release|x86
+		{BA81E177-B4FE-4E85-B517-01633ABF0F3B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
