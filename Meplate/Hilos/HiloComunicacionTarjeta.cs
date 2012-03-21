@@ -13,21 +13,10 @@ namespace Meplate
 {
     class ComunicacionTarjeta: SpinThreadSocket
     {
-
-        public ComunicacionTarjeta(string name)
-            : base(name)
-        {
-        }
-
-        public ComunicacionTarjeta(dynamic padre, string name,dynamic parametros)
-            : base(name)
-        {
-            parametros.ComunicacionTarjeta.COMThread = this;
-            parametros.ComunicacionTarjeta.COMThreadName = "ComunicacionTarjeta";
-            
-            _Padre = padre;
-            _server = new SpinCOM();
-            _server.Init(parametros.ComunicacionTarjeta);
+          
+        public ComunicacionTarjeta(SpinDispatcher padre, string name,dynamic parametros)
+            : base(padre, name, (object)parametros.ComunicacionTarjeta)
+        {           
         }
 
         public override void FunctionToExecuteByThread()
@@ -65,9 +54,6 @@ namespace Meplate
                 }
             }
         }
-        public override void Closing()
-        {
-            Trace.WriteLine("ADRI:   saliendo  del HILO COMUNICACION TARJETA");
-        }
+       
     }
 }

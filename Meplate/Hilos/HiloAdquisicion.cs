@@ -17,9 +17,8 @@ namespace Meplate
         CMeplaca _Meplaca;
         double avance, avanceAcumulado, velocidad, velocidadAnterior = 0;
         TimeSpan elapsedTime, totalElapsedTime;
-        DateTime t1 ;
-        DateTime t2;
-        dynamic Parametros, AuxMeplaca ;
+        DateTime t1,t2 ;
+        dynamic  _AuxMeplaca ;
 
 
         List<CMedida> medidas;// lista donde se van guardando todos los perfiles de una chapa
@@ -29,9 +28,8 @@ namespace Meplate
         public HiloAdquisicion(Meplate padre, string name, dynamic parametros)
             : base(name)
         {
-            _Padre = padre;
-            Parametros = parametros;         
-            AuxMeplaca = Parametros.Meplaca;
+            _Padre = padre;    
+            _AuxMeplaca = parametros.Meplaca;
         }
 
         public override void FunctionToExecuteByThread()
@@ -47,7 +45,7 @@ namespace Meplate
 
 
                 // Inicializo todo
-                _Meplaca.GetData(ref AuxMeplaca, "Medidas"); //Lo usamos para limpiar la lista de medidas                
+                _Meplaca.GetData(ref _AuxMeplaca, "Medidas"); //Lo usamos para limpiar la lista de medidas                
                 avance = 0;
                 avanceAcumulado = 0;
                 t1 = DateTime.Now;
@@ -70,15 +68,15 @@ namespace Meplate
                         if (avance > _Meplaca.MinimoAvanceParaMedir)
                         {
                             // Leo los perfiles que haya en el meplaca (Pueden ser mas de un perfil) 
-                            _Meplaca.GetData(ref AuxMeplaca, "Medidas");
-                            if (AuxMeplaca.Medidas.Count > 0)
+                            _Meplaca.GetData(ref _AuxMeplaca, "Medidas");
+                            if (_AuxMeplaca.Medidas.Count > 0)
                             {
-                                double[] vectorAvance = CalcularAvance(avance, AuxMeplaca.Medidas.Count); //Descomponemos el avance en avances correspondientes a cada perfil.
-                                for (int i = 0; i < AuxMeplaca.Medidas.Count; i++)
+                                double[] vectorAvance = CalcularAvance(avance, _AuxMeplaca.Medidas.Count); //Descomponemos el avance en avances correspondientes a cada perfil.
+                                for (int i = 0; i < _AuxMeplaca.Medidas.Count; i++)
                                 {
 
                                     //Añado los perfiles y la posicion en la lista
-                                    medidas.Add(new CMedida(AuxMeplaca.Medidas[i], avanceAcumulado + vectorAvance[i]));
+                                    medidas.Add(new CMedida(_AuxMeplaca.Medidas[i], avanceAcumulado + vectorAvance[i]));
 
                                     if (medidas.Count % 10 == 0) 
                                     {
@@ -106,8 +104,8 @@ namespace Meplate
 
                             if (!((SharedData<double[]>)_SharedMemory["Offset"]).Vacio)
                             {
-                                AuxMeplaca.Offsets = (double[])((SharedData<double[]>)SharedMemory["Offset"]).Get(0);
-                                _Meplaca.SetData(AuxMeplaca, "EnviarOffsets");
+                                _AuxMeplaca.Offsets = (double[])((SharedData<double[]>)SharedMemory["Offset"]).Get(0);
+                                _Meplaca.SetData(_AuxMeplaca, "EnviarOffsets");
                             }
 
                             break;
@@ -128,20 +126,19 @@ namespace Meplate
             Trace.WriteLine("ADRI:   Entrando en el HILO ADQUISICION");
             //INICIALIZAR
             _Meplaca = new CMeplaca();
-            _Meplaca.Init(AuxMeplaca);
+            _Meplaca.Init(_AuxMeplaca);
             _Meplaca.Start();
             medidas = new List<CMedida>();
 
         }
-         public override void Closing()
+        public override void Closing()
         {
             _Meplaca.Stop();
             Trace.WriteLine("ADRI:   saliendo  del HILO ADQUISICION");
       
 
         }
-
-         public override bool Stop()
+        public override bool Stop()
          {
 
              _Events["ComenzarMedida"].Set();

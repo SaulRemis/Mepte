@@ -124,7 +124,6 @@ namespace SpinPlatform.Sensors.Meplaca
             serie.EnviarOffsets();
         
         }
-
         /// <summary>
         /// Envia un vector con nuevos offset al meplaca. Internamente los pasa de mm a tensiones
         /// </summary>

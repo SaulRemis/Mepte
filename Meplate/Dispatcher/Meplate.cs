@@ -30,8 +30,8 @@ namespace Meplate
             // Hilos
             _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion(this, "Adquisicion", parameters));
             _DispatcherThreads.Add("Procesamiento", new HiloProcesamiento(this, "Procesamiento", parameters));
-            _DispatcherThreads.Add("ComunicacionTarjeta", new ComunicacionTarjeta(this, "Procesamiento", parameters));
-            _DispatcherThreads.Add("ComunicacionOP", new ComunicacionOP(this, "Procesamiento", parameters));
+            _DispatcherThreads.Add("ComunicacionTarjeta", new ComunicacionTarjeta(this, "ComunicacionTarjeta", parameters));
+            _DispatcherThreads.Add("ComunicacionOP", new ComunicacionOP(this, "ComunicacionOP", parameters));
             
 
             //memorias Ompartidas

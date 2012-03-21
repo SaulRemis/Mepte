@@ -13,22 +13,11 @@ namespace Meplate
 {
     class ComunicacionOP: SpinThreadSocket
     {
-        dynamic data = new ExpandoObject();
-
-        public ComunicacionOP(string name)
-            : base(name)
-        {
-        }
-
+      
         public ComunicacionOP(SpinDispatcher padre,string name,dynamic parametros)
-            : base(name)
+            : base(padre, name, (object)parametros.ComunicacionOP)
         {
-            parametros.ComunicacionOP.COMThread = this;
-            parametros.ComunicacionOP.COMThreadName = "ComunicacionTarjeta";
-
-            _Padre = padre;
-            _server = new SpinCOM();
-            _server.Init(parametros.ComunicacionOP);
+          
         }
 
         public override void SendMessage(string mensajeAEnviar)
@@ -49,7 +38,6 @@ namespace Meplate
                     break;
             }
         }
-
         public void SendMessageM5(string plateid, double[,] data)
         {
             string cadena = "M5" + plateid;
@@ -78,7 +66,6 @@ namespace Meplate
             }
             _server.SetData(cadena);
         }
-
         public override void FunctionToExecuteByThread()
         {
 
