@@ -6,10 +6,12 @@ using System.Xml;
 using System.Threading;
 using SpinPlatform;
 using SpinPlatform.IO;
+using System.Dynamic;
 
 namespace SpinPlatform.Sensors.Meplaca
 {
-    public class CMeplaca : ISpinPlatformInterface
+    public class CMeplaca : ISpinPlatformInterface2
+       //  public class CMeplaca : ISpinPlatformInterface
     {
         CSerie serie;
         CModulosCal calibracion;
@@ -151,7 +153,7 @@ namespace SpinPlatform.Sensors.Meplaca
         }
 
 
-        #region Miembros de ISpinPlatformInterface
+        #region Miembros de ISpinPlatformInterface2
 
         public void Start()
         {
@@ -163,38 +165,34 @@ namespace SpinPlatform.Sensors.Meplaca
             Cerrar();
         }
 
-        public dynamic GetData(dynamic parameters)
+        public dynamic GetData(params string[] parameters)
         {
-            if (parameters.MEPLACAGet.GetType() == typeof(string))
+            dynamic Data = new ExpandoObject();
+            foreach (string parameter in parameters)
             {
-                switch ((string)parameters)
+                switch (parameter)
                 {
                     case "Medidas":
-                        parameters.Perfiles = LeerMedidas();
+                        Data.Medidas = LeerMedidas();
                         break;
                     case "UltimaMedida":
-                        parameters.UltimoPerfil = UltimaMedida();
+                        Data.UltimoPerfil = UltimaMedida();
                         break;
                     case "Tensiones":
-                        parameters.Tensiones = LeerTensiones();
+                        Data.Tensiones = LeerTensiones();
                         break;
                     case "UltimaTension":
-                        parameters.UltimaTension = UltimaTension();
+                        Data.UltimaTension = UltimaTension();
                         break;
 
                     default:
                         break;
                 }
-
-
-
-                return parameters;
             }
-            else
-            {
 
-                return null;
-            }
+            return Data;
+
+
         }
 
         public void Init(dynamic parametros)
@@ -214,22 +212,24 @@ namespace SpinPlatform.Sensors.Meplaca
             serie = new CSerie(_NumeroModulos, puerto);
         }
 
-        public void SetData(object parameters)
+        public void SetData(dynamic data, params string[] parameters)
         {
-            if (parameters.GetType() == typeof(MeplacaData))
+            foreach (string parameter in parameters)
             {
-                MeplacaData data = (MeplacaData)parameters;
-
-                if (data.EnviarOffsetsArchivo)
+                switch (parameter)
                 {
-                    enviarOffsetsArchivo();
-                }
-                if (data.EnviarOffsets)
-                {
-                    enviarOffsets(data.Offsets);
-                }
+                    case "EnviarOffsetsArchivo":
+                        enviarOffsetsArchivo();
+                        break;
+                    case "EnviarOffsets":
+                        enviarOffsets(data.Offsets);
+                        break;                  
 
+                    default:
+                        break;
+                }
             }
+           
         }
 
         public event SpinPlatform.Dispatcher.ResultEventHandler NewResultEvent;

@@ -45,15 +45,12 @@ namespace Meplate
                 }
 
                 // Inicializo todo
-                _Meplaca.GetData(new MeplacaData(true,false,false,false,false,false)); //Lo usamos para limpiar la lista de medidas                
+                _Meplaca.GetData("Medidas"); //Lo usamos para limpiar la lista de medidas                
                 avance = 0;
                 avanceAcumulado = 0;
                 t1 = DateTime.Now;
                 totalElapsedTime = TimeSpan.Zero;
-                MeplacaData aux = new MeplacaData(false, false, false, false, false, false);
-
-           
-
+                dynamic aux = new ExpandoObject();
 
                 // Mido de continuo hasta que hay señal de fin de chapa
 
@@ -65,21 +62,20 @@ namespace Meplate
                         avance = avance + LeerAvance(elapsedTime);
 
                         totalElapsedTime = totalElapsedTime + elapsedTime;
-
                         t1 = t2;
                         // Si se avanzo lo suficiente para una nueva medida sigo
                         if (avance > _Meplaca.MinimoAvanceParaMedir)
                         {
                             // Leo los perfiles que haya en el meplaca (Pueden ser mas de un perfil) 
-                            aux = (MeplacaData)_Meplaca.GetData(new MeplacaData(true, false, false, false, false, false));
-                            if (aux.Perfiles.Count > 0)
+                            aux = _Meplaca.GetData("Medidas");
+                            if (aux.Medidas.Count > 0)
                             {
-                                double[] vectorAvance = CalcularAvance(avance, aux.Perfiles.Count); //Descomponemos el avance en avances correspondientes a cada perfil.
-                                for (int i = 0; i < aux.Perfiles.Count; i++)
+                                double[] vectorAvance = CalcularAvance(avance, aux.Medidas.Count); //Descomponemos el avance en avances correspondientes a cada perfil.
+                                for (int i = 0; i < aux.Medidas.Count; i++)
                                 {
 
                                     //Añado los perfiles y la posicion en la lista
-                                    medidas.Add(new CMedida(aux.Perfiles[i], avanceAcumulado + vectorAvance[i]));
+                                    medidas.Add(new CMedida(aux.Medidas[i], avanceAcumulado + vectorAvance[i]));
 
                                     if (medidas.Count % 10 == 0) 
                                     {
@@ -107,10 +103,8 @@ namespace Meplate
 
                             if (!((SharedData<double[]>)_SharedMemory["Offset"]).Vacio)
                             {
-                                aux.ResetData();
                                 aux.Offsets = (double[])((SharedData<double[]>)SharedMemory["Offset"]).Get(0);
-                                aux.EnviarOffsets = true;
-                                _Meplaca.SetData(aux);
+                                _Meplaca.SetData(aux, "EnviarOffsets");
                             }
 
                             break;

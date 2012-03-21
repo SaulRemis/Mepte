@@ -61,7 +61,10 @@
     <Compile Include="Data\DataEventArgs.cs" />
     <Compile Include="Data\ModuleData.cs" />
     <Compile Include="Data\SharedData.cs" />
-    <Compile Include="Dispatcher\ISpinPlatformInterface.cs" />
+    <Compile Include="Dispatcher\ISpinPlatformInterface.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Dispatcher\ISpinPlatformInterface2.cs" />
     <Compile Include="Dispatcher\SpinDispatcher.cs" />
     <Compile Include="Dispatcher\SpinThread.cs" />
     <Compile Include="Dispatcher\SpinThreadEvent.cs" />
