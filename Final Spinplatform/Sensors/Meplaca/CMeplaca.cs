@@ -163,32 +163,38 @@ namespace SpinPlatform.Sensors.Meplaca
             Cerrar();
         }
 
-        public object GetData(object parameters)
+        public dynamic GetData(dynamic parameters)
         {
-            if (parameters.GetType() == typeof(MeplacaData))
+            if (parameters.MEPLACAGet.GetType() == typeof(string))
             {
-                MeplacaData data = (MeplacaData)parameters;
+                switch ((string)parameters)
+                {
+                    case "Medidas":
+                        parameters.Perfiles = LeerMedidas();
+                        break;
+                    case "UltimaMedida":
+                        parameters.UltimoPerfil = UltimaMedida();
+                        break;
+                    case "Tensiones":
+                        parameters.Tensiones = LeerTensiones();
+                        break;
+                    case "UltimaTension":
+                        parameters.UltimaTension = UltimaTension();
+                        break;
 
-                data.ResetData();
-                if (data.GetMedidas)
-                {
-                    data.Perfiles = LeerMedidas();
+                    default:
+                        break;
                 }
-                if (data.GetUltimaMedida)
-                {
-                    data.UltimoPerfil = UltimaMedida();
-                }
-                if (data.GetTensiones)
-                {
-                    data.Tensiones = LeerTensiones();
-                }
-                if (data.GetUltimaTension)
-                {
-                    data.UltimaTension = UltimaTension();
-                }
-                return data;
+
+
+
+                return parameters;
             }
-            else return null;
+            else
+            {
+
+                return null;
+            }
         }
 
         public void Init(dynamic parametros)
