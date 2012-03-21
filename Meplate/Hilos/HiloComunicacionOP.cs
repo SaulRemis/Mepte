@@ -20,19 +20,15 @@ namespace Meplate
         {
         }
 
-        public ComunicacionOP(dynamic padre,string name,dynamic parametros)
+        public ComunicacionOP(SpinDispatcher padre,string name,dynamic parametros)
             : base(name)
         {
-            data.COMThread = this;
-            data.COMThreadName = "ComunicacionOP";
-            data.COMSocketType = parametros.Comunicaciones.socketType;
-            data.COMPort = parametros.Comunicaciones.port;
-            data.COMIP = parametros.Comunicaciones.ip;
-            data.COMBufferSize = parametros.Comunicaciones.buffersize;
+            parametros.ComunicacionOP.COMThread = this;
+            parametros.ComunicacionOP.COMThreadName = "ComunicacionTarjeta";
 
             _Padre = padre;
             _server = new SpinCOM();
-            _server.Init(data);
+            _server.Init(parametros.ComunicacionOP);
         }
 
         public override void SendMessage(string mensajeAEnviar)

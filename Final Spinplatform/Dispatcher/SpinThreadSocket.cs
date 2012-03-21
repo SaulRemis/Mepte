@@ -24,19 +24,10 @@ namespace SpinPlatform
             {
             }
 
-            public SpinThreadSocket(dynamic padre,dynamic parametros, string name)
+            public SpinThreadSocket(SpinDispatcher padre, string name, dynamic parametros)
                 : base(name)
             {
-                data.COMThread = this;
-                data.COMThreadName = "SpinThreadSocket";
-                data.COMSocketType = parametros.Communications.socketType;
-                data.COMPort = parametros.Communications.port;
-                data.COMIP = parametros.Communications.ip;
-                data.COMBufferSize = parametros.Communications.buffersize;
 
-                _Padre = padre;
-                _server = new SpinCOM();
-                _server.Init(data);
             }
 
             public override void Initializate()

@@ -19,7 +19,7 @@ namespace Meplate
         TimeSpan elapsedTime, totalElapsedTime;
         DateTime t1 ;
         DateTime t2;
-        dynamic Parametros;
+        dynamic Parametros, AuxMeplaca ;
 
 
         List<CMedida> medidas;// lista donde se van guardando todos los perfiles de una chapa
@@ -29,8 +29,9 @@ namespace Meplate
         public HiloAdquisicion(Meplate padre, string name, dynamic parametros)
             : base(name)
         {
-            Parametros = parametros;
             _Padre = padre;
+            Parametros = parametros;         
+            AuxMeplaca = Parametros.Meplaca;
         }
 
         public override void FunctionToExecuteByThread()
@@ -44,13 +45,15 @@ namespace Meplate
                     return; // si se pulso stop se sale del while del Spinthreadevent
                 }
 
+
                 // Inicializo todo
-                _Meplaca.GetData("Medidas"); //Lo usamos para limpiar la lista de medidas                
+                _Meplaca.GetData(ref AuxMeplaca, "Medidas"); //Lo usamos para limpiar la lista de medidas                
                 avance = 0;
                 avanceAcumulado = 0;
                 t1 = DateTime.Now;
                 totalElapsedTime = TimeSpan.Zero;
-                dynamic aux = new ExpandoObject();
+               // dynamic aux = new ExpandoObject();
+              
 
                 // Mido de continuo hasta que hay señal de fin de chapa
 
@@ -67,15 +70,15 @@ namespace Meplate
                         if (avance > _Meplaca.MinimoAvanceParaMedir)
                         {
                             // Leo los perfiles que haya en el meplaca (Pueden ser mas de un perfil) 
-                            aux = _Meplaca.GetData("Medidas");
-                            if (aux.Medidas.Count > 0)
+                            _Meplaca.GetData(ref AuxMeplaca, "Medidas");
+                            if (AuxMeplaca.Medidas.Count > 0)
                             {
-                                double[] vectorAvance = CalcularAvance(avance, aux.Medidas.Count); //Descomponemos el avance en avances correspondientes a cada perfil.
-                                for (int i = 0; i < aux.Medidas.Count; i++)
+                                double[] vectorAvance = CalcularAvance(avance, AuxMeplaca.Medidas.Count); //Descomponemos el avance en avances correspondientes a cada perfil.
+                                for (int i = 0; i < AuxMeplaca.Medidas.Count; i++)
                                 {
 
                                     //Añado los perfiles y la posicion en la lista
-                                    medidas.Add(new CMedida(aux.Medidas[i], avanceAcumulado + vectorAvance[i]));
+                                    medidas.Add(new CMedida(AuxMeplaca.Medidas[i], avanceAcumulado + vectorAvance[i]));
 
                                     if (medidas.Count % 10 == 0) 
                                     {
@@ -103,8 +106,8 @@ namespace Meplate
 
                             if (!((SharedData<double[]>)_SharedMemory["Offset"]).Vacio)
                             {
-                                aux.Offsets = (double[])((SharedData<double[]>)SharedMemory["Offset"]).Get(0);
-                                _Meplaca.SetData(aux, "EnviarOffsets");
+                                AuxMeplaca.Offsets = (double[])((SharedData<double[]>)SharedMemory["Offset"]).Get(0);
+                                _Meplaca.SetData(AuxMeplaca, "EnviarOffsets");
                             }
 
                             break;
@@ -125,7 +128,7 @@ namespace Meplate
             Trace.WriteLine("ADRI:   Entrando en el HILO ADQUISICION");
             //INICIALIZAR
             _Meplaca = new CMeplaca();
-            _Meplaca.Init(Parametros);
+            _Meplaca.Init(AuxMeplaca);
             _Meplaca.Start();
             medidas = new List<CMedida>();
 

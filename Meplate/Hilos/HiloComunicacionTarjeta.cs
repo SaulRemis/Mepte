@@ -13,7 +13,6 @@ namespace Meplate
 {
     class ComunicacionTarjeta: SpinThreadSocket
     {
-        dynamic data = new ExpandoObject();
 
         public ComunicacionTarjeta(string name)
             : base(name)
@@ -23,16 +22,12 @@ namespace Meplate
         public ComunicacionTarjeta(dynamic padre, string name,dynamic parametros)
             : base(name)
         {
-            data.COMThread = this;
-            data.COMThreadName = "ComunicacionTarjeta";
-            data.COMSocketType = parametros.Comunicaciones.socketType2;
-            data.COMPort = parametros.Comunicaciones.port2;
-            data.COMIP = parametros.Comunicaciones.ip2;
-            data.COMBufferSize = parametros.Comunicaciones.buffersize2;
-
+            parametros.ComunicacionTarjeta.COMThread = this;
+            parametros.ComunicacionTarjeta.COMThreadName = "ComunicacionTarjeta";
+            
             _Padre = padre;
             _server = new SpinCOM();
-            _server.Init(data);
+            _server.Init(parametros.ComunicacionTarjeta);
         }
 
         public override void FunctionToExecuteByThread()

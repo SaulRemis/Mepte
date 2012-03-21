@@ -18,6 +18,8 @@ namespace SpinPlatform.Sensors.Meplaca
         int _NumeroModulos;
         double _MinimoAvanceParaMedir;
         double _Distancia_a_la_chapa;
+        string _Puerto;
+        string[] _PathDatosCalibracion;
 
 
         public double MinimoAvanceParaMedir{get { return _MinimoAvanceParaMedir; }}
@@ -165,9 +167,9 @@ namespace SpinPlatform.Sensors.Meplaca
             Cerrar();
         }
 
-        public dynamic GetData(params string[] parameters)
+        public void GetData(ref dynamic Data, params string[] parameters)
         {
-            dynamic Data = new ExpandoObject();
+           // dynamic Data = new ExpandoObject();
             foreach (string parameter in parameters)
             {
                 switch (parameter)
@@ -190,26 +192,23 @@ namespace SpinPlatform.Sensors.Meplaca
                 }
             }
 
-            return Data;
-
-
         }
 
         public void Init(dynamic parametros)
         {
-            _MinimoAvanceParaMedir = double.Parse(parametros.Meplaca.MinimoAvanceParaMedir);
-            _Distancia_a_la_chapa = double.Parse(parametros.Meplaca.distancia_nominal_trabajo);
-            _NumeroModulos = int.Parse(parametros.Meplaca.numeroModulos);
-            string puerto = parametros.Meplaca.puertoSerie;
-            string[] pathDatosCalibracion = new string[_NumeroModulos];
-            pathDatosCalibracion[0] = parametros.Calibracion.calibracionModulo1;
-            pathDatosCalibracion[1] = parametros.Calibracion.calibracionModulo2;
-            pathDatosCalibracion[2] = parametros.Calibracion.calibracionModulo3;
-            pathDatosCalibracion[3] = parametros.Calibracion.calibracionModulo4;
-            pathDatosCalibracion[4] = parametros.Calibracion.calibracionModulo5;
-            pathDatosCalibracion[5] = parametros.Calibracion.calibracionModulo6;
-            calibracion = new CModulosCal(_NumeroModulos, pathDatosCalibracion);
-            serie = new CSerie(_NumeroModulos, puerto);
+            _MinimoAvanceParaMedir = double.Parse(parametros.MEPMinimoAvanceParaMedir);
+            _Distancia_a_la_chapa = double.Parse(parametros.MEPDistancia_nominal_trabajo);
+            _NumeroModulos = int.Parse(parametros.MEPNumeroModulos);
+            _Puerto = parametros.MEPPuertoSerie;
+            _PathDatosCalibracion = new string[_NumeroModulos];
+            _PathDatosCalibracion[0] = parametros.MEPCalibracion.calibracionModulo1;
+            _PathDatosCalibracion[1] = parametros.MEPCalibracion.calibracionModulo2;
+            _PathDatosCalibracion[2] = parametros.MEPCalibracion.calibracionModulo3;
+            _PathDatosCalibracion[3] = parametros.MEPCalibracion.calibracionModulo4;
+            _PathDatosCalibracion[4] = parametros.MEPCalibracion.calibracionModulo5;
+            _PathDatosCalibracion[5] = parametros.MEPCalibracion.calibracionModulo6;
+            calibracion = new CModulosCal(_NumeroModulos, _PathDatosCalibracion);
+            serie = new CSerie(_NumeroModulos, _Puerto);
         }
 
         public void SetData(dynamic data, params string[] parameters)

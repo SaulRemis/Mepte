@@ -27,9 +27,9 @@ namespace Meplate
 
         public CProcesamiento(dynamic parametros)
         {
-            numeroModulos = int.Parse(parametros.Meplaca.numeroModulos);
-            distancia_entre_sensores = double.Parse(parametros.Meplaca.distancia_entre_sensores);
-            distancia_a_la_chapa = double.Parse(parametros.Meplaca.distancia_nominal_trabajo);
+            numeroModulos = int.Parse(parametros.Meplaca.MEPNumeroModulos);
+            distancia_entre_sensores = double.Parse(parametros.Meplaca.MEPDistancia_entre_sensores);
+            distancia_a_la_chapa = double.Parse(parametros.Meplaca.MEPDistancia_nominal_trabajo);
             numeroMedidas = int.Parse(parametros.Procesamiento.numeroMedidas);
             sigma_bordes = double.Parse(parametros.Procesamiento.sigma_bordes);
             umbral_bordes = double.Parse(parametros.Procesamiento.umbral_bordes);
