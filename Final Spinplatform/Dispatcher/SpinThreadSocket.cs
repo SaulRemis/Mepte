@@ -18,7 +18,7 @@ namespace SpinPlatform
             public object _Padre;
             public SpinCOM _server;
             dynamic data = new ExpandoObject();
-            bool _serverStarted = false;
+            public  bool _serverStarted = false;
             public SpinThreadSocket(SpinDispatcher padre, string name)
                 : base(name)
             {

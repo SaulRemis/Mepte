@@ -15,25 +15,11 @@ namespace OPSaul
     {
         dynamic data = new ExpandoObject();
 
-        public ComunicacionMeplaca(string name)
-            : base(name)
-        {
-        }
 
-        public ComunicacionMeplaca(dynamic padre, dynamic parametros, string name)
-            : base(name)
+        public ComunicacionMeplaca(SpinDispatcher padre, dynamic parametros, string name)
+            : base(padre, name, (object) parametros.Communications)
         {
-            data.COMThread = this;
-            data.COMThreadName = "ComunicacionMeplaca";
-            data.COMSocketType = parametros.Communications.socketType;
-            data.COMPort = parametros.Communications.port;
-            data.COMIP = parametros.Communications.ip;
-            data.COMBufferSize = parametros.Communications.buffersize;
-
-            _Padre = padre;
-            _server = new SpinCOM();
-            _server.Init(data);
-   
+          
         }
 
         public override void Initializate()
