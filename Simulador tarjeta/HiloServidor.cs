@@ -15,25 +15,10 @@ namespace CardSaul
     {
         dynamic data = new ExpandoObject();
 
-        public HiloServidor(string name)
-            : base(name)
+        public HiloServidor(SpinDispatcher padre, dynamic parametros, string name)
+            : base(padre, name, (object)parametros.Communications)
         {
-        }
-
-        public HiloServidor(dynamic padre, dynamic parametros, string name)
-            : base(name)
-        {
-            data.COMThread = this;
-            data.COMThreadName = "HiloServidor";
-            data.COMSocketType = parametros.Communications.socketType;
-            data.COMPort = parametros.Communications.port;
-            data.COMIP = parametros.Communications.ip;
-            data.COMBufferSize = parametros.Communications.buffersize;
-
-            _Padre = padre;
-            _server = new SpinCOM();
-            _server.Init(data);
-   
+           
         }
 
         public override void SendMessage(string mensajeAEnviar)
