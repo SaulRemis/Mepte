@@ -60,7 +60,7 @@ namespace OPSaul
             {
                 if (parameters.FORMGetData)
                 {
-                    data = ((Form1)_formulario).getDatos();
+                    parameters.Data = ((Form1)_formulario).getDatos();
                 }
             }
             return parameters;

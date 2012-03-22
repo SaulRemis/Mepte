@@ -25,8 +25,9 @@ namespace Meplate
             while (((SharedData<Byte[]>)SharedMemory["SocketReader"]).Elementos > 0)
             {
                
-                Byte[] mensaje = (Byte[])((SharedData<Byte[]>)SharedMemory["SocketReader"]).Pop();
-                short messageid = BitConverter.ToInt16(new Byte[] { mensaje[9], mensaje[10] },0);
+                Byte[] val = (Byte[])((SharedData<Byte[]>)SharedMemory["SocketReader"]).Pop();
+                string mensaje = Encoding.ASCII.GetString(val);
+                short messageid = short.Parse(mensaje.Substring(16,2));
                 Trace.WriteLine("New message arrived: MessageID->" + messageid);
                 switch (messageid)
                 {
@@ -45,10 +46,8 @@ namespace Meplate
                         ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("24");
                         break;
                     case 26:
-                        string vel = BitConverter.ToString(mensaje, 18, 2);
-                        string avance=BitConverter.ToString(mensaje,20, 2);
-
-                        Tarjeta valor = new Tarjeta(double.Parse(vel),double.Parse(avance));
+                       
+                        Tarjeta valor = new Tarjeta(BitConverter.ToInt16(val, 18), BitConverter.ToInt16(val, 20));
                         ((SharedData<Tarjeta>)SharedMemory["Velocidad"]).Set(0, valor);
                         break;
                 }

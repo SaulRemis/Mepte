@@ -9,16 +9,20 @@ using System.Dynamic;
 using SpinPlatform.Comunicaciones;
 using System.Diagnostics;
 
+
 namespace SpinPlatform
 {
     namespace Dispatcher
     {
+      
         public class SpinThreadSocket : SpinThreadEvent
         {
             public object _Padre;
             public SpinCOM _server;
             dynamic data = new ExpandoObject();
             public  bool _serverStarted = false;
+
+
             public SpinThreadSocket(SpinDispatcher padre, string name)
                 : base(name)
             {
@@ -38,9 +42,11 @@ namespace SpinPlatform
                 _server.Init(parametros);
             }
 
+         
             public override void Initializate()
             {
-                if (!_serverStarted)
+               
+                    if(!_serverStarted)
                 {
                     _serverStarted = true;
                     _server.Start();
@@ -48,7 +54,9 @@ namespace SpinPlatform
                 _WakeUpThreadEvent = Events["SocketData"];
 
             }
-
+            
+           
+            
             public override bool Stop()
             {
                 _server.Stop();

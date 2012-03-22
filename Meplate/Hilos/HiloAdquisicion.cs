@@ -19,7 +19,7 @@ namespace Meplate
         TimeSpan elapsedTime, totalElapsedTime;
         DateTime t1,t2 ;
         dynamic  _AuxMeplaca ;
-
+        Tarjeta avancetemp;
 
         List<CMedida> medidas;// lista donde se van guardando todos los perfiles de una chapa
 
@@ -61,7 +61,6 @@ namespace Meplate
                         t2 = DateTime.Now;
                         elapsedTime = t2 - t1;
                         avance = avance + LeerAvance(elapsedTime);
-
                         totalElapsedTime = totalElapsedTime + elapsedTime;
                         t1 = t2;
                         // Si se avanzo lo suficiente para una nueva medida sigo
@@ -115,8 +114,6 @@ namespace Meplate
                     } while (!_StopEvent.WaitOne(0, true));              // Mido de continuo hasta que hay señal de fin de chapa o Stop
 
                   Trace.WriteLine("ADRI:   Chapa Medida");
-                  
-                 
             
         }
         public override void Initializate()
@@ -152,6 +149,7 @@ namespace Meplate
         //Funciones calculo avance QUITAR DE AQUI
         private double LeerAvance(TimeSpan elapsedTime)//Calcula el avance medido en mm
         {
+
             velocidad = LeerVelocidad();
             if (velocidadAnterior != 0) velocidad = (velocidad + velocidadAnterior) / 2;
             velocidadAnterior = velocidad;
@@ -159,8 +157,10 @@ namespace Meplate
         }
         private double LeerVelocidad()
         {
-            //***Leer velocidad de la tarjeta analogica.
-            return 60; // m/min
+            Tarjeta tarjetatemp = (Tarjeta)((SharedData<Tarjeta>)SharedMemory["Velocidad"]).Get(0);
+
+            if (avancetemp != null) return tarjetatemp.Velocidad; // m/min
+            else return 60;
 
 
         }//Debe leer la velocidad de la tarjeta de adquisicion o por mensaje

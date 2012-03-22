@@ -45,7 +45,7 @@ namespace OPSaul
             data.FORMGetData = true;
             data = ((OPSaul)_Padre).GetData(data);
             dynamic mens = new ExpandoObject();
-            mens.COMMessage = mensajeAEnviar + ((OPSaul)_Padre).data.FORMWidth +((OPSaul)_Padre).data.FORMLength;
+            mens.COMMessage = mensajeAEnviar + data.Data.FORMPlate + data.Data.FORMWidth + data.Data.FORMLength;
             _server.SetData(mens);
         }
 
@@ -54,18 +54,44 @@ namespace OPSaul
 
             while (((SharedData<Byte[]>)SharedMemory["SocketReader"]).Elementos > 0)
             {
+                Message valor;
                 string mensaje = Encoding.ASCII.GetString((Byte[])((SharedData<Byte[]>)SharedMemory["SocketReader"]).Pop());
+                String messageid = mensaje.Substring(0, 2);
                 try
                 {
-                    String messageid =mensaje.Substring(0, 2);
-                    Message valor = new Message(messageid, mensaje.Substring(2, 16), mensaje.Substring(17, 350));
-                    Trace.WriteLine("\nOPSAUL:: New message arrived: MessageID->" + messageid);
-                    if (messageid.Equals("M1"))
+                    switch (messageid)
                     {
-                        SendMessage("M9" + mensaje.Substring(2, 16));
+                        case "M1":
+                             SendMessage("M9");
+                             valor = new Message(messageid,"","");
+                            ((SharedData<Message>)SharedMemory["ResultadosOP"]).Add(valor);
+                             Events["Resultados"].Set();
+                             break;
+                        case "M4":
+                              valor = new Message(messageid,"","");
+                            ((SharedData<Message>)SharedMemory["ResultadosOP"]).Add(valor);
+                             Events["Resultados"].Set();
+                             break;
+                        case "M2":
+                             valor = new Message(messageid, "", "");
+                             ((SharedData<Message>)SharedMemory["ResultadosOP"]).Add(valor);
+                             Events["Resultados"].Set();
+                             break;
+                        case "M3":
+                              valor = new Message(messageid, "", "");
+                             ((SharedData<Message>)SharedMemory["ResultadosOP"]).Add(valor);
+                             Events["Resultados"].Set();
+                             break;
+                        case "M5":
+                              valor = new Message(messageid, mensaje.Substring(2, 16), mensaje.Substring(17, 350));
+                            ((SharedData<Message>)SharedMemory["ResultadosOP"]).Add(valor);
+                             Events["Resultados"].Set();
+                             break;
+                        default:
+                            break;
                     }
-                    ((SharedData<Message>)SharedMemory["ResultadosOP"]).Set(0, valor);
-                    Events["Resultados"].Set();
+                    
+                   
                 }
                 catch (Exception ex)
                 {

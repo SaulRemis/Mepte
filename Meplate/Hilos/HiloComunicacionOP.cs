@@ -22,24 +22,31 @@ namespace Meplate
 
         public override void SendMessage(string mensajeAEnviar)
         {
+            dynamic temp = new ExpandoObject();
+
             switch (mensajeAEnviar)
             {
                 case "21":
-                    _server.SetData("M1");
+                    temp.COMMessage = "M1";
+                    _server.SetData(temp);
                     break;
                 case "22":
-                    _server.SetData("M2");
+                   temp.COMMessage = "M2";
+                    _server.SetData(temp);
                     break;
                 case "23":
-                    _server.SetData("M3");
+                   temp.COMMessage = "M3";
+                    _server.SetData(temp);
                     break;
                 case "24":
-                    _server.SetData("M4");
+                   temp.COMMessage = "M4";
+                    _server.SetData(temp);
                     break;
             }
         }
         public void SendMessageM5(string plateid, double[,] data)
         {
+            dynamic temp = new ExpandoObject();
             string cadena = "M5" + plateid;
             foreach (double fila in data)
             {
@@ -64,7 +71,8 @@ namespace Meplate
                 }
                 cadena += val;
             }
-            _server.SetData(cadena);
+            temp.COMMessage = cadena;
+            _server.SetData(temp);
         }
         public override void FunctionToExecuteByThread()
         {
@@ -72,8 +80,9 @@ namespace Meplate
             while (((SharedData<Byte[]>)SharedMemory["SocketReader"]).Elementos > 0)
             {
 
-                Byte[] mensaje = (Byte[])((SharedData<Byte[]>)SharedMemory["SocketReader"]).Pop();
-                String messageid = Encoding.ASCII.GetString(new Byte[] {mensaje[0] , mensaje[1]});
+                Byte[] val = (Byte[])((SharedData<Byte[]>)SharedMemory["SocketReader"]).Pop();
+                string mensaje = Encoding.ASCII.GetString(val);
+                String messageid = mensaje.Substring(0, 2);
                 Trace.WriteLine("New message arrived: MessageID->" + messageid);
 
                 switch (messageid)
@@ -82,12 +91,12 @@ namespace Meplate
                     case "M9":
                         Events["IDChapa"].Set();
 
-                        string _ID = BitConverter.ToString(mensaje, 2, 16);
-                        string _Width = BitConverter.ToString(mensaje, 18, 5);
-                        string _Length = BitConverter.ToString(mensaje, 23, 5);
+                        string _ID = mensaje.Substring(2, 16);
+                        string _Width = mensaje.Substring(18, 4);
+                        string _Length = mensaje.Substring(22, 5);
 
 
-                        PlateID valor = new PlateID(_ID,double.Parse(_Width),double.Parse(_Length));
+                        PlateID valor = new PlateID (_ID,double.Parse(_Width),double.Parse(_Length));
                         ((SharedData<PlateID>)SharedMemory["IDChapa"]).Set(0, valor);
                         break;
                 }
