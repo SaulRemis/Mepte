@@ -73,8 +73,8 @@
             this.splitContainer1.Panel2.Controls.Add(this.textBox2);
             this.splitContainer1.Panel2.Controls.Add(this.textBox1);
             this.splitContainer1.Panel2.Controls.Add(this.button1);
-            this.splitContainer1.Size = new System.Drawing.Size(620, 285);
-            this.splitContainer1.SplitterDistance = 488;
+            this.splitContainer1.Size = new System.Drawing.Size(725, 285);
+            this.splitContainer1.SplitterDistance = 570;
             this.splitContainer1.TabIndex = 0;
             // 
             // splitContainer2
@@ -90,8 +90,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.dataGridView1);
-            this.splitContainer2.Size = new System.Drawing.Size(488, 285);
-            this.splitContainer2.SplitterDistance = 106;
+            this.splitContainer2.Size = new System.Drawing.Size(570, 285);
+            this.splitContainer2.SplitterDistance = 167;
             this.splitContainer2.TabIndex = 0;
             // 
             // richTextBox1
@@ -99,7 +99,7 @@
             this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox1.Location = new System.Drawing.Point(0, 0);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(106, 285);
+            this.richTextBox1.Size = new System.Drawing.Size(167, 285);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
@@ -112,7 +112,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(378, 285);
+            this.dataGridView1.Size = new System.Drawing.Size(399, 285);
             this.dataGridView1.TabIndex = 1;
             // 
             // label4
@@ -126,9 +126,10 @@
             // button2
             // 
             this.button2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.button2.Enabled = false;
             this.button2.Location = new System.Drawing.Point(0, 262);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(128, 23);
+            this.button2.Size = new System.Drawing.Size(151, 23);
             this.button2.TabIndex = 7;
             this.button2.Text = "Connect to MEPLACA";
             this.button2.UseVisualStyleBackColor = true;
@@ -190,7 +191,7 @@
             this.button1.Dock = System.Windows.Forms.DockStyle.Top;
             this.button1.Location = new System.Drawing.Point(0, 0);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(128, 23);
+            this.button1.Size = new System.Drawing.Size(151, 23);
             this.button1.TabIndex = 0;
             this.button1.Text = "Send to MEPLACA";
             this.button1.UseVisualStyleBackColor = true;
@@ -200,7 +201,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(620, 285);
+            this.ClientSize = new System.Drawing.Size(725, 285);
             this.Controls.Add(this.splitContainer1);
             this.Name = "Form1";
             this.Text = "OP";

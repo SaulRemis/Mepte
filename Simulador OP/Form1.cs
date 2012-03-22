@@ -33,13 +33,13 @@ namespace OPSaul
 
             ejemplo.Start();
 
-            table.Columns.Add("DIST", typeof(double));
             table.Columns.Add("XMax", typeof(double));
             table.Columns.Add("YMax", typeof(double));
             table.Columns.Add("ZMax", typeof(double));
             table.Columns.Add("XMin", typeof(double));
             table.Columns.Add("YMin", typeof(double));
             table.Columns.Add("ZMin", typeof(double));
+            table.Columns.Add("DIST", typeof(double));
         }
 
         void ejemplo_NewResultEvent(object sender, DataEventArgs res)
@@ -83,6 +83,7 @@ namespace OPSaul
 	        //
 	        // Here we add five DataRows.
 	        //
+            table.Rows.Clear();
             for(int i=0;i<10;i++)
             {
 	            table.Rows.Add(datos.Tabla1[i,0],datos.Tabla1[i,1],datos.Tabla1[i,2],datos.Tabla1[i,3],datos.Tabla1[i,4],datos.Tabla1[i,5],datos.Tabla1[i,6]);

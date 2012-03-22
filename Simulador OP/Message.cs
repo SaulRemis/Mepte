@@ -33,6 +33,8 @@ namespace OPSaul
         {
             _messageid = messageid;
             _plateid = plateid;
+            int cont=0;
+            string temp;
             double[,] tabl = new double [10,7];
             if (_messageid.Equals("M5"))
             {
@@ -42,7 +44,10 @@ namespace OPSaul
                     {
                         for (int j = 0; j < 7; j++)
                         {
-                            tabl[i, j] = double.Parse(values.Substring((5 * j*(i+1)), 5));
+                            temp = values.Substring(cont, 5);
+                            tabl[i, j] = double.Parse(temp);
+                            cont = cont + 5;
+                           // tabl[i, j] = double.Parse(values.Substring((5 * j*(i+1)), 5));
                         }
                     }
                 }

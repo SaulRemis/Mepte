@@ -50,7 +50,7 @@ namespace Meplate
             string cadena = "M5" + plateid;
             foreach (double fila in data)
             {
-                string val = Convert.ToString(Math.Truncate(fila));
+                string val = Convert.ToString(Math.Round(fila));
                 int tam = val.Length;
                 switch (tam)
                 {
