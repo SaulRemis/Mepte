@@ -48,22 +48,29 @@ namespace Meplate
         }
          void ActualizarResultados()
         {
-             ((SharedData<Resultados>)SharedMemory["Resultados"]).Set(0, new Resultados(_Proc.Z, _Proc.columnas, _Proc.Pixeles,_Proc.Puntos, _Proc.numeroMedidas, _Proc.distancia_a_la_chapa));
+            string id;
+             double ancho,largo;
+            PlateID temp = (PlateID)((SharedData<PlateID>)SharedMemory["IDChapa"]).Get(0);
+
+            if (temp != null)
+            {
+                id=temp.ID;
+                ancho=temp.Width;
+                largo= temp.Length;                
+            }
+            else
+            {
+                DateTime now = DateTime.Now;
+                id = now.Hour.ToString() + "/" + now.Minute.ToString() + "/" + now.Second.ToString() + now.Hour.ToString() + "/" + now.Minute.ToString() + "/" + now.Second.ToString();
+                ancho=0;
+                largo=0;
+               
+            }
+             ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessageM5(id, _Proc.Puntos);
+             ((SharedData<Resultados>)SharedMemory["Resultados"]).Set(0, new Resultados(_Proc.Z, _Proc.columnas, _Proc.Pixeles,_Proc.Puntos, _Proc.numeroMedidas, _Proc.distancia_a_la_chapa,id,ancho,largo));
              ((SharedData<double[]>)SharedMemory["Offset"]).Set(0, _Proc.offset);
             _Padre.PrepareEvent(_Name);
-             PlateID temp=(PlateID) ((SharedData<PlateID>)SharedMemory["IDChapa"]).Get(0);
-
-             if (temp != null)
-             {
-                 ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessageM5(temp.ID, _Proc.Puntos);
-             }
-             else
-             {
-                 DateTime now = DateTime.Now;
-                 string hora = now.Hour.ToString() + "/" + now.Minute.ToString() + "/" + now.Second.ToString() + now.Hour.ToString() + "/" + now.Minute.ToString() + "/" + now.Second.ToString();
-                 ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessageM5(hora, _Proc.Puntos);
-             
-             }
+            
 
         } 
     }

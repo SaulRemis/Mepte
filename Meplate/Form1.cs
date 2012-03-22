@@ -104,7 +104,10 @@ namespace Meplate
                         }
                     }
 
-
+                    //Actualizo la informacion de la chapa
+                    label_ID.Text = resultados.ID;
+                    label_Lenght.Text = resultados.Longitud.ToString();
+                    label_Width.Text = resultados.Ancho.ToString();
 
                     //formPrincipal.VentanaHalconPrincipal.HalconWindow.DumpWindow("jpeg", "meplaca_lab"); 
 
@@ -166,10 +169,6 @@ namespace Meplate
             }
 
         }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-
-        }
+              
     }
 }

@@ -28,9 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("1 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("2 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("1 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("2 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
             this.perfiles = new System.Windows.Forms.Label();
             this.MedirPararButton = new System.Windows.Forms.Button();
             this.VentanaHalconPrincipal = new HalconDotNet.HWindowControl();
@@ -59,14 +58,23 @@
             this.label_escala_min = new System.Windows.Forms.Label();
             this.label_escala_max = new System.Windows.Forms.Label();
             this.label_escala_inter = new System.Windows.Forms.Label();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this._MeplatestatusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusSpeed = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusTarjeta = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusProcessComputer = new System.Windows.Forms.ToolStripStatusLabel();
+            this.label_ID = new System.Windows.Forms.Label();
+            this.label_Lenght = new System.Windows.Forms.Label();
+            this.label_Width = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
+            this._MeplatestatusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // perfiles
             // 
             this.perfiles.AutoSize = true;
-            this.perfiles.Location = new System.Drawing.Point(120, 61);
+            this.perfiles.Location = new System.Drawing.Point(34, 138);
             this.perfiles.Name = "perfiles";
             this.perfiles.Size = new System.Drawing.Size(40, 13);
             this.perfiles.TabIndex = 16;
@@ -75,7 +83,7 @@
             // MedirPararButton
             // 
             this.MedirPararButton.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.MedirPararButton.Location = new System.Drawing.Point(237, 127);
+            this.MedirPararButton.Location = new System.Drawing.Point(254, 138);
             this.MedirPararButton.Name = "MedirPararButton";
             this.MedirPararButton.Size = new System.Drawing.Size(75, 23);
             this.MedirPararButton.TabIndex = 15;
@@ -97,7 +105,7 @@
             // _LabelFrameRate
             // 
             this._LabelFrameRate.AutoSize = true;
-            this._LabelFrameRate.Location = new System.Drawing.Point(60, 132);
+            this._LabelFrameRate.Location = new System.Drawing.Point(133, 138);
             this._LabelFrameRate.Name = "_LabelFrameRate";
             this._LabelFrameRate.Size = new System.Drawing.Size(62, 13);
             this._LabelFrameRate.TabIndex = 17;
@@ -105,7 +113,12 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label_Width);
+            this.groupBox1.Controls.Add(this.label_Lenght);
+            this.groupBox1.Controls.Add(this.label_ID);
+            this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this._LabelFrameRate);
@@ -116,7 +129,7 @@
             this.groupBox1.Size = new System.Drawing.Size(329, 161);
             this.groupBox1.TabIndex = 18;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Control";
+            this.groupBox1.Text = "INFORMATION";
             // 
             // label3
             // 
@@ -161,15 +174,15 @@
             this.Z2,
             this.DIFF});
             this._listViewPuntos.FullRowSelect = true;
-            listViewGroup5.Header = "1 m RULER";
-            listViewGroup5.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup5.Name = "listViewGroup1m";
-            listViewGroup6.Header = "2 m RULER";
-            listViewGroup6.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup6.Name = "listViewGroup2m";
+            listViewGroup1.Header = "1 m RULER";
+            listViewGroup1.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup1.Name = "listViewGroup1m";
+            listViewGroup2.Header = "2 m RULER";
+            listViewGroup2.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup2.Name = "listViewGroup2m";
             this._listViewPuntos.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup5,
-            listViewGroup6});
+            listViewGroup1,
+            listViewGroup2});
             this._listViewPuntos.Location = new System.Drawing.Point(360, 174);
             this._listViewPuntos.Name = "_listViewPuntos";
             this._listViewPuntos.Size = new System.Drawing.Size(454, 144);
@@ -321,9 +334,95 @@
             this.label_escala_inter.TabIndex = 25;
             this.label_escala_inter.Text = "30 mm";
             // 
-            // timer1
+            // _MeplatestatusStrip1
             // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this._MeplatestatusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusSpeed,
+            this.toolStripStatusTarjeta,
+            this.toolStripStatusProcessComputer});
+            this._MeplatestatusStrip1.Location = new System.Drawing.Point(0, 674);
+            this._MeplatestatusStrip1.Name = "_MeplatestatusStrip1";
+            this._MeplatestatusStrip1.Size = new System.Drawing.Size(826, 24);
+            this._MeplatestatusStrip1.TabIndex = 26;
+            this._MeplatestatusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusSpeed
+            // 
+            this.toolStripStatusSpeed.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.toolStripStatusSpeed.Name = "toolStripStatusSpeed";
+            this.toolStripStatusSpeed.Size = new System.Drawing.Size(98, 19);
+            this.toolStripStatusSpeed.Text = "Speed : 0 m/min";
+            // 
+            // toolStripStatusTarjeta
+            // 
+            this.toolStripStatusTarjeta.BackColor = System.Drawing.Color.Red;
+            this.toolStripStatusTarjeta.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.toolStripStatusTarjeta.BorderStyle = System.Windows.Forms.Border3DStyle.Adjust;
+            this.toolStripStatusTarjeta.Name = "toolStripStatusTarjeta";
+            this.toolStripStatusTarjeta.Size = new System.Drawing.Size(164, 19);
+            this.toolStripStatusTarjeta.Text = "Speed Card : Non Connected";
+            // 
+            // toolStripStatusProcessComputer
+            // 
+            this.toolStripStatusProcessComputer.BackColor = System.Drawing.Color.Red;
+            this.toolStripStatusProcessComputer.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.toolStripStatusProcessComputer.BorderStyle = System.Windows.Forms.Border3DStyle.Adjust;
+            this.toolStripStatusProcessComputer.Name = "toolStripStatusProcessComputer";
+            this.toolStripStatusProcessComputer.Size = new System.Drawing.Size(201, 19);
+            this.toolStripStatusProcessComputer.Text = "Process Computer : Non Connected";
+            // 
+            // label_ID
+            // 
+            this.label_ID.AutoSize = true;
+            this.label_ID.Location = new System.Drawing.Point(91, 37);
+            this.label_ID.Name = "label_ID";
+            this.label_ID.Size = new System.Drawing.Size(13, 13);
+            this.label_ID.TabIndex = 19;
+            this.label_ID.Text = "0";
+            // 
+            // label_Lenght
+            // 
+            this.label_Lenght.AutoSize = true;
+            this.label_Lenght.Location = new System.Drawing.Point(91, 61);
+            this.label_Lenght.Name = "label_Lenght";
+            this.label_Lenght.Size = new System.Drawing.Size(13, 13);
+            this.label_Lenght.TabIndex = 19;
+            this.label_Lenght.Text = "0";
+            // 
+            // label_Width
+            // 
+            this.label_Width.AutoSize = true;
+            this.label_Width.Location = new System.Drawing.Point(91, 89);
+            this.label_Width.Name = "label_Width";
+            this.label_Width.Size = new System.Drawing.Size(13, 13);
+            this.label_Width.TabIndex = 19;
+            this.label_Width.Text = "0";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(152, 61);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(16, 13);
+            this.label7.TabIndex = 18;
+            this.label7.Text = "m";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(152, 89);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(25, 13);
+            this.label8.TabIndex = 18;
+            this.label8.Text = "mm";
             // 
             // Form1
             // 
@@ -331,6 +430,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(826, 698);
+            this.Controls.Add(this._MeplatestatusStrip1);
             this.Controls.Add(this.label_escala_inter);
             this.Controls.Add(this.label_escala_max);
             this.Controls.Add(this.label_escala_min);
@@ -350,6 +450,8 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this._MeplatestatusStrip1.ResumeLayout(false);
+            this._MeplatestatusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -385,7 +487,15 @@
         private System.Windows.Forms.Label label_escala_min;
         private System.Windows.Forms.Label label_escala_max;
         private System.Windows.Forms.Label label_escala_inter;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.StatusStrip _MeplatestatusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusSpeed;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusTarjeta;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusProcessComputer;
+        private System.Windows.Forms.Label label_Width;
+        private System.Windows.Forms.Label label_Lenght;
+        private System.Windows.Forms.Label label_ID;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
 
     }
 }
