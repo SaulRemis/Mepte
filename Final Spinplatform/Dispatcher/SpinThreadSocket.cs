@@ -14,13 +14,13 @@ namespace SpinPlatform
 {
     namespace Dispatcher
     {
-      
+
         public class SpinThreadSocket : SpinThreadEvent
         {
             public object _Padre;
             public SpinCOM _server;
             dynamic data = new ExpandoObject();
-            public  bool _serverStarted = false;
+            public bool _serverStarted = false;
 
 
             public SpinThreadSocket(SpinDispatcher padre, string name)
@@ -34,7 +34,7 @@ namespace SpinPlatform
                 : base(name)
             {
                 _Padre = padre;
-            
+
                 parametros.COMThread = this;
                 parametros.COMThreadName = name;
 
@@ -42,21 +42,28 @@ namespace SpinPlatform
                 _server.Init(parametros);
             }
 
-         
+
             public override void Initializate()
             {
-               
-                    if(!_serverStarted)
+
+                if (!_serverStarted)
                 {
-                    _serverStarted = true;
-                    _server.Start();
+                    try
+                    {
+                        _serverStarted = true;
+                        _server.Start();
+                    }
+                    catch (Exception ex)
+                    {
+                        Trace.WriteLine(ex.Message);
+                    }
                 }
                 _WakeUpThreadEvent = Events["SocketData"];
 
             }
-            
-           
-            
+
+
+
             public override bool Stop()
             {
                 _server.Stop();

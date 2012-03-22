@@ -23,12 +23,9 @@ namespace SpinPlatform.Comunicaciones
 
         private Socket _socketEscucha = null;
         private Socket _socketDatos = null;
-        private String _socketType = null;
-        private String _ip = null;
-        private int _port;
-        private int _bufferSize;
         private int BytesEnviados = 0;
-        private int _numberofTryConnectForClient = 3;
+        private dynamic _data = new ExpandoObject();
+
         // Buferes de recepcion y envio
         private Byte[] _buferRecibe;
         private Byte[] _buferEnvia;
@@ -51,36 +48,78 @@ namespace SpinPlatform.Comunicaciones
             /// (OBLIGATORIO)COMPort: Puerto de conexión
             /// (OBLIGATORIO)COMIP: IP del servidor
             /// (OBLIGATORIO)COMBufferSize: Tamaño del buffer de recepción y envío de datos
-            /// (OPCIONAL)COMConnectTimes: Numerode veces que el cliente se intentan conectar con el servidor (por defecto 3)
+            /// (OBLIGATORIO)COMConnectTimes: Numerode veces que el cliente se intentan conectar con el servidor (por defecto 3)
             /// </summary>
-            
+
             //guardo parametros
-            _socketType = initData.COMSocketType;
-            _port = Int32.Parse(initData.COMPort);
-            _ip = initData.COMIP;
-            _bufferSize = Int32.Parse(initData.COMBufferSize);
-            _direccionLocal = IPAddress.Parse(_ip); //Direccion de bucle
-            _extremoFinal = new IPEndPoint(_direccionLocal, _port);
+            _data = initData;
 
-            _buferRecibe = new Byte[_bufferSize];
-            _buferEnvia = new Byte[_bufferSize];
+             _direccionLocal = IPAddress.Parse(_data.COMIP); //Direccion de bucle
+            _extremoFinal = new IPEndPoint(_direccionLocal, Int32.Parse(_data.COMPort));
 
-            if ((initData as IDictionary<string, object>).ContainsKey("COMConnectTimes"))
-                _numberofTryConnectForClient = initData.COMConnectTimes;
+            _buferRecibe = new Byte[Int32.Parse(_data.COMBufferSize)];
+            _buferEnvia = new Byte[Int32.Parse(_data.COMBufferSize)];
 
             //Preparo hilos y shareddata
-            initData.COMSocket = _socketDatos;
+            _data.COMSocket = _socketDatos;
 
-            _DispatcherThreads.Add("Comunicaciones", new HiloComunicaciones(initData,"Comunicaciones"));
-            _DispatcherThreads.Add(initData.COMThreadName, initData.COMThread);
+            _DispatcherThreads.Add("Comunicaciones", new HiloComunicaciones(_data, "Comunicaciones"));
+            _DispatcherThreads.Add(_data.COMThreadName, _data.COMThread);
 
-            ConnectMemory("SocketReader", new SharedData<Byte[]>(10), initData.COMThreadName, "Comunicaciones");
-            CreateEvent("SocketData", new AutoResetEvent(false), initData.COMThreadName, "Comunicaciones");
+            ConnectMemory("SocketReader", new SharedData<Byte[]>(10), _data.COMThreadName, "Comunicaciones");
+            CreateEvent("SocketData", new AutoResetEvent(false), _data.COMThreadName, "Comunicaciones");
 
-            if (_socketType == "SERVER")
+            if (_data.COMSocketType == "SERVER")
             {
-                _DispatcherThreads.Add("ComunicacionesAccept", new HiloComunicacionesAccept(initData, "ComunicacionesAccept"));
+                _DispatcherThreads.Add("ComunicacionesAccept", new HiloComunicacionesAccept(_data, "ComunicacionesAccept"));
             }
+        }
+
+        public void SetData(dynamic obj, params string[] parameters)
+        {
+            /// <summary>
+            /// Se encarga de enviar mensajes desde el hilo principal a través del socket abierto a quien esté escuchando si hay alguien 
+            /// En concreto el objeto de entrada debe disponer de los siguientes campos:
+            /// (OBLIGATORIO)COMMessage: Este objeto puede ser o bien de tipo Byte[] o de tipo String. Por el socket viaja en tipo byte
+            /// </summary>
+
+
+            foreach (string parameter in parameters)
+            {
+                switch (parameter)
+                {
+                    case "EnviarMensaje":
+                        try
+                        {
+                            if ((obj.COMMessage).GetType() == typeof(String))
+                                _buferEnvia = Encoding.ASCII.GetBytes(obj.COMMessage);
+                            else
+                                _buferEnvia = obj.COMMessage;
+
+                            if (((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos != null)
+                            {
+                                BytesEnviados = ((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos.Send(_buferEnvia);
+
+                                Console.Write(BytesEnviados);
+                                Console.Write(" Bytes enviados --> ");
+                                Console.WriteLine(Encoding.ASCII.GetString(_buferEnvia));
+                            }
+                            else
+                            {
+                                Console.Write(" Socket de datos cerrado,no se ha mandado el mensaje");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            SpinException.GetException("SpinCom:: " + ex.Message, ex);
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
         }
 
 
@@ -91,7 +130,7 @@ namespace SpinPlatform.Comunicaciones
             /// En concreto el objeto de entrada debe disponer de los siguientes campos:
             /// (OBLIGATORIO)COMMessage: Este objeto puede ser o bien de tipo Byte[] o de tipo String. Por el socket viaja en tipo byte
             /// </summary>
-            
+
             try
             {
                 if ((obj.COMMessage).GetType() == typeof(String))
@@ -114,7 +153,7 @@ namespace SpinPlatform.Comunicaciones
             }
             catch (Exception ex)
             {
-                SpinException.GetException("SpinCom:: "+ex.Message,ex);
+                SpinException.GetException("SpinCom:: " + ex.Message, ex);
             }
         }
 
@@ -124,40 +163,70 @@ namespace SpinPlatform.Comunicaciones
             /// Se encarga de inicializar los socket y ponerlo en escucha o en el caso del cliente realizar una conexión
             /// No necesita datos de entrada
             /// </summary>
-            
+
             Status = SpinDispatcherStatus.Starting;
-            switch (_socketType)
+            switch ((string)_data.COMSocketType)
             {
                 case "SERVER":
                     // Crear un socket para escuchar peticiones
                     _socketEscucha = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
-                    ((HiloComunicacionesAccept)_DispatcherThreads["ComunicacionesAccept"]).Start(_extremoFinal, _socketDatos, _socketEscucha, _socketType, (HiloComunicaciones)_DispatcherThreads["Comunicaciones"]);
+                    ((HiloComunicacionesAccept)_DispatcherThreads["ComunicacionesAccept"]).Start(_extremoFinal, _socketDatos, _socketEscucha, _data.COMSocketType, (HiloComunicaciones)_DispatcherThreads["Comunicaciones"]);
                     break;
                 case "CLIENT":
                     _socketDatos = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
-                    _socketDatos.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendTimeout, 70); 
+                    _socketDatos.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendTimeout, 70);
                     // Conexion con el servidor
                     int _connectTry = 0;
-                    while (_connectTry < _numberofTryConnectForClient)
+                    while (_connectTry < Int32.Parse(_data.COMTryconnectiontimes))
                     {
                         try
                         {
                             _socketDatos.Connect(_extremoFinal);
-                            _connectTry = _numberofTryConnectForClient + 1; //Conectado
+                            _connectTry = Int32.Parse(_data.COMTryconnectiontimes) + 1; //Conectado
                             // Recibir respuesta del servidor
-                            ((HiloComunicaciones)_DispatcherThreads["Comunicaciones"]).Start(_socketDatos, _socketEscucha, _socketType);
+                            ((HiloComunicaciones)_DispatcherThreads["Comunicaciones"]).Start(_socketDatos, _socketEscucha, _data.COMSocketType);
                         }
                         catch
                         {
                             _connectTry++;
                         }
                     }
-                    if (_connectTry == _numberofTryConnectForClient)
-                        throw new SpinException("SpinCOM:: Couldn´t connect to server: " + _ip,new Exception ());
+                    if (_connectTry == Int32.Parse(_data.COMTryconnectiontimes))
+                        throw new SpinException("SpinCOM:: Couldn´t connect to server: " + _data.COMIP, new Exception());
 
                     break;
 
             }
+        }
+
+
+        public void GetData(ref dynamic Data, params string[] parameters)
+        {
+            ///<summary>
+            ///Devuelve el estado del socket (conectado=true desconectado=false)
+            ///</summary>
+            
+            // dynamic Data = new ExpandoObject();
+            
+            foreach (string parameter in parameters)
+            {
+                switch (parameter)
+                {
+                    case "EstadoSocket":
+                        if (((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos != null)
+                            Data.COMSocketDatosConnected = ((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos.Connected;
+                        else
+                            Data.COMSocketDatosConnected = false;
+                        if (_socketEscucha != null)
+                            Data.COMSocketEscuchaConnected = _socketEscucha.IsBound;
+                        else
+                            Data.COMSocketEscuchaConnected = false;
+                                    break;
+                    default:
+                        break;
+                }
+            }
+
         }
 
         public override object GetData(dynamic parameters)
@@ -165,8 +234,8 @@ namespace SpinPlatform.Comunicaciones
             ///<summary>
             ///Devuelve el estado del socket (conectado=true desconectado=false)
             ///</summary>
-            if( ((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos!=null)
-                parameters.COMSocketDatosConnected =  ((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos.Connected;
+            if (((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos != null)
+                parameters.COMSocketDatosConnected = ((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos.Connected;
             else
                 parameters.COMSocketDatosConnected = false;
             if (_socketEscucha != null)
@@ -201,10 +270,10 @@ namespace SpinPlatform.Comunicaciones
         {
             try
             {
-                
+
                 Status = SpinDispatcherStatus.Stopping;
                 //paro hilos
-                if (_socketType=="SERVER")
+                if (_data.COMSocketType == "SERVER")
                 {
                     if (((HiloComunicacionesAccept)_DispatcherThreads["ComunicacionesAccept"])._socketDatos != null)
                     {
@@ -217,19 +286,19 @@ namespace SpinPlatform.Comunicaciones
                 }
                 if (_socketDatos != null)
                 {
-                        _socketDatos.Shutdown(SocketShutdown.Both);
-                        _socketDatos.Disconnect(false);
-                        _socketDatos.Close();
+                    _socketDatos.Shutdown(SocketShutdown.Both);
+                    _socketDatos.Disconnect(false);
+                    _socketDatos.Close();
                 }
                 if (_socketEscucha != null)
                 {
-                        _socketEscucha.Close();
+                    _socketEscucha.Close();
                 }
                 Status = SpinDispatcherStatus.Stopped;
             }
             catch (Exception ex)
             {
-                SpinException.GetException(ex.Message,ex);
+                SpinException.GetException(ex.Message, ex);
             }
         }
 

@@ -25,14 +25,14 @@ namespace CardSaul
         {
            dynamic mens = new ExpandoObject();
            mens.COMMessage = mensajeAEnviar;
-           _server.SetData(mens);
+           _server.SetData(mens, "EnviarMensaje");
         }
 
         public void SendMessage(byte[] mensajeAEnviar)
         {
             dynamic mens = new ExpandoObject();
             mens.COMMessage = mensajeAEnviar;
-            _server.SetData(mens);
+            _server.SetData(mens, "EnviarMensaje");
         }
 
         public override void Initializate()

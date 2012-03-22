@@ -10,7 +10,6 @@ using SpinPlatform.Dispatcher;
 using SpinPlatform.Data;
 using System.Dynamic;
 using System.Threading;
-using System.Diagnostics;
 
 namespace SpinPlatform.Comunicaciones
 {
@@ -29,7 +28,7 @@ namespace SpinPlatform.Comunicaciones
         private int _port;
         private int _bufferSize;
         private int BytesEnviados = 0;
-
+        private int _numberofTryConnectForClient = 3;
         // Buferes de recepcion y envio
         private Byte[] _buferRecibe;
         private Byte[] _buferEnvia;
@@ -52,6 +51,7 @@ namespace SpinPlatform.Comunicaciones
             /// (OBLIGATORIO)COMPort: Puerto de conexión
             /// (OBLIGATORIO)COMIP: IP del servidor
             /// (OBLIGATORIO)COMBufferSize: Tamaño del buffer de recepción y envío de datos
+            /// (OPCIONAL)COMConnectTimes: Numerode veces que el cliente se intentan conectar con el servidor (por defecto 3)
             /// </summary>
             
             //guardo parametros
@@ -65,11 +65,14 @@ namespace SpinPlatform.Comunicaciones
             _buferRecibe = new Byte[_bufferSize];
             _buferEnvia = new Byte[_bufferSize];
 
+            if ((initData as IDictionary<string, object>).ContainsKey("COMConnectTimes"))
+                _numberofTryConnectForClient = initData.COMConnectTimes;
+
             //Preparo hilos y shareddata
             initData.COMSocket = _socketDatos;
 
             _DispatcherThreads.Add("Comunicaciones", new HiloComunicaciones(initData,"Comunicaciones"));
-            _DispatcherThreads.Add(initData.COMThreadName,initData.COMThread);
+            _DispatcherThreads.Add(initData.COMThreadName, initData.COMThread);
 
             ConnectMemory("SocketReader", new SharedData<Byte[]>(10), initData.COMThreadName, "Comunicaciones");
             CreateEvent("SocketData", new AutoResetEvent(false), initData.COMThreadName, "Comunicaciones");
@@ -79,6 +82,8 @@ namespace SpinPlatform.Comunicaciones
                 _DispatcherThreads.Add("ComunicacionesAccept", new HiloComunicacionesAccept(initData, "ComunicacionesAccept"));
             }
         }
+
+
         public override void SetData(dynamic obj)
         {
             /// <summary>
@@ -93,17 +98,26 @@ namespace SpinPlatform.Comunicaciones
                     _buferEnvia = Encoding.ASCII.GetBytes(obj.COMMessage);
                 else
                     _buferEnvia = obj.COMMessage;
-                BytesEnviados = ((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos.Send(_buferEnvia);
 
-                Console.Write(BytesEnviados);
-                Console.Write(" Bytes enviados --> ");
-                Console.WriteLine(Encoding.ASCII.GetString(_buferEnvia));
+                if (((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos != null)
+                {
+                    BytesEnviados = ((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos.Send(_buferEnvia);
+
+                    Console.Write(BytesEnviados);
+                    Console.Write(" Bytes enviados --> ");
+                    Console.WriteLine(Encoding.ASCII.GetString(_buferEnvia));
+                }
+                else
+                {
+                    Console.Write(" Socket de datos cerrado,no se ha mandado el mensaje");
+                }
             }
             catch (Exception ex)
             {
                 SpinException.GetException("SpinCom:: "+ex.Message,ex);
             }
         }
+
         public void Start()
         {
             /// <summary>
@@ -121,26 +135,47 @@ namespace SpinPlatform.Comunicaciones
                     break;
                 case "CLIENT":
                     _socketDatos = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+                    _socketDatos.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendTimeout, 70); 
                     // Conexion con el servidor
-                    try
+                    int _connectTry = 0;
+                    while (_connectTry < _numberofTryConnectForClient)
                     {
-                        _socketDatos.Connect(_extremoFinal);
-                        Status = SpinDispatcherStatus.Running;
-                        // Recibir respuesta del servidor
-                        ((HiloComunicaciones)_DispatcherThreads["Comunicaciones"]).Start( _socketDatos, _socketEscucha, _socketType);         
+                        try
+                        {
+                            _socketDatos.Connect(_extremoFinal);
+                            _connectTry = _numberofTryConnectForClient + 1; //Conectado
+                            // Recibir respuesta del servidor
+                            ((HiloComunicaciones)_DispatcherThreads["Comunicaciones"]).Start(_socketDatos, _socketEscucha, _socketType);
+                        }
+                        catch
+                        {
+                            _connectTry++;
+                        }
                     }
-                    catch(Exception ex)
-                    {
-                        SpinException.GetException("SpinCOM:: "+ex.Message,ex);
-                    }
+                    if (_connectTry == _numberofTryConnectForClient)
+                        throw new SpinException("SpinCOM:: Couldn´t connect to server: " + _ip,new Exception ());
+
                     break;
 
             }
         }
-        public override object GetData(object parameters)
+
+        public override object GetData(dynamic parameters)
         {
+            ///<summary>
+            ///Devuelve el estado del socket (conectado=true desconectado=false)
+            ///</summary>
+            if( ((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos!=null)
+                parameters.COMSocketDatosConnected =  ((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos.Connected;
+            else
+                parameters.COMSocketDatosConnected = false;
+            if (_socketEscucha != null)
+                parameters.COMSocketEscuchaConnected = _socketEscucha.IsBound;
+            else
+                parameters.COMSocketEscuchaConnected = false;
             return parameters;
         }
+
         public void PrepareEvent(string thread)
         {
             dynamic data = new ExpandoObject();
@@ -161,6 +196,7 @@ namespace SpinPlatform.Comunicaciones
             }
 
         }
+
         public void Stop()
         {
             try
@@ -190,19 +226,12 @@ namespace SpinPlatform.Comunicaciones
                         _socketEscucha.Close();
                 }
                 Status = SpinDispatcherStatus.Stopped;
-                Trace.WriteLine("saliendo  del MODULO DE SOCKETS");
             }
             catch (Exception ex)
             {
                 SpinException.GetException(ex.Message,ex);
             }
         }
-
-        #endregion
-
-        #region Métodos
-
-       
 
         #endregion
     }

@@ -46,7 +46,7 @@ namespace OPSaul
             data = ((OPSaul)_Padre).GetData(data);
             dynamic mens = new ExpandoObject();
             mens.COMMessage = mensajeAEnviar + data.Data.FORMPlate + data.Data.FORMWidth + data.Data.FORMLength;
-            _server.SetData(mens);
+            _server.SetData(mens, "EnviarMensaje");
         }
 
         public override void FunctionToExecuteByThread()
