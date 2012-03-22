@@ -28,7 +28,10 @@ namespace Meplate
 
             if (measurement.Count > 0)
             {
-                duracion = _Proc.ProcesamientoDatos(measurement);
+                // si ya he recibido el ancho lo uso para procesar , si no pongo ancho =0 y proceso sin el
+                if  (!((SharedData<PlateID>)SharedMemory["IDChapa"]).Vacio) 
+                    duracion = _Proc.ProcesamientoDatos(measurement,((PlateID)((SharedData<PlateID>)SharedMemory["IDChapa"]).Get(0)).Width);
+                else duracion = _Proc.ProcesamientoDatos(measurement, 0);
                 ActualizarResultados();
             }
 

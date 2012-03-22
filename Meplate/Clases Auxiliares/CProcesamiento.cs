@@ -137,12 +137,15 @@ namespace Meplate
         }
         public void ObtenerBordes(double ancho)
         {
-
-            ObtenerBordesConAncho(ancho);
-            if (borde_derecho == filas - 1 && borde_izquierdo == 0)
+            if (ancho > 0)
             {
-                ObtenerBordesSinAncho();
+                ObtenerBordesConAncho(ancho);
+                if (borde_derecho == filas - 1 && borde_izquierdo == 0)
+                {
+                    ObtenerBordesSinAncho();
+                }
             }
+            else ObtenerBordesSinAncho();
 
             // pongo a 0 todos los valores fuera de la chapa y creo la imgen de X
 

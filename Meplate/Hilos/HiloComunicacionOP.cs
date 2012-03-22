@@ -97,7 +97,7 @@ namespace Meplate
 
 
                         PlateID valor = new PlateID (_ID,double.Parse(_Width),double.Parse(_Length));
-                        ((SharedData<PlateID>)SharedMemory["IDChapa"]).Set(0, valor);
+                        ((SharedData<PlateID>)SharedMemory["IDChapa"]).Add(valor);
                         break;
                 }
              
