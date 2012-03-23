@@ -216,6 +216,7 @@ namespace SpinPlatform.Sensors.Meplaca
                             break;
 
                         default:
+                            Data.MEPErrors = "Wrong Query";
                             break;
                     }
                 }
@@ -271,20 +272,31 @@ namespace SpinPlatform.Sensors.Meplaca
         /// </param>
         public void SetData(ref dynamic data, params string[] parameters)
         {
-            foreach (string parameter in parameters)
+            try
             {
-                switch (parameter)
+                foreach (string parameter in parameters)
                 {
-                    case "EnviarOffsetsArchivo":
-                        enviarOffsetsArchivo();
-                        break;
-                    case "EnviarOffsets":
-                        enviarOffsets(data.MEPOffsets);
-                        break;                  
+                    switch (parameter)
+                    {
+                        case "EnviarOffsetsArchivo":
+                            enviarOffsetsArchivo();
+                            break;
+                        case "EnviarOffsets":
+                            enviarOffsets(data.MEPOffsets);
+                            break;
 
-                    default:
-                        break;
+                        default:
+                               data.MEPErrors = "Wrong Query";
+                            break;
+                    }
                 }
+                data.MEPErrors = "";
+            }
+            catch (Exception ex)
+            {
+
+                data.MEPErrors = ex.Message;
+                //Ademas se lanzaria la excepcion oportuna
             }
            
         }

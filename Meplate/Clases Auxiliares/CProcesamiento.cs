@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using HalconDotNet;
 using System.Collections;
-using SpinPlatform.IO;
 
 namespace Meplate
 {

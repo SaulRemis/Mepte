@@ -5,12 +5,15 @@ using System.Text;
 using SpinPlatform.Dispatcher;
 using SpinPlatform.Data;
 using System.Threading;
-using SpinPlatform.IO;
+
 using System.Dynamic;
 using SpinPlatform.Config;
 
 namespace Meplate
 {
+    /// <summary>
+    /// Modulo para realizar mediciones de planitud sobre chapones de acero usando el sensor MEPLATE
+    /// </summary>
     public class Meplate: SpinDispatcher
     {
         //Objetos auxiliares
@@ -18,7 +21,9 @@ namespace Meplate
         public Meplate()
         {
         }
-
+        /// <summary>
+        /// Inicializa el Modulo MEPLATE.
+        /// </summary>
         public void Init(ref dynamic parameters)
         {
             SpinConfig con = new SpinConfig();
@@ -49,31 +54,51 @@ namespace Meplate
 
 
         }
-
-        public override object GetData(object parameters)
+        /// <summary>
+        /// Obtiene datos del Modulo MEPLATE. 
+        /// </summary>
+        /// <param name="Data">
+        /// Variable dinamica donde guardar los resultados: \n
+        /// MEPResultados (Resultados) resultados del procesamiento \n
+        /// MEPInformacion (Informacion) Informacion sobre el procesamiento \n
+        /// </param>
+        /// <param name="parameters">
+        /// "Resultados" - Obtiene Los ultimos resultados medidos por el MEPLATE \n
+        /// "Informacion"  - Obtiene la informacion de procesamiento del MEPLATE \n
+        ///  </param>
+        public override void GetData(ref dynamic Data, params string[] parameters)
         {
-            if (parameters.GetType()==typeof(MeplateData))
+            Data.MEPReturnedData = parameters;
+            try
             {
-                MeplateData data = (MeplateData)parameters;
-
-                data.ResetData();
-                if (data.GetResultados)
+                foreach (string parameter in parameters)
                 {
-                    Resultados temp = ( Resultados)((SharedData< Resultados>)_DispatcherSharedMemory["Resultados"]).Get(0);
-                    data.Resultados=temp;
+                    switch (parameter)
+                    {
+                        case "Resultados":
+                            Data.MEPResultados = (Resultados)((SharedData<Resultados>)_DispatcherSharedMemory["Resultados"]).Get(0);
+                            break;
 
+                        case "Informacion":
+                            Data.MEPInformacion = (Informacion)((SharedData<Informacion>)_DispatcherSharedMemory["Informacion"]).Get(0);
+                        break;
+                       
+
+                        default:
+                        Data.MEPErrors = "Wrong Query";
+                            break;
+                    }
                 }
-                if (data.GetInformacion)
-                {
-                    Informacion temp = (Informacion)((SharedData<Informacion>)_DispatcherSharedMemory["Informacion"]).Get(0);
-                    data.Informacion = temp;
-
-
-                }
-                return data;
+                Data.MEPErrors = "";
             }
-            else        return null;
+            catch (Exception ex)
+            {
+
+                Data.MEPErrors = ex.Message;
+                //Ademas se lanzaria la excepcion oportuna
+            }
         }
+
         public void PrepareEvent(string thread )
         {
        if (Status == SpinDispatcherStatus.Running)  // Por si nadie escucha el evento o esta en proceso de parar
@@ -99,22 +124,44 @@ namespace Meplate
             }
              
         }
-        public override void SetData(object parameters)
+
+        /// <summary>
+        /// Establece campos en el modulo Meplate \n
+        /// </summary>
+        /// <param name="data">
+        /// Variable dinamica de donde obtener los datos a establecer \n
+        /// </param>
+        /// <param name="parameters">
+        /// "EventoComenzarMedida" - lanza el evento de iniciar una nueva medicion \n
+        /// "EventoFinalizarMedida" -lanza el evento de finalizar la medicion \n
+        /// </param>
+        public override void SetData(ref dynamic Data, params string[] parameters)
         {
-            if (parameters.GetType() == typeof(MeplateData))
+            try
             {
-                MeplateData data = (MeplateData)parameters;
+                foreach (string parameter in parameters)
+                {
+                    switch (parameter)
+                    {
+                        case "EventoComenzarMedida":
+                            _Events["ComenzarMedida"].Set();
+                            break;
+                        case "EventoFinalizarMedida":
+                            _Events["FinalizarMedida"].Set();
+                            break;
 
-                if (data.SetEventoEmpezarMedida)
-                {
-                    _Events["ComenzarMedida"].Set();
+                        default:
+                            Data.MEPErrors = "Wrong Query";
+                            break;
+                    }
                 }
-                if (data.SetEventoFinalizarMedida)
-                {
-                    _Events["FinalizarMedida"].Set();
+                Data.MEPErrors = "";
+            }
+            catch (Exception ex)
+            {
                 
-                }
-
+                 Data.MEPErrors = ex.Message;
+                //Ademas se lanzaria la excepcion oportuna
             }
 
         }
