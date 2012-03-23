@@ -81,7 +81,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SpinSockets\SpinPlatform\SpinPlatform.csproj">
+    <ProjectReference Include="..\Final Spinplatform\SpinPlatform.csproj">
       <Project>{6CA428E1-FF39-453C-B775-2806EBECC474}</Project>
       <Name>SpinPlatform</Name>
     </ProjectReference>

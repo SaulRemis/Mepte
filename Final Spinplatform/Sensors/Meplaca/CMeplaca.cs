@@ -13,7 +13,7 @@ namespace SpinPlatform.Sensors.Meplaca
     /// <summary>
     /// Modulo para interactuar con el sensor de planitud MEPLACA 
     /// </summary>
-    public class CMeplaca : ISpinPlatformInterface2
+    public class CMeplaca : ISpinPlatformInterface
        //  public class CMeplaca : ISpinPlatformInterface
     {
 

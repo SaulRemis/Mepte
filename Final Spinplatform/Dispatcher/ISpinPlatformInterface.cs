@@ -9,9 +9,9 @@ namespace SpinPlatform
     {
         void Start();
         void Stop();
-        object GetData(object parameters);
-        void Init(object parameters);
-        void SetData(object paramenters);
+        void GetData(ref dynamic data, params string[] parameters);
+        void Init(dynamic parameters);
+        void SetData(ref dynamic data, params string[] parameters);
         event Dispatcher.ResultEventHandler NewResultEvent; 
     }
 }
