@@ -36,27 +36,18 @@ namespace Meplate
             //Espero a que llegue un mensaje de empezar a medir en el while del Spinthreadevent
            
                 //Compruebo que no pulsaron Stop mientras esperaba
-                if (_StopEvent.WaitOne(0, true))
-                {
-
-                    return; // si se pulso stop se sale del while del Spinthreadevent
-                }
-
-
+            if (_StopEvent.WaitOne(0, true)) return; // si se pulso stop se sale del while del Spinthreadevent
+           
                 // Inicializo todo
                 _Meplaca.GetData(ref _AuxMeplaca, "Medidas"); //Lo usamos para limpiar la lista de medidas                
                 avance = 0;
                 avanceAcumulado = 0;
                 t1 = DateTime.Now;
                 totalElapsedTime = TimeSpan.Zero;
-               // dynamic aux = new ExpandoObject();
-              
 
                 // Mido de continuo hasta que hay señal de fin de chapa
-
                     do
                     {
-                       
                         t2 = DateTime.Now;
                         elapsedTime = t2 - t1;
                         avance = avance + LeerAvance(elapsedTime);
@@ -67,14 +58,13 @@ namespace Meplate
                         {
                             // Leo los perfiles que haya en el meplaca (Pueden ser mas de un perfil) 
                             _Meplaca.GetData(ref _AuxMeplaca, "Medidas");
-                            if (_AuxMeplaca.Medidas.Count > 0)
+                            if (_AuxMeplaca.MEPMedidas.Count > 0)
                             {
-                                double[] vectorAvance = CalcularAvance(avance, _AuxMeplaca.Medidas.Count); //Descomponemos el avance en avances correspondientes a cada perfil.
-                                for (int i = 0; i < _AuxMeplaca.Medidas.Count; i++)
+                                double[] vectorAvance = CalcularAvance(avance, _AuxMeplaca.MEPMedidas.Count); //Descomponemos el avance en avances correspondientes a cada perfil.
+                                for (int i = 0; i < _AuxMeplaca.MEPMedidas.Count; i++)
                                 {
-
                                     //Añado los perfiles y la posicion en la lista
-                                    medidas.Add(new CMedida(_AuxMeplaca.Medidas[i], avanceAcumulado + vectorAvance[i]));
+                                    medidas.Add(new CMedida(_AuxMeplaca.MEPMedidas[i], avanceAcumulado + vectorAvance[i]));
 
                                     if (medidas.Count % 10 == 0) 
                                     {
@@ -85,11 +75,9 @@ namespace Meplate
                                     }
                                 }
                             }
-
                             avanceAcumulado = avanceAcumulado + avance;
                             avance = 0;
                         }
-
                         // Si llego la señal de find e chapa guardo la medida de toda la chapa en el memoria
                         // compratida y envio la señal de nueva medida ("ChapaMedida")
                         if (_Events["FinalizarMedida"].WaitOne(0, true))
@@ -105,11 +93,8 @@ namespace Meplate
                                 _AuxMeplaca.Offsets = (double[])((SharedData<double[]>)SharedMemory["Offset"]).Get(0);
                                 _Meplaca.SetData(ref _AuxMeplaca, "EnviarOffsets");
                             }
-
                             break;
                         }
-
-
                     } while (!_StopEvent.WaitOne(0, true));              // Mido de continuo hasta que hay señal de fin de chapa o Stop
 
                   Trace.WriteLine("ADRI:   Chapa Medida");

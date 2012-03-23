@@ -173,27 +173,39 @@ namespace SpinPlatform.Sensors.Meplaca
 
         public void GetData(ref dynamic Data, params string[] parameters)
         {
+            
+            Data.MEPReturnedData= parameters;
            // dynamic Data = new ExpandoObject();
-            foreach (string parameter in parameters)
+            try
             {
-                switch (parameter)
+                foreach (string parameter in parameters)
                 {
-                    case "Medidas":
-                        Data.Medidas = LeerMedidas();
-                        break;
-                    case "UltimaMedida":
-                        Data.UltimoPerfil = UltimaMedida();
-                        break;
-                    case "Tensiones":
-                        Data.Tensiones = LeerTensiones();
-                        break;
-                    case "UltimaTension":
-                        Data.UltimaTension = UltimaTension();
-                        break;
+                    switch (parameter)
+                    {
+                        case "Medidas":
+                            Data.MEPMedidas = LeerMedidas();
+                            break;
+                        case "UltimaMedida":
+                            Data.MEPUltimoPerfil = UltimaMedida();
+                            break;
+                        case "Tensiones":
+                            Data.MEPTensiones = LeerTensiones();
+                            break;
+                        case "UltimaTension":
+                            Data.MEPUltimaTension = UltimaTension();
+                            break;
 
-                    default:
-                        break;
+                        default:
+                            break;
+                    }
                 }
+                Data.MEPErrors = "";
+            }
+            catch (Exception ex)
+            {
+
+                Data.MEPErrors = ex.Message;
+                //Ademas se lanzaria la excepcion oportuna
             }
 
         }
