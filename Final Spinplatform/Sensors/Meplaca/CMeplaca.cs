@@ -10,6 +10,9 @@ using System.Dynamic;
 
 namespace SpinPlatform.Sensors.Meplaca
 {
+    /// <summary>
+    /// Modulo para interactuar con el sensor de planitud MEPLACA 
+    /// </summary>
     public class CMeplaca : ISpinPlatformInterface2
        //  public class CMeplaca : ISpinPlatformInterface
     {
@@ -160,22 +163,40 @@ namespace SpinPlatform.Sensors.Meplaca
         #endregion
 
         #region Miembros de ISpinPlatformInterface2
-
+        /// <summary>
+        /// Arranca el Modulo MEPLACA
+        /// </summary>
         public void Start()
         {
             Inicializar();
         }
-
+        /// <summary>
+        /// Para el MOdulo MEPLACA
+        /// </summary>
         public void Stop()
         {
             Cerrar();
         }
-
+        /// <summary>
+        /// Obtiene datos del Modulo Meplaca. 
+        /// </summary>
+        /// <param name="Data">
+        /// Variable dinamica donde guardar los resultados: \n
+        /// MEPMedidas (List(double [])) resultados de "Medidas" \n
+        /// MEPUltimoPerfil (double []) resultados de "UltimaMedida" \n
+        /// MEPTensiones (List(int[])) resultados de "Tensiones" \n
+        /// MEPUltimaTension  (int[]) resulatdos de "UltimaTension" \n
+        /// </param>
+        /// <param name="parameters">
+        /// "Medidas" - Obtiene todos los perfiles almacenados en el buffer del meplaca \n
+        /// "UltimaMedida"  - Obtiene el ultimo perfil medido por el sensor \n
+        /// "Tensiones"  - Obtiene todos losperfiles en tensiones almacenados en el buffer del meplaca \n
+        /// "UltimaTension"  - Obtiene el ultimo array de tensiones (un valor por cada sensor) \n
+        /// </param>
         public void GetData(ref dynamic Data, params string[] parameters)
         {
             
             Data.MEPReturnedData= parameters;
-           // dynamic Data = new ExpandoObject();
             try
             {
                 foreach (string parameter in parameters)
@@ -211,9 +232,16 @@ namespace SpinPlatform.Sensors.Meplaca
         }
 
         /// <summary>
-        /// Probando resumen
-        /// </summary>
-        /// <remarks>Probando Comentarios</remarks>
+        /// Inicializa el Modulo MEPLACA.
+  /// </summary>
+  /// <param name="parametros">
+        /// Campos Obligatorios:  \n
+        /// MEPMinimoAvanceParaMedir (double) \n
+        /// MEPDistancia_nominal_trabajo (double) \n
+        /// MEPNumeroModulos (int) \n
+        /// MEPPuertoSerie (string) \n
+        /// MEPCalibracion (string []) \n
+  /// </param>
         public void Init(dynamic parametros)
         {
             _MinimoAvanceParaMedir = double.Parse(parametros.MEPMinimoAvanceParaMedir);
@@ -231,6 +259,17 @@ namespace SpinPlatform.Sensors.Meplaca
             serie = new CSerie(_NumeroModulos, _Puerto);
         }
 
+        /// <summary>
+        /// Establece campos en el modulo Meplaca \n
+        /// </summary>
+        /// <param name="data">
+        /// Variable dinamica de donde obtener los datos a establecer \n
+        /// MEPOffsets (double[]) offset a enviar atraves de"EnviarOffsets" \n
+        /// </param>
+        /// <param name="parameters">
+        /// "EnviarOffsetsArchivo" - Envia al meplaca los offset guardados en el archivo de calibracion \n
+        /// "EnviarOffsets" - Envia al meplaca los offset pasados como parametro en MEPOffsets \n
+        /// </param>
         public void SetData(ref dynamic data, params string[] parameters)
         {
             foreach (string parameter in parameters)
@@ -241,7 +280,7 @@ namespace SpinPlatform.Sensors.Meplaca
                         enviarOffsetsArchivo();
                         break;
                     case "EnviarOffsets":
-                        enviarOffsets(data.Offsets);
+                        enviarOffsets(data.MEPOffsets);
                         break;                  
 
                     default:

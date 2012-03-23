@@ -15,8 +15,6 @@ namespace Meplate
     {
         //Objetos auxiliares
 
-        dynamic Data = new ExpandoObject();
-
         public Meplate()
         {
         }

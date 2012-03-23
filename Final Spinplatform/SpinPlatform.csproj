@@ -80,7 +80,6 @@
     <Compile Include="Sensors\Meplaca\CMeplaca.cs" />
     <Compile Include="Sensors\Meplaca\CModulosCal.cs" />
     <Compile Include="Sensors\Meplaca\CSerie.cs" />
-    <Compile Include="Sensors\Meplaca\MeplacaData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />

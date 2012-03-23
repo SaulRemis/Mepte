@@ -183,13 +183,6 @@
       <FileName>Sensors\Meplaca\CSerie.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SpinPlatform.Sensors.Meplaca.MeplacaData" Collapsed="true">
-    <Position X="0.5" Y="5.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAhAAAAAAAAAAAAAAAACAUAAQAAAAAABAAAgEA=</HashCode>
-      <FileName>Sensors\Meplaca\MeplacaData.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Interface Name="SpinPlatform.ISpinPlatformInterface" Collapsed="true">
     <Position X="7.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
