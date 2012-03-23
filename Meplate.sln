@@ -2,16 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meplate", "Meplate\Meplate.csproj", "{1A5C8A38-A171-43F3-BF44-9DF54B0C3647}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5D9FE970-FA73-43F1-9EBE-FDB3CAFF5F3A} = {5D9FE970-FA73-43F1-9EBE-FDB3CAFF5F3A}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpinPlatform", "Final Spinplatform\SpinPlatform.csproj", "{6CA428E1-FF39-453C-B775-2806EBECC474}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimuladorOP", "Simulador OP\SimuladorOP.csproj", "{BA81E177-B4FE-4E85-B517-01633ABF0F3B}"
-	ProjectSection(ProjectDependencies) = postProject
-		{1A5C8A38-A171-43F3-BF44-9DF54B0C3647} = {1A5C8A38-A171-43F3-BF44-9DF54B0C3647}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimuladorTarjeta", "Simulador tarjeta\SimuladorTarjeta.csproj", "{5D9FE970-FA73-43F1-9EBE-FDB3CAFF5F3A}"
 EndProject

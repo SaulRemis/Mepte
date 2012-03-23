@@ -72,7 +72,7 @@ namespace Meplate
                 cadena += val;
             }
             temp.COMMessage = cadena;
-            _server.SetData(temp, "EnviarMensaje");
+            _server.SetData(ref temp, "EnviarMensaje");
         }
         public override void FunctionToExecuteByThread()
         {

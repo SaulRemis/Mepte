@@ -22,10 +22,33 @@ namespace SpinPlatform
                
             }
 
-            public void GetData(ref dynamic obj, params string [] parameters)
+            public void GetData(ref dynamic Data, params string [] parameters)
             {
+
+                Data.MEPReturnedData = parameters;
+                try
+                {
+                    foreach (string parameter in parameters)
+                    {
+                        switch (parameter)
+                        {
+                            case "Parametros":
+                                Data = _getExpandoFromXml(Data.CONFFile);
+                                break;
+                            default:
+                                Data.MEPErrors = "Wrong Query";
+                                break;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    Data.MEPErrors = ex.Message;
+                    //Ademas se lanzaria la excepcion oportuna
+                }
                 //Gestionar mensaje
-               obj = _getExpandoFromXml(obj);
+               
              }
 
             public void SetData(ref dynamic obj, params string[] parameters)

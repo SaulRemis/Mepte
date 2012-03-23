@@ -29,7 +29,8 @@ namespace CardSaul
         public void Init(ref dynamic parameters)
         {
             SpinConfig con = new SpinConfig();
-            parameters = con.GetData(SpinConfigConstants.SPIN_CONFIG_XML_NAME);
+            parameters.CONFFile = SpinConfigConstants.SPIN_CONFIG_XML_NAME;
+            con.GetData(parameters, "Parametros");
 
             _DispatcherThreads.Add("Productor", new HiloProductor(this, "Productor"));
             _DispatcherThreads.Add("Consumidor", new HiloConsumidor(this, "Consumidor"));
@@ -41,28 +42,47 @@ namespace CardSaul
             CreateEvent("NuevaMedida", new AutoResetEvent(false), "Consumidor", "Productor");
         }
 
-        public override void SetData(dynamic obj)
+        public override void SetData(ref dynamic Data, params string[] parameters)
         {
-            _valorSlider = obj.VALORSlider;
+            _valorSlider = Data.VALORSlider;
         }
 
-        public override object GetData(dynamic parameters)
+
+
+
+        public override void GetData(ref dynamic Data, params string[] parameters)
+        //public override object GetData(dynamic parameters)
         {
-            if ((parameters as IDictionary<string, object>).ContainsKey("HILOProductor"))
+            Data.MEPReturnedData = parameters;
+            try
             {
-                if (parameters.HILOProductor)
+                foreach (string parameter in parameters)
                 {
-                    parameters.HILOProductorValue = _valorSlider;
+                    switch (parameter)
+                    {
+                        case "HILOProductor":
+                            Data.HILOProductorValue = _valorSlider;
+                            break;
+
+                        case "COMGetSocketLine":
+                            Data.COMMessage = ((SharedData<String>)_DispatcherSharedMemory["Resultados"]).Get(0);
+                            break;
+
+
+                        default:
+                            Data.MEPErrors = "Wrong Query";
+                            break;
+                    }
                 }
+                Data.MEPErrors = "";
             }
-            if ((parameters as IDictionary<string, object>).ContainsKey("COMGetSocketLine"))
+            catch (Exception ex)
             {
-                if (parameters.COMGetSocketLine)
-                {
-                    parameters.COMMessage = ((SharedData<String>)_DispatcherSharedMemory["Resultados"]).Get(0);
-                }
+
+                Data.MEPErrors = ex.Message;
+                //Ademas se lanzaria la excepcion oportuna
             }
-            return parameters;
+           
         }
         public void PrepareEvent(string thread )
         {

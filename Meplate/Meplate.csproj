@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clases Auxiliares\CProcesamiento.cs" />
-    <Compile Include="Dispatcher\MeplateData.cs" />
     <Compile Include="Hilos\HiloComunicacionOP.cs" />
     <Compile Include="Hilos\HiloComunicacionTarjeta.cs" />
     <Compile Include="Memorias Compartidas\CMedida.cs" />

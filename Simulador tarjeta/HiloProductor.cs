@@ -30,7 +30,10 @@ namespace CardSaul
 
         public override void FunctionToExecuteByThread()
         {
-            if (((dynamic)((HiloServidor)((CardSaul)_Padre)._DispatcherThreads["HiloServidor"])._server.GetData(new ExpandoObject())).COMSocketDatosConnected)
+            HiloServidor hilotemp= (HiloServidor)_Padre._DispatcherThreads["HiloServidor"];
+            SpinPlatform.Comunicaciones.SpinCOM temp=hilotemp._server;
+
+            if (temp.GetData((dynamic)new ExpandoObject(), "COMGetSocketLine").COMSocketDatosConnected)
             {
                 dynamic data = new ExpandoObject();
                 data.HILOProductor = true;

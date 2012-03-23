@@ -20,15 +20,15 @@ namespace Meplate
 
         public Meplate()
         {
-        }
+         }
         /// <summary>
         /// Inicializa el Modulo MEPLATE.
         /// </summary>
-        public void Init(ref dynamic parameters)
+        public void Init(dynamic parameters)
         {
             SpinConfig con = new SpinConfig();
-            parameters = con.GetData(SpinConfigConstants.SPIN_CONFIG_XML_NAME);
-
+            parameters.CONFFile = SpinConfigConstants.SPIN_CONFIG_XML_NAME;
+            con.GetData(ref parameters,"Parametros");
             
             // Hilos
             _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion(this, "Adquisicion", parameters));
@@ -103,22 +103,21 @@ namespace Meplate
         {
        if (Status == SpinDispatcherStatus.Running)  // Por si nadie escucha el evento o esta en proceso de parar
             {
-            MeplateData temp = new MeplateData();
+           dynamic temp = new ExpandoObject();
 
             switch (thread)
             {
                 case "Procesamiento":
-                    temp.GetResultados = true;
+                    GetData(ref temp, "Resultados");
                     break;
                 case "Adquisicion":
-                    temp.GetInformacion = true;
+                    GetData(ref temp, "Informacion");
                     break;
                 default:
                     break;
             }
 
-            object data = GetData(temp);
-            DataEventArgs args = new DataEventArgs(data);
+            DataEventArgs args = new DataEventArgs(temp);
 
                 SetEvent(args);
             }
