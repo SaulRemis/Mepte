@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.Serialization;
 using System.Runtime.Remoting.Messaging;
-using SpinPlatform.Log;
 using SpinPlatform.Config;
 using SpinPlatform.Data;
 using System.Dynamic;
@@ -78,7 +77,7 @@ namespace SpinPlatform
             /// <summary>
             /// Method who writes the txt errors file
             /// </summary>
-            internal void SaveMsgErrors(Exception ex)
+           /* internal void SaveMsgErrors(Exception ex)
             {
 
                 string clientIP;
@@ -129,7 +128,7 @@ namespace SpinPlatform
 
 
 
-            }
+            }*/
  
             #endregion
 

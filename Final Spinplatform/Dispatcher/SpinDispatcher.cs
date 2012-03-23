@@ -51,7 +51,7 @@ namespace SpinPlatform
             public virtual void Init(dynamic obj)
             {
             }
-            abstract public void SetData(dynamic obj);
+            abstract public void SetData(ref dynamic obj, params string[] parameters);
            
             public virtual void Stop()
             {
@@ -69,7 +69,7 @@ namespace SpinPlatform
                 }
             }
 
-            abstract public object GetData(object parameters);
+            abstract public void GetData(ref dynamic obj, params string[] parameters);
             protected void CreateEvent(string event_description, AutoResetEvent evento, params string[] threads)
             {
                 _Events.Add(event_description, evento);

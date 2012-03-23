@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
-using SpinPlatform.IO;
 using SpinPlatform.Data;
 using System.Dynamic;
 using System.Xml.Linq;
-using System.Linq;
 
 namespace SpinPlatform
 {
@@ -24,14 +22,13 @@ namespace SpinPlatform
                
             }
 
-            public dynamic GetData(dynamic obj)
+            public void GetData(ref dynamic obj, params string [] parameters)
             {
                 //Gestionar mensaje
-                dynamic conf = _getExpandoFromXml(obj);
-                return conf;
-            }
+               obj = _getExpandoFromXml(obj);
+             }
 
-            public void SetData(dynamic obj)
+            public void SetData(ref dynamic obj, params string[] parameters)
             {     
             }
 

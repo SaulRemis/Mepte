@@ -5,7 +5,6 @@ using System.Text;
 using System.Xml;
 using System.Threading;
 using SpinPlatform;
-using SpinPlatform.IO;
 using System.Dynamic;
 
 namespace SpinPlatform.Sensors.Meplaca

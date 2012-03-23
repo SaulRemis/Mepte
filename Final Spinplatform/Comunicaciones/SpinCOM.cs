@@ -75,55 +75,7 @@ namespace SpinPlatform.Comunicaciones
             }
         }
 
-        public void SetData(dynamic obj, params string[] parameters)
-        {
-            /// <summary>
-            /// Se encarga de enviar mensajes desde el hilo principal a través del socket abierto a quien esté escuchando si hay alguien 
-            /// En concreto el objeto de entrada debe disponer de los siguientes campos:
-            /// (OBLIGATORIO)COMMessage: Este objeto puede ser o bien de tipo Byte[] o de tipo String. Por el socket viaja en tipo byte
-            /// </summary>
-
-
-            foreach (string parameter in parameters)
-            {
-                switch (parameter)
-                {
-                    case "EnviarMensaje":
-                        try
-                        {
-                            if ((obj.COMMessage).GetType() == typeof(String))
-                                _buferEnvia = Encoding.ASCII.GetBytes(obj.COMMessage);
-                            else
-                                _buferEnvia = obj.COMMessage;
-
-                            if (((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos != null)
-                            {
-                                BytesEnviados = ((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos.Send(_buferEnvia);
-
-                                Console.Write(BytesEnviados);
-                                Console.Write(" Bytes enviados --> ");
-                                Console.WriteLine(Encoding.ASCII.GetString(_buferEnvia));
-                            }
-                            else
-                            {
-                                Console.Write(" Socket de datos cerrado,no se ha mandado el mensaje");
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            SpinException.GetException("SpinCom:: " + ex.Message, ex);
-                        }
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-
-        }
-
-
-        public override void SetData(dynamic obj)
+        public override void SetData(ref dynamic obj, params string[] parameters)
         {
             /// <summary>
             /// Se encarga de enviar mensajes desde el hilo principal a través del socket abierto a quien esté escuchando si hay alguien 
@@ -199,14 +151,13 @@ namespace SpinPlatform.Comunicaciones
             }
         }
 
-
-        public void GetData(ref dynamic Data, params string[] parameters)
+        public override void GetData(ref dynamic Data, params string[] parameters)
         {
             ///<summary>
             ///Devuelve el estado del socket (conectado=true desconectado=false)
             ///</summary>
             
-            // dynamic Data = new ExpandoObject();
+
             
             foreach (string parameter in parameters)
             {
@@ -227,22 +178,6 @@ namespace SpinPlatform.Comunicaciones
                 }
             }
 
-        }
-
-        public override object GetData(dynamic parameters)
-        {
-            ///<summary>
-            ///Devuelve el estado del socket (conectado=true desconectado=false)
-            ///</summary>
-            if (((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos != null)
-                parameters.COMSocketDatosConnected = ((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos.Connected;
-            else
-                parameters.COMSocketDatosConnected = false;
-            if (_socketEscucha != null)
-                parameters.COMSocketEscuchaConnected = _socketEscucha.IsBound;
-            else
-                parameters.COMSocketEscuchaConnected = false;
-            return parameters;
         }
 
         public void PrepareEvent(string thread)

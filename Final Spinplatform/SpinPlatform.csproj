@@ -57,7 +57,6 @@
     <Compile Include="Comunicaciones\SpinCOM.cs" />
     <Compile Include="Configuracion\SpinConfig.cs" />
     <Compile Include="Configuracion\SpinConfigConstants.cs" />
-    <Compile Include="DataBase\SpinDataBase.cs" />
     <Compile Include="Data\DataEventArgs.cs" />
     <Compile Include="Data\ModuleData.cs" />
     <Compile Include="Data\SharedData.cs" />
@@ -69,10 +68,6 @@
     <Compile Include="Dispatcher\SpinThreadWhile.cs" />
     <Compile Include="Errores\SpinException.cs" />
     <Compile Include="Errores\SpinExceptionConstants.cs" />
-    <Compile Include="IO\SpinIODB.cs" />
-    <Compile Include="IO\SpinIOTxt.cs" />
-    <Compile Include="IO\SpinIOXML.cs" />
-    <Compile Include="Log\SpinLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sensors\Meplaca\CMeplaca.cs" />
     <Compile Include="Sensors\Meplaca\CModulosCal.cs" />
