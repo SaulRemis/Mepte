@@ -13,6 +13,8 @@ namespace SpinPlatform.Sensors.Meplaca
     public class CMeplaca : ISpinPlatformInterface2
        //  public class CMeplaca : ISpinPlatformInterface
     {
+
+        #region Definicion de variables
         CSerie serie;
         CModulosCal calibracion;
         int _NumeroModulos;
@@ -23,7 +25,10 @@ namespace SpinPlatform.Sensors.Meplaca
 
 
         public double MinimoAvanceParaMedir{get { return _MinimoAvanceParaMedir; }}
-        
+
+            # endregion
+
+        #region Metodos Privados
         public CMeplaca()
         {
            
@@ -152,7 +157,7 @@ namespace SpinPlatform.Sensors.Meplaca
                 }
             serie.EnviarOffsets();
         }
-
+        #endregion
 
         #region Miembros de ISpinPlatformInterface2
 
@@ -193,6 +198,10 @@ namespace SpinPlatform.Sensors.Meplaca
 
         }
 
+        /// <summary>
+        /// Probando resumen
+        /// </summary>
+        /// <remarks>Probando Comentarios</remarks>
         public void Init(dynamic parametros)
         {
             _MinimoAvanceParaMedir = double.Parse(parametros.MEPMinimoAvanceParaMedir);
@@ -210,7 +219,7 @@ namespace SpinPlatform.Sensors.Meplaca
             serie = new CSerie(_NumeroModulos, _Puerto);
         }
 
-        public void SetData(dynamic data, params string[] parameters)
+        public void SetData(ref dynamic data, params string[] parameters)
         {
             foreach (string parameter in parameters)
             {

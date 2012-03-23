@@ -34,6 +34,7 @@ namespace SpinPlatform
                 : base(name)
             {
                 _Padre = padre;
+                _Priority = ThreadPriority.BelowNormal;
 
                 parametros.COMThread = this;
                 parametros.COMThreadName = name;

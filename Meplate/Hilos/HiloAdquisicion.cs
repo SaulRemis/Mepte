@@ -22,13 +22,12 @@ namespace Meplate
         Tarjeta avancetemp;
 
         List<CMedida> medidas;// lista donde se van guardando todos los perfiles de una chapa
+        
 
-
-
-        public HiloAdquisicion(Meplate padre, string name, dynamic parametros)
+        public HiloAdquisicion(SpinDispatcher padre, string name, dynamic parametros)
             : base(name)
         {
-            _Padre = padre;    
+            _Padre = (Meplate)padre;    
             _AuxMeplaca = parametros.Meplaca;
         }
 
@@ -104,7 +103,7 @@ namespace Meplate
                             if (!((SharedData<double[]>)_SharedMemory["Offset"]).Vacio)
                             {
                                 _AuxMeplaca.Offsets = (double[])((SharedData<double[]>)SharedMemory["Offset"]).Get(0);
-                                _Meplaca.SetData(_AuxMeplaca, "EnviarOffsets");
+                                _Meplaca.SetData(ref _AuxMeplaca, "EnviarOffsets");
                             }
 
                             break;
