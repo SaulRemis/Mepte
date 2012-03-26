@@ -18,6 +18,7 @@ namespace Meplate
         double avance, avanceAcumulado, velocidad, velocidadAnterior = 0;
         TimeSpan elapsedTime, totalElapsedTime;
         DateTime t1,t2 ;
+        int cont = 0;
         dynamic  _AuxMeplaca ;
         Tarjeta avancetemp;
 
@@ -41,6 +42,7 @@ namespace Meplate
                 // Inicializo todo
                 _Meplaca.GetData(ref _AuxMeplaca, "Medidas"); //Lo usamos para limpiar la lista de medidas                
                 avance = 0;
+                cont = 0;
                 avanceAcumulado = 0;
                 t1 = DateTime.Now;
                 totalElapsedTime = TimeSpan.Zero;
@@ -50,7 +52,7 @@ namespace Meplate
                     {
                         t2 = DateTime.Now;
                         elapsedTime = t2 - t1;
-                        avance = avance + LeerAvance(elapsedTime);
+                        avance = avance + LeerAvance(elapsedTime); // en mm
                         totalElapsedTime = totalElapsedTime + elapsedTime;
                         t1 = t2;
                         // Si se avanzo lo suficiente para una nueva medida sigo
@@ -58,6 +60,7 @@ namespace Meplate
                         {
                             // Leo los perfiles que haya en el meplaca (Pueden ser mas de un perfil) 
                             _Meplaca.GetData(ref _AuxMeplaca, "Medidas");
+                             avanceAcumulado = avanceAcumulado + avance;
                             if (_AuxMeplaca.MEPMedidas.Count > 0)
                             {
                                 double[] vectorAvance = CalcularAvance(avance, _AuxMeplaca.MEPMedidas.Count); //Descomponemos el avance en avances correspondientes a cada perfil.
@@ -68,14 +71,15 @@ namespace Meplate
 
                                     if (medidas.Count % 10 == 0) 
                                     {
-                                        ((SharedData<Informacion>)SharedMemory["Informacion"]).Set(0, new Informacion(medidas.Count, (double)10 / totalElapsedTime.TotalSeconds));
+                                        ((SharedData<Informacion>)SharedMemory["Informacion"]).Set(0, new Informacion(avanceAcumulado, (double)((medidas.Count-cont) / totalElapsedTime.TotalSeconds)));
 
-                                       _Padre.PrepareEvent(_Name);   /// ERROR al darle stop con el 
+                                       _Padre.PrepareEvent(_Name);   
                                         totalElapsedTime = TimeSpan.Zero;
+                                        cont = medidas.Count;
                                     }
                                 }
                             }
-                            avanceAcumulado = avanceAcumulado + avance;
+                           
                             avance = 0;
                         }
                         // Si llego la señal de find e chapa guardo la medida de toda la chapa en el memoria
@@ -140,13 +144,13 @@ namespace Meplate
             velocidad = LeerVelocidad();
             if (velocidadAnterior != 0) velocidad = (velocidad + velocidadAnterior) / 2;
             velocidadAnterior = velocidad;
-            return 1000 * velocidad * elapsedTime.TotalMinutes;
+            return  velocidad * elapsedTime.TotalMinutes; //mm
         }
         private double LeerVelocidad()
         {
             Tarjeta tarjetatemp = (Tarjeta)((SharedData<Tarjeta>)SharedMemory["Velocidad"]).Get(0);
 
-            if (avancetemp != null) return tarjetatemp.Velocidad; // m/min
+            if (tarjetatemp != null) return tarjetatemp.Velocidad*10; // mm/min
             else return 60;
 
 

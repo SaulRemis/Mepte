@@ -65,7 +65,7 @@ namespace Meplate
                             double[,] puntos = resultados.Puntos;
                             int ancho, alto;
                             resultados.Z.GetImageSize(out ancho, out alto);
-                            perfiles.Text = ancho.ToString() + " perfiles";
+                           // perfiles.Text = ancho.ToString() + " perfiles";
 
                             VentanaHalconPrincipal.HalconWindow.SetPart(0, 0, alto - 1, ancho - 1);
 
@@ -120,12 +120,8 @@ namespace Meplate
                               #region informacion
 
                             Informacion informacion = datos.MEPInformacion;
-                            if (informacion.Perfiles > 0)
-                            {
-                                perfiles.Text = informacion.Perfiles.ToString() + " perfiles";
+                                label_Lenght.Text = ((double)(informacion.Avance/1000)).ToString("F02");
                                 _LabelFrameRate.Text = informacion.Rate.ToString("F1") + " perfiles / sec";
-
-                            }
                             #endregion
 
                             break;
@@ -185,7 +181,7 @@ namespace Meplate
                 _Meplate.GetData(ref temp, "Estado");
                 if (temp.MEPErrors=="")
                 {
-                    toolStripStatusSpeed.Text = "Line Speed : "+ temp.MEPVelocidad.ToString() +"  m/min";
+                    toolStripStatusSpeed.Text = "Line Speed : "+ (temp.MEPVelocidad/100).ToString() +"  m/min";
                     if (temp.MEPOPConnected)
                     {
                         toolStripStatusProcessComputer.BackColor = Color.Green;

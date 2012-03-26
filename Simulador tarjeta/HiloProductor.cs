@@ -42,8 +42,8 @@ namespace CardSaul
                 dynamic data = new ExpandoObject();
                ((CardSaul)_Padre).GetData(ref data, "HILOProductor");
 
-                short speed = (short)(data.HILOProductorValue * 11);
-                short avance = (short)(data.HILOProductorValue * 10);
+                short speed = (short)(data.HILOProductorValue );
+                short avance = (short)(data.HILOProductorValue );
 
                 byte[] rv = new byte[(Encoding.ASCII.GetBytes("$TARJETA0022" + messagecounter.ToString() + "26")).Length + (BitConverter.GetBytes(speed)).Length + (BitConverter.GetBytes(avance)).Length];
                 System.Buffer.BlockCopy((Encoding.ASCII.GetBytes("$TARJETA0022" + messagecounter.ToString() + "26")), 0, rv, 0, (Encoding.ASCII.GetBytes("$TARJETA0022" + messagecounter.ToString() + "26")).Length);

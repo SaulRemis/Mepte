@@ -31,11 +31,11 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("1 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
             System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("2 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
-            this.perfiles = new System.Windows.Forms.Label();
             this.MedirPararButton = new System.Windows.Forms.Button();
             this.VentanaHalconPrincipal = new HalconDotNet.HWindowControl();
             this._LabelFrameRate = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button_Tarjeta = new System.Windows.Forms.Button();
             this.label_Width = new System.Windows.Forms.Label();
             this.label_Lenght = new System.Windows.Forms.Label();
             this.label_ID = new System.Windows.Forms.Label();
@@ -69,19 +69,9 @@
             this.toolStripStatusTarjeta = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusProcessComputer = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerEstado = new System.Windows.Forms.Timer(this.components);
-            this.button_Tarjeta = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this._MeplatestatusStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // perfiles
-            // 
-            this.perfiles.AutoSize = true;
-            this.perfiles.Location = new System.Drawing.Point(34, 138);
-            this.perfiles.Name = "perfiles";
-            this.perfiles.Size = new System.Drawing.Size(40, 13);
-            this.perfiles.TabIndex = 16;
-            this.perfiles.Text = "perfiles";
             // 
             // MedirPararButton
             // 
@@ -126,7 +116,6 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this._LabelFrameRate);
-            this.groupBox1.Controls.Add(this.perfiles);
             this.groupBox1.Controls.Add(this.MedirPararButton);
             this.groupBox1.Location = new System.Drawing.Point(12, 157);
             this.groupBox1.Name = "groupBox1";
@@ -134,6 +123,16 @@
             this.groupBox1.TabIndex = 18;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "INFORMATION";
+            // 
+            // button_Tarjeta
+            // 
+            this.button_Tarjeta.Location = new System.Drawing.Point(254, 109);
+            this.button_Tarjeta.Name = "button_Tarjeta";
+            this.button_Tarjeta.Size = new System.Drawing.Size(75, 23);
+            this.button_Tarjeta.TabIndex = 20;
+            this.button_Tarjeta.Text = "Conectar a Tarjeta";
+            this.button_Tarjeta.UseVisualStyleBackColor = true;
+            this.button_Tarjeta.Click += new System.EventHandler(this.button_Tarjeta_Click);
             // 
             // label_Width
             // 
@@ -433,16 +432,6 @@
             this.timerEstado.Interval = 500;
             this.timerEstado.Tick += new System.EventHandler(this.timerEstado_Tick);
             // 
-            // button_Tarjeta
-            // 
-            this.button_Tarjeta.Location = new System.Drawing.Point(254, 109);
-            this.button_Tarjeta.Name = "button_Tarjeta";
-            this.button_Tarjeta.Size = new System.Drawing.Size(75, 23);
-            this.button_Tarjeta.TabIndex = 20;
-            this.button_Tarjeta.Text = "Conectar a Tarjeta";
-            this.button_Tarjeta.UseVisualStyleBackColor = true;
-            this.button_Tarjeta.Click += new System.EventHandler(this.button_Tarjeta_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -478,7 +467,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Label perfiles;
         private System.Windows.Forms.Button MedirPararButton;
         private HalconDotNet.HWindowControl VentanaHalconPrincipal;
         private System.Windows.Forms.Label _LabelFrameRate;

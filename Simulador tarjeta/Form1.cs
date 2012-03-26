@@ -49,7 +49,8 @@ namespace CardSaul
         {
             
             label1.Text = "AVANCE: " + resultados;
-            label2.Text = "VELOCIDAD: " + int.Parse(resultados)*1.1;
+            double temp = double.Parse(resultados);
+            label2.Text = "VELOCIDAD: " + (temp/100).ToString();
         }
 
         private void Form1_FormClosing(object sender, EventArgs e)
