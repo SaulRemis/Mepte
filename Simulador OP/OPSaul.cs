@@ -27,7 +27,8 @@ namespace OPSaul
         public void Init(ref dynamic parameters)
         {
             SpinConfig con = new SpinConfig();
-            parameters = con.GetData(SpinConfigConstants.SPIN_CONFIG_XML_NAME);
+            parameters.CONFFile = SpinConfigConstants.SPIN_CONFIG_XML_NAME;
+            con.GetData(ref parameters, "Parametros");
 
             _DispatcherThreads.Add("Consumidor", new HiloConsumidor(this, "Consumidor"));
             _DispatcherThreads.Add("ComunicacionMeplaca", new ComunicacionMeplaca(this, parameters, "ComunicacionMeplaca"));
@@ -39,7 +40,7 @@ namespace OPSaul
             CreateEvent("ResultadosUI", new AutoResetEvent(false), "Consumidor");
         }
 
-        public override void SetData(dynamic obj)
+        public override void SetData(ref dynamic obj, params string[] parameters)
         {
             data.FORMPlate = obj.FORMPlate;
             data.FORMWidth = obj.FORMWidth;
@@ -47,23 +48,39 @@ namespace OPSaul
             ((ComunicacionMeplaca)_DispatcherThreads["ComunicacionMeplaca"]).SendMessage("M9" + data.FORMPlate);
         }
 
-        public override object GetData(dynamic parameters)
+        public override void GetData(ref dynamic Data, params string[] parameters)
         {
-            if ((parameters as IDictionary<string, object>).ContainsKey("COMGetSocketLine"))
+            Data.MEPReturnedData = parameters;
+            try
             {
-                if (parameters.COMGetSocketLine)
+                foreach (string parameter in parameters)
                 {
-                    parameters.COMMessage = ((Message)((SharedData<Message>)_DispatcherSharedMemory["ResultadosUI"]).Get(0));
+                    switch (parameter)
+                    {
+                        case "FORMGetData":
+                            Data.Data = ((Form1)_formulario).getDatos();
+                            break;
+
+                        case "COMGetSocketLine":
+                            Data.ResultadosUI = ((SharedData<Message>)_DispatcherSharedMemory["ResultadosUI"]).Get(0);
+                            break;
+
+
+                        default:
+                            Data.MEPErrors = "Wrong Query";
+                            break;
+                    }
                 }
+                Data.MEPErrors = "";
             }
-            if ((parameters as IDictionary<string, object>).ContainsKey("FORMGetData"))
+            catch (Exception ex)
             {
-                if (parameters.FORMGetData)
-                {
-                    parameters.Data = ((Form1)_formulario).getDatos();
-                }
+
+                Data.MEPErrors = ex.Message;
+                //Ademas se lanzaria la excepcion oportuna
             }
-            return parameters;
+
+           
 
         }
 
@@ -74,14 +91,14 @@ namespace OPSaul
             switch (thread)
             {
                 case "Consumidor":
-                    data.COMGetSocketLine = true;
+                    GetData(ref data, "COMGetSocketLine");
                     break;
                 default:
                     break;
             }
 
-            data = GetData(data);
-            DataEventArgs args = new DataEventArgs(data);
+
+            DataEventArgs args = new DataEventArgs(data.ResultadosUI);
             if (Status == SpinDispatcherStatus.Running)  // Por si nadie escucha el evento o esta en proceso de parar
             {
                 SetEvent(args);

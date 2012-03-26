@@ -42,11 +42,10 @@ namespace OPSaul
 
         public override void SendMessage(string mensajeAEnviar)
         {
-            data.FORMGetData = true;
-            data = ((OPSaul)_Padre).GetData(data);
+          ((OPSaul)_Padre).GetData(ref data, "FORMGetData");
             dynamic mens = new ExpandoObject();
             mens.COMMessage = mensajeAEnviar + data.Data.FORMPlate + data.Data.FORMWidth + data.Data.FORMLength;
-            _server.SetData(mens, "EnviarMensaje");
+            _server.SetData(ref mens, "EnviarMensaje");
         }
 
         public override void FunctionToExecuteByThread()

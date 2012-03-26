@@ -116,7 +116,7 @@ namespace Meplate
                         #endregion
                             break;
                         case "Informacion":
-                                  #region informacion
+                              #region informacion
 
                             Informacion informacion = datos.MEPInformacion;
                             if (informacion.Perfiles > 0)

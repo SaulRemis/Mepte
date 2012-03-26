@@ -30,7 +30,7 @@ namespace CardSaul
         {
             SpinConfig con = new SpinConfig();
             parameters.CONFFile = SpinConfigConstants.SPIN_CONFIG_XML_NAME;
-            con.GetData(parameters, "Parametros");
+            con.GetData(ref parameters, "Parametros");
 
             _DispatcherThreads.Add("Productor", new HiloProductor(this, "Productor"));
             _DispatcherThreads.Add("Consumidor", new HiloConsumidor(this, "Consumidor"));
@@ -91,13 +91,12 @@ namespace CardSaul
             switch (thread)
             {
                 case "Consumidor":
-                    data.COMGetSocketLine = true;
+                    GetData(ref data, "COMGetSocketLine");
                     break;
                 default:
                     break;
             }
 
-            data = GetData(data);
             DataEventArgs args = new DataEventArgs(data);
             if (Status == SpinDispatcherStatus.Running)  // Por si nadie escucha el evento o esta en proceso de parar
             {

@@ -83,6 +83,36 @@ namespace SpinPlatform.Comunicaciones
             /// (OBLIGATORIO)COMMessage: Este objeto puede ser o bien de tipo Byte[] o de tipo String. Por el socket viaja en tipo byte
             /// </summary>
 
+
+            try
+            {
+                foreach (string parameter in parameters)
+                {
+                    switch (parameter)
+                    {
+                        case "EnviarMensaje":
+                            EnviarMensaje(obj);
+                            break;
+                        
+
+                        default:
+                            obj.MEPErrors = "Wrong Query";
+                            break;
+                    }
+                }
+                obj.MEPErrors = "";
+            }
+            catch (Exception ex)
+            {
+
+                obj.MEPErrors = ex.Message;
+                //Ademas se lanzaria la excepcion oportuna
+            }
+           
+        }
+
+        private void EnviarMensaje(dynamic obj)
+        {
             try
             {
                 if ((obj.COMMessage).GetType() == typeof(String))
@@ -94,9 +124,6 @@ namespace SpinPlatform.Comunicaciones
                 {
                     BytesEnviados = ((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos.Send(_buferEnvia);
 
-                    Console.Write(BytesEnviados);
-                    Console.Write(" Bytes enviados --> ");
-                    Console.WriteLine(Encoding.ASCII.GetString(_buferEnvia));
                 }
                 else
                 {

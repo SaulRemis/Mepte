@@ -21,11 +21,13 @@ namespace OPSaul
         OPSaul ejemplo;
         delegatePintarresultados d_PintarResultados;  //puntero a la funcion de pintar
         dynamic ConfigData;
+        
         DataTable table = new DataTable();
 
         public Form1()
         {
             InitializeComponent();
+            ConfigData = new ExpandoObject();
             ejemplo = new OPSaul(this);
             ejemplo.Init(ref ConfigData);
             d_PintarResultados = new delegatePintarresultados(PintarResultados);
@@ -46,7 +48,7 @@ namespace OPSaul
         {
             try
             {
-                this.BeginInvoke(d_PintarResultados, ((dynamic)res.DataArgs).COMMessage);
+                this.BeginInvoke(d_PintarResultados, ((dynamic)res.DataArgs));
             }
             catch (Exception)
             {

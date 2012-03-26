@@ -24,6 +24,7 @@ namespace CardSaul
         dynamic ConfigData;
         public Form1()
         {
+            ConfigData= new ExpandoObject();
             InitializeComponent();
             ejemplo = new CardSaul();
             ejemplo.Init(ref ConfigData);
@@ -80,7 +81,7 @@ namespace CardSaul
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             ConfigData.VALORSlider = trackBar1.Value;
-            ejemplo.SetData(ConfigData);
+            ejemplo.SetData(ref ConfigData,"");
         }
 
     }

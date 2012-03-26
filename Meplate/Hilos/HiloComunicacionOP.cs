@@ -28,19 +28,19 @@ namespace Meplate
             {
                 case "21":
                     temp.COMMessage = "M1";
-                    _server.SetData(temp, "EnviarMensaje");
+                    _server.SetData(ref temp, "EnviarMensaje");
                     break;
                 case "22":
                    temp.COMMessage = "M2";
-                   _server.SetData(temp, "EnviarMensaje");
+                   _server.SetData(ref temp, "EnviarMensaje");
                     break;
                 case "23":
                    temp.COMMessage = "M3";
-                   _server.SetData(temp, "EnviarMensaje");
+                   _server.SetData(ref temp, "EnviarMensaje");
                     break;
                 case "24":
                    temp.COMMessage = "M4";
-                   _server.SetData(temp, "EnviarMensaje");
+                   _server.SetData(ref temp, "EnviarMensaje");
                     break;
             }
         }

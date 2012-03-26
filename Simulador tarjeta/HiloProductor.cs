@@ -14,11 +14,13 @@ namespace CardSaul
     class HiloProductor : SpinThreadWhile
     {
         CardSaul _Padre;
+        dynamic aux;
         double messagecounter = 1000;
         public HiloProductor(string name)
             : base(name)
         {
             _MillisecondsToSleep = 1 * 1000;
+            aux = new ExpandoObject();
         }
 
         public HiloProductor(CardSaul padre, string name)
@@ -26,18 +28,19 @@ namespace CardSaul
         {
              _Padre = padre;
              _MillisecondsToSleep = 1 * 1000;
+             aux = new ExpandoObject();
         }
 
         public override void FunctionToExecuteByThread()
         {
             HiloServidor hilotemp= (HiloServidor)_Padre._DispatcherThreads["HiloServidor"];
             SpinPlatform.Comunicaciones.SpinCOM temp=hilotemp._server;
+            temp.GetData(ref aux, "EstadoSocket");
 
-            if (temp.GetData((dynamic)new ExpandoObject(), "COMGetSocketLine").COMSocketDatosConnected)
+            if (aux.COMSocketDatosConnected)
             {
                 dynamic data = new ExpandoObject();
-                data.HILOProductor = true;
-                data = ((CardSaul)_Padre).GetData(data);
+               ((CardSaul)_Padre).GetData(ref data, "HILOProductor");
 
                 short speed = (short)(data.HILOProductorValue * 11);
                 short avance = (short)(data.HILOProductorValue * 10);

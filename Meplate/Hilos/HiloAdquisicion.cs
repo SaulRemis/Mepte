@@ -90,7 +90,7 @@ namespace Meplate
 
                             if (!((SharedData<double[]>)_SharedMemory["Offset"]).Vacio)
                             {
-                                _AuxMeplaca.Offsets = (double[])((SharedData<double[]>)SharedMemory["Offset"]).Get(0);
+                                _AuxMeplaca.MEPOffsets = (double[])((SharedData<double[]>)SharedMemory["Offset"]).Get(0);
                                 _Meplaca.SetData(ref _AuxMeplaca, "EnviarOffsets");
                             }
                             break;
