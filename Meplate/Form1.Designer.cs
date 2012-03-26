@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("1 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("2 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("1 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("2 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
             this.perfiles = new System.Windows.Forms.Label();
             this.MedirPararButton = new System.Windows.Forms.Button();
             this.VentanaHalconPrincipal = new HalconDotNet.HWindowControl();
@@ -69,6 +69,7 @@
             this.toolStripStatusTarjeta = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusProcessComputer = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerEstado = new System.Windows.Forms.Timer(this.components);
+            this.button_Tarjeta = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this._MeplatestatusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -115,6 +116,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button_Tarjeta);
             this.groupBox1.Controls.Add(this.label_Width);
             this.groupBox1.Controls.Add(this.label_Lenght);
             this.groupBox1.Controls.Add(this.label_ID);
@@ -223,15 +225,15 @@
             this.Z2,
             this.DIFF});
             this._listViewPuntos.FullRowSelect = true;
-            listViewGroup3.Header = "1 m RULER";
-            listViewGroup3.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup3.Name = "listViewGroup1m";
-            listViewGroup4.Header = "2 m RULER";
-            listViewGroup4.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup4.Name = "listViewGroup2m";
+            listViewGroup1.Header = "1 m RULER";
+            listViewGroup1.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup1.Name = "listViewGroup1m";
+            listViewGroup2.Header = "2 m RULER";
+            listViewGroup2.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup2.Name = "listViewGroup2m";
             this._listViewPuntos.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup3,
-            listViewGroup4});
+            listViewGroup1,
+            listViewGroup2});
             this._listViewPuntos.Location = new System.Drawing.Point(360, 174);
             this._listViewPuntos.Name = "_listViewPuntos";
             this._listViewPuntos.Size = new System.Drawing.Size(454, 144);
@@ -431,6 +433,16 @@
             this.timerEstado.Interval = 500;
             this.timerEstado.Tick += new System.EventHandler(this.timerEstado_Tick);
             // 
+            // button_Tarjeta
+            // 
+            this.button_Tarjeta.Location = new System.Drawing.Point(254, 109);
+            this.button_Tarjeta.Name = "button_Tarjeta";
+            this.button_Tarjeta.Size = new System.Drawing.Size(75, 23);
+            this.button_Tarjeta.TabIndex = 20;
+            this.button_Tarjeta.Text = "Conectar a Tarjeta";
+            this.button_Tarjeta.UseVisualStyleBackColor = true;
+            this.button_Tarjeta.Click += new System.EventHandler(this.button_Tarjeta_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -504,6 +516,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Timer timerEstado;
+        private System.Windows.Forms.Button button_Tarjeta;
 
     }
 }

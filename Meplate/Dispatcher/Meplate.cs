@@ -17,9 +17,11 @@ namespace Meplate
     public class Meplate: SpinDispatcher
     {
         //Objetos auxiliares
+        dynamic configuracion;
 
         public Meplate()
         {
+            configuracion = new ExpandoObject();
          }
         /// <summary>
         /// Inicializa el Modulo MEPLATE.
@@ -27,14 +29,14 @@ namespace Meplate
         public void Init(dynamic parameters)
         {
             SpinConfig con = new SpinConfig();
-            parameters.CONFFile = SpinConfigConstants.SPIN_CONFIG_XML_NAME;
-            con.GetData(ref parameters,"Parametros");
+            configuracion.CONFFile = SpinConfigConstants.SPIN_CONFIG_XML_NAME;
+            con.GetData(ref configuracion,"Parametros");
             
             // Hilos
-            _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion(this, "Adquisicion", parameters));
-            _DispatcherThreads.Add("Procesamiento", new HiloProcesamiento(this, "Procesamiento", parameters));
-            _DispatcherThreads.Add("ComunicacionTarjeta", new ComunicacionTarjeta(this, "ComunicacionTarjeta", parameters));
-            _DispatcherThreads.Add("ComunicacionOP", new ComunicacionOP(this, "ComunicacionOP", parameters));
+            _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion(this, "Adquisicion", configuracion));
+            _DispatcherThreads.Add("Procesamiento", new HiloProcesamiento(this, "Procesamiento", configuracion));
+            _DispatcherThreads.Add("ComunicacionTarjeta", new ComunicacionTarjeta(this, "ComunicacionTarjeta", configuracion));
+            _DispatcherThreads.Add("ComunicacionOP", new ComunicacionOP(this, "ComunicacionOP", configuracion));
             
 
             //memorias Ompartidas
@@ -148,6 +150,7 @@ namespace Meplate
         /// <param name="parameters">
         /// "EventoComenzarMedida" - lanza el evento de iniciar una nueva medicion \n
         /// "EventoFinalizarMedida" -lanza el evento de finalizar la medicion \n
+        /// "ConectarTarjeta"  - Intenta reconectarse con la tarjeta de adquisicion de la velocidad \n
         /// </param>
         public override void SetData(ref dynamic Data, params string[] parameters)
         {
@@ -163,6 +166,10 @@ namespace Meplate
                         case "EventoFinalizarMedida":
                             _Events["FinalizarMedida"].Set();
                             break;
+                        case "ConectarTarjeta":                        
+                            ((ComunicacionTarjeta)_DispatcherThreads["ComunicacionTarjeta"])._server.Start();
+                            break;
+                            
 
                         default:
                             Data.MEPErrors = "Wrong Query";

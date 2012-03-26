@@ -202,18 +202,26 @@ namespace Meplate
                     {
                         toolStripStatusTarjeta.BackColor = Color.Green;
                         toolStripStatusTarjeta.Text = "Speed Reference :Connected";
+                        button_Tarjeta.Enabled = false;
 
                     }
                     else
                     {
                         toolStripStatusTarjeta.BackColor = Color.Red;
                         toolStripStatusTarjeta.Text = "Speed Reference : Non Connected";
+                        button_Tarjeta.Enabled = true;
 
                     }
 
 
                 }
             }
+        }
+
+        private void button_Tarjeta_Click(object sender, EventArgs e)
+        {
+             dynamic temp = new ExpandoObject();
+             _Meplate.SetData(ref temp, "ConectarTarjeta");
         }
               
     }
