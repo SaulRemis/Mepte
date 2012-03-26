@@ -43,9 +43,8 @@ namespace SpinPlatform.Comunicaciones
             {
                 if (!_socketClosed)
                 {
-                    // Recibir petición
-                    if (SocketConnected(_socketDatos))
-                    {
+                    // Recibir mensaje
+                    
                         BytesRecibidos = _socketDatos.Receive(_buferRecibe);
          
                         Console.Write(BytesRecibidos);
@@ -55,11 +54,7 @@ namespace SpinPlatform.Comunicaciones
                         //PROCESAR INFO el server envia un evento hacia atrás por si se quiere hacer algo con la info que llegó
                         ((SharedData<Byte[]>)SharedMemory["SocketReader"]).Add(_buferRecibe);
                         Events["SocketData"].Set();
-                    }
-                    else
-                    {
-                        _StopEvent.Set();
-                    }
+                
                 }
                 else
                 {

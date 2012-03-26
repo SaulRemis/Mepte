@@ -99,6 +99,16 @@ namespace Meplate
                             }
                             break;
                         }
+                        // Si llega la señal de aborat medida borro todas las medidas
+                        if (_Events["AbortarMedida"].WaitOne(0, true))
+                        {                            
+                            medidas.Clear();
+                            avanceAcumulado = 0;
+                            ((SharedData<Informacion>)SharedMemory["Informacion"]).Set(0, new Informacion(0.0, 0.0));
+                            _Padre.PrepareEvent(_Name);  
+
+                            break;
+                        }
                     } while (!_StopEvent.WaitOne(0, true));              // Mido de continuo hasta que hay señal de fin de chapa o Stop
 
                   Trace.WriteLine("ADRI:   Chapa Medida");

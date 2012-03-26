@@ -63,8 +63,9 @@ namespace SpinPlatform.Comunicaciones
             //Preparo hilos y shareddata
             _data.COMSocket = _socketDatos;
 
-            _DispatcherThreads.Add("Comunicaciones", new HiloComunicaciones(_data, "Comunicaciones"));
             _DispatcherThreads.Add(_data.COMThreadName, _data.COMThread);
+            _DispatcherThreads.Add("Comunicaciones", new HiloComunicaciones(_data, "Comunicaciones"));
+           
 
             ConnectMemory("SocketReader", new SharedData<Byte[]>(10), _data.COMThreadName, "Comunicaciones");
             CreateEvent("SocketData", new AutoResetEvent(false), _data.COMThreadName, "Comunicaciones");
@@ -234,6 +235,7 @@ namespace SpinPlatform.Comunicaciones
             {
 
                 Status = SpinDispatcherStatus.Stopping;
+
                 //paro hilos
                 if (_data.COMSocketType == "SERVER")
                 {
@@ -248,14 +250,17 @@ namespace SpinPlatform.Comunicaciones
                 }
                 if (_socketDatos != null)
                 {
-                    _socketDatos.Shutdown(SocketShutdown.Both);
+                    if(_socketDatos.Connected)
+                    {
+                    _socketDatos.Shutdown(SocketShutdown.Both);                   
                     _socketDatos.Disconnect(false);
+                    }
                     _socketDatos.Close();
                 }
-                if (_socketEscucha != null)
+               /* if (_socketEscucha != null)
                 {
                     _socketEscucha.Close();
-                }
+                }*/
                 Status = SpinDispatcherStatus.Stopped;
             }
             catch (Exception ex)

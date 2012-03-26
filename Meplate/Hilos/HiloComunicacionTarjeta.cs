@@ -43,6 +43,7 @@ namespace Meplate
                         ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("23");
                         break;
                     case 24:
+                        Events["AbortarMedida"].Set();
                         ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("24");
                         break;
                     case 26:

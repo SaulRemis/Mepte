@@ -67,9 +67,10 @@ namespace SpinPlatform
 
             public override bool Stop()
             {
-                _server.Stop();
                 _StopEvent.Set();
                 _WakeUpThreadEvent.Set();
+                _server.Stop();
+
                 return true;
 
             }
