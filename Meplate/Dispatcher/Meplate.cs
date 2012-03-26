@@ -61,10 +61,14 @@ namespace Meplate
         /// Variable dinamica donde guardar los resultados: \n
         /// MEPResultados (Resultados) resultados del procesamiento \n
         /// MEPInformacion (Informacion) Informacion sobre el procesamiento \n
+        /// MEPVelocidad (double) Velocidad de Avance de la chapa \n
+        /// MEPOPConnected (bool) Estado de conexion del Ordenador de Proceso \n
+        /// MEPTarjetaConnected (bool) Estado de conexion de la tarjeta de adquisicion \n
         /// </param>
         /// <param name="parameters">
         /// "Resultados" - Obtiene Los ultimos resultados medidos por el MEPLATE \n
         /// "Informacion"  - Obtiene la informacion de procesamiento del MEPLATE \n
+        /// "Estado"  - Obtiene la informacion de conexiones y velocidad del MEPLATE \n
         ///  </param>
         public override void GetData(ref dynamic Data, params string[] parameters)
         {
@@ -79,6 +83,17 @@ namespace Meplate
                             Data.MEPResultados = (Resultados)((SharedData<Resultados>)_DispatcherSharedMemory["Resultados"]).Get(0);
                             break;
 
+                        case "Estado":
+                            Tarjeta tar = ((Tarjeta)((SharedData<Tarjeta>)_DispatcherSharedMemory["Velocidad"]).Get(0));
+
+                            if (tar != null)
+                                Data.MEPVelocidad = tar.Velocidad;
+                            else Data.MEPVelocidad = 0.0;
+                            ((ComunicacionOP)_DispatcherThreads["ComunicacionOP"])._server.GetData(ref Data,"EstadoSocket");
+                            Data.MEPOPConnected = Data.COMSocketDatosConnected;
+                            ((ComunicacionTarjeta)_DispatcherThreads["ComunicacionTarjeta"])._server.GetData(ref Data, "EstadoSocket");
+                            Data.MEPTarjetaConnected = Data.COMSocketDatosConnected;
+                            break;
                         case "Informacion":
                             Data.MEPInformacion = (Informacion)((SharedData<Informacion>)_DispatcherSharedMemory["Informacion"]).Get(0);
                         break;

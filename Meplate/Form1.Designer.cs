@@ -28,14 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("1 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("2 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("1 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("2 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
             this.perfiles = new System.Windows.Forms.Label();
             this.MedirPararButton = new System.Windows.Forms.Button();
             this.VentanaHalconPrincipal = new HalconDotNet.HWindowControl();
             this._LabelFrameRate = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label_Width = new System.Windows.Forms.Label();
+            this.label_Lenght = new System.Windows.Forms.Label();
+            this.label_ID = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this._listViewPuntos = new System.Windows.Forms.ListView();
@@ -62,11 +68,7 @@
             this.toolStripStatusSpeed = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusTarjeta = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusProcessComputer = new System.Windows.Forms.ToolStripStatusLabel();
-            this.label_ID = new System.Windows.Forms.Label();
-            this.label_Lenght = new System.Windows.Forms.Label();
-            this.label_Width = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.timerEstado = new System.Windows.Forms.Timer(this.components);
             this.groupBox1.SuspendLayout();
             this._MeplatestatusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -131,6 +133,43 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "INFORMATION";
             // 
+            // label_Width
+            // 
+            this.label_Width.AutoSize = true;
+            this.label_Width.Location = new System.Drawing.Point(91, 89);
+            this.label_Width.Name = "label_Width";
+            this.label_Width.Size = new System.Drawing.Size(13, 13);
+            this.label_Width.TabIndex = 19;
+            this.label_Width.Text = "0";
+            // 
+            // label_Lenght
+            // 
+            this.label_Lenght.AutoSize = true;
+            this.label_Lenght.Location = new System.Drawing.Point(91, 61);
+            this.label_Lenght.Name = "label_Lenght";
+            this.label_Lenght.Size = new System.Drawing.Size(13, 13);
+            this.label_Lenght.TabIndex = 19;
+            this.label_Lenght.Text = "0";
+            // 
+            // label_ID
+            // 
+            this.label_ID.AutoSize = true;
+            this.label_ID.Location = new System.Drawing.Point(91, 37);
+            this.label_ID.Name = "label_ID";
+            this.label_ID.Size = new System.Drawing.Size(13, 13);
+            this.label_ID.TabIndex = 19;
+            this.label_ID.Text = "0";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(152, 89);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(25, 13);
+            this.label8.TabIndex = 18;
+            this.label8.Text = "mm";
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -140,6 +179,16 @@
             this.label3.Size = new System.Drawing.Size(49, 13);
             this.label3.TabIndex = 18;
             this.label3.Text = "WIDTH";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(152, 61);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(16, 13);
+            this.label7.TabIndex = 18;
+            this.label7.Text = "m";
             // 
             // label2
             // 
@@ -174,15 +223,15 @@
             this.Z2,
             this.DIFF});
             this._listViewPuntos.FullRowSelect = true;
-            listViewGroup1.Header = "1 m RULER";
-            listViewGroup1.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup1.Name = "listViewGroup1m";
-            listViewGroup2.Header = "2 m RULER";
-            listViewGroup2.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup2.Name = "listViewGroup2m";
+            listViewGroup3.Header = "1 m RULER";
+            listViewGroup3.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup3.Name = "listViewGroup1m";
+            listViewGroup4.Header = "2 m RULER";
+            listViewGroup4.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup4.Name = "listViewGroup2m";
             this._listViewPuntos.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2});
+            listViewGroup3,
+            listViewGroup4});
             this._listViewPuntos.Location = new System.Drawing.Point(360, 174);
             this._listViewPuntos.Name = "_listViewPuntos";
             this._listViewPuntos.Size = new System.Drawing.Size(454, 144);
@@ -377,52 +426,10 @@
             this.toolStripStatusProcessComputer.Size = new System.Drawing.Size(201, 19);
             this.toolStripStatusProcessComputer.Text = "Process Computer : Non Connected";
             // 
-            // label_ID
+            // timerEstado
             // 
-            this.label_ID.AutoSize = true;
-            this.label_ID.Location = new System.Drawing.Point(91, 37);
-            this.label_ID.Name = "label_ID";
-            this.label_ID.Size = new System.Drawing.Size(13, 13);
-            this.label_ID.TabIndex = 19;
-            this.label_ID.Text = "0";
-            // 
-            // label_Lenght
-            // 
-            this.label_Lenght.AutoSize = true;
-            this.label_Lenght.Location = new System.Drawing.Point(91, 61);
-            this.label_Lenght.Name = "label_Lenght";
-            this.label_Lenght.Size = new System.Drawing.Size(13, 13);
-            this.label_Lenght.TabIndex = 19;
-            this.label_Lenght.Text = "0";
-            // 
-            // label_Width
-            // 
-            this.label_Width.AutoSize = true;
-            this.label_Width.Location = new System.Drawing.Point(91, 89);
-            this.label_Width.Name = "label_Width";
-            this.label_Width.Size = new System.Drawing.Size(13, 13);
-            this.label_Width.TabIndex = 19;
-            this.label_Width.Text = "0";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(152, 61);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(16, 13);
-            this.label7.TabIndex = 18;
-            this.label7.Text = "m";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(152, 89);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(25, 13);
-            this.label8.TabIndex = 18;
-            this.label8.Text = "mm";
+            this.timerEstado.Interval = 500;
+            this.timerEstado.Tick += new System.EventHandler(this.timerEstado_Tick);
             // 
             // Form1
             // 
@@ -496,6 +503,7 @@
         private System.Windows.Forms.Label label_ID;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Timer timerEstado;
 
     }
 }

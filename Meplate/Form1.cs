@@ -33,6 +33,7 @@ namespace Meplate
             VentanaHalconPrincipal.HalconWindow.SetLut("temperature");
 
             _Meplate.Start();
+            timerEstado.Enabled = true;
         }
 
         void _Meplate_NewResultEvent(object sender, DataEventArgs res)
@@ -138,6 +139,7 @@ namespace Meplate
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            timerEstado.Enabled = false;
             _Meplate.Stop();
         }
 
@@ -173,6 +175,45 @@ namespace Meplate
                  }
             }
 
+        }
+
+        private void timerEstado_Tick(object sender, EventArgs e)
+        {
+            if (_Meplate != null)
+            {
+                dynamic temp = new ExpandoObject();
+                _Meplate.GetData(ref temp, "Estado");
+                if (temp.MEPErrors=="")
+                {
+                    toolStripStatusSpeed.Text = "Line Speed : "+ temp.MEPVelocidad.ToString() +"  m/min";
+                    if (temp.MEPOPConnected)
+                    {
+                        toolStripStatusProcessComputer.BackColor = Color.Green;
+                        toolStripStatusProcessComputer.Text = "Process Computer :Connected";
+
+                    }
+                    else
+                    {
+                        toolStripStatusProcessComputer.BackColor = Color.Red;
+                        toolStripStatusProcessComputer.Text = "Process Computer : Non Connected";
+                    
+                    }
+                    if (temp.MEPTarjetaConnected)
+                    {
+                        toolStripStatusTarjeta.BackColor = Color.Green;
+                        toolStripStatusTarjeta.Text = "Speed Reference :Connected";
+
+                    }
+                    else
+                    {
+                        toolStripStatusTarjeta.BackColor = Color.Red;
+                        toolStripStatusTarjeta.Text = "Speed Reference : Non Connected";
+
+                    }
+
+
+                }
+            }
         }
               
     }

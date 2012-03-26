@@ -315,7 +315,7 @@ namespace Meplate
                 Pixeles[i,1] = columnas_max.DArr[i];
                 Pixeles[i,2] = filas_min.DArr[i];
                 Pixeles[i,3] = columnas_min.DArr[i];
-                Pixeles[i,4] = diff.DArr[i];
+               // Pixeles[i,4] = diff.DArr[i];
 
 
                 Puntos[i, 0] = X.GetGrayval((int)Pixeles[i, 0], (int) Pixeles[i,1]);
@@ -324,10 +324,9 @@ namespace Meplate
                 Puntos[i, 3] = X.GetGrayval((int)Pixeles[i, 2], (int)Pixeles[i, 3]);
                 Puntos[i, 4] = Y.GetGrayval((int)Pixeles[i, 2], (int)Pixeles[i, 3]);
                 Puntos[i, 5] = Z.GetGrayval((int)Pixeles[i, 2], (int)Pixeles[i, 3]);
+                Pixeles[i, 4] = Puntos[i, 5] - Puntos[i, 2];
                 Puntos[i,6] = Pixeles[i,4];
             }
-
-
 
         }
         private void CalcularDefectos_2metro()
@@ -355,6 +354,7 @@ namespace Meplate
                 Puntos[i, 3] = X.GetGrayval((int)Pixeles[i, 2], (int)Pixeles[i, 3]);
                 Puntos[i, 4] = Y.GetGrayval((int)Pixeles[i, 2], (int)Pixeles[i, 3]);
                 Puntos[i, 5] = Z.GetGrayval((int)Pixeles[i, 2], (int)Pixeles[i, 3]);
+                Pixeles[i, 4] = Puntos[i, 5] - Puntos[i, 2];
                 Puntos[i, 6] = Pixeles[i, 4];
             }
 

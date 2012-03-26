@@ -111,6 +111,9 @@ namespace Meplate
             _Meplaca.Start();
             medidas = new List<CMedida>();
 
+            Tarjeta valor = new Tarjeta(0, 0);
+            ((SharedData<Tarjeta>)SharedMemory["Velocidad"]).Set(0, valor);
+
         }
         public override void Closing()
         {

@@ -107,5 +107,6 @@ namespace Meplate
         {
             Trace.WriteLine("ADRI:   saliendo  del HILO COMUNICACION OP");
         }
+       
     }
 }

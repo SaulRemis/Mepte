@@ -46,8 +46,8 @@ namespace Meplate
                         ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("24");
                         break;
                     case 26:
-                       
-                        Tarjeta valor = new Tarjeta(BitConverter.ToInt16(val, 18), BitConverter.ToInt16(val, 20));
+
+                        Tarjeta valor = new Tarjeta((double)BitConverter.ToInt16(val, 18), (double)BitConverter.ToInt16(val, 20));
                         ((SharedData<Tarjeta>)SharedMemory["Velocidad"]).Set(0, valor);
                         break;
                 }
