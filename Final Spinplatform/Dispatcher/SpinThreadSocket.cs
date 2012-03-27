@@ -17,11 +17,10 @@ namespace SpinPlatform
 
         public class SpinThreadSocket : SpinThreadEvent
         {
-            public object _Padre;
+            public SpinDispatcher _Padre;
             public SpinCOM _server;
             dynamic data = new ExpandoObject();
-            public bool _serverStarted = false;
-
+            public bool _serverStarted = false, _starting = false;
 
             public SpinThreadSocket(SpinDispatcher padre, string name)
                 : base(name)
@@ -51,11 +50,15 @@ namespace SpinPlatform
                 {
                     try
                     {
-                        _serverStarted = true;
+                        _starting = true;
                         _server.Start();
+                        _starting =false ;
+                        _serverStarted = true;
+
                     }
                     catch (Exception ex)
                     {
+                        _starting = false;
                         Trace.WriteLine(ex.Message);
                     }
                 }
@@ -63,13 +66,17 @@ namespace SpinPlatform
 
             }
 
-
-
             public override bool Stop()
             {
+                while (_starting)
+                {
+                    Thread.Sleep(10);
+                }
+                 _server.Stop();
                 _StopEvent.Set();
                 _WakeUpThreadEvent.Set();
-                _server.Stop();
+
+
 
                 return true;
 

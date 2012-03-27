@@ -33,25 +33,27 @@ namespace SpinPlatform.Comunicaciones
         // Direccion local y punto final de conexion
         private IPAddress _direccionLocal;
         private IPEndPoint _extremoFinal;
+
+
         #endregion
 
         #region Implementación de interface
 
+        /// <summary>
+        /// Inicializa el Modulo de Comunicaciones.
+        /// </summary>
+        /// <param name="initData">
+        /// Campos Obligatorios:  \n
+        /// COMThread (thread) \n
+        /// COMThreadName (string) \n
+        /// COMSocketType (string) \n
+        /// COMPort (string) \n
+        /// COMIP (string) \n
+        /// COMBufferSize (int) \n
+        /// COMTryconnectiontimes (int) \n
+        /// </param>
         public override void Init(dynamic initData)
         {
-            /// <summary>
-            /// Se encarga de preparar el módulo de comunicación (tanto cliente como servidor)
-            /// En concreto el objeto de entrada debe disponer de los siguientes campos:
-            /// (OBLIGATORIO)COMThread: Hilo al que llegarán los eventos de datos en el socket y que compartirá una memoria con este módulo
-            /// (OBLIGATORIO)COMThreadName: Nombre del hilo superior
-            /// (OBLIGATORIO)COMSocketType: Indica si es tipo "SERVER" o tipo "CLIENT" 
-            /// (OBLIGATORIO)COMPort: Puerto de conexión
-            /// (OBLIGATORIO)COMIP: IP del servidor
-            /// (OBLIGATORIO)COMBufferSize: Tamaño del buffer de recepción y envío de datos
-            /// (OBLIGATORIO)COMConnectTimes: Numerode veces que el cliente se intentan conectar con el servidor (por defecto 3)
-            /// </summary>
-
-            //guardo parametros
             _data = initData;
 
              _direccionLocal = IPAddress.Parse(_data.COMIP); //Direccion de bucle
@@ -63,9 +65,8 @@ namespace SpinPlatform.Comunicaciones
             //Preparo hilos y shareddata
             _data.COMSocket = _socketDatos;
 
-            _DispatcherThreads.Add(_data.COMThreadName, _data.COMThread);
             _DispatcherThreads.Add("Comunicaciones", new HiloComunicaciones(_data, "Comunicaciones"));
-           
+            _DispatcherThreads.Add(_data.COMThreadName, _data.COMThread);
 
             ConnectMemory("SocketReader", new SharedData<Byte[]>(10), _data.COMThreadName, "Comunicaciones");
             CreateEvent("SocketData", new AutoResetEvent(false), _data.COMThreadName, "Comunicaciones");
@@ -76,14 +77,18 @@ namespace SpinPlatform.Comunicaciones
             }
         }
 
+        /// <summary>
+        /// Envía datos por el socket \n
+        /// </summary>
+        /// <param name="obj">
+        /// Variable dinamica de donde obtener los datos a establecer \n
+        /// COMMessage: Este objeto puede ser o bien de tipo Byte[] o de tipo String. Por el socket viaja en tipo byte \n
+        /// </param>
+        /// <param name="parameters">
+        /// "EnviarMensaje" - Envía datos por el socket \n
+        /// </param>
         public override void SetData(ref dynamic obj, params string[] parameters)
         {
-            /// <summary>
-            /// Se encarga de enviar mensajes desde el hilo principal a través del socket abierto a quien esté escuchando si hay alguien 
-            /// En concreto el objeto de entrada debe disponer de los siguientes campos:
-            /// (OBLIGATORIO)COMMessage: Este objeto puede ser o bien de tipo Byte[] o de tipo String. Por el socket viaja en tipo byte
-            /// </summary>
-
 
             try
             {
@@ -92,58 +97,28 @@ namespace SpinPlatform.Comunicaciones
                     switch (parameter)
                     {
                         case "EnviarMensaje":
-                            EnviarMensaje(obj);
+                            EnviarDatos(obj);
                             break;
-                        
-
                         default:
-                            obj.MEPErrors = "Wrong Query";
+                            obj.COMErrors = "Wrong Query";
                             break;
                     }
                 }
-                obj.MEPErrors = "";
+                obj.COMErrors = "";
             }
             catch (Exception ex)
             {
-
-                obj.MEPErrors = ex.Message;
-                //Ademas se lanzaria la excepcion oportuna
-            }
-           
-        }
-
-        private void EnviarMensaje(dynamic obj)
-        {
-            try
-            {
-                if ((obj.COMMessage).GetType() == typeof(String))
-                    _buferEnvia = Encoding.ASCII.GetBytes(obj.COMMessage);
-                else
-                    _buferEnvia = obj.COMMessage;
-
-                if (((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos != null)
-                {
-                    BytesEnviados = ((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos.Send(_buferEnvia);
-
-                }
-                else
-                {
-                    Console.Write(" Socket de datos cerrado,no se ha mandado el mensaje");
-                }
-            }
-            catch (Exception ex)
-            {
+                obj.COMErrors = ex.Message;
                 SpinException.GetException("SpinCom:: " + ex.Message, ex);
             }
         }
 
+
+        /// <summary>
+        /// Para el Módulo de  COMUNICACIONES
+        /// </summary>
         public void Start()
         {
-            /// <summary>
-            /// Se encarga de inicializar los socket y ponerlo en escucha o en el caso del cliente realizar una conexión
-            /// No necesita datos de entrada
-            /// </summary>
-
             Status = SpinDispatcherStatus.Starting;
             switch ((string)_data.COMSocketType)
             {
@@ -151,20 +126,23 @@ namespace SpinPlatform.Comunicaciones
                     // Crear un socket para escuchar peticiones
                     _socketEscucha = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
                     ((HiloComunicacionesAccept)_DispatcherThreads["ComunicacionesAccept"]).Start(_extremoFinal, _socketDatos, _socketEscucha, _data.COMSocketType, (HiloComunicaciones)_DispatcherThreads["Comunicaciones"]);
+
                     break;
                 case "CLIENT":
                     _socketDatos = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
                     _socketDatos.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendTimeout, 70);
                     // Conexion con el servidor
                     int _connectTry = 0;
-                    while (_connectTry < Int32.Parse(_data.COMTryconnectiontimes))
+                    while (_connectTry < Int32.Parse(_data.COMTryconnectiontimes) )
                     {
                         try
                         {
+
                             _socketDatos.Connect(_extremoFinal);
                             _connectTry = Int32.Parse(_data.COMTryconnectiontimes) + 1; //Conectado
                             // Recibir respuesta del servidor
                             ((HiloComunicaciones)_DispatcherThreads["Comunicaciones"]).Start(_socketDatos, _socketEscucha, _data.COMSocketType);
+
                         }
                         catch
                         {
@@ -172,41 +150,92 @@ namespace SpinPlatform.Comunicaciones
                         }
                     }
                     if (_connectTry == Int32.Parse(_data.COMTryconnectiontimes))
+                    {
                         throw new SpinException("SpinCOM:: Couldn´t connect to server: " + _data.COMIP, new Exception());
-
+                    }
                     break;
 
             }
         }
 
+
+        /// <summary>
+        /// Obtiene datos del Socket. 
+        /// </summary>
+        /// <param name="Data">
+        /// Variable dinamica donde guardar los resultados: \n
+        /// COMSocketDatosConnected (bool) determina si el socket de datos está conectado \n
+        /// COMSocketEscuchaConnected (bool) determina si el socket de escucha está conectado \n
+        /// </param>
+        /// <param name="parameters">
+        /// "EstadoSocket" - Obtiene elestado de los sockets \n
+        /// </param>
         public override void GetData(ref dynamic Data, params string[] parameters)
         {
-            ///<summary>
-            ///Devuelve el estado del socket (conectado=true desconectado=false)
-            ///</summary>
-            
-
-            
-            foreach (string parameter in parameters)
+            Data.COMReturnedData = parameters;
+            try
             {
-                switch (parameter)
+                foreach (string parameter in parameters)
                 {
-                    case "EstadoSocket":
-                        if (((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos != null)
-                            Data.COMSocketDatosConnected = ((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos.Connected;
-                        else
-                            Data.COMSocketDatosConnected = false;
-                        if (_socketEscucha != null)
-                            Data.COMSocketEscuchaConnected = _socketEscucha.IsBound;
-                        else
-                            Data.COMSocketEscuchaConnected = false;
-                                    break;
-                    default:
-                        break;
+                    switch (parameter)
+                    {
+                        case "EstadoSocket":
+                            if (((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos != null)
+                                Data.COMSocketDatosConnected = ((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos.Connected;
+                            else
+                                Data.COMSocketDatosConnected = false;
+                            if (_socketEscucha != null)
+                                Data.COMSocketEscuchaConnected = _socketEscucha.IsBound;
+                            else
+                                Data.COMSocketEscuchaConnected = false;
+                            break;
+                        default:
+                            Data.COMErrors = "Wrong Query";
+                            break;
+                    }
                 }
+                Data.COMErrors = "";
+            }
+            catch (Exception ex)
+            {
+                Data.COMErrors = ex.Message;
             }
 
         }
+
+        /// <summary>
+        /// Para el Módulo de  COMUNICACIONES
+        /// </summary>
+        public override void Stop()
+            {
+
+                if (Status==SpinDispatcherStatus.Running)
+                {
+                    Status = SpinDispatcherStatus.Stopping;
+                    //recorro todos los hilos
+                    foreach (KeyValuePair<string, SpinThread> item in _DispatcherThreads)
+                    {
+
+                        item.Value.Stop();
+                        item.Value.Join();
+
+                    }
+                    Status = SpinDispatcherStatus.Stopped; 
+                }
+                if (Status == SpinDispatcherStatus.Starting && _data.COMSocketType=="SERVER")
+                {
+                    Status = SpinDispatcherStatus.Stopping;
+                    _DispatcherThreads["ComunicacionesAccept"].Stop();
+                    _DispatcherThreads["ComunicacionesAccept"].Join();
+
+                    Status = SpinDispatcherStatus.Stopped; 
+                
+                }
+            }
+      
+        #endregion
+
+        #region Métodos
 
         public void PrepareEvent(string thread)
         {
@@ -229,43 +258,24 @@ namespace SpinPlatform.Comunicaciones
 
         }
 
-        public void Stop()
+        private void EnviarDatos(dynamic obj)
         {
-            try
+            if ((obj.COMMessage).GetType() == typeof(String))
+                _buferEnvia = Encoding.ASCII.GetBytes(obj.COMMessage);
+            else
+                _buferEnvia = obj.COMMessage;
+
+            if (((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos != null)
             {
+                BytesEnviados = ((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos.Send(_buferEnvia);
 
-                Status = SpinDispatcherStatus.Stopping;
-
-                //paro hilos
-                if (_data.COMSocketType == "SERVER")
-                {
-                    if (((HiloComunicacionesAccept)_DispatcherThreads["ComunicacionesAccept"])._socketDatos != null)
-                    {
-                        ((HiloComunicacionesAccept)_DispatcherThreads["ComunicacionesAccept"])._socketDatos.Shutdown(SocketShutdown.Both);
-                        ((HiloComunicacionesAccept)_DispatcherThreads["ComunicacionesAccept"])._socketDatos.Disconnect(false);
-                        ((HiloComunicacionesAccept)_DispatcherThreads["ComunicacionesAccept"])._socketDatos.Close();
-                    }
-                    ((HiloComunicacionesAccept)_DispatcherThreads["ComunicacionesAccept"]).Stop();
-                    ((HiloComunicacionesAccept)_DispatcherThreads["ComunicacionesAccept"]).Join();
-                }
-                if (_socketDatos != null)
-                {
-                    if(_socketDatos.Connected)
-                    {
-                    _socketDatos.Shutdown(SocketShutdown.Both);                   
-                    _socketDatos.Disconnect(false);
-                    }
-                    _socketDatos.Close();
-                }
-               /* if (_socketEscucha != null)
-                {
-                    _socketEscucha.Close();
-                }*/
-                Status = SpinDispatcherStatus.Stopped;
+                Console.Write(BytesEnviados);
+                Console.Write(" Bytes enviados --> ");
+                Console.WriteLine(Encoding.ASCII.GetString(_buferEnvia));
             }
-            catch (Exception ex)
+            else
             {
-                SpinException.GetException(ex.Message, ex);
+                Console.Write(" Socket de datos cerrado,no se ha mandado el mensaje");
             }
         }
 

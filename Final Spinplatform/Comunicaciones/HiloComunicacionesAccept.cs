@@ -70,7 +70,7 @@ namespace SpinPlatform.Comunicaciones
                     {
                         try
                         {
-                            //Aqui me cargo el hilo de escucha con una nueva conexión
+                            //Aqui me cargo el hilo con una nueva conexión
                             _comunicaciones._socketDatos.Shutdown(SocketShutdown.Both);
                             _comunicaciones._socketDatos.Disconnect(true);
                             _comunicaciones.Stop();
@@ -105,19 +105,23 @@ namespace SpinPlatform.Comunicaciones
             }
         }
 
-        public virtual bool Stop()
+        public override bool Stop()
         {
             try
             {
-                if (_started)
-                {
-                    _comunicaciones.Stop();
-                    _comunicaciones.Join();
-                }
+                //if (_started)
+                //{
+                //    _comunicaciones.Stop();
+                //    _comunicaciones.Join();
+                //}
+                //if (_socketEscucha != null)
+                //{
+                //    _socketEscucha.Close();
+                //}
                 if (_socketEscucha != null)
-                {
                     _socketEscucha.Close();
-                }
+                if(_socketDatos!=null)
+                    _socketDatos.Close();
                 _StopEvent.Set();
                 return true;
             }

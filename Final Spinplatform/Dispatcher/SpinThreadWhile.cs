@@ -74,6 +74,7 @@ namespace SpinPlatform
 
             public override void Closing()
             {
+                Trace.WriteLine("Saliendo del spinthreadwhile");
             }
             /// <summary>
             /// The main thread will call this function when it starts.

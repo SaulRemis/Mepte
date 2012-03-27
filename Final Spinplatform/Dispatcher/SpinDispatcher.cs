@@ -55,7 +55,7 @@ namespace SpinPlatform
            
             public virtual void Stop()
             {
-                if (Status==SpinDispatcherStatus.Running)
+                if (Status==SpinDispatcherStatus.Running||Status==SpinDispatcherStatus.Starting)
                 {
                     Status = SpinDispatcherStatus.Stopping;
                     //recorro todos los hilos

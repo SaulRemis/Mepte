@@ -6,7 +6,6 @@ namespace SpinPlatform
 {
     namespace Errors
     {
-
         public static class SpinExceptionConstants
         {
             /// <summary>

@@ -14,12 +14,13 @@ namespace OPSaul
     class ComunicacionMeplaca: SpinThreadSocket
     {
         dynamic data = new ExpandoObject();
+        OPSaul _Padre;
 
 
-        public ComunicacionMeplaca(SpinDispatcher padre, dynamic parametros, string name)
+        public ComunicacionMeplaca(OPSaul padre, dynamic parametros, string name)
             : base(padre, name, (object) parametros.Communications)
         {
-          
+            _Padre = padre;
         }
 
         public override void Initializate()
@@ -63,8 +64,8 @@ namespace OPSaul
                         case "M1":
                              SendMessage("M9");
                              valor = new Message(messageid,"","");
-                            ((SharedData<Message>)SharedMemory["ResultadosOP"]).Add(valor);
-                             Events["Resultados"].Set();
+                            ((SharedData<Message>)SharedMemory["ResultadosUI"]).Add(valor);
+                            _Padre.PrepareEvent(_Name);
                              break;
                         case "M4":
                               valor = new Message(messageid,"","");
@@ -73,18 +74,18 @@ namespace OPSaul
                              break;
                         case "M2":
                              valor = new Message(messageid, "", "");
-                             ((SharedData<Message>)SharedMemory["ResultadosOP"]).Add(valor);
-                             Events["Resultados"].Set();
+                             ((SharedData<Message>)SharedMemory["ResultadosUI"]).Add(valor);
+                            _Padre.PrepareEvent(_Name);
                              break;
                         case "M3":
                               valor = new Message(messageid, "", "");
-                             ((SharedData<Message>)SharedMemory["ResultadosOP"]).Add(valor);
-                             Events["Resultados"].Set();
+                            ((SharedData<Message>)SharedMemory["ResultadosUI"]).Add(valor);
+                            _Padre.PrepareEvent(_Name);
                              break;
                         case "M5":
                               valor = new Message(messageid, mensaje.Substring(2, 16), mensaje.Substring(18, 350));
-                            ((SharedData<Message>)SharedMemory["ResultadosOP"]).Add(valor);
-                             Events["Resultados"].Set();
+                            ((SharedData<Message>)SharedMemory["ResultadosUI"]).Add(valor);
+                            _Padre.PrepareEvent(_Name);
                              break;
                         default:
                             break;

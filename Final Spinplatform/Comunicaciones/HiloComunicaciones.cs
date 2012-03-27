@@ -43,8 +43,8 @@ namespace SpinPlatform.Comunicaciones
             {
                 if (!_socketClosed)
                 {
-                    // Recibir mensaje
-                    
+                        // Recibir mensaje
+                        _buferRecibe = new Byte[_bufferSize];
                         BytesRecibidos = _socketDatos.Receive(_buferRecibe);
          
                         Console.Write(BytesRecibidos);
@@ -54,7 +54,7 @@ namespace SpinPlatform.Comunicaciones
                         //PROCESAR INFO el server envia un evento hacia atrás por si se quiere hacer algo con la info que llegó
                         ((SharedData<Byte[]>)SharedMemory["SocketReader"]).Add(_buferRecibe);
                         Events["SocketData"].Set();
-                
+                   
                 }
                 else
                 {
@@ -63,12 +63,12 @@ namespace SpinPlatform.Comunicaciones
             }
             catch (SocketException socketEx)
             {
-                if (socketEx.ErrorCode == 10004)
-                {
                     //Error por cerrar el socket desde la clase padre
                     _socketClosed = true;
-                    Console.WriteLine("Socket close");
-                }
+                    Console.WriteLine("Socket close: "+socketEx.Message);
+                    _StopEvent.Set();
+
+                    Events["SocketData"].Set();
             }
         }
 
@@ -91,15 +91,24 @@ namespace SpinPlatform.Comunicaciones
 
         }
 
-        bool SocketConnected(Socket s)
+
+        public override bool Stop()
         {
-            bool part1 = s.Poll(1000, SelectMode.SelectRead);
-            bool part2 = (s.Available == 0);
-            if (part1 & part2)
-            {//connection is closed
-                return false;
+            try
+            {
+                _StopEvent.Set();
+                _socketClosed = true;
+                if (_socketEscucha != null)
+                    _socketEscucha.Close();
+                if (_socketDatos != null)
+                    _socketDatos.Close();               
+                return true;
             }
-            return true;
+            catch (Exception ex)
+            {
+                throw SpinException.GetException(SpinExceptionConstants.SPIN_ERROR_THREAD_ABORTING, ex);
+            }
         }
+     
     }
 }

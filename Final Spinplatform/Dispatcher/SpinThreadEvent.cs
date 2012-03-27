@@ -66,22 +66,24 @@ namespace SpinPlatform
             public override void Closing()
             {
             }
- 
-                
+
+
             public override void EntryFunctionThread()
             {
                 Initializate();
+
                 while (_WakeUpThreadEvent.WaitOne())
                 {
-                    if (_StopEvent.WaitOne(0, true)) 
+                    if (_StopEvent.WaitOne(0, true))
                         break;
 
                     FunctionToExecuteByThread();
 
-                    if (_StopEvent.WaitOne(0, true)) 
+                    if (_StopEvent.WaitOne(0, true))
                         break;
                 }
-               // _WakeUpThreadEvent.Reset();
+
+                // _WakeUpThreadEvent.Reset();
                 Closing();
 
 

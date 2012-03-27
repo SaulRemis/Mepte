@@ -72,10 +72,16 @@
     <Compile Include="Sensors\Meplaca\CMeplaca.cs" />
     <Compile Include="Sensors\Meplaca\CModulosCal.cs" />
     <Compile Include="Sensors\Meplaca\CSerie.cs" />
+    <Compile Include="Log\SpinLog.cs" />
+    <Compile Include="IO\SpinIODB.cs" />
+    <Compile Include="IO\SpinIOTxt.cs" />
+    <Compile Include="IO\SpinIOXML.cs" />
+    <Compile Include="DataBase\SpinDataBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

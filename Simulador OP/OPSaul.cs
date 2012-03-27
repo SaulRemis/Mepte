@@ -30,14 +30,11 @@ namespace OPSaul
             parameters.CONFFile = SpinConfigConstants.SPIN_CONFIG_XML_NAME;
             con.GetData(ref parameters, "Parametros");
 
-            _DispatcherThreads.Add("Consumidor", new HiloConsumidor(this, "Consumidor"));
+          
             _DispatcherThreads.Add("ComunicacionMeplaca", new ComunicacionMeplaca(this, parameters, "ComunicacionMeplaca"));
 
-            ConnectMemory("ResultadosOP", new SharedData<Message>(10), "Consumidor", "ComunicacionMeplaca");
-            ConnectMemory("ResultadosUI", new SharedData<Message>(10), "Consumidor");
+            ConnectMemory("ResultadosUI", new SharedData<Message>(10), "ComunicacionMeplaca");
 
-            CreateEvent("Resultados", new AutoResetEvent(false), "Consumidor", "ComunicacionMeplaca");
-            CreateEvent("ResultadosUI", new AutoResetEvent(false), "Consumidor");
         }
 
         public override void SetData(ref dynamic obj, params string[] parameters)
@@ -62,7 +59,7 @@ namespace OPSaul
                             break;
 
                         case "COMGetSocketLine":
-                            Data.ResultadosUI = ((SharedData<Message>)_DispatcherSharedMemory["ResultadosUI"]).Get(0);
+                            Data.ResultadosUI = ((SharedData<Message>)_DispatcherSharedMemory["ResultadosUI"]).Pop();
                             break;
 
 
@@ -78,9 +75,7 @@ namespace OPSaul
 
                 Data.MEPErrors = ex.Message;
                 //Ademas se lanzaria la excepcion oportuna
-            }
-
-           
+            }          
 
         }
 
@@ -90,13 +85,12 @@ namespace OPSaul
             dynamic data = new ExpandoObject();
             switch (thread)
             {
-                case "Consumidor":
+                case "ComunicacionMeplaca":
                     GetData(ref data, "COMGetSocketLine");
                     break;
                 default:
                     break;
             }
-
 
             DataEventArgs args = new DataEventArgs(data.ResultadosUI);
             if (Status == SpinDispatcherStatus.Running)  // Por si nadie escucha el evento o esta en proceso de parar

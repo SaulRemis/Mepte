@@ -108,5 +108,10 @@ namespace OPSaul
             ConfigData.FORMLength = textBox3.Text;
             ejemplo.SetData(ConfigData);
         }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            ejemplo.Stop();
+        }
     }
 }
