@@ -8,8 +8,9 @@ namespace SpinPlatform.Sensors.Meplaca
 {
     class CSerie
     {
-        byte[] bufferlocal;
+        byte[] bufferlocal,ultimatrama;
         int modulos=0;
+        int error = 0;
         int marcador=0;
         List<byte[]> tramas;
         int longitudtrama=0;
@@ -25,6 +26,7 @@ namespace SpinPlatform.Sensors.Meplaca
             modulos = mod;
             longitudtrama = mod * 12 + mod + 1;
             bufferlocal = new byte[100000];
+            ultimatrama = new byte[longitudtrama];
             tramas= new List<byte[]>();
             tramas.Capacity = 100;
             tensiones= new List<int[]>();
@@ -43,20 +45,15 @@ namespace SpinPlatform.Sensors.Meplaca
               
                    PuertoSerie.Read(bufferlocal, marcador, NumBytes);
                    marcador = marcador + NumBytes;
-                   if (Buscar_Inicio()) ProcesarTramas();
+                   if (Buscar_Inicio2()) ProcesarTramas();
             
            }
        }
-     
-
-    
-
-
        public  bool Buscar_Inicio()
         {
 
             int indice_ultima_trama = 0;
-            int indice_primera_trama = 0;
+
             byte[] trama = new byte[longitudtrama];
             byte[] temporal = new byte[bufferlocal.Length];
 
@@ -69,10 +66,11 @@ namespace SpinPlatform.Sensors.Meplaca
                     {
                         if (bufferlocal[i + longitudtrama-1] == 255 && bufferlocal[i + longitudtrama] == 255)
                           {
-                              if (indice_primera_trama == 0) indice_primera_trama = i + longitudtrama;                              
+                                                           
                              indice_ultima_trama = i+longitudtrama;
-                        Array.Copy(bufferlocal, i, trama, 0, longitudtrama);
-                        tramas.Add(trama);
+                              Array.Copy(bufferlocal, i, trama, 0, longitudtrama);
+                              trama.CopyTo(ultimatrama,0);
+                              tramas.Add(trama);
                           }
 		 
                     }
@@ -92,6 +90,83 @@ namespace SpinPlatform.Sensors.Meplaca
             else return false;
         
         }
+       public bool Buscar_Inicio2()
+       {
+
+           int indice_ultima_trama = 0;
+
+           byte[] trama = new byte[longitudtrama];
+           byte[] temporal = new byte[bufferlocal.Length];
+
+           for (int i = 0; i < marcador - 1; i++)
+           {
+
+               if (bufferlocal[i] == 255 && bufferlocal[i + 1] == 255)
+               {
+                   if (i + longitudtrama+1 < marcador)
+                   {
+                       for (int j = i + longitudtrama - 3; j < i + longitudtrama+1; j++)
+                       {
+                           if (bufferlocal[j] == 255 && bufferlocal[j + 1] == 255)
+                           {
+                               if (j - i == longitudtrama )
+                               {
+                                   indice_ultima_trama = i + longitudtrama - 2;
+                                   Array.Copy(bufferlocal, i + 1, trama, 0, longitudtrama);
+                                   trama.CopyTo(ultimatrama,0);
+                                   tramas.Add(trama);
+                                   error = 0;
+                               }
+                               else
+                               {
+                                   if (error==0)
+                                   {
+                                       Array.Copy(bufferlocal, i + 1, trama, 0, longitudtrama);
+                                       CorregirTrama(trama, longitudtrama - j + i);
+                                       error = 1;
+                                   }
+                               }
+
+                           }
+
+                       }
+                   }
+               }
+
+
+           }
+           if (indice_ultima_trama > 2)
+           {
+               Array.Copy(bufferlocal, indice_ultima_trama , temporal, 0, marcador - indice_ultima_trama + 3);
+               Array.Copy(temporal, 0, bufferlocal, 0, bufferlocal.Length);
+               marcador = marcador - indice_ultima_trama - 1;
+               if (marcador < 0)
+                   marcador = 0;
+               return true;
+           }
+
+           else return false;
+
+       }
+
+       private void CorregirTrama(byte[] trama, int p)
+       {
+           int modulo=0;
+           byte[] trama_temp = new byte[longitudtrama];
+          
+           for (int i = 0; i < trama.Length-5; i++)
+           {
+              if (trama[i] == 255 && trama[i +13-p] == 255)
+              {
+                 modulo =(int) Math.Truncate((double)i/13);
+                           i++;
+              }
+           }
+           if(modulo>0) Array.Copy(trama,0,trama_temp,0,modulo*13); 
+           Array.Copy(ultimatrama,modulo*13,trama_temp,modulo*13,13);
+           if (modulo < modulos - 1) Array.Copy(trama, ((modulo + 1) * 13) - p, trama_temp, (modulo + 1) * 13,((modulos- modulo-1) * 13)+1);
+           tramas.Add(trama);
+       }
        public bool Buscar_Final()
        {
            byte temp;
