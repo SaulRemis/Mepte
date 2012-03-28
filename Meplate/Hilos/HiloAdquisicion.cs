@@ -52,7 +52,9 @@ namespace Meplate
                     {
                         t2 = DateTime.Now;
                         elapsedTime = t2 - t1;
-                        avance = avance + LeerAvance(elapsedTime); // en mm
+                        ((ComunicacionTarjeta)_Padre._DispatcherThreads["ComunicacionTarjeta"])._server.GetData(ref _AuxMeplaca,"EstadoSocket");
+                        if (_AuxMeplaca.COMSocketDatosConnected) avance = avance + LeerAvance(elapsedTime); // en mm
+                        else avance = avance + 40;
                         totalElapsedTime = totalElapsedTime + elapsedTime;
                         t1 = t2;
                         // Si se avanzo lo suficiente para una nueva medida sigo

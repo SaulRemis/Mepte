@@ -46,14 +46,20 @@ namespace SpinPlatform.Comunicaciones
                         // Recibir mensaje
                         _buferRecibe = new Byte[_bufferSize];
                         BytesRecibidos = _socketDatos.Receive(_buferRecibe);
-         
-                        Console.Write(BytesRecibidos);
-                        Console.Write(" Bytes recibidos <-- ");
-                        Console.WriteLine(Encoding.ASCII.GetString(_buferRecibe));
+                        if (BytesRecibidos > 0)
+                        {
+                            Console.Write(BytesRecibidos);
+                            Console.Write(" Bytes recibidos <-- ");
+                            Console.WriteLine(Encoding.ASCII.GetString(_buferRecibe));
 
-                        //PROCESAR INFO el server envia un evento hacia atrás por si se quiere hacer algo con la info que llegó
-                        ((SharedData<Byte[]>)SharedMemory["SocketReader"]).Add(_buferRecibe);
-                        Events["SocketData"].Set();
+                            //PROCESAR INFO el server envia un evento hacia atrás por si se quiere hacer algo con la info que llegó
+                            ((SharedData<Byte[]>)SharedMemory["SocketReader"]).Add(_buferRecibe);
+                            Events["SocketData"].Set();
+                        }
+                        else
+                        {
+                            _socketClosed = true;
+                        }
                    
                 }
                 else
@@ -76,6 +82,7 @@ namespace SpinPlatform.Comunicaciones
         {
             try
             {
+                _socketClosed = false;
                 _socketType = socketType;
                 _socketEscucha = socketEscucha;
                 _socketDatos = socket;
@@ -98,10 +105,11 @@ namespace SpinPlatform.Comunicaciones
             {
                 _StopEvent.Set();
                 _socketClosed = true;
-                if (_socketEscucha != null)
-                    _socketEscucha.Close();
                 if (_socketDatos != null)
-                    _socketDatos.Close();               
+                {
+                    _socketDatos.Shutdown(SocketShutdown.Both);
+                    _socketDatos.Close();
+                }               
                 return true;
             }
             catch (Exception ex)

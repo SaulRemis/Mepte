@@ -56,7 +56,10 @@ namespace SpinPlatform.Comunicaciones
         {
             _data = initData;
 
-             _direccionLocal = IPAddress.Parse(_data.COMIP); //Direccion de bucle
+            if (_data.COMSocketType == "SERVER" && _data.COMIP=="")
+                _direccionLocal = GetServerIp();
+            else
+                _direccionLocal = IPAddress.Parse(_data.COMIP); //Direccion de bucle
             _extremoFinal = new IPEndPoint(_direccionLocal, Int32.Parse(_data.COMPort));
 
             _buferRecibe = new Byte[Int32.Parse(_data.COMBufferSize)];
@@ -231,12 +234,52 @@ namespace SpinPlatform.Comunicaciones
                     Status = SpinDispatcherStatus.Stopped; 
                 
                 }
+                if (Status == SpinDispatcherStatus.Starting && _data.COMSocketType == "CLIENT")
+                {
+                    Status = SpinDispatcherStatus.Stopping;
+                    _DispatcherThreads["Comunicaciones"].Stop();
+                    _DispatcherThreads["Comunicaciones"].Join();
+
+                    Status = SpinDispatcherStatus.Stopped;
+
+                }
             }
       
         #endregion
 
         #region Métodos
+        private IPAddress GetServerIp()
+        {
+            string strHostName = "";
+            try
+            {
+                // Getting Ip address of local machine...
+                // First get the host name of local machine.
+                strHostName = Dns.GetHostName();
+                Console.WriteLine("Local Machine's Host Name: " + strHostName);
 
+                // Then using host name, get the IP address list..
+                IPHostEntry ipEntry = Dns.GetHostEntry(strHostName);
+                IPAddress[] addr = ipEntry.AddressList;
+                foreach (IPAddress dir in addr)
+                {
+                    if(dir.AddressFamily.ToString()=="InterNetwork")
+                        return dir;
+                }
+                return null;
+
+            }
+            catch (SocketException se)
+            {
+                Console.WriteLine("{0} ({1})", se.Message, strHostName);
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: {0}.", ex.Message);
+                return null;
+            }
+        }
         public void PrepareEvent(string thread)
         {
             dynamic data = new ExpandoObject();

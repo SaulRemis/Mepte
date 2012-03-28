@@ -71,8 +71,6 @@ namespace SpinPlatform.Comunicaciones
                         try
                         {
                             //Aqui me cargo el hilo con una nueva conexión
-                            _comunicaciones._socketDatos.Shutdown(SocketShutdown.Both);
-                            _comunicaciones._socketDatos.Disconnect(true);
                             _comunicaciones.Stop();
                             _comunicaciones.Join();
                         }
@@ -91,17 +89,9 @@ namespace SpinPlatform.Comunicaciones
             }
             catch (SocketException socketEx)
             {
-                if (socketEx.ErrorCode == 10004)
-                {
                     //Error por cerrar el socket desde la clase padre
                     _socketClosed = true;
-                    if (_started)
-                    {
-                        _comunicaciones.Stop();
-                        _comunicaciones.Join();
-                    }
                     Console.WriteLine("Socket closed");
-                }
             }
         }
 
@@ -109,19 +99,18 @@ namespace SpinPlatform.Comunicaciones
         {
             try
             {
-                //if (_started)
-                //{
-                //    _comunicaciones.Stop();
-                //    _comunicaciones.Join();
-                //}
-                //if (_socketEscucha != null)
-                //{
-                //    _socketEscucha.Close();
-                //}
                 if (_socketEscucha != null)
+                {
+                    //_socketEscucha.Shutdown(SocketShutdown.Both);
+                    //_socketEscucha.Disconnect(true);
                     _socketEscucha.Close();
-                if(_socketDatos!=null)
+                }
+                if (_socketDatos != null)
+                {
+                    _socketDatos.Shutdown(SocketShutdown.Both);
+                    //_socketDatos.Disconnect(true);
                     _socketDatos.Close();
+                } 
                 _StopEvent.Set();
                 return true;
             }

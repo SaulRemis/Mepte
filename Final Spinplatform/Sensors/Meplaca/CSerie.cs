@@ -26,6 +26,7 @@ namespace SpinPlatform.Sensors.Meplaca
             longitudtrama = mod * 12 + mod + 1;
             bufferlocal = new byte[100000];
             tramas= new List<byte[]>();
+            tramas.Capacity = 100;
             tensiones= new List<int[]>();
             PuertoSerie = new System.IO.Ports.SerialPort(puerto, 250000);
             PuertoSerie.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(PuertoSerie_DataReceived);
@@ -39,25 +40,56 @@ namespace SpinPlatform.Sensors.Meplaca
            if (PuertoSerie.IsOpen)
            {
                int NumBytes = PuertoSerie.BytesToRead;
-
-               PuertoSerie.Read(bufferlocal, marcador, NumBytes);
-               marcador = marcador + NumBytes;
-               if (Buscar_Final()) ProcesarTramas();
+              
+                   PuertoSerie.Read(bufferlocal, marcador, NumBytes);
+                   marcador = marcador + NumBytes;
+                   if (Buscar_Inicio()) ProcesarTramas();
+            
            }
        }
+     
+
+    
 
 
-       public  int Buscar_Inicio(byte[] buffer)
+       public  bool Buscar_Inicio()
         {
 
-            for (int i = 0; i < buffer.Length-1; i++)
+            int indice_ultima_trama = 0;
+            int indice_primera_trama = 0;
+            byte[] trama = new byte[longitudtrama];
+            byte[] temporal = new byte[bufferlocal.Length];
+
+            for (int i = 0; i <marcador - 1; i++)
             {
-                if (buffer[i] == 255)
+
+                if (bufferlocal[i] == 255 )
                 {
-                    if (buffer[i+1]==255) return i+1;
+                    if (i+longitudtrama<marcador)
+                    {
+                        if (bufferlocal[i + longitudtrama-1] == 255 && bufferlocal[i + longitudtrama] == 255)
+                          {
+                              if (indice_primera_trama == 0) indice_primera_trama = i + longitudtrama;                              
+                             indice_ultima_trama = i+longitudtrama;
+                        Array.Copy(bufferlocal, i, trama, 0, longitudtrama);
+                        tramas.Add(trama);
+                          }
+		 
+                    }
+
                 }
             }
-            return -1;
+            if (indice_ultima_trama > 2)
+            {
+                Array.Copy(bufferlocal, indice_ultima_trama-1 , temporal, 0, marcador - indice_ultima_trama+3);
+                Array.Copy(temporal,0, bufferlocal,0, bufferlocal.Length);
+                marcador = marcador - indice_ultima_trama - 1;
+                if (marcador < 0)
+                    marcador = 0;
+                return true;
+            }
+
+            else return false;
         
         }
        public bool Buscar_Final()
@@ -91,10 +123,10 @@ namespace SpinPlatform.Sensors.Meplaca
            }
            if (indice_ultima_trama > 0)
            {
-               Array.Copy(bufferlocal, indice_ultima_trama + 1, temporal, 0, marcador - indice_ultima_trama - 1);
+               Array.Copy(bufferlocal, indice_ultima_trama, temporal, 0, marcador - indice_ultima_trama );
                bufferlocal.Initialize();
                Array.Copy(temporal, bufferlocal, bufferlocal.Length);
-               marcador = marcador - indice_ultima_trama - 1;
+               marcador = marcador - indice_ultima_trama ;
                if (marcador < 0) 
                    marcador = 0;
                return true;
