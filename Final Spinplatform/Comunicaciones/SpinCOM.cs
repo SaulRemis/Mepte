@@ -183,10 +183,7 @@ namespace SpinPlatform.Comunicaciones
                     switch (parameter)
                     {
                         case "EstadoSocket":
-                            if (((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos != null)
-                                Data.COMSocketDatosConnected = ((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketDatos.Connected;
-                            else
-                                Data.COMSocketDatosConnected = false;
+                            Data.COMSocketDatosConnected = !((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketClosed;
                             if (_socketEscucha != null)
                                 Data.COMSocketEscuchaConnected = _socketEscucha.IsBound;
                             else
@@ -234,7 +231,7 @@ namespace SpinPlatform.Comunicaciones
                     Status = SpinDispatcherStatus.Stopped; 
                 
                 }
-                if (Status == SpinDispatcherStatus.Starting && _data.COMSocketType == "CLIENT")
+                if (Status == SpinDispatcherStatus.Starting && _data.COMSocketType == "CLIENT" && !((HiloComunicaciones)_DispatcherThreads["Comunicaciones"])._socketClosed)
                 {
                     Status = SpinDispatcherStatus.Stopping;
                     _DispatcherThreads["Comunicaciones"].Stop();

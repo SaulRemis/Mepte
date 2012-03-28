@@ -18,7 +18,7 @@ namespace SpinPlatform.Comunicaciones
 
         public Socket _socketDatos = null;
         private Socket _socketEscucha = null;
-        private bool _socketClosed = false;
+        public bool _socketClosed = true;
         private int BytesRecibidos=0;
         private int _bufferSize = 0;
         private String _socketType = null;
