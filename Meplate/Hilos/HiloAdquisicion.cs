@@ -18,7 +18,6 @@ namespace Meplate
         double avance, avanceAcumulado, velocidad, velocidadAnterior = 0;
         TimeSpan elapsedTime, totalElapsedTime;
         DateTime t1,t2 ;
-        int cont = 0;
         dynamic  _AuxMeplaca ;
         Tarjeta avancetemp;
 
@@ -42,7 +41,6 @@ namespace Meplate
                 // Inicializo todo
                 _Meplaca.GetData(ref _AuxMeplaca, "Medidas"); //Lo usamos para limpiar la lista de medidas                
                 avance = 0;
-                cont = 0;
                 avanceAcumulado = 0;
                 t1 = DateTime.Now;
                 totalElapsedTime = TimeSpan.Zero;
@@ -73,11 +71,10 @@ namespace Meplate
 
                                     if (medidas.Count % 10 == 0) 
                                     {
-                                        ((SharedData<Informacion>)SharedMemory["Informacion"]).Set(0, new Informacion(avanceAcumulado, (double)((medidas.Count-cont) / totalElapsedTime.TotalSeconds)));
+                                        ((SharedData<Informacion>)SharedMemory["Informacion"]).Set(0, new Informacion(avanceAcumulado, (double)(10 / totalElapsedTime.TotalSeconds)));
 
                                        _Padre.PrepareEvent(_Name);   
                                         totalElapsedTime = TimeSpan.Zero;
-                                        cont = medidas.Count;
                                     }
                                 }
                             }
