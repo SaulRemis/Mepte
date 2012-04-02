@@ -46,7 +46,7 @@
             this.trackBar1.SmallChange = 5;
             this.trackBar1.TabIndex = 0;
             this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.trackBar1.Value = 2000;
+            this.trackBar1.Value = 4000;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
             // button1

@@ -20,7 +20,7 @@ namespace CardSaul
     {
 
         #region Funciones Publicas
-        public double _valorSlider = 4;
+        public double _valorSlider = 4000;
         public CardSaul()
         {
 
