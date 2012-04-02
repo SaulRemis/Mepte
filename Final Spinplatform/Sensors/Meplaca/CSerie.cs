@@ -297,6 +297,7 @@ namespace SpinPlatform.Sensors.Meplaca
                 }
 
        }
+      
        public void EnviarOffset(int modulo, int sensor, UInt16 offset)
        {
            byte[] temp = new byte[2];

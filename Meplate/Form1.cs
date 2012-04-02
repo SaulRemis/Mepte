@@ -219,6 +219,15 @@ namespace Meplate
              dynamic temp = new ExpandoObject();
              _Meplate.SetData(ref temp, "ConectarTarjeta");
         }
+
+        private void configuracionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dynamic temp = new ExpandoObject();
+            _Meplate.GetData(ref temp, "Meplaca");
+            Configuracion_Meplaca configuration = new Configuracion_Meplaca(temp.MEPMeplaca);
+            configuration.ShowDialog();
+
+        }
               
     }
 }

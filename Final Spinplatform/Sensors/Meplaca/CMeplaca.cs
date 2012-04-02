@@ -53,6 +53,13 @@ namespace SpinPlatform.Sensors.Meplaca
             return serie.UltimaTension();
         
         }
+
+         private UInt16[] LeerOffset()
+         {
+             return serie.offset;
+         }
+
+
         List<double []> LeerMedidas()
         {
             List<double[]> distancias = new List<double[]>();
@@ -214,6 +221,12 @@ namespace SpinPlatform.Sensors.Meplaca
                         case "UltimaTension":
                             Data.MEPUltimaTension = UltimaTension();
                             break;
+                        case "NumeroModulos":
+                            Data.MEPNumeroModulos = _NumeroModulos;
+                            break;
+                        case "Offset":
+                            Data.MEPOffset = LeerOffset();
+                            break;
 
                         default:
                             Data.MEPErrors = "Wrong Query";
@@ -230,6 +243,7 @@ namespace SpinPlatform.Sensors.Meplaca
             }
 
         }
+
 
         /// <summary>
         /// Inicializa el Modulo MEPLACA.

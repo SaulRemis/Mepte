@@ -14,7 +14,7 @@ namespace Meplate
     class HiloAdquisicion : SpinThreadEvent
     {
         Meplate _Padre;
-        CMeplaca _Meplaca;
+        public  CMeplaca _Meplaca;
         double avance, avanceAcumulado, velocidad, velocidadAnterior = 0;
         TimeSpan elapsedTime, totalElapsedTime;
         DateTime t1,t2 ;

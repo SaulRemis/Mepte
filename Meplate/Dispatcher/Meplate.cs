@@ -109,6 +109,9 @@ namespace Meplate
                             Data.MEPInformacion = (Informacion)((SharedData<Informacion>)_DispatcherSharedMemory["Informacion"]).Get(0);
                         break;
                        
+                        case "Meplaca":
+                        Data.MEPMeplaca = ((HiloAdquisicion)_DispatcherThreads["Adquisicion"])._Meplaca;
+                        break;
 
                         default:
                         Data.MEPErrors = "Wrong Query";
