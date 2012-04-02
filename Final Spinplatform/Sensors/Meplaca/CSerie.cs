@@ -49,47 +49,6 @@ namespace SpinPlatform.Sensors.Meplaca
             
            }
        }
-       public  bool Buscar_Inicio()
-        {
-
-            int indice_ultima_trama = 0;
-
-            byte[] trama = new byte[longitudtrama];
-            byte[] temporal = new byte[bufferlocal.Length];
-
-            for (int i = 0; i <marcador - 1; i++)
-            {
-
-                if (bufferlocal[i] == 255 )
-                {
-                    if (i+longitudtrama<marcador)
-                    {
-                        if (bufferlocal[i + longitudtrama-1] == 255 && bufferlocal[i + longitudtrama] == 255)
-                          {
-                                                           
-                             indice_ultima_trama = i+longitudtrama;
-                              Array.Copy(bufferlocal, i, trama, 0, longitudtrama);
-                              trama.CopyTo(ultimatrama,0);
-                              tramas.Add(trama);
-                          }
-		 
-                    }
-
-                }
-            }
-            if (indice_ultima_trama > 2)
-            {
-                Array.Copy(bufferlocal, indice_ultima_trama-1 , temporal, 0, marcador - indice_ultima_trama+3);
-                Array.Copy(temporal,0, bufferlocal,0, bufferlocal.Length);
-                marcador = marcador - indice_ultima_trama - 1;
-                if (marcador < 0)
-                    marcador = 0;
-                return true;
-            }
-
-            else return false;
-        
-        }
        public bool Buscar_Inicio2()
        {
 

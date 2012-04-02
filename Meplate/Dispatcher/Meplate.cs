@@ -5,9 +5,9 @@ using System.Text;
 using SpinPlatform.Dispatcher;
 using SpinPlatform.Data;
 using System.Threading;
-
 using System.Dynamic;
 using SpinPlatform.Config;
+using SpinPlatform.Log;
 
 namespace Meplate
 {
@@ -18,6 +18,7 @@ namespace Meplate
     {
         //Objetos auxiliares
         dynamic configuracion;
+        SpinLog Log = new SpinLog();
 
         public Meplate()
         {
@@ -31,6 +32,8 @@ namespace Meplate
             SpinConfig con = new SpinConfig();
             configuracion.CONFFile = SpinConfigConstants.SPIN_CONFIG_XML_NAME;
             con.GetData(ref configuracion,"Parametros");
+            Log.Init(configuracion);
+
             
             // Hilos
             _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion(this, "Adquisicion", configuracion));
@@ -54,6 +57,11 @@ namespace Meplate
             CreateEvent("FinalizarMedida", new AutoResetEvent(false), "Adquisicion", "ComunicacionTarjeta");
             CreateEvent("AbortarMedida", new AutoResetEvent(false), "Adquisicion", "ComunicacionTarjeta");
             CreateEvent("IDChapa", new AutoResetEvent(false), "Procesamiento", "ComunicacionOP");
+
+
+            configuracion.Message = "Iniciando aplicacion";
+            Log.SetData(ref configuracion, "WriteLine");
+
 
 
         }
