@@ -70,12 +70,17 @@
             this.toolStripStatusTarjeta = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusProcessComputer = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerEstado = new System.Windows.Forms.Timer(this.components);
-            this.MeplateMenu = new System.Windows.Forms.MenuStrip();
-            this.Meplate = new System.Windows.Forms.ToolStripMenuItem();
-            this.configuracionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu = new System.Windows.Forms.MenuStrip();
+            this.MenuConfiguracion = new System.Windows.Forms.ToolStripMenuItem();
+            this.configuracionOffsetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MeplateMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.iniciarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pararToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.speedCardConnectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.forceMeasurementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this._MeplatestatusStrip1.SuspendLayout();
-            this.MeplateMenu.SuspendLayout();
+            this.Menu.SuspendLayout();
             this.SuspendLayout();
             // 
             // MedirPararButton
@@ -437,30 +442,71 @@
             this.timerEstado.Interval = 500;
             this.timerEstado.Tick += new System.EventHandler(this.timerEstado_Tick);
             // 
+            // Menu
+            // 
+            this.Menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MeplateMenu,
+            this.MenuConfiguracion});
+            this.Menu.Location = new System.Drawing.Point(0, 0);
+            this.Menu.Name = "Menu";
+            this.Menu.Size = new System.Drawing.Size(826, 24);
+            this.Menu.TabIndex = 27;
+            this.Menu.Text = "menuStrip1";
+            // 
+            // MenuConfiguracion
+            // 
+            this.MenuConfiguracion.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.configuracionOffsetToolStripMenuItem,
+            this.speedCardConnectionToolStripMenuItem,
+            this.forceMeasurementToolStripMenuItem});
+            this.MenuConfiguracion.Name = "MenuConfiguracion";
+            this.MenuConfiguracion.Size = new System.Drawing.Size(48, 20);
+            this.MenuConfiguracion.Text = "Tools";
+            // 
+            // configuracionOffsetToolStripMenuItem
+            // 
+            this.configuracionOffsetToolStripMenuItem.Name = "configuracionOffsetToolStripMenuItem";
+            this.configuracionOffsetToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.configuracionOffsetToolStripMenuItem.Text = "Offset Configuration";
+            this.configuracionOffsetToolStripMenuItem.Click += new System.EventHandler(this.configuracionToolStripMenuItem_Click);
+            // 
             // MeplateMenu
             // 
-            this.MeplateMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Meplate});
-            this.MeplateMenu.Location = new System.Drawing.Point(0, 0);
+            this.MeplateMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.iniciarToolStripMenuItem,
+            this.pararToolStripMenuItem});
             this.MeplateMenu.Name = "MeplateMenu";
-            this.MeplateMenu.Size = new System.Drawing.Size(826, 24);
-            this.MeplateMenu.TabIndex = 27;
-            this.MeplateMenu.Text = "menuStrip1";
+            this.MeplateMenu.Size = new System.Drawing.Size(62, 20);
+            this.MeplateMenu.Text = "Meplate";
             // 
-            // Meplate
+            // iniciarToolStripMenuItem
             // 
-            this.Meplate.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.configuracionToolStripMenuItem});
-            this.Meplate.Name = "Meplate";
-            this.Meplate.Size = new System.Drawing.Size(61, 20);
-            this.Meplate.Text = "Options";
+            this.iniciarToolStripMenuItem.Enabled = false;
+            this.iniciarToolStripMenuItem.Name = "iniciarToolStripMenuItem";
+            this.iniciarToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.iniciarToolStripMenuItem.Text = "Start";
+            this.iniciarToolStripMenuItem.Click += new System.EventHandler(this.iniciarToolStripMenuItem_Click);
             // 
-            // configuracionToolStripMenuItem
+            // pararToolStripMenuItem
             // 
-            this.configuracionToolStripMenuItem.Name = "configuracionToolStripMenuItem";
-            this.configuracionToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
-            this.configuracionToolStripMenuItem.Text = "Offset Configuration";
-            this.configuracionToolStripMenuItem.Click += new System.EventHandler(this.configuracionToolStripMenuItem_Click);
+            this.pararToolStripMenuItem.Name = "pararToolStripMenuItem";
+            this.pararToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pararToolStripMenuItem.Text = "Stop";
+            this.pararToolStripMenuItem.Click += new System.EventHandler(this.pararToolStripMenuItem_Click);
+            // 
+            // speedCardConnectionToolStripMenuItem
+            // 
+            this.speedCardConnectionToolStripMenuItem.Name = "speedCardConnectionToolStripMenuItem";
+            this.speedCardConnectionToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.speedCardConnectionToolStripMenuItem.Text = "SpeedCardConnection";
+            this.speedCardConnectionToolStripMenuItem.Click += new System.EventHandler(this.button_Tarjeta_Click);
+            // 
+            // forceMeasurementToolStripMenuItem
+            // 
+            this.forceMeasurementToolStripMenuItem.Name = "forceMeasurementToolStripMenuItem";
+            this.forceMeasurementToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.forceMeasurementToolStripMenuItem.Text = "Start Measurement";
+            this.forceMeasurementToolStripMenuItem.Click += new System.EventHandler(this.MedirPararButton_Click);
             // 
             // Form1
             // 
@@ -469,7 +515,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(826, 743);
             this.Controls.Add(this._MeplatestatusStrip1);
-            this.Controls.Add(this.MeplateMenu);
+            this.Controls.Add(this.Menu);
             this.Controls.Add(this.label_escala_inter);
             this.Controls.Add(this.label_escala_max);
             this.Controls.Add(this.label_escala_min);
@@ -485,7 +531,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.VentanaHalconPrincipal);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.MeplateMenu;
+            this.MainMenuStrip = this.Menu;
             this.Name = "Form1";
             this.Text = "MEPLATE";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
@@ -493,8 +539,8 @@
             this.groupBox1.PerformLayout();
             this._MeplatestatusStrip1.ResumeLayout(false);
             this._MeplatestatusStrip1.PerformLayout();
-            this.MeplateMenu.ResumeLayout(false);
-            this.MeplateMenu.PerformLayout();
+            this.Menu.ResumeLayout(false);
+            this.Menu.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -540,9 +586,14 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Timer timerEstado;
         private System.Windows.Forms.Button button_Tarjeta;
-        private System.Windows.Forms.MenuStrip MeplateMenu;
-        private System.Windows.Forms.ToolStripMenuItem Meplate;
-        private System.Windows.Forms.ToolStripMenuItem configuracionToolStripMenuItem;
+        private System.Windows.Forms.MenuStrip Menu;
+        private System.Windows.Forms.ToolStripMenuItem MenuConfiguracion;
+        private System.Windows.Forms.ToolStripMenuItem configuracionOffsetToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MeplateMenu;
+        private System.Windows.Forms.ToolStripMenuItem iniciarToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pararToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem speedCardConnectionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem forceMeasurementToolStripMenuItem;
 
     }
 }

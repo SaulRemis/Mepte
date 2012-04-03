@@ -127,6 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Debug\AppConfig.xml" />
+    <Content Include="bin\Release\AppConfig.xml" />
     <Content Include="Resources\logo cuadrado32x32.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

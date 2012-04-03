@@ -147,13 +147,17 @@ namespace Meplate
             if (MedirPararButton.Text == "Medir")
             {
                 MedirPararButton.Text = "Parar";
+                forceMeasurementToolStripMenuItem.Text = "Stop Measurement";
+                configuracionOffsetToolStripMenuItem.Enabled = false;
                 _Meplate.SetData(ref temp, "EventoComenzarMedida");
 
             }
 
             else
             {
+                forceMeasurementToolStripMenuItem.Text = "Start Measurement";
                 MedirPararButton.Text = "Medir";
+                configuracionOffsetToolStripMenuItem.Enabled = true;
                 _Meplate.SetData(ref temp, "EventoFinalizarMedida");
             }
 
@@ -228,6 +232,26 @@ namespace Meplate
             Configuracion_Meplaca configuration = new Configuracion_Meplaca(temp.MEPMeplaca);
             configuration.ShowDialog();
 
+        }
+
+        private void pararToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            timerEstado.Enabled = false;
+            _Meplate.Stop();
+            iniciarToolStripMenuItem.Enabled = true;
+            pararToolStripMenuItem.Enabled = false;
+            MedirPararButton.Enabled = false;
+            MenuConfiguracion.Enabled = false;
+        }
+
+        private void iniciarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _Meplate.Start();
+            timerEstado.Enabled = true;
+            iniciarToolStripMenuItem.Enabled = false;
+            pararToolStripMenuItem.Enabled = true;
+            MedirPararButton.Enabled = true;
+            MenuConfiguracion.Enabled = true;
         }
               
     }
