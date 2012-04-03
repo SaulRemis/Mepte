@@ -29,9 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Configuracion_Meplaca));
             this.chart_meplaca = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.timer_meplaca = new System.Windows.Forms.Timer(this.components);
             this.radioButton_distances = new System.Windows.Forms.RadioButton();
@@ -51,6 +52,11 @@
             this.label_voltage = new System.Windows.Forms.Label();
             this.label_distance = new System.Windows.Forms.Label();
             this.label_offset = new System.Windows.Forms.Label();
+            this.button_mas5 = new System.Windows.Forms.Button();
+            this.button_menos5 = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBox_newoffset = new System.Windows.Forms.TextBox();
+            this.button_newoffset = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart_meplaca)).BeginInit();
             this.groupBox_Source.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -60,20 +66,21 @@
             // 
             // chart_meplaca
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chart_meplaca.ChartAreas.Add(chartArea2);
-            legend2.Enabled = false;
-            legend2.Name = "Legend1";
-            this.chart_meplaca.Legends.Add(legend2);
+            chartArea1.Name = "ChartArea1";
+            this.chart_meplaca.ChartAreas.Add(chartArea1);
+            legend1.Enabled = false;
+            legend1.Name = "Legend1";
+            this.chart_meplaca.Legends.Add(legend1);
             this.chart_meplaca.Location = new System.Drawing.Point(3, 43);
             this.chart_meplaca.Name = "chart_meplaca";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chart_meplaca.Series.Add(series2);
-            this.chart_meplaca.Size = new System.Drawing.Size(273, 192);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart_meplaca.Series.Add(series1);
+            this.chart_meplaca.Size = new System.Drawing.Size(273, 227);
             this.chart_meplaca.TabIndex = 0;
             this.chart_meplaca.Text = "chart1";
+            this.chart_meplaca.MouseDown += new System.Windows.Forms.MouseEventHandler(this.chart_meplaca_MouseDown);
             // 
             // timer_meplaca
             // 
@@ -121,14 +128,19 @@
             this.panel1.Controls.Add(this.chart_meplaca);
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(294, 251);
+            this.panel1.Size = new System.Drawing.Size(294, 273);
             this.panel1.TabIndex = 3;
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.White;
+            this.panel2.Controls.Add(this.button_newoffset);
+            this.panel2.Controls.Add(this.textBox_newoffset);
+            this.panel2.Controls.Add(this.button_menos5);
+            this.panel2.Controls.Add(this.button_mas5);
             this.panel2.Controls.Add(this.label_offset);
             this.panel2.Controls.Add(this.label_distance);
+            this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.label4);
             this.panel2.Controls.Add(this.label_voltage);
             this.panel2.Controls.Add(this.label3);
@@ -141,13 +153,13 @@
             this.panel2.Controls.Add(this.trackBar_sensores);
             this.panel2.Location = new System.Drawing.Point(339, 12);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(275, 250);
+            this.panel2.Size = new System.Drawing.Size(275, 273);
             this.panel2.TabIndex = 4;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(33, 200);
+            this.label4.Location = new System.Drawing.Point(33, 197);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(41, 13);
             this.label4.TabIndex = 1;
@@ -156,7 +168,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(33, 161);
+            this.label3.Location = new System.Drawing.Point(33, 159);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(55, 13);
             this.label3.TabIndex = 1;
@@ -165,7 +177,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(33, 122);
+            this.label2.Location = new System.Drawing.Point(33, 121);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(49, 13);
             this.label2.TabIndex = 1;
@@ -252,6 +264,54 @@
             this.label_offset.TabIndex = 1;
             this.label_offset.Text = "0";
             // 
+            // button_mas5
+            // 
+            this.button_mas5.Location = new System.Drawing.Point(178, 195);
+            this.button_mas5.Name = "button_mas5";
+            this.button_mas5.Size = new System.Drawing.Size(35, 23);
+            this.button_mas5.TabIndex = 2;
+            this.button_mas5.Text = "+5";
+            this.button_mas5.UseVisualStyleBackColor = true;
+            this.button_mas5.Click += new System.EventHandler(this.button_mas5_Click);
+            // 
+            // button_menos5
+            // 
+            this.button_menos5.Location = new System.Drawing.Point(230, 195);
+            this.button_menos5.Name = "button_menos5";
+            this.button_menos5.Size = new System.Drawing.Size(35, 23);
+            this.button_menos5.TabIndex = 2;
+            this.button_menos5.Text = "-5";
+            this.button_menos5.UseVisualStyleBackColor = true;
+            this.button_menos5.Click += new System.EventHandler(this.button_menos5_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(33, 235);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(66, 13);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "New Offset :";
+            // 
+            // textBox_newoffset
+            // 
+            this.textBox_newoffset.AcceptsReturn = true;
+            this.textBox_newoffset.Location = new System.Drawing.Point(118, 227);
+            this.textBox_newoffset.Name = "textBox_newoffset";
+            this.textBox_newoffset.Size = new System.Drawing.Size(56, 20);
+            this.textBox_newoffset.TabIndex = 3;
+            this.textBox_newoffset.Text = "0";
+            // 
+            // button_newoffset
+            // 
+            this.button_newoffset.Location = new System.Drawing.Point(193, 224);
+            this.button_newoffset.Name = "button_newoffset";
+            this.button_newoffset.Size = new System.Drawing.Size(72, 23);
+            this.button_newoffset.TabIndex = 4;
+            this.button_newoffset.Text = "New Offset";
+            this.button_newoffset.UseVisualStyleBackColor = true;
+            this.button_newoffset.Click += new System.EventHandler(this.button_newoffset_Click);
+            // 
             // Configuracion_Meplaca
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -260,6 +320,7 @@
             this.ClientSize = new System.Drawing.Size(643, 340);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Configuracion_Meplaca";
             this.Text = "Sensor Configuration";
             ((System.ComponentModel.ISupportInitialize)(this.chart_meplaca)).EndInit();
@@ -294,5 +355,10 @@
         private System.Windows.Forms.Label label_distance;
         private System.Windows.Forms.Label label_voltage;
         private System.Windows.Forms.Label label_sensor;
+        private System.Windows.Forms.Button button_menos5;
+        private System.Windows.Forms.Button button_mas5;
+        private System.Windows.Forms.Button button_newoffset;
+        private System.Windows.Forms.TextBox textBox_newoffset;
+        private System.Windows.Forms.Label label6;
     }
 }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Dynamic;
 using SpinPlatform.Sensors.Meplaca;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Meplate
 {
@@ -57,7 +58,40 @@ namespace Meplate
             label_voltage.Text = tensiones[trackBar_sensores.Value].ToString();
             label_distance.Text = distancias[trackBar_sensores.Value].ToString("F02");
             label_offset.Text = offset[trackBar_sensores.Value].ToString();
+            chart_meplaca.Series[0].Points[trackBar_sensores.Value].Color = Color.Red;
       
+        }
+
+        private void button_mas5_Click(object sender, EventArgs e)
+        {
+            Aux_meplaca.MEPModulo =Math.Truncate((decimal)trackBar_sensores.Value / 6);
+            Aux_meplaca.MEPSensor = trackBar_sensores.Value % 6;
+            Aux_meplaca.MEPOffset = offset[trackBar_sensores.Value] + 5;
+            _Meplaca.SetData(ref Aux_meplaca, "EnviarOffsetsSensor");
+        }
+
+        private void button_menos5_Click(object sender, EventArgs e)
+        {
+            Aux_meplaca.MEPModulo = Math.Truncate((decimal)trackBar_sensores.Value / 6);
+            Aux_meplaca.MEPSensor = trackBar_sensores.Value % 6;
+            Aux_meplaca.MEPOffset = offset[trackBar_sensores.Value] - 5;
+            _Meplaca.SetData(ref Aux_meplaca, "EnviarOffsetsSensor");
+        }
+
+        private void chart_meplaca_MouseDown(object sender, MouseEventArgs e)
+        {
+            HitTestResult result = chart_meplaca.HitTest(e.X, e.Y);
+            if (result.PointIndex>=trackBar_sensores.Minimum&&result.PointIndex<=trackBar_sensores.Maximum)
+            trackBar_sensores.Value = result.PointIndex;
+
+        }
+
+        private void button_newoffset_Click(object sender, EventArgs e)
+        {
+            Aux_meplaca.MEPModulo = Math.Truncate((decimal)trackBar_sensores.Value / 6);
+            Aux_meplaca.MEPSensor = trackBar_sensores.Value % 6;
+            Aux_meplaca.MEPOffset = UInt16.Parse(textBox_newoffset.Text);
+            _Meplaca.SetData(ref Aux_meplaca, "EnviarOffsetsSensor");
         }
     }
 }

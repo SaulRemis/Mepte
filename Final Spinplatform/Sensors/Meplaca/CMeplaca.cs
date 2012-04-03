@@ -53,13 +53,10 @@ namespace SpinPlatform.Sensors.Meplaca
             return serie.UltimaTension();
         
         }
-
          private UInt16[] LeerOffset()
          {
-             return serie.offset;
+             return serie._Offset;
          }
-
-
         List<double []> LeerMedidas()
         {
             List<double[]> distancias = new List<double[]>();
@@ -132,7 +129,7 @@ namespace SpinPlatform.Sensors.Meplaca
             {
                 for (int j = 0; j < 6; j++)
                 {
-                    serie.offset[i*6+j] =(UInt16)calibracion.Modulos[i].Sensores[j].off;
+                    serie._Offset[i*6+j] =(UInt16)calibracion.Modulos[i].Sensores[j].off;
                 }
             }
             serie.EnviarOffsets();
@@ -152,14 +149,14 @@ namespace SpinPlatform.Sensors.Meplaca
                     {
                         if (offsets[6 * i + j] == 0)
                         {
-                            serie.offset[6 * i + j] = serie.offset[6 * i + j];
+                            serie._Offset[6 * i + j] = serie._Offset[6 * i + j];
 
                         }
                         else
                         {
                              dist=(UInt16)Math.Round((calibracion.Modulos[i].Sensores[j].a / (_Distancia_a_la_chapa - calibracion.Modulos[i].Sensores[j].c)) + calibracion.Modulos[i].Sensores[j].b);
                              valor=(UInt16)Math.Round((calibracion.Modulos[i].Sensores[j].a / (offsets[6 * i + j] - calibracion.Modulos[i].Sensores[j].c)) + calibracion.Modulos[i].Sensores[j].b);
-                             serie.offset[6 * i + j] = (UInt16)(serie.offset[6 * i + j]+ valor - dist);
+                             serie._Offset[6 * i + j] = (UInt16)(serie._Offset[6 * i + j]+ valor - dist);
                         }
                     }
                 
@@ -297,6 +294,9 @@ namespace SpinPlatform.Sensors.Meplaca
                             break;
                         case "EnviarOffsets":
                             enviarOffsets(data.MEPOffsets);
+                            break;
+                        case "EnviarOffsetsSensor":
+                            serie.EnviarOffset((int)data.MEPModulo, (int)data.MEPSensor, (UInt16)data.MEPOffset);
                             break;
 
                         default:

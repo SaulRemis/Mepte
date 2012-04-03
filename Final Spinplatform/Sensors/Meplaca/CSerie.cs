@@ -19,7 +19,7 @@ namespace SpinPlatform.Sensors.Meplaca
 
         readonly object _locker;
 
-        public UInt16[] offset;
+        public UInt16[] _Offset;
 
        public CSerie(int mod,string puerto)
         {
@@ -33,7 +33,7 @@ namespace SpinPlatform.Sensors.Meplaca
             PuertoSerie = new System.IO.Ports.SerialPort(puerto, 250000);
             PuertoSerie.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(PuertoSerie_DataReceived);
             _locker = new object();
-            offset = new UInt16[modulos * 6];
+            _Offset = new UInt16[modulos * 6];
 
         }
 
@@ -243,7 +243,7 @@ namespace SpinPlatform.Sensors.Meplaca
            lock (_locker)
            {
                temp = tensiones[tensiones.Count - 1];
-               tensiones.Clear(); 
+              // tensiones.Clear(); 
            }
 //Fin seccion critica
 
@@ -277,7 +277,7 @@ namespace SpinPlatform.Sensors.Meplaca
                             buff[0] = 255;
                             buff[1] = (byte)i;//Número de celda/nºsensores (CELDA)
                             buff[2] = (byte)j; //Sensor al que corresponde el offset (CANAL)
-                            temp=BitConverter.GetBytes(offset[6*i+j]);
+                            temp=BitConverter.GetBytes(_Offset[6*i+j]);
                             buff[3] = temp[1];
                             if (temp[0] == 255) 
                                 buff[4] = 254;
@@ -302,6 +302,7 @@ namespace SpinPlatform.Sensors.Meplaca
        {
            byte[] temp = new byte[2];
            byte[] buff = new byte[6];
+           _Offset[modulo * 6 + sensor] = offset;
 
            if (PuertoSerie.IsOpen)
            {
@@ -320,7 +321,6 @@ namespace SpinPlatform.Sensors.Meplaca
                        buff[5] = (byte)(((buff[0] + buff[1] + buff[2] + buff[3] + buff[4]) % 256));
 
                        PuertoSerie.Write(buff, 0, 6);
-                       System.Threading.Thread.Sleep(50);
            }
        
        }
