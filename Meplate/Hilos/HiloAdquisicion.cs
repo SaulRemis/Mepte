@@ -91,9 +91,11 @@ namespace Meplate
 
                             //envio los offsets
 
-                            if (!((SharedData<double[]>)_SharedMemory["Offset"]).Vacio)
+                            if (!((SharedData<Offset>)_SharedMemory["Offset"]).Vacio)
                             {
-                                _AuxMeplaca.MEPOffsets = (double[])((SharedData<double[]>)SharedMemory["Offset"]).Get(0);
+                                Offset off_temp = (Offset)((SharedData<Offset>)SharedMemory["Offset"]).Get(0);
+                                _AuxMeplaca.MEPOffsets = (double[])off_temp.Valores;
+                                _AuxMeplaca.MEPReferencias = (double[])off_temp.Referencias;
                                 _Meplaca.SetData(ref _AuxMeplaca, "EnviarOffsets");
                             }
                             break;

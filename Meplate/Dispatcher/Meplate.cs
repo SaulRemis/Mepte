@@ -44,7 +44,7 @@ namespace Meplate
 
             //memorias Ompartidas
             ConnectMemory("Chapas", new SharedData<List<CMedida>>(20), "Adquisicion", "Procesamiento");
-            ConnectMemory("Offset", new SharedData<double[]>(1), "Adquisicion", "Procesamiento");
+            ConnectMemory("Offset", new SharedData<Offset>(1), "Adquisicion", "Procesamiento");
             ConnectMemory("Informacion", new SharedData<Informacion>(1), "Adquisicion");
             ConnectMemory("Resultados", new SharedData<Resultados>(1), "Procesamiento");
             ConnectMemory("Velocidad", new SharedData<Tarjeta>(1), "Adquisicion", "ComunicacionTarjeta");

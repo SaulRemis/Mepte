@@ -289,7 +289,7 @@ namespace SpinPlatform.Sensors.Meplaca
                             buff[5] = (byte)(((buff[0] + buff[1] + buff[2] + buff[3] + buff[4]) % 256));
 
                             PuertoSerie.Write(buff, 0, 6);
-                            System.Threading.Thread.Sleep(50);
+                            System.Threading.Thread.Sleep(60);
                             
                         }
                     }

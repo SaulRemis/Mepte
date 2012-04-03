@@ -17,7 +17,8 @@ namespace Meplate
         public double distancia_a_la_chapa ;
         double sigma_bordes;
         double umbral_bordes;
-        public double[] offset;
+        public double[] _ValoresMedios;
+        public double[] _Referencias;
         public double BI, BD;
         public int borde_derecho, borde_izquierdo;
         public double[,] Pixeles;
@@ -33,7 +34,8 @@ namespace Meplate
             sigma_bordes = double.Parse(parametros.Procesamiento.sigma_bordes);
             umbral_bordes = double.Parse(parametros.Procesamiento.umbral_bordes);
             filas = numeroModulos * 6;
-            offset = new double[filas];
+            _ValoresMedios = new double[filas];
+            _Referencias = new double[filas];
             Pixeles = new double[ numeroMedidas*2,5];
             Puntos = new double[ numeroMedidas*2,7];
             //Pixeles2 = new double[numeroMedidas, 5];
@@ -76,7 +78,8 @@ namespace Meplate
             if (X != null) X.Dispose();
             if (Y != null) Y.Dispose();
 
-            offset.Initialize();
+            _ValoresMedios.Initialize();
+            _Referencias.Initialize();
             columnas = medidas.Count;
             X = new HImage("real", columnas, filas);
             Y = new HImage("real", columnas, filas);
@@ -118,11 +121,12 @@ namespace Meplate
                 {
                    
                    
-                    if (j > borde_izquierdo && j < borde_derecho)
+                    if (j >= borde_izquierdo && j <= borde_derecho)
                     {
                        
                         med = media.GetGrayval(j, 0);
-                        offset[j] = med;
+                        _ValoresMedios[j] = med;
+                        _Referencias[j] = distancia_a_la_chapa;
      
                         valor = Z.GetGrayval(j, i);
                         Z.SetGrayval(j, i, distancia_a_la_chapa + valor - med);
@@ -145,6 +149,13 @@ namespace Meplate
                 }
             }
             else ObtenerBordesSinAncho();
+
+           
+            //si quiero incluir los parcialmente cubiertos
+            if (borde_izquierdo>0) borde_izquierdo = borde_izquierdo - 1;
+            if (borde_izquierdo < filas - 1) borde_derecho = borde_derecho + 1;
+
+
 
             // pongo a 0 todos los valores fuera de la chapa y creo la imgen de X
 

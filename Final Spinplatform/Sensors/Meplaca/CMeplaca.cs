@@ -138,7 +138,7 @@ namespace SpinPlatform.Sensors.Meplaca
         /// Envia un vector con nuevos offset al meplaca. Internamente los pasa de mm a tensiones
         /// </summary>
         /// <param name="offsets">offset en mm </param>
-        void enviarOffsets(double[] offsets)
+        void enviarOffsets(double[] valores, double[] referencias)
         {
             UInt16 dist, valor;
                        
@@ -146,15 +146,15 @@ namespace SpinPlatform.Sensors.Meplaca
                 {
                     for (int j = 0; j < 6; j++)
                     {
-                        if (offsets[6 * i + j] == 0)
+                        if (valores[6 * i + j] == 0)
                         {
                             serie._Offset[6 * i + j] = serie._Offset[6 * i + j];
 
                         }
                         else
                         {
-                             dist=(UInt16)Math.Round((calibracion.Modulos[i].Sensores[j].a / (_Distancia_a_la_chapa - calibracion.Modulos[i].Sensores[j].c)) + calibracion.Modulos[i].Sensores[j].b);
-                             valor=(UInt16)Math.Round((calibracion.Modulos[i].Sensores[j].a / (offsets[6 * i + j] - calibracion.Modulos[i].Sensores[j].c)) + calibracion.Modulos[i].Sensores[j].b);
+                            dist = (UInt16)Math.Round((calibracion.Modulos[i].Sensores[j].a / (referencias[6 * i + j] - calibracion.Modulos[i].Sensores[j].c)) + calibracion.Modulos[i].Sensores[j].b);
+                             valor = (UInt16)Math.Round((calibracion.Modulos[i].Sensores[j].a / (valores[6 * i + j] - calibracion.Modulos[i].Sensores[j].c)) + calibracion.Modulos[i].Sensores[j].b);
                              serie._Offset[6 * i + j] = (UInt16)(serie._Offset[6 * i + j]+ valor - dist);
                         }
                     }
@@ -321,7 +321,7 @@ namespace SpinPlatform.Sensors.Meplaca
                             enviarOffsetsArchivo();
                             break;
                         case "EnviarOffsets":
-                            enviarOffsets(data.MEPOffsets);
+                            enviarOffsets(data.MEPOffsets,data.MEPReferencias);
                             break;
                         case "EnviarOffsetsSensor":
                             serie.EnviarOffset((int)data.MEPModulo, (int)data.MEPSensor, (UInt16)data.MEPOffset);

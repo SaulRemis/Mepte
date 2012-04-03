@@ -69,6 +69,7 @@
     <Compile Include="Hilos\HiloProcesamiento.cs" />
     <Compile Include="Dispatcher\Meplate.cs" />
     <Compile Include="Memorias Compartidas\Informacion.cs" />
+    <Compile Include="Memorias Compartidas\Offset.cs" />
     <Compile Include="Memorias Compartidas\PlateID.cs" />
     <Compile Include="Memorias Compartidas\Tarjeta.cs" />
     <Compile Include="Program.cs" />
