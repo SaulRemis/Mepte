@@ -25,7 +25,6 @@ namespace SpinPlatform.Sensors.Meplaca
         string _Puerto;
         string[] _PathDatosCalibracion;
 
-
         public double MinimoAvanceParaMedir{get { return _MinimoAvanceParaMedir; }}
 
             # endregion
@@ -163,6 +162,21 @@ namespace SpinPlatform.Sensors.Meplaca
                 }
             serie.EnviarOffsets();
         }
+        void ActualizaArchivoOffset()
+        {
+            for (int i = 0; i < _NumeroModulos; i++)
+            {
+                string[] datosCalibracion = System.IO.File.ReadAllLines(_PathDatosCalibracion[i]);
+                for (int j = 0; j < 6; j++)
+                {                   
+                    datosCalibracion[j * 4] = "off" + (j + 1).ToString() + "= " + serie._Offset[6 * i + j].ToString();                   
+                }
+                System.IO.File.WriteAllLines(_PathDatosCalibracion[i], datosCalibracion);
+            }
+        
+        
+        
+        }
         #endregion
 
         #region Miembros de ISpinPlatformInterface2
@@ -297,6 +311,9 @@ namespace SpinPlatform.Sensors.Meplaca
                             break;
                         case "EnviarOffsetsSensor":
                             serie.EnviarOffset((int)data.MEPModulo, (int)data.MEPSensor, (UInt16)data.MEPOffset);
+                            break;
+                        case "ActualizaArchivoOffset":
+                            ActualizaArchivoOffset();
                             break;
 
                         default:

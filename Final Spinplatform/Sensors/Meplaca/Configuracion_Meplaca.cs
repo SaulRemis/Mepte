@@ -10,7 +10,7 @@ using System.Dynamic;
 using SpinPlatform.Sensors.Meplaca;
 using System.Windows.Forms.DataVisualization.Charting;
 
-namespace Meplate
+namespace SpinPlatform.Sensors.Meplaca
 {
     public partial class Configuracion_Meplaca : Form
     {
@@ -59,6 +59,8 @@ namespace Meplate
             label_distance.Text = distancias[trackBar_sensores.Value].ToString("F02");
             label_offset.Text = offset[trackBar_sensores.Value].ToString();
             chart_meplaca.Series[0].Points[trackBar_sensores.Value].Color = Color.Red;
+           // chart_meplaca.Series[1].Points.AddXY(0,double.Parse(textBox_reference.Text));
+            //chart_meplaca.Series[1].Points.AddXY(_NumeroModulos * 6 - 1, double.Parse(textBox_reference.Text));
       
         }
 
@@ -92,6 +94,11 @@ namespace Meplate
             Aux_meplaca.MEPSensor = trackBar_sensores.Value % 6;
             Aux_meplaca.MEPOffset = UInt16.Parse(textBox_newoffset.Text);
             _Meplaca.SetData(ref Aux_meplaca, "EnviarOffsetsSensor");
+        }
+
+        private void button_sobreescribir_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure to overwrite the original offsets?","WARNING",MessageBoxButtons.YesNo,MessageBoxIcon.Question)  ==DialogResult.Yes)          _Meplaca.SetData(ref Aux_meplaca, "ActualizaArchivoOffset");
         }
     }
 }

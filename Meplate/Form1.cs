@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using SpinPlatform.Data;
 using SpinPlatform.Dispatcher;
 using System.Dynamic;
+using SpinPlatform.Sensors.Meplaca;
 
 namespace Meplate
 {
