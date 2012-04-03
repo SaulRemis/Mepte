@@ -58,6 +58,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.trackBar_sensores = new System.Windows.Forms.TrackBar();
             this.button_sobreescribir = new System.Windows.Forms.Button();
+            this.button_leerarchivo = new System.Windows.Forms.Button();
+            this.button_ok = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart_meplaca)).BeginInit();
             this.groupBox_Source.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -315,13 +317,33 @@
             // 
             // button_sobreescribir
             // 
-            this.button_sobreescribir.Location = new System.Drawing.Point(481, 301);
+            this.button_sobreescribir.Location = new System.Drawing.Point(200, 305);
             this.button_sobreescribir.Name = "button_sobreescribir";
-            this.button_sobreescribir.Size = new System.Drawing.Size(133, 23);
+            this.button_sobreescribir.Size = new System.Drawing.Size(157, 23);
             this.button_sobreescribir.TabIndex = 5;
-            this.button_sobreescribir.Text = "Overwite Offset Files";
+            this.button_sobreescribir.Text = "WRITE OFFSETS TO FILE";
             this.button_sobreescribir.UseVisualStyleBackColor = true;
             this.button_sobreescribir.Click += new System.EventHandler(this.button_sobreescribir_Click);
+            // 
+            // button_leerarchivo
+            // 
+            this.button_leerarchivo.Location = new System.Drawing.Point(15, 305);
+            this.button_leerarchivo.Name = "button_leerarchivo";
+            this.button_leerarchivo.Size = new System.Drawing.Size(166, 23);
+            this.button_leerarchivo.TabIndex = 6;
+            this.button_leerarchivo.Text = "READ OFFSETS FROM FILE";
+            this.button_leerarchivo.UseVisualStyleBackColor = true;
+            this.button_leerarchivo.Click += new System.EventHandler(this.button_leerarchivo_Click);
+            // 
+            // button_ok
+            // 
+            this.button_ok.Location = new System.Drawing.Point(532, 305);
+            this.button_ok.Name = "button_ok";
+            this.button_ok.Size = new System.Drawing.Size(75, 23);
+            this.button_ok.TabIndex = 7;
+            this.button_ok.Text = "OK";
+            this.button_ok.UseVisualStyleBackColor = true;
+            this.button_ok.Click += new System.EventHandler(this.button_ok_Click);
             // 
             // Configuracion_Meplaca
             // 
@@ -329,12 +351,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(643, 340);
+            this.Controls.Add(this.button_ok);
+            this.Controls.Add(this.button_leerarchivo);
             this.Controls.Add(this.button_sobreescribir);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Configuracion_Meplaca";
-            this.Text = "Sensor Configuration";
+            this.Text = "Sensor Offset Configuration";
             ((System.ComponentModel.ISupportInitialize)(this.chart_meplaca)).EndInit();
             this.groupBox_Source.ResumeLayout(false);
             this.groupBox_Source.PerformLayout();
@@ -373,5 +397,7 @@
         private System.Windows.Forms.TextBox textBox_newoffset;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button button_sobreescribir;
+        private System.Windows.Forms.Button button_leerarchivo;
+        private System.Windows.Forms.Button button_ok;
     }
 }

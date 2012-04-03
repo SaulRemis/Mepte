@@ -177,6 +177,20 @@ namespace SpinPlatform.Sensors.Meplaca
         
         
         }
+        private void LeerOffsetsArchivo()
+        {
+            for (int i = 0; i < _NumeroModulos; i++)
+            {
+                string[] datosCalibracion = System.IO.File.ReadAllLines(_PathDatosCalibracion[i]);
+                for (int j = 0; j < 6; j++)
+                {
+                    int indice = datosCalibracion[j * 4].LastIndexOf("=");
+                    serie._Offset[6 * i + j] = UInt16.Parse( datosCalibracion[j * 4].Substring(indice + 1));
+                }
+               
+            }
+            serie.EnviarOffsets();
+        }
         #endregion
 
         #region Miembros de ISpinPlatformInterface2
@@ -315,6 +329,9 @@ namespace SpinPlatform.Sensors.Meplaca
                         case "ActualizaArchivoOffset":
                             ActualizaArchivoOffset();
                             break;
+                        case "LeerOffsetsArchivo":
+                            LeerOffsetsArchivo();
+                            break;
 
                         default:
                                data.MEPErrors = "Wrong Query";
@@ -331,6 +348,8 @@ namespace SpinPlatform.Sensors.Meplaca
             }
            
         }
+
+       
 
         public event SpinPlatform.Dispatcher.ResultEventHandler NewResultEvent;
 

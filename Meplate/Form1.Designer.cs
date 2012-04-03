@@ -94,7 +94,7 @@
             this.VentanaHalconPrincipal.BackColor = System.Drawing.Color.Black;
             this.VentanaHalconPrincipal.BorderColor = System.Drawing.Color.Black;
             this.VentanaHalconPrincipal.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
-            this.VentanaHalconPrincipal.Location = new System.Drawing.Point(12, 372);
+            this.VentanaHalconPrincipal.Location = new System.Drawing.Point(12, 396);
             this.VentanaHalconPrincipal.Name = "VentanaHalconPrincipal";
             this.VentanaHalconPrincipal.Size = new System.Drawing.Size(738, 314);
             this.VentanaHalconPrincipal.TabIndex = 12;
@@ -122,7 +122,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this._LabelFrameRate);
             this.groupBox1.Controls.Add(this.MedirPararButton);
-            this.groupBox1.Location = new System.Drawing.Point(12, 157);
+            this.groupBox1.Location = new System.Drawing.Point(12, 183);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(329, 161);
             this.groupBox1.TabIndex = 18;
@@ -238,7 +238,7 @@
             this._listViewPuntos.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
             listViewGroup1,
             listViewGroup2});
-            this._listViewPuntos.Location = new System.Drawing.Point(360, 174);
+            this._listViewPuntos.Location = new System.Drawing.Point(360, 200);
             this._listViewPuntos.Name = "_listViewPuntos";
             this._listViewPuntos.Size = new System.Drawing.Size(454, 144);
             this._listViewPuntos.TabIndex = 21;
@@ -293,7 +293,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(29, 336);
+            this.label4.Location = new System.Drawing.Point(29, 357);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(117, 24);
             this.label4.TabIndex = 22;
@@ -303,7 +303,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(340, 336);
+            this.label5.Location = new System.Drawing.Point(340, 357);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(111, 24);
             this.label5.TabIndex = 22;
@@ -313,7 +313,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(555, 336);
+            this.label6.Location = new System.Drawing.Point(555, 357);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(111, 24);
             this.label6.TabIndex = 22;
@@ -322,7 +322,7 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.RoyalBlue;
-            this.panel3.Location = new System.Drawing.Point(309, 336);
+            this.panel3.Location = new System.Drawing.Point(309, 357);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(25, 23);
             this.panel3.TabIndex = 23;
@@ -330,7 +330,7 @@
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.GreenYellow;
-            this.panel4.Location = new System.Drawing.Point(524, 336);
+            this.panel4.Location = new System.Drawing.Point(524, 357);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(25, 23);
             this.panel4.TabIndex = 23;
@@ -339,7 +339,7 @@
             // 
             this.panel5.BackgroundImage = global::Meplate.Properties.Resources.escale1;
             this.panel5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel5.Location = new System.Drawing.Point(756, 370);
+            this.panel5.Location = new System.Drawing.Point(756, 394);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(14, 316);
             this.panel5.TabIndex = 24;
@@ -348,7 +348,7 @@
             // 
             this.panel2.BackgroundImage = global::Meplate.Properties.Resources.Diapositiva2;
             this.panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel2.Location = new System.Drawing.Point(607, 13);
+            this.panel2.Location = new System.Drawing.Point(606, 40);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(214, 126);
             this.panel2.TabIndex = 20;
@@ -357,7 +357,7 @@
             // 
             this.panel1.BackgroundImage = global::Meplate.Properties.Resources.meplatelogo;
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel1.Location = new System.Drawing.Point(18, 13);
+            this.panel1.Location = new System.Drawing.Point(18, 40);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(582, 126);
             this.panel1.TabIndex = 19;
@@ -395,7 +395,7 @@
             this.toolStripStatusSpeed,
             this.toolStripStatusTarjeta,
             this.toolStripStatusProcessComputer});
-            this._MeplatestatusStrip1.Location = new System.Drawing.Point(0, 674);
+            this._MeplatestatusStrip1.Location = new System.Drawing.Point(0, 719);
             this._MeplatestatusStrip1.Name = "_MeplatestatusStrip1";
             this._MeplatestatusStrip1.Size = new System.Drawing.Size(826, 24);
             this._MeplatestatusStrip1.TabIndex = 26;
@@ -452,14 +452,14 @@
             this.Meplate.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.configuracionToolStripMenuItem});
             this.Meplate.Name = "Meplate";
-            this.Meplate.Size = new System.Drawing.Size(62, 20);
-            this.Meplate.Text = "Meplate";
+            this.Meplate.Size = new System.Drawing.Size(61, 20);
+            this.Meplate.Text = "Options";
             // 
             // configuracionToolStripMenuItem
             // 
             this.configuracionToolStripMenuItem.Name = "configuracionToolStripMenuItem";
-            this.configuracionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.configuracionToolStripMenuItem.Text = "Configuracion";
+            this.configuracionToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.configuracionToolStripMenuItem.Text = "Offset Configuration";
             this.configuracionToolStripMenuItem.Click += new System.EventHandler(this.configuracionToolStripMenuItem_Click);
             // 
             // Form1
@@ -467,7 +467,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(826, 698);
+            this.ClientSize = new System.Drawing.Size(826, 743);
             this.Controls.Add(this._MeplatestatusStrip1);
             this.Controls.Add(this.MeplateMenu);
             this.Controls.Add(this.label_escala_inter);

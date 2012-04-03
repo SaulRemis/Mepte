@@ -98,7 +98,17 @@ namespace SpinPlatform.Sensors.Meplaca
 
         private void button_sobreescribir_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure to overwrite the original offsets?","WARNING",MessageBoxButtons.YesNo,MessageBoxIcon.Question)  ==DialogResult.Yes)          _Meplaca.SetData(ref Aux_meplaca, "ActualizaArchivoOffset");
+            if (MessageBox.Show("Are you sure to overwrite the original offsets?","WARNING",MessageBoxButtons.YesNo,MessageBoxIcon.Question)  ==DialogResult.Yes)     _Meplaca.SetData(ref Aux_meplaca, "ActualizaArchivoOffset");
+        }
+
+        private void button_leerarchivo_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure to go back to the original offsets?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) _Meplaca.SetData(ref Aux_meplaca, "LeerOffsetsArchivo");
+        }
+
+        private void button_ok_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
