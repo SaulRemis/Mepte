@@ -60,7 +60,6 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label_escala_min = new System.Windows.Forms.Label();
             this.label_escala_max = new System.Windows.Forms.Label();
@@ -78,6 +77,7 @@
             this.pararToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.speedCardConnectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.forceMeasurementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             this._MeplatestatusStrip1.SuspendLayout();
             this.Menu.SuspendLayout();
@@ -99,11 +99,11 @@
             this.VentanaHalconPrincipal.BackColor = System.Drawing.Color.Black;
             this.VentanaHalconPrincipal.BorderColor = System.Drawing.Color.Black;
             this.VentanaHalconPrincipal.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
-            this.VentanaHalconPrincipal.Location = new System.Drawing.Point(12, 396);
+            this.VentanaHalconPrincipal.Location = new System.Drawing.Point(12, 265);
             this.VentanaHalconPrincipal.Name = "VentanaHalconPrincipal";
-            this.VentanaHalconPrincipal.Size = new System.Drawing.Size(738, 314);
+            this.VentanaHalconPrincipal.Size = new System.Drawing.Size(712, 314);
             this.VentanaHalconPrincipal.TabIndex = 12;
-            this.VentanaHalconPrincipal.WindowSize = new System.Drawing.Size(738, 314);
+            this.VentanaHalconPrincipal.WindowSize = new System.Drawing.Size(712, 314);
             // 
             // _LabelFrameRate
             // 
@@ -127,9 +127,9 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this._LabelFrameRate);
             this.groupBox1.Controls.Add(this.MedirPararButton);
-            this.groupBox1.Location = new System.Drawing.Point(12, 183);
+            this.groupBox1.Location = new System.Drawing.Point(12, 38);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(329, 161);
+            this.groupBox1.Size = new System.Drawing.Size(345, 161);
             this.groupBox1.TabIndex = 18;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "INFORMATION";
@@ -243,9 +243,9 @@
             this._listViewPuntos.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
             listViewGroup1,
             listViewGroup2});
-            this._listViewPuntos.Location = new System.Drawing.Point(360, 200);
+            this._listViewPuntos.Location = new System.Drawing.Point(810, 265);
             this._listViewPuntos.Name = "_listViewPuntos";
-            this._listViewPuntos.Size = new System.Drawing.Size(454, 144);
+            this._listViewPuntos.Size = new System.Drawing.Size(454, 305);
             this._listViewPuntos.TabIndex = 21;
             this._listViewPuntos.UseCompatibleStateImageBehavior = false;
             this._listViewPuntos.View = System.Windows.Forms.View.Details;
@@ -298,7 +298,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(29, 357);
+            this.label4.Location = new System.Drawing.Point(29, 233);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(117, 24);
             this.label4.TabIndex = 22;
@@ -308,7 +308,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(340, 357);
+            this.label5.Location = new System.Drawing.Point(340, 233);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(111, 24);
             this.label5.TabIndex = 22;
@@ -318,7 +318,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(555, 357);
+            this.label6.Location = new System.Drawing.Point(555, 233);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(111, 24);
             this.label6.TabIndex = 22;
@@ -327,7 +327,7 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.RoyalBlue;
-            this.panel3.Location = new System.Drawing.Point(309, 357);
+            this.panel3.Location = new System.Drawing.Point(309, 233);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(25, 23);
             this.panel3.TabIndex = 23;
@@ -335,7 +335,7 @@
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.GreenYellow;
-            this.panel4.Location = new System.Drawing.Point(524, 357);
+            this.panel4.Location = new System.Drawing.Point(524, 233);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(25, 23);
             this.panel4.TabIndex = 23;
@@ -344,33 +344,24 @@
             // 
             this.panel5.BackgroundImage = global::Meplate.Properties.Resources.escale1;
             this.panel5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel5.Location = new System.Drawing.Point(756, 394);
+            this.panel5.Location = new System.Drawing.Point(740, 265);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(14, 316);
             this.panel5.TabIndex = 24;
             // 
-            // panel2
-            // 
-            this.panel2.BackgroundImage = global::Meplate.Properties.Resources.Diapositiva2;
-            this.panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel2.Location = new System.Drawing.Point(606, 40);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(214, 126);
-            this.panel2.TabIndex = 20;
-            // 
             // panel1
             // 
-            this.panel1.BackgroundImage = global::Meplate.Properties.Resources.meplatelogo;
+            this.panel1.BackgroundImage = global::Meplate.Properties.Resources.logo4;
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel1.Location = new System.Drawing.Point(18, 40);
+            this.panel1.Location = new System.Drawing.Point(804, 44);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(582, 126);
+            this.panel1.Size = new System.Drawing.Size(460, 126);
             this.panel1.TabIndex = 19;
             // 
             // label_escala_min
             // 
             this.label_escala_min.AutoSize = true;
-            this.label_escala_min.Location = new System.Drawing.Point(776, 673);
+            this.label_escala_min.Location = new System.Drawing.Point(760, 566);
             this.label_escala_min.Name = "label_escala_min";
             this.label_escala_min.Size = new System.Drawing.Size(32, 13);
             this.label_escala_min.TabIndex = 25;
@@ -379,7 +370,7 @@
             // label_escala_max
             // 
             this.label_escala_max.AutoSize = true;
-            this.label_escala_max.Location = new System.Drawing.Point(776, 370);
+            this.label_escala_max.Location = new System.Drawing.Point(760, 263);
             this.label_escala_max.Name = "label_escala_max";
             this.label_escala_max.Size = new System.Drawing.Size(38, 13);
             this.label_escala_max.TabIndex = 25;
@@ -388,7 +379,7 @@
             // label_escala_inter
             // 
             this.label_escala_inter.AutoSize = true;
-            this.label_escala_inter.Location = new System.Drawing.Point(776, 532);
+            this.label_escala_inter.Location = new System.Drawing.Point(760, 425);
             this.label_escala_inter.Name = "label_escala_inter";
             this.label_escala_inter.Size = new System.Drawing.Size(38, 13);
             this.label_escala_inter.TabIndex = 25;
@@ -400,9 +391,9 @@
             this.toolStripStatusSpeed,
             this.toolStripStatusTarjeta,
             this.toolStripStatusProcessComputer});
-            this._MeplatestatusStrip1.Location = new System.Drawing.Point(0, 719);
+            this._MeplatestatusStrip1.Location = new System.Drawing.Point(0, 590);
             this._MeplatestatusStrip1.Name = "_MeplatestatusStrip1";
-            this._MeplatestatusStrip1.Size = new System.Drawing.Size(826, 24);
+            this._MeplatestatusStrip1.Size = new System.Drawing.Size(1276, 24);
             this._MeplatestatusStrip1.TabIndex = 26;
             this._MeplatestatusStrip1.Text = "statusStrip1";
             // 
@@ -449,7 +440,7 @@
             this.MenuConfiguracion});
             this.Menu.Location = new System.Drawing.Point(0, 0);
             this.Menu.Name = "Menu";
-            this.Menu.Size = new System.Drawing.Size(826, 24);
+            this.Menu.Size = new System.Drawing.Size(1276, 24);
             this.Menu.TabIndex = 27;
             this.Menu.Text = "menuStrip1";
             // 
@@ -508,12 +499,22 @@
             this.forceMeasurementToolStripMenuItem.Text = "Start Measurement";
             this.forceMeasurementToolStripMenuItem.Click += new System.EventHandler(this.MedirPararButton_Click);
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Location = new System.Drawing.Point(375, 44);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(349, 155);
+            this.groupBox2.TabIndex = 28;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "VALIDATION";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(826, 743);
+            this.ClientSize = new System.Drawing.Size(1276, 614);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this._MeplatestatusStrip1);
             this.Controls.Add(this.Menu);
             this.Controls.Add(this.label_escala_inter);
@@ -526,7 +527,6 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this._listViewPuntos);
-            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.VentanaHalconPrincipal);
@@ -553,7 +553,6 @@
         private System.Windows.Forms.Label _LabelFrameRate;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.ListView _listViewPuntos;
         private System.Windows.Forms.ColumnHeader DEFECT;
         private System.Windows.Forms.ColumnHeader X;
@@ -594,6 +593,7 @@
         private System.Windows.Forms.ToolStripMenuItem pararToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem speedCardConnectionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem forceMeasurementToolStripMenuItem;
+        private System.Windows.Forms.GroupBox groupBox2;
 
     }
 }
