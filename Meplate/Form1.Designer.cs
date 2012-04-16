@@ -29,17 +29,17 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("1 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("2 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("1 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("2 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.MedirPararButton = new System.Windows.Forms.Button();
             this.VentanaHalconPrincipal = new HalconDotNet.HWindowControl();
-            this._LabelFrameRate = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button_Tarjeta = new System.Windows.Forms.Button();
+            this.labEL_THICKNESS = new System.Windows.Forms.Label();
             this.label_Width = new System.Windows.Forms.Label();
             this.label_Lenght = new System.Windows.Forms.Label();
             this.label_ID = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -59,40 +59,41 @@
             this.label6 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.label_escala_min = new System.Windows.Forms.Label();
             this.label_escala_max = new System.Windows.Forms.Label();
             this.label_escala_inter = new System.Windows.Forms.Label();
             this._MeplatestatusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusframerate = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusSpeed = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusTarjeta = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusProcessComputer = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerEstado = new System.Windows.Forms.Timer(this.components);
             this.Menu = new System.Windows.Forms.MenuStrip();
-            this.MenuConfiguracion = new System.Windows.Forms.ToolStripMenuItem();
-            this.configuracionOffsetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MeplateMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.iniciarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pararToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.forceMeasurementToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuConfiguracion = new System.Windows.Forms.ToolStripMenuItem();
+            this.configuracionOffsetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.speedCardConnectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.forceMeasurementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label_numdefects = new System.Windows.Forms.Label();
+            this.labeL_defectominimo = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox1.SuspendLayout();
             this._MeplatestatusStrip1.SuspendLayout();
             this.Menu.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // MedirPararButton
-            // 
-            this.MedirPararButton.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.MedirPararButton.Location = new System.Drawing.Point(254, 138);
-            this.MedirPararButton.Name = "MedirPararButton";
-            this.MedirPararButton.Size = new System.Drawing.Size(75, 23);
-            this.MedirPararButton.TabIndex = 15;
-            this.MedirPararButton.Text = "Medir";
-            this.MedirPararButton.UseVisualStyleBackColor = false;
-            this.MedirPararButton.Click += new System.EventHandler(this.MedirPararButton_Click);
             // 
             // VentanaHalconPrincipal
             // 
@@ -105,49 +106,39 @@
             this.VentanaHalconPrincipal.TabIndex = 12;
             this.VentanaHalconPrincipal.WindowSize = new System.Drawing.Size(712, 314);
             // 
-            // _LabelFrameRate
-            // 
-            this._LabelFrameRate.AutoSize = true;
-            this._LabelFrameRate.Location = new System.Drawing.Point(133, 138);
-            this._LabelFrameRate.Name = "_LabelFrameRate";
-            this._LabelFrameRate.Size = new System.Drawing.Size(62, 13);
-            this._LabelFrameRate.TabIndex = 17;
-            this._LabelFrameRate.Text = "perfiles/sec";
-            // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button_Tarjeta);
+            this.groupBox1.Controls.Add(this.labEL_THICKNESS);
             this.groupBox1.Controls.Add(this.label_Width);
             this.groupBox1.Controls.Add(this.label_Lenght);
             this.groupBox1.Controls.Add(this.label_ID);
+            this.groupBox1.Controls.Add(this.label13);
+            this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this._LabelFrameRate);
-            this.groupBox1.Controls.Add(this.MedirPararButton);
             this.groupBox1.Location = new System.Drawing.Point(12, 38);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(345, 161);
+            this.groupBox1.Size = new System.Drawing.Size(261, 161);
             this.groupBox1.TabIndex = 18;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "INFORMATION";
             // 
-            // button_Tarjeta
+            // labEL_THICKNESS
             // 
-            this.button_Tarjeta.Location = new System.Drawing.Point(254, 109);
-            this.button_Tarjeta.Name = "button_Tarjeta";
-            this.button_Tarjeta.Size = new System.Drawing.Size(75, 23);
-            this.button_Tarjeta.TabIndex = 20;
-            this.button_Tarjeta.Text = "Conectar a Tarjeta";
-            this.button_Tarjeta.UseVisualStyleBackColor = true;
-            this.button_Tarjeta.Click += new System.EventHandler(this.button_Tarjeta_Click);
+            this.labEL_THICKNESS.AutoSize = true;
+            this.labEL_THICKNESS.Location = new System.Drawing.Point(112, 118);
+            this.labEL_THICKNESS.Name = "labEL_THICKNESS";
+            this.labEL_THICKNESS.Size = new System.Drawing.Size(13, 13);
+            this.labEL_THICKNESS.TabIndex = 20;
+            this.labEL_THICKNESS.Text = "0";
             // 
             // label_Width
             // 
             this.label_Width.AutoSize = true;
-            this.label_Width.Location = new System.Drawing.Point(91, 89);
+            this.label_Width.Location = new System.Drawing.Point(112, 89);
             this.label_Width.Name = "label_Width";
             this.label_Width.Size = new System.Drawing.Size(13, 13);
             this.label_Width.TabIndex = 19;
@@ -156,7 +147,7 @@
             // label_Lenght
             // 
             this.label_Lenght.AutoSize = true;
-            this.label_Lenght.Location = new System.Drawing.Point(91, 61);
+            this.label_Lenght.Location = new System.Drawing.Point(112, 61);
             this.label_Lenght.Name = "label_Lenght";
             this.label_Lenght.Size = new System.Drawing.Size(13, 13);
             this.label_Lenght.TabIndex = 19;
@@ -165,17 +156,37 @@
             // label_ID
             // 
             this.label_ID.AutoSize = true;
-            this.label_ID.Location = new System.Drawing.Point(91, 37);
+            this.label_ID.Location = new System.Drawing.Point(112, 37);
             this.label_ID.Name = "label_ID";
             this.label_ID.Size = new System.Drawing.Size(13, 13);
             this.label_ID.TabIndex = 19;
             this.label_ID.Text = "0";
             // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(179, 119);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(25, 13);
+            this.label13.TabIndex = 18;
+            this.label13.Text = "mm";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(7, 119);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(77, 13);
+            this.label11.TabIndex = 18;
+            this.label11.Text = "THICKNESS";
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(152, 89);
+            this.label8.Location = new System.Drawing.Point(179, 89);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(25, 13);
             this.label8.TabIndex = 18;
@@ -195,7 +206,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(152, 61);
+            this.label7.Location = new System.Drawing.Point(179, 61);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(16, 13);
             this.label7.TabIndex = 18;
@@ -234,15 +245,15 @@
             this.Z2,
             this.DIFF});
             this._listViewPuntos.FullRowSelect = true;
-            listViewGroup1.Header = "1 m RULER";
-            listViewGroup1.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup1.Name = "listViewGroup1m";
-            listViewGroup2.Header = "2 m RULER";
-            listViewGroup2.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup2.Name = "listViewGroup2m";
+            listViewGroup3.Header = "1 m RULER";
+            listViewGroup3.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup3.Name = "listViewGroup1m";
+            listViewGroup4.Header = "2 m RULER";
+            listViewGroup4.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup4.Name = "listViewGroup2m";
             this._listViewPuntos.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2});
+            listViewGroup3,
+            listViewGroup4});
             this._listViewPuntos.Location = new System.Drawing.Point(810, 265);
             this._listViewPuntos.Name = "_listViewPuntos";
             this._listViewPuntos.Size = new System.Drawing.Size(454, 305);
@@ -340,24 +351,6 @@
             this.panel4.Size = new System.Drawing.Size(25, 23);
             this.panel4.TabIndex = 23;
             // 
-            // panel5
-            // 
-            this.panel5.BackgroundImage = global::Meplate.Properties.Resources.escale1;
-            this.panel5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel5.Location = new System.Drawing.Point(740, 265);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(14, 316);
-            this.panel5.TabIndex = 24;
-            // 
-            // panel1
-            // 
-            this.panel1.BackgroundImage = global::Meplate.Properties.Resources.logo4;
-            this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel1.Location = new System.Drawing.Point(804, 44);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(460, 126);
-            this.panel1.TabIndex = 19;
-            // 
             // label_escala_min
             // 
             this.label_escala_min.AutoSize = true;
@@ -388,23 +381,34 @@
             // _MeplatestatusStrip1
             // 
             this._MeplatestatusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusframerate,
             this.toolStripStatusSpeed,
             this.toolStripStatusTarjeta,
             this.toolStripStatusProcessComputer});
             this._MeplatestatusStrip1.Location = new System.Drawing.Point(0, 590);
             this._MeplatestatusStrip1.Name = "_MeplatestatusStrip1";
+            this._MeplatestatusStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this._MeplatestatusStrip1.Size = new System.Drawing.Size(1276, 24);
             this._MeplatestatusStrip1.TabIndex = 26;
             this._MeplatestatusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusframerate
+            // 
+            this.toolStripStatusframerate.Name = "toolStripStatusframerate";
+            this.toolStripStatusframerate.Size = new System.Drawing.Size(315, 19);
+            this.toolStripStatusframerate.Spring = true;
+            this.toolStripStatusframerate.Text = "FRAMERATE : 0 ";
             // 
             // toolStripStatusSpeed
             // 
             this.toolStripStatusSpeed.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.toolStripStatusSpeed.BorderStyle = System.Windows.Forms.Border3DStyle.Adjust;
             this.toolStripStatusSpeed.Name = "toolStripStatusSpeed";
-            this.toolStripStatusSpeed.Size = new System.Drawing.Size(98, 19);
-            this.toolStripStatusSpeed.Text = "Speed : 0 m/min";
+            this.toolStripStatusSpeed.Size = new System.Drawing.Size(307, 19);
+            this.toolStripStatusSpeed.Spring = true;
+            this.toolStripStatusSpeed.Text = "SPEED : 0 m/min";
             // 
             // toolStripStatusTarjeta
             // 
@@ -414,7 +418,8 @@
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.toolStripStatusTarjeta.BorderStyle = System.Windows.Forms.Border3DStyle.Adjust;
             this.toolStripStatusTarjeta.Name = "toolStripStatusTarjeta";
-            this.toolStripStatusTarjeta.Size = new System.Drawing.Size(164, 19);
+            this.toolStripStatusTarjeta.Size = new System.Drawing.Size(315, 19);
+            this.toolStripStatusTarjeta.Spring = true;
             this.toolStripStatusTarjeta.Text = "Speed Card : Non Connected";
             // 
             // toolStripStatusProcessComputer
@@ -425,7 +430,8 @@
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.toolStripStatusProcessComputer.BorderStyle = System.Windows.Forms.Border3DStyle.Adjust;
             this.toolStripStatusProcessComputer.Name = "toolStripStatusProcessComputer";
-            this.toolStripStatusProcessComputer.Size = new System.Drawing.Size(201, 19);
+            this.toolStripStatusProcessComputer.Size = new System.Drawing.Size(315, 19);
+            this.toolStripStatusProcessComputer.Spring = true;
             this.toolStripStatusProcessComputer.Text = "Process Computer : Non Connected";
             // 
             // timerEstado
@@ -444,12 +450,66 @@
             this.Menu.TabIndex = 27;
             this.Menu.Text = "menuStrip1";
             // 
+            // MeplateMenu
+            // 
+            this.MeplateMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.iniciarToolStripMenuItem,
+            this.pararToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.forceMeasurementToolStripMenuItem1});
+            this.MeplateMenu.Name = "MeplateMenu";
+            this.MeplateMenu.Size = new System.Drawing.Size(62, 20);
+            this.MeplateMenu.Text = "Meplate";
+            // 
+            // iniciarToolStripMenuItem
+            // 
+            this.iniciarToolStripMenuItem.Enabled = false;
+            this.iniciarToolStripMenuItem.Name = "iniciarToolStripMenuItem";
+            this.iniciarToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.iniciarToolStripMenuItem.Text = "Start";
+            this.iniciarToolStripMenuItem.Click += new System.EventHandler(this.iniciarToolStripMenuItem_Click);
+            // 
+            // pararToolStripMenuItem
+            // 
+            this.pararToolStripMenuItem.Name = "pararToolStripMenuItem";
+            this.pararToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.pararToolStripMenuItem.Text = "Stop";
+            this.pararToolStripMenuItem.Click += new System.EventHandler(this.pararToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(176, 6);
+            // 
+            // forceMeasurementToolStripMenuItem1
+            // 
+            this.forceMeasurementToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.startToolStripMenuItem,
+            this.stopToolStripMenuItem});
+            this.forceMeasurementToolStripMenuItem1.Name = "forceMeasurementToolStripMenuItem1";
+            this.forceMeasurementToolStripMenuItem1.Size = new System.Drawing.Size(179, 22);
+            this.forceMeasurementToolStripMenuItem1.Text = "Force Measurement";
+            // 
+            // startToolStripMenuItem
+            // 
+            this.startToolStripMenuItem.Name = "startToolStripMenuItem";
+            this.startToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.startToolStripMenuItem.Text = "Start";
+            this.startToolStripMenuItem.Click += new System.EventHandler(this.startToolStripMenuItem_Click);
+            // 
+            // stopToolStripMenuItem
+            // 
+            this.stopToolStripMenuItem.Enabled = false;
+            this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
+            this.stopToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.stopToolStripMenuItem.Text = "Stop";
+            this.stopToolStripMenuItem.Click += new System.EventHandler(this.stopToolStripMenuItem_Click);
+            // 
             // MenuConfiguracion
             // 
             this.MenuConfiguracion.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.configuracionOffsetToolStripMenuItem,
-            this.speedCardConnectionToolStripMenuItem,
-            this.forceMeasurementToolStripMenuItem});
+            this.speedCardConnectionToolStripMenuItem});
             this.MenuConfiguracion.Name = "MenuConfiguracion";
             this.MenuConfiguracion.Size = new System.Drawing.Size(48, 20);
             this.MenuConfiguracion.Text = "Tools";
@@ -461,52 +521,111 @@
             this.configuracionOffsetToolStripMenuItem.Text = "Offset Configuration";
             this.configuracionOffsetToolStripMenuItem.Click += new System.EventHandler(this.configuracionToolStripMenuItem_Click);
             // 
-            // MeplateMenu
-            // 
-            this.MeplateMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.iniciarToolStripMenuItem,
-            this.pararToolStripMenuItem});
-            this.MeplateMenu.Name = "MeplateMenu";
-            this.MeplateMenu.Size = new System.Drawing.Size(62, 20);
-            this.MeplateMenu.Text = "Meplate";
-            // 
-            // iniciarToolStripMenuItem
-            // 
-            this.iniciarToolStripMenuItem.Enabled = false;
-            this.iniciarToolStripMenuItem.Name = "iniciarToolStripMenuItem";
-            this.iniciarToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.iniciarToolStripMenuItem.Text = "Start";
-            this.iniciarToolStripMenuItem.Click += new System.EventHandler(this.iniciarToolStripMenuItem_Click);
-            // 
-            // pararToolStripMenuItem
-            // 
-            this.pararToolStripMenuItem.Name = "pararToolStripMenuItem";
-            this.pararToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.pararToolStripMenuItem.Text = "Stop";
-            this.pararToolStripMenuItem.Click += new System.EventHandler(this.pararToolStripMenuItem_Click);
-            // 
             // speedCardConnectionToolStripMenuItem
             // 
+            this.speedCardConnectionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.connectToolStripMenuItem});
             this.speedCardConnectionToolStripMenuItem.Name = "speedCardConnectionToolStripMenuItem";
             this.speedCardConnectionToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.speedCardConnectionToolStripMenuItem.Text = "SpeedCardConnection";
-            this.speedCardConnectionToolStripMenuItem.Click += new System.EventHandler(this.button_Tarjeta_Click);
             // 
-            // forceMeasurementToolStripMenuItem
+            // connectToolStripMenuItem
             // 
-            this.forceMeasurementToolStripMenuItem.Name = "forceMeasurementToolStripMenuItem";
-            this.forceMeasurementToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.forceMeasurementToolStripMenuItem.Text = "Start Measurement";
-            this.forceMeasurementToolStripMenuItem.Click += new System.EventHandler(this.MedirPararButton_Click);
+            this.connectToolStripMenuItem.Name = "connectToolStripMenuItem";
+            this.connectToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.connectToolStripMenuItem.Text = "Connect";
+            this.connectToolStripMenuItem.Click += new System.EventHandler(this.connectToolStripMenuItem_Click);
             // 
             // groupBox2
             // 
-            this.groupBox2.Location = new System.Drawing.Point(375, 44);
+            this.groupBox2.Controls.Add(this.label_numdefects);
+            this.groupBox2.Controls.Add(this.labeL_defectominimo);
+            this.groupBox2.Controls.Add(this.panel2);
+            this.groupBox2.Controls.Add(this.label10);
+            this.groupBox2.Controls.Add(this.label9);
+            this.groupBox2.Controls.Add(this.label12);
+            this.groupBox2.Location = new System.Drawing.Point(309, 38);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(349, 155);
+            this.groupBox2.Size = new System.Drawing.Size(415, 161);
             this.groupBox2.TabIndex = 28;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "VALIDATION";
+            // 
+            // label_numdefects
+            // 
+            this.label_numdefects.AutoSize = true;
+            this.label_numdefects.Location = new System.Drawing.Point(14, 118);
+            this.label_numdefects.Name = "label_numdefects";
+            this.label_numdefects.Size = new System.Drawing.Size(13, 13);
+            this.label_numdefects.TabIndex = 20;
+            this.label_numdefects.Text = "0";
+            // 
+            // labeL_defectominimo
+            // 
+            this.labeL_defectominimo.AutoSize = true;
+            this.labeL_defectominimo.Location = new System.Drawing.Point(11, 60);
+            this.labeL_defectominimo.Name = "labeL_defectominimo";
+            this.labeL_defectominimo.Size = new System.Drawing.Size(13, 13);
+            this.labeL_defectominimo.TabIndex = 19;
+            this.labeL_defectominimo.Text = "0";
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.panel2.Location = new System.Drawing.Point(235, 31);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(157, 100);
+            this.panel2.TabIndex = 0;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label10.Location = new System.Drawing.Point(9, 87);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(165, 13);
+            this.label10.TabIndex = 18;
+            this.label10.Text = " DEFECTS OVER MINIMUM";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.Coral;
+            this.label9.Location = new System.Drawing.Point(9, 31);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(184, 13);
+            this.label9.TabIndex = 18;
+            this.label9.Text = "MINIMUM DEFECT ACCEPTED";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(78, 60);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(25, 13);
+            this.label12.TabIndex = 18;
+            this.label12.Text = "mm";
+            // 
+            // panel5
+            // 
+            this.panel5.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel5.BackgroundImage")));
+            this.panel5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel5.Location = new System.Drawing.Point(740, 265);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(14, 316);
+            this.panel5.TabIndex = 24;
+            // 
+            // panel1
+            // 
+            this.panel1.BackgroundImage = global::Meplate.Properties.Resources.logo4;
+            this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel1.Location = new System.Drawing.Point(804, 44);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(460, 126);
+            this.panel1.TabIndex = 19;
             // 
             // Form1
             // 
@@ -541,6 +660,8 @@
             this._MeplatestatusStrip1.PerformLayout();
             this.Menu.ResumeLayout(false);
             this.Menu.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -548,9 +669,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button MedirPararButton;
         private HalconDotNet.HWindowControl VentanaHalconPrincipal;
-        private System.Windows.Forms.Label _LabelFrameRate;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ListView _listViewPuntos;
@@ -584,7 +703,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Timer timerEstado;
-        private System.Windows.Forms.Button button_Tarjeta;
         private System.Windows.Forms.MenuStrip Menu;
         private System.Windows.Forms.ToolStripMenuItem MenuConfiguracion;
         private System.Windows.Forms.ToolStripMenuItem configuracionOffsetToolStripMenuItem;
@@ -592,8 +710,22 @@
         private System.Windows.Forms.ToolStripMenuItem iniciarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pararToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem speedCardConnectionToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem forceMeasurementToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusframerate;
+        private System.Windows.Forms.Label label_numdefects;
+        private System.Windows.Forms.Label labeL_defectominimo;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.ToolStripMenuItem connectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem forceMeasurementToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem startToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem stopToolStripMenuItem;
+        private System.Windows.Forms.Label labEL_THICKNESS;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label11;
 
     }
 }

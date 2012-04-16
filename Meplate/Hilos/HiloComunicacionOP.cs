@@ -94,9 +94,12 @@ namespace Meplate
                         string _ID = mensaje.Substring(2, 16);
                         string _Width = mensaje.Substring(18, 4);
                         string _Length = mensaje.Substring(22, 5);
+                        string _Thickness = mensaje.Substring(27, 5);
+                        string _Tol1 = mensaje.Substring(32, 2);
+                        string _Tol2 = mensaje.Substring(34, 2);
 
 
-                        PlateID valor = new PlateID (_ID,double.Parse(_Width),double.Parse(_Length));
+                        PlateID valor = new PlateID (_ID,double.Parse(_Width),double.Parse(_Length),double.Parse(_Thickness)/100,double.Parse(_Tol1),double.Parse(_Tol2));
                         ((SharedData<PlateID>)SharedMemory["IDChapa"]).Add(valor);
                         break;
                 }

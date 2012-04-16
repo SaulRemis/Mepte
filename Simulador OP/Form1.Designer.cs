@@ -41,6 +41,12 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.textBox_espesor = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBoxtol1 = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBoxtol2 = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -66,14 +72,20 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.label4);
             this.splitContainer1.Panel2.Controls.Add(this.button2);
+            this.splitContainer1.Panel2.Controls.Add(this.label7);
+            this.splitContainer1.Panel2.Controls.Add(this.label6);
+            this.splitContainer1.Panel2.Controls.Add(this.label5);
             this.splitContainer1.Panel2.Controls.Add(this.label3);
+            this.splitContainer1.Panel2.Controls.Add(this.textBoxtol2);
             this.splitContainer1.Panel2.Controls.Add(this.label2);
+            this.splitContainer1.Panel2.Controls.Add(this.textBoxtol1);
             this.splitContainer1.Panel2.Controls.Add(this.label1);
+            this.splitContainer1.Panel2.Controls.Add(this.textBox_espesor);
             this.splitContainer1.Panel2.Controls.Add(this.textBox3);
             this.splitContainer1.Panel2.Controls.Add(this.textBox2);
             this.splitContainer1.Panel2.Controls.Add(this.textBox1);
             this.splitContainer1.Panel2.Controls.Add(this.button1);
-            this.splitContainer1.Size = new System.Drawing.Size(725, 285);
+            this.splitContainer1.Size = new System.Drawing.Size(725, 351);
             this.splitContainer1.SplitterDistance = 570;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -90,7 +102,7 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.dataGridView1);
-            this.splitContainer2.Size = new System.Drawing.Size(570, 285);
+            this.splitContainer2.Size = new System.Drawing.Size(570, 351);
             this.splitContainer2.SplitterDistance = 167;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -99,7 +111,7 @@
             this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox1.Location = new System.Drawing.Point(0, 0);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(167, 285);
+            this.richTextBox1.Size = new System.Drawing.Size(167, 351);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
@@ -112,7 +124,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(399, 285);
+            this.dataGridView1.Size = new System.Drawing.Size(399, 351);
             this.dataGridView1.TabIndex = 1;
             // 
             // label4
@@ -127,7 +139,7 @@
             // 
             this.button2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(0, 262);
+            this.button2.Location = new System.Drawing.Point(0, 328);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(151, 23);
             this.button2.TabIndex = 7;
@@ -197,11 +209,62 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // textBox_espesor
+            // 
+            this.textBox_espesor.Location = new System.Drawing.Point(4, 189);
+            this.textBox_espesor.Name = "textBox_espesor";
+            this.textBox_espesor.Size = new System.Drawing.Size(121, 20);
+            this.textBox_espesor.TabIndex = 3;
+            this.textBox_espesor.Text = "01500";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(4, 175);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(56, 13);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "Thickness";
+            // 
+            // textBoxtol1
+            // 
+            this.textBoxtol1.Location = new System.Drawing.Point(6, 242);
+            this.textBoxtol1.Name = "textBoxtol1";
+            this.textBoxtol1.Size = new System.Drawing.Size(121, 20);
+            this.textBoxtol1.TabIndex = 3;
+            this.textBoxtol1.Text = "05";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 228);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(72, 13);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "Tolerance 1m";
+            // 
+            // textBoxtol2
+            // 
+            this.textBoxtol2.Location = new System.Drawing.Point(6, 298);
+            this.textBoxtol2.Name = "textBoxtol2";
+            this.textBoxtol2.Size = new System.Drawing.Size(121, 20);
+            this.textBoxtol2.TabIndex = 3;
+            this.textBoxtol2.Text = "05";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 284);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(72, 13);
+            this.label7.TabIndex = 6;
+            this.label7.Text = "Tolerance 2m";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(725, 285);
+            this.ClientSize = new System.Drawing.Size(725, 351);
             this.Controls.Add(this.splitContainer1);
             this.Name = "Form1";
             this.Text = "OP";
@@ -235,6 +298,12 @@
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textBoxtol2;
+        private System.Windows.Forms.TextBox textBoxtol1;
+        private System.Windows.Forms.TextBox textBox_espesor;
     }
 }
 

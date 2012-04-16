@@ -98,6 +98,9 @@ namespace OPSaul
             ConfigData.FORMPlate = textBox1.Text;
             ConfigData.FORMWidth = textBox2.Text;
             ConfigData.FORMLength = textBox3.Text;
+            ConfigData.FORMThickness = textBox_espesor.Text;
+            ConfigData.FORMTol1 = textBoxtol1.Text;
+            ConfigData.FORMTol2 = textBoxtol2.Text;
             return ConfigData;
         }
 

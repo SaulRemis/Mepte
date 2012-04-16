@@ -45,7 +45,7 @@ namespace OPSaul
         {
           ((OPSaul)_Padre).GetData(ref data, "FORMGetData");
             dynamic mens = new ExpandoObject();
-            mens.COMMessage = mensajeAEnviar + data.Data.FORMPlate + data.Data.FORMWidth + data.Data.FORMLength;
+            mens.COMMessage = mensajeAEnviar + data.Data.FORMPlate + data.Data.FORMWidth + data.Data.FORMLength + data.Data.FORMThickness + data.Data.FORMTol1 + data.Data.FORMTol2;
             _server.SetData(ref mens, "EnviarMensaje");
         }
 

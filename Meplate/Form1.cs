@@ -122,7 +122,7 @@ namespace Meplate
 
                             Informacion informacion = datos.MEPInformacion;
                                 label_Lenght.Text = ((double)(informacion.Avance/1000)).ToString("F02");
-                                _LabelFrameRate.Text = informacion.Rate.ToString("F1") + " perfiles / sec";
+                                toolStripStatusframerate.Text = "FRAMERATE : "+ informacion.Rate.ToString("F1") + " perfiles / sec";
                             #endregion
 
                             break;
@@ -138,29 +138,6 @@ namespace Meplate
         {
             timerEstado.Enabled = false;
             _Meplate.Stop();
-        }
-
-        private void MedirPararButton_Click(object sender, EventArgs e)
-        {
-            dynamic temp = new ExpandoObject();
-
-            if (MedirPararButton.Text == "Medir")
-            {
-                MedirPararButton.Text = "Parar";
-                forceMeasurementToolStripMenuItem.Text = "Stop Measurement";
-                configuracionOffsetToolStripMenuItem.Enabled = false;
-                _Meplate.SetData(ref temp, "EventoComenzarMedida");
-
-            }
-
-            else
-            {
-                forceMeasurementToolStripMenuItem.Text = "Start Measurement";
-                MedirPararButton.Text = "Medir";
-                configuracionOffsetToolStripMenuItem.Enabled = true;
-                _Meplate.SetData(ref temp, "EventoFinalizarMedida");
-            }
-
         }
 
         void InicializarListView()
@@ -186,7 +163,7 @@ namespace Meplate
                 _Meplate.GetData(ref temp, "Estado");
                 if (temp.MEPErrors=="")
                 {
-                    toolStripStatusSpeed.Text = "Line Speed : "+ (temp.MEPVelocidad/100).ToString() +"  m/min";
+                    toolStripStatusSpeed.Text = "SPEED : "+ (temp.MEPVelocidad/100).ToString() +"  m/min";
                     if (temp.MEPOPConnected)
                     {
                         toolStripStatusProcessComputer.BackColor = Color.Green;
@@ -203,14 +180,14 @@ namespace Meplate
                     {
                         toolStripStatusTarjeta.BackColor = Color.Green;
                         toolStripStatusTarjeta.Text = "Speed Reference :Connected";
-                        button_Tarjeta.Enabled = false;
+                        connectToolStripMenuItem.Enabled = false;
 
                     }
                     else
                     {
                         toolStripStatusTarjeta.BackColor = Color.Red;
                         toolStripStatusTarjeta.Text = "Speed Reference : Non Connected";
-                        button_Tarjeta.Enabled = true;
+                        connectToolStripMenuItem.Enabled = true;
 
                     }
 
@@ -218,13 +195,7 @@ namespace Meplate
                 }
             }
         }
-
-        private void button_Tarjeta_Click(object sender, EventArgs e)
-        {
-             dynamic temp = new ExpandoObject();
-             _Meplate.SetData(ref temp, "ConectarTarjeta");
-        }
-
+               
         private void configuracionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             dynamic temp = new ExpandoObject();
@@ -240,7 +211,7 @@ namespace Meplate
             _Meplate.Stop();
             iniciarToolStripMenuItem.Enabled = true;
             pararToolStripMenuItem.Enabled = false;
-            MedirPararButton.Enabled = false;
+            forceMeasurementToolStripMenuItem1.Enabled = false;
             MenuConfiguracion.Enabled = false;
         }
 
@@ -250,8 +221,36 @@ namespace Meplate
             timerEstado.Enabled = true;
             iniciarToolStripMenuItem.Enabled = false;
             pararToolStripMenuItem.Enabled = true;
-            MedirPararButton.Enabled = true;
+            forceMeasurementToolStripMenuItem1.Enabled = true;
             MenuConfiguracion.Enabled = true;
+        }
+
+        private void connectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dynamic temp = new ExpandoObject();
+            _Meplate.SetData(ref temp, "ConectarTarjeta");
+        }
+
+        private void startToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dynamic temp = new ExpandoObject();
+
+               startToolStripMenuItem.Enabled= false;
+               stopToolStripMenuItem.Enabled = true;
+               configuracionOffsetToolStripMenuItem.Enabled = false;
+                _Meplate.SetData(ref temp, "EventoComenzarMedida");          
+
+        }
+
+        private void stopToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dynamic temp = new ExpandoObject();
+
+            startToolStripMenuItem.Enabled = true;
+            stopToolStripMenuItem.Enabled = false;
+            configuracionOffsetToolStripMenuItem.Enabled = true;
+            _Meplate.SetData(ref temp, "EventoFinalizarMedida");
+
         }
               
     }
