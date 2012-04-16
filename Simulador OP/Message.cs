@@ -10,6 +10,8 @@ namespace OPSaul
         string _messageid;
         string _plateid;
         double[,] _tabla1;
+        string _decision;
+        double _puntuacion;
 
         public string Messageid
         {
@@ -22,17 +24,29 @@ namespace OPSaul
             get { return _plateid; }
             set { _plateid = value; }
         }
+        public string Decision
+        {
+            get { return _decision; }
+            set { _decision = value; }
+        }
 
         public double[,] Tabla1
         {
             get { return _tabla1; }
             set { _tabla1 = value; }
         }
+        public double Puntuacion
+        {
+            get { return _puntuacion; }
+            set { _puntuacion = value; }
+        }
 
-        public Message(string messageid,string plateid,string values)
+        public Message(string messageid,string plateid,string values,string decision,string puntuacion)
         {
             _messageid = messageid;
             _plateid = plateid;
+            _decision = decision;
+            _puntuacion = double.Parse(puntuacion)/10;
             int cont=0;
             string temp;
             double[,] tabl = new double [10,7];

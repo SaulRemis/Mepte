@@ -62,6 +62,9 @@ namespace OPSaul
             {
                 //relleno el datagrid
                 dataGridView1.DataSource = getDatos(resultados);
+                textBox_IDrecibido.Text = resultados.Plateid;
+                textBox_decision.Text = resultados.Decision;
+                textBox_Puntuacion.Text = resultados.Puntuacion.ToString("F01");
             }
         }
 

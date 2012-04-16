@@ -83,7 +83,7 @@ namespace OPSaul
                             _Padre.PrepareEvent(_Name);
                              break;
                         case "M5":
-                              valor = new Message(messageid, mensaje.Substring(2, 16), mensaje.Substring(18, 350));
+                              valor = new Message(messageid, mensaje.Substring(2, 16), mensaje.Substring(18, 350),mensaje.Substring(268,1),mensaje.Substring(269,3);
                             ((SharedData<Message>)SharedMemory["ResultadosUI"]).Add(valor);
                             _Padre.PrepareEvent(_Name);
                              break;
