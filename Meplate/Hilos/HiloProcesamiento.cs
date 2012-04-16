@@ -53,14 +53,17 @@ namespace Meplate
          void ActualizarResultados()
         {
             string id;
-             double ancho,largo;
+             double ancho,largo, espesor, tol1, tol2;
             PlateID temp = (PlateID)((SharedData<PlateID>)SharedMemory["IDChapa"]).Get(0);
 
             if (temp != null)
             {
                 id=temp.ID;
                 ancho=temp.Width;
-                largo= temp.Length;                
+                largo= temp.Length;
+                tol1 = temp.Tolerance1;
+                espesor = temp.Thickness;
+                tol2 = temp.Tolerance2;
             }
             else
             {
@@ -68,10 +71,13 @@ namespace Meplate
                 id = now.Hour.ToString() + "/" + now.Minute.ToString() + "/" + now.Second.ToString() + now.Hour.ToString() + "/" + now.Minute.ToString() + "/" + now.Second.ToString();
                 ancho=0;
                 largo=0;
+                espesor = 0;
+                tol1 = 0;
+                tol2 = 0;
                
             }
              ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessageM5(id, _Proc.Puntos);
-             ((SharedData<Resultados>)SharedMemory["Resultados"]).Set(0, new Resultados(_Proc.Z, _Proc.columnas, _Proc.Pixeles,_Proc.Puntos, _Proc.numeroMedidas, _Proc.distancia_a_la_chapa,id,ancho,largo));
+             ((SharedData<Resultados>)SharedMemory["Resultados"]).Set(0, new Resultados(_Proc.Z, _Proc.columnas, _Proc.Pixeles,_Proc.Puntos, _Proc.numeroMedidas, _Proc.distancia_a_la_chapa,id,ancho,largo,espesor,tol1,tol2));
              ((SharedData<Offset>)SharedMemory["Offset"]).Set(0, new Offset(_Proc._ValoresMedios,_Proc._Referencias));
             _Padre.PrepareEvent(_Name);
             

@@ -26,17 +26,18 @@ namespace Meplate
             get { return _Width; }
             set { _Width = value; }
         }
+        public double Length
+        {
+            get { return _Length; }
+            set { _Length = value; }
+        }
 
         public double Thickness
         {
             get { return _Thickness; }
             set { _Thickness = value; }
         }
-        public double Length
-        {
-            get { return _Length; }
-            set { _Length = value; }
-        }
+       
         public double Tolerance1
         {
             get { return _Tolerance1; }

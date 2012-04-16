@@ -20,6 +20,10 @@ namespace Meplate
           string _ID;  // Id del Chapon medido 
           double _Ancho; // Ancho del chapon medido
           double _Longitud; // Longitud del chapon medido
+          double _Thickness;
+          double _Tolerance1;
+          double _Tolerance2;
+
 
         //descriptores de acceso
           public HImage Z { get { return _Z ; }}
@@ -30,9 +34,13 @@ namespace Meplate
           public double Ancho { get { return _Ancho; } }
           public double Longitud { get { return _Longitud; } }
           public string ID { get { return _ID; } }
+          public double Thickness { get { return _Thickness; } }
+          public double Tolerance1 { get { return _Tolerance1; } }
+          public double Tolerance2 { get { return _Tolerance2; } }
+
 
         //metodos
-          public Resultados(HImage imagen, int medidas, double[,] pixeles, double[,] puntos, int numMedidas, double distancia, string id,double ancho, double largo)
+          public Resultados(HImage imagen, int medidas, double[,] pixeles, double[,] puntos, int numMedidas, double distancia, string id, double ancho, double largo, double thickness, double tol1, double tol2)
             {
                 _Z = imagen.CopyImage();
                 _Perfiles = medidas;
@@ -43,6 +51,9 @@ namespace Meplate
                 _ID = id;
                 _Ancho = ancho;
                 _Longitud = largo;
+                _Thickness = thickness;
+                _Tolerance1 = tol1;
+                _Tolerance2 = tol2;
 
             }
          

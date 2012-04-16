@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("1 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("2 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("1 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("2 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.VentanaHalconPrincipal = new HalconDotNet.HWindowControl();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.labEL_THICKNESS = new System.Windows.Forms.Label();
+            this.label_THICKNESS = new System.Windows.Forms.Label();
             this.label_Width = new System.Windows.Forms.Label();
             this.label_Lenght = new System.Windows.Forms.Label();
             this.label_ID = new System.Windows.Forms.Label();
@@ -82,13 +82,15 @@
             this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label_numdefects = new System.Windows.Forms.Label();
-            this.labeL_defectominimo = new System.Windows.Forms.Label();
+            this.labeL_defectominimo1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label14 = new System.Windows.Forms.Label();
+            this.labeL_defectominimo2 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this._MeplatestatusStrip1.SuspendLayout();
             this.Menu.SuspendLayout();
@@ -108,7 +110,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.labEL_THICKNESS);
+            this.groupBox1.Controls.Add(this.label_THICKNESS);
             this.groupBox1.Controls.Add(this.label_Width);
             this.groupBox1.Controls.Add(this.label_Lenght);
             this.groupBox1.Controls.Add(this.label_ID);
@@ -126,14 +128,14 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "INFORMATION";
             // 
-            // labEL_THICKNESS
+            // label_THICKNESS
             // 
-            this.labEL_THICKNESS.AutoSize = true;
-            this.labEL_THICKNESS.Location = new System.Drawing.Point(112, 118);
-            this.labEL_THICKNESS.Name = "labEL_THICKNESS";
-            this.labEL_THICKNESS.Size = new System.Drawing.Size(13, 13);
-            this.labEL_THICKNESS.TabIndex = 20;
-            this.labEL_THICKNESS.Text = "0";
+            this.label_THICKNESS.AutoSize = true;
+            this.label_THICKNESS.Location = new System.Drawing.Point(112, 118);
+            this.label_THICKNESS.Name = "label_THICKNESS";
+            this.label_THICKNESS.Size = new System.Drawing.Size(13, 13);
+            this.label_THICKNESS.TabIndex = 20;
+            this.label_THICKNESS.Text = "0";
             // 
             // label_Width
             // 
@@ -245,15 +247,15 @@
             this.Z2,
             this.DIFF});
             this._listViewPuntos.FullRowSelect = true;
-            listViewGroup3.Header = "1 m RULER";
-            listViewGroup3.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup3.Name = "listViewGroup1m";
-            listViewGroup4.Header = "2 m RULER";
-            listViewGroup4.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup4.Name = "listViewGroup2m";
+            listViewGroup1.Header = "1 m RULER";
+            listViewGroup1.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup1.Name = "listViewGroup1m";
+            listViewGroup2.Header = "2 m RULER";
+            listViewGroup2.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup2.Name = "listViewGroup2m";
             this._listViewPuntos.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup3,
-            listViewGroup4});
+            listViewGroup1,
+            listViewGroup2});
             this._listViewPuntos.Location = new System.Drawing.Point(810, 265);
             this._listViewPuntos.Name = "_listViewPuntos";
             this._listViewPuntos.Size = new System.Drawing.Size(454, 305);
@@ -406,7 +408,7 @@
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.toolStripStatusSpeed.BorderStyle = System.Windows.Forms.Border3DStyle.Adjust;
             this.toolStripStatusSpeed.Name = "toolStripStatusSpeed";
-            this.toolStripStatusSpeed.Size = new System.Drawing.Size(307, 19);
+            this.toolStripStatusSpeed.Size = new System.Drawing.Size(315, 19);
             this.toolStripStatusSpeed.Spring = true;
             this.toolStripStatusSpeed.Text = "SPEED : 0 m/min";
             // 
@@ -539,10 +541,12 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.label_numdefects);
-            this.groupBox2.Controls.Add(this.labeL_defectominimo);
+            this.groupBox2.Controls.Add(this.labeL_defectominimo2);
+            this.groupBox2.Controls.Add(this.labeL_defectominimo1);
             this.groupBox2.Controls.Add(this.panel2);
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.label9);
+            this.groupBox2.Controls.Add(this.label14);
             this.groupBox2.Controls.Add(this.label12);
             this.groupBox2.Location = new System.Drawing.Point(309, 38);
             this.groupBox2.Name = "groupBox2";
@@ -560,14 +564,14 @@
             this.label_numdefects.TabIndex = 20;
             this.label_numdefects.Text = "0";
             // 
-            // labeL_defectominimo
+            // labeL_defectominimo1
             // 
-            this.labeL_defectominimo.AutoSize = true;
-            this.labeL_defectominimo.Location = new System.Drawing.Point(11, 60);
-            this.labeL_defectominimo.Name = "labeL_defectominimo";
-            this.labeL_defectominimo.Size = new System.Drawing.Size(13, 13);
-            this.labeL_defectominimo.TabIndex = 19;
-            this.labeL_defectominimo.Text = "0";
+            this.labeL_defectominimo1.AutoSize = true;
+            this.labeL_defectominimo1.Location = new System.Drawing.Point(11, 60);
+            this.labeL_defectominimo1.Name = "labeL_defectominimo1";
+            this.labeL_defectominimo1.Size = new System.Drawing.Size(13, 13);
+            this.labeL_defectominimo1.TabIndex = 19;
+            this.labeL_defectominimo1.Text = "0";
             // 
             // panel2
             // 
@@ -603,7 +607,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(78, 60);
+            this.label12.Location = new System.Drawing.Point(57, 60);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(25, 13);
             this.label12.TabIndex = 18;
@@ -626,6 +630,25 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(460, 126);
             this.panel1.TabIndex = 19;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(182, 61);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(25, 13);
+            this.label14.TabIndex = 18;
+            this.label14.Text = "mm";
+            // 
+            // labeL_defectominimo2
+            // 
+            this.labeL_defectominimo2.AutoSize = true;
+            this.labeL_defectominimo2.Location = new System.Drawing.Point(136, 61);
+            this.labeL_defectominimo2.Name = "labeL_defectominimo2";
+            this.labeL_defectominimo2.Size = new System.Drawing.Size(13, 13);
+            this.labeL_defectominimo2.TabIndex = 19;
+            this.labeL_defectominimo2.Text = "0";
             // 
             // Form1
             // 
@@ -713,7 +736,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusframerate;
         private System.Windows.Forms.Label label_numdefects;
-        private System.Windows.Forms.Label labeL_defectominimo;
+        private System.Windows.Forms.Label labeL_defectominimo1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
@@ -723,9 +746,11 @@
         private System.Windows.Forms.ToolStripMenuItem forceMeasurementToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem startToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stopToolStripMenuItem;
-        private System.Windows.Forms.Label labEL_THICKNESS;
+        private System.Windows.Forms.Label label_THICKNESS;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label labeL_defectominimo2;
+        private System.Windows.Forms.Label label14;
 
     }
 }
