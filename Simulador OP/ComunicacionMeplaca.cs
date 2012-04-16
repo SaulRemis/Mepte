@@ -63,27 +63,27 @@ namespace OPSaul
                     {
                         case "M1":
                              SendMessage("M9");
-                             valor = new Message(messageid,"","");
+                             valor = new Message(messageid,"","","","9.5");
                             ((SharedData<Message>)SharedMemory["ResultadosUI"]).Add(valor);
                             _Padre.PrepareEvent(_Name);
                              break;
                         case "M4":
-                              valor = new Message(messageid,"","");
-                            ((SharedData<Message>)SharedMemory["ResultadosOP"]).Add(valor);
+                             valor = new Message(messageid, "", "", "", "9.5");
+                             ((SharedData<Message>)SharedMemory["ResultadosUI"]).Add(valor);
                              Events["Resultados"].Set();
                              break;
                         case "M2":
-                             valor = new Message(messageid, "", "");
+                             valor = new Message(messageid, "", "", "", "9.5");
                              ((SharedData<Message>)SharedMemory["ResultadosUI"]).Add(valor);
                             _Padre.PrepareEvent(_Name);
                              break;
                         case "M3":
-                              valor = new Message(messageid, "", "");
+                             valor = new Message(messageid, "", "", "", "9.5");
                             ((SharedData<Message>)SharedMemory["ResultadosUI"]).Add(valor);
                             _Padre.PrepareEvent(_Name);
                              break;
                         case "M5":
-                              valor = new Message(messageid, mensaje.Substring(2, 16), mensaje.Substring(18, 350),mensaje.Substring(268,1),mensaje.Substring(269,3);
+                              valor = new Message(messageid, mensaje.Substring(2, 16), mensaje.Substring(18, 350),mensaje.Substring(368,1),mensaje.Substring(369,3));
                             ((SharedData<Message>)SharedMemory["ResultadosUI"]).Add(valor);
                             _Padre.PrepareEvent(_Name);
                              break;
