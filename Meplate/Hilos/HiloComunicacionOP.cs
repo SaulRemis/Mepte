@@ -44,10 +44,13 @@ namespace Meplate
                     break;
             }
         }
-        public void SendMessageM5(string plateid, double[,] data)
+        public void SendMessageM5(string plateid, double[,] data, string decision,double puntuacion)
         {
             dynamic temp = new ExpandoObject();
+            //añado el id
             string cadena = "M5" + plateid;
+
+            //añado la tabla de puntos
             foreach (double fila in data)
             {
                 string val = Convert.ToString(Math.Round(fila));
@@ -71,6 +74,25 @@ namespace Meplate
                 }
                 cadena += val;
             }
+            //añado la decision
+            cadena += decision;
+
+            //añado la puntuacion
+            string temp1 = Convert.ToString(Math.Round(puntuacion*10));
+            int tam1 = temp1.Length;
+            switch (tam1)
+            {
+                case 1:
+                    cadena += "00";
+                    break;
+                case 2:
+                    cadena += "0";
+                    break;
+                case 3:
+                    break;
+               
+            }
+            cadena += puntuacion;
             temp.COMMessage = cadena;
             _server.SetData(ref temp, "EnviarMensaje");
         }

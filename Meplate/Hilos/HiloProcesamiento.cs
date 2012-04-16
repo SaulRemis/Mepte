@@ -76,7 +76,7 @@ namespace Meplate
                 tol2 = 0;
                
             }
-             ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessageM5(id, _Proc.Puntos);
+             ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessageM5(id, _Proc.Puntos, _Proc._Decision,_Proc._Puntuacion);
              ((SharedData<Resultados>)SharedMemory["Resultados"]).Set(0, new Resultados(_Proc.Z, _Proc.columnas, _Proc.Pixeles,_Proc.Puntos, _Proc.numeroMedidas, _Proc.distancia_a_la_chapa,id,ancho,largo,espesor,tol1,tol2));
              ((SharedData<Offset>)SharedMemory["Offset"]).Set(0, new Offset(_Proc._ValoresMedios,_Proc._Referencias));
             _Padre.PrepareEvent(_Name);
