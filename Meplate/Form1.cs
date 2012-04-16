@@ -117,6 +117,19 @@ namespace Meplate
                             label_numdefects1.Text = resultados.NumDefects1.ToString();
                             label_numdefect2.Text = resultados.NumDefects2.ToString();
 
+                            if (resultados.NumDefects1 + resultados.NumDefects2 == 0)
+                            {
+                                button_Validacion.BackColor = Color.Green;
+                                button_Validacion.Text = "OK";
+
+                            }
+                            else
+                            {
+                                button_Validacion.BackColor = Color.Red;
+                                button_Validacion.Text = "NO";
+                            
+                            }
+
 
                             //formPrincipal.VentanaHalconPrincipal.HalconWindow.DumpWindow("jpeg", "meplaca_lab"); 
 

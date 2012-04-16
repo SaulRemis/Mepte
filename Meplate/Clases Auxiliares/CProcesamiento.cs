@@ -366,7 +366,7 @@ namespace Meplate
                 Puntos[i, 5] = Z.GetGrayval((int)Pixeles[i, 2], (int)Pixeles[i, 3]);
                 Pixeles[i, 4] = Puntos[i, 5] - Puntos[i, 2];
                 Puntos[i,6] = Pixeles[i,4];
-                if (Puntos[i, 6] > tol) _Defectos1m++;
+                if (Math.Abs(Puntos[i, 6]) > tol) _Defectos1m++;
             }
             if (_Defectos1m > 0) _Decision = "N";
 
@@ -398,7 +398,7 @@ namespace Meplate
                 Puntos[i, 5] = Z.GetGrayval((int)Pixeles[i, 2], (int)Pixeles[i, 3]);
                 Pixeles[i, 4] = Puntos[i, 5] - Puntos[i, 2];
                 Puntos[i, 6] = Pixeles[i, 4];
-                if (Puntos[i, 6] > tol) _Defectos2m++;
+                if (Math.Abs(Puntos[i, 6]) > tol) _Defectos2m++;
             }
 
             if (_Defectos2m > 0) _Decision = "N";

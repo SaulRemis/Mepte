@@ -84,7 +84,6 @@
             this.label_numdefects1 = new System.Windows.Forms.Label();
             this.labeL_defectominimo2 = new System.Windows.Forms.Label();
             this.labeL_defectominimo1 = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
@@ -92,6 +91,11 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label_numdefect2 = new System.Windows.Forms.Label();
+            this.button_Validacion = new System.Windows.Forms.Button();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this._MeplatestatusStrip1.SuspendLayout();
             this.Menu.SuspendLayout();
@@ -541,12 +545,16 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.button_Validacion);
             this.groupBox2.Controls.Add(this.label_numdefect2);
             this.groupBox2.Controls.Add(this.label_numdefects1);
             this.groupBox2.Controls.Add(this.labeL_defectominimo2);
             this.groupBox2.Controls.Add(this.labeL_defectominimo1);
-            this.groupBox2.Controls.Add(this.panel2);
             this.groupBox2.Controls.Add(this.label10);
+            this.groupBox2.Controls.Add(this.label18);
+            this.groupBox2.Controls.Add(this.label16);
+            this.groupBox2.Controls.Add(this.label17);
+            this.groupBox2.Controls.Add(this.label15);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.label14);
             this.groupBox2.Controls.Add(this.label12);
@@ -560,16 +568,17 @@
             // label_numdefects1
             // 
             this.label_numdefects1.AutoSize = true;
-            this.label_numdefects1.Location = new System.Drawing.Point(14, 118);
+            this.label_numdefects1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_numdefects1.Location = new System.Drawing.Point(88, 118);
             this.label_numdefects1.Name = "label_numdefects1";
-            this.label_numdefects1.Size = new System.Drawing.Size(13, 13);
+            this.label_numdefects1.Size = new System.Drawing.Size(14, 13);
             this.label_numdefects1.TabIndex = 20;
             this.label_numdefects1.Text = "0";
             // 
             // labeL_defectominimo2
             // 
             this.labeL_defectominimo2.AutoSize = true;
-            this.labeL_defectominimo2.Location = new System.Drawing.Point(136, 61);
+            this.labeL_defectominimo2.Location = new System.Drawing.Point(173, 61);
             this.labeL_defectominimo2.Name = "labeL_defectominimo2";
             this.labeL_defectominimo2.Size = new System.Drawing.Size(13, 13);
             this.labeL_defectominimo2.TabIndex = 19;
@@ -578,19 +587,11 @@
             // labeL_defectominimo1
             // 
             this.labeL_defectominimo1.AutoSize = true;
-            this.labeL_defectominimo1.Location = new System.Drawing.Point(11, 60);
+            this.labeL_defectominimo1.Location = new System.Drawing.Point(69, 61);
             this.labeL_defectominimo1.Name = "labeL_defectominimo1";
             this.labeL_defectominimo1.Size = new System.Drawing.Size(13, 13);
             this.labeL_defectominimo1.TabIndex = 19;
             this.labeL_defectominimo1.Text = "0";
-            // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.panel2.Location = new System.Drawing.Point(235, 31);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(157, 100);
-            this.panel2.TabIndex = 0;
             // 
             // label10
             // 
@@ -618,7 +619,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(182, 61);
+            this.label14.Location = new System.Drawing.Point(194, 61);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(25, 13);
             this.label14.TabIndex = 18;
@@ -628,7 +629,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(57, 60);
+            this.label12.Location = new System.Drawing.Point(88, 61);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(25, 13);
             this.label12.TabIndex = 18;
@@ -655,11 +656,65 @@
             // label_numdefect2
             // 
             this.label_numdefect2.AutoSize = true;
-            this.label_numdefect2.Location = new System.Drawing.Point(129, 119);
+            this.label_numdefect2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_numdefect2.Location = new System.Drawing.Point(194, 119);
             this.label_numdefect2.Name = "label_numdefect2";
-            this.label_numdefect2.Size = new System.Drawing.Size(13, 13);
+            this.label_numdefect2.Size = new System.Drawing.Size(14, 13);
             this.label_numdefect2.TabIndex = 20;
             this.label_numdefect2.Text = "0";
+            // 
+            // button_Validacion
+            // 
+            this.button_Validacion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.button_Validacion.Enabled = false;
+            this.button_Validacion.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button_Validacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Validacion.Location = new System.Drawing.Point(262, 31);
+            this.button_Validacion.Name = "button_Validacion";
+            this.button_Validacion.Size = new System.Drawing.Size(129, 100);
+            this.button_Validacion.TabIndex = 21;
+            this.button_Validacion.Text = "OK";
+            this.button_Validacion.UseVisualStyleBackColor = false;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(139, 61);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(39, 13);
+            this.label15.TabIndex = 18;
+            this.label15.Text = "2 m : ";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(24, 61);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(39, 13);
+            this.label16.TabIndex = 18;
+            this.label16.Text = "1 m : ";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(139, 119);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(39, 13);
+            this.label17.TabIndex = 18;
+            this.label17.Text = "2 m : ";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(24, 119);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(39, 13);
+            this.label18.TabIndex = 18;
+            this.label18.Text = "1 m : ";
             // 
             // Form1
             // 
@@ -748,7 +803,6 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusframerate;
         private System.Windows.Forms.Label label_numdefects1;
         private System.Windows.Forms.Label labeL_defectominimo1;
-        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label12;
@@ -763,6 +817,11 @@
         private System.Windows.Forms.Label labeL_defectominimo2;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label_numdefect2;
+        private System.Windows.Forms.Button button_Validacion;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label15;
 
     }
 }
