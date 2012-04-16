@@ -10,7 +10,7 @@ namespace Meplate
     class CProcesamiento
     {
 
-        public int numeroModulos, numeroMedidas;
+        public int numeroModulos, numeroMedidas, _Defectos1m=0,_Defectos2m=0;
         public HImage X, Y, Z;
         public int filas, columnas;
         double distancia_entre_sensores ;
@@ -25,6 +25,9 @@ namespace Meplate
         public double[,] Puntos;
         public string _Decision = "Y";
         public double _Puntuacion = 0;
+        public bool _Incluir_Parcialmente_Cubiertos;
+        public bool _Guardar_Imagenes_Parciales;
+
 
 
         public CProcesamiento(dynamic parametros)
@@ -40,11 +43,12 @@ namespace Meplate
             _Referencias = new double[filas];
             Pixeles = new double[ numeroMedidas*2,5];
             Puntos = new double[ numeroMedidas*2,7];
+            _Incluir_Parcialmente_Cubiertos = bool.Parse(parametros.Procesamiento.PROincluirparcialmentecubiertos);
             //Pixeles2 = new double[numeroMedidas, 5];
             //Puntos2 = new double[numeroMedidas, 7];
 
         }
-        public double ProcesamientoDatos(List<CMedida> measurement, double ancho=900.0)
+        public double ProcesamientoDatos(List<CMedida> measurement, double ancho,double tol1,double tol2)
         {
             DateTime t1 = DateTime.Now;
 
@@ -53,8 +57,8 @@ namespace Meplate
             //proc.ObtenerBordes();
             ObtenerBordes(ancho);
             CorregirImagen();
-            CalcularDefectos_1metro();
-            CalcularDefectos_2metro();
+            CalcularDefectos_1metro(tol1);
+            CalcularDefectos_2metro(tol2);
 
 
             DateTime t2 = DateTime.Now;
@@ -89,6 +93,9 @@ namespace Meplate
 
             BI = 0;
             BD = 0;
+            _Defectos1m = 0;
+            _Defectos2m=0;
+            _Decision = "Y";
 
         }
         private void ObtenerImagenes(List<CMedida> medidas)
@@ -108,7 +115,13 @@ namespace Meplate
                     }
                 }
             }
-           // Z.WriteImage("tiff", 0, "Z.jpg");
+
+            if (_Guardar_Imagenes_Parciales)
+            {
+                Z.WriteImage("tiff", 0, "ZRAW.jpg");
+                Y.WriteImage("tiff", 0, "YRAW.jpg");
+            }
+           
 
         }
         private void CorregirImagen()
@@ -137,6 +150,12 @@ namespace Meplate
             }
 
             media.Dispose();
+
+            if (_Guardar_Imagenes_Parciales)
+            {
+                Z.WriteImage("tiff", 0, "ZCORREGIDA.jpg");
+              
+            }
         
 
         }
@@ -154,8 +173,11 @@ namespace Meplate
 
            
             //si quiero incluir los parcialmente cubiertos
-            if (borde_izquierdo>0) borde_izquierdo = borde_izquierdo - 1;
-            if (borde_izquierdo < filas - 1) borde_derecho = borde_derecho + 1;
+            if (_Incluir_Parcialmente_Cubiertos)
+            {
+                if (borde_izquierdo > 0) borde_izquierdo = borde_izquierdo - 1;
+                if (borde_izquierdo < filas - 1) borde_derecho = borde_derecho + 1;
+            }
 
 
 
@@ -183,7 +205,12 @@ namespace Meplate
             //HRegion imagen = new HRegion((double)0, (double)0, (double)filas - 1, (double)columnas - 1);
             //Z.ReduceDomain(Chapa);
 
-            // Z.WriteImage("tiff", 0, "Z_sinbordes");
+            if (_Guardar_Imagenes_Parciales)
+            {
+                Z.WriteImage("tiff", 0, "Z_sinbordes");
+                X.WriteImage("tiff", 0, "XRAW.jpg");
+            }
+            //
 
 
         }
@@ -312,7 +339,7 @@ namespace Meplate
 
 
         }
-        private void CalcularDefectos_1metro()
+        private void CalcularDefectos_1metro(double tol)
         {
 
             HTuple filas_max, columnas_max, filas_min, columnas_min, diff;
@@ -339,10 +366,12 @@ namespace Meplate
                 Puntos[i, 5] = Z.GetGrayval((int)Pixeles[i, 2], (int)Pixeles[i, 3]);
                 Pixeles[i, 4] = Puntos[i, 5] - Puntos[i, 2];
                 Puntos[i,6] = Pixeles[i,4];
+                if (Puntos[i, 6] > tol) _Defectos1m++;
             }
+            if (_Defectos1m > 0) _Decision = "N";
 
         }
-        private void CalcularDefectos_2metro()
+        private void CalcularDefectos_2metro(double tol)
         {
 
             HTuple filas_max, columnas_max, filas_min, columnas_min, diff;
@@ -369,9 +398,10 @@ namespace Meplate
                 Puntos[i, 5] = Z.GetGrayval((int)Pixeles[i, 2], (int)Pixeles[i, 3]);
                 Pixeles[i, 4] = Puntos[i, 5] - Puntos[i, 2];
                 Puntos[i, 6] = Pixeles[i, 4];
+                if (Puntos[i, 6] > tol) _Defectos2m++;
             }
 
-
+            if (_Defectos2m > 0) _Decision = "N";
 
         }
         private void Planitud_regla_1m(HObject ho_Imagen, string modo, out HTuple hv_filasmaximos, out HTuple hv_columnasmaximos, out HTuple hv_filasminimos, out HTuple hv_columnasminimos, out HTuple hv_Diff)

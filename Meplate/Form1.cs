@@ -114,6 +114,8 @@ namespace Meplate
                             label_THICKNESS.Text = resultados.Thickness.ToString();
                             labeL_defectominimo1.Text = resultados.Tolerance1.ToString();
                             labeL_defectominimo2.Text = resultados.Tolerance2.ToString();
+                            label_numdefects1.Text = resultados.NumDefects1.ToString();
+                            label_numdefect2.Text = resultados.NumDefects2.ToString();
 
 
                             //formPrincipal.VentanaHalconPrincipal.HalconWindow.DumpWindow("jpeg", "meplaca_lab"); 

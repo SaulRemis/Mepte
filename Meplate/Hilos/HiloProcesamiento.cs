@@ -29,10 +29,13 @@ namespace Meplate
             if (measurement.Count > 0)
             {
                 // si ya he recibido el ancho lo uso para procesar , si no pongo ancho =0 y proceso sin el
-                if  (!((SharedData<PlateID>)SharedMemory["IDChapa"]).Vacio) 
-                    duracion = _Proc.ProcesamientoDatos(measurement,((PlateID)((SharedData<PlateID>)SharedMemory["IDChapa"]).Get(0)).Width);
-                  
-                else duracion = _Proc.ProcesamientoDatos(measurement, 900);
+                if (!((SharedData<PlateID>)SharedMemory["IDChapa"]).Vacio)
+                {
+                    PlateID id = ((PlateID)((SharedData<PlateID>)SharedMemory["IDChapa"]).Get(0));
+                    duracion = _Proc.ProcesamientoDatos(measurement, id.Width,id.Tolerance1,id.Tolerance2);
+                }
+
+                else duracion = _Proc.ProcesamientoDatos(measurement, 900,5,5);
                 ActualizarResultados();
             }
 
@@ -77,7 +80,7 @@ namespace Meplate
                
             }
              ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessageM5(id, _Proc.Puntos, _Proc._Decision,_Proc._Puntuacion);
-             ((SharedData<Resultados>)SharedMemory["Resultados"]).Set(0, new Resultados(_Proc.Z, _Proc.columnas, _Proc.Pixeles,_Proc.Puntos, _Proc.numeroMedidas, _Proc.distancia_a_la_chapa,id,ancho,largo,espesor,tol1,tol2));
+             ((SharedData<Resultados>)SharedMemory["Resultados"]).Set(0, new Resultados(_Proc.Z, _Proc.columnas, _Proc.Pixeles,_Proc.Puntos, _Proc.numeroMedidas, _Proc.distancia_a_la_chapa,id,ancho,largo,espesor,tol1,tol2,_Proc._Defectos1m,_Proc._Defectos2m));
              ((SharedData<Offset>)SharedMemory["Offset"]).Set(0, new Offset(_Proc._ValoresMedios,_Proc._Referencias));
             _Padre.PrepareEvent(_Name);
             

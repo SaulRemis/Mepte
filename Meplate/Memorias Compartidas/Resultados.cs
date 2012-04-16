@@ -23,6 +23,8 @@ namespace Meplate
           double _Thickness;
           double _Tolerance1;
           double _Tolerance2;
+          double _NumDefects1;
+          double _NumDefects2;
 
 
         //descriptores de acceso
@@ -37,10 +39,12 @@ namespace Meplate
           public double Thickness { get { return _Thickness; } }
           public double Tolerance1 { get { return _Tolerance1; } }
           public double Tolerance2 { get { return _Tolerance2; } }
+          public double NumDefects1 { get { return _NumDefects1; } }
+          public double NumDefects2 { get { return _NumDefects2; } }
 
 
         //metodos
-          public Resultados(HImage imagen, int medidas, double[,] pixeles, double[,] puntos, int numMedidas, double distancia, string id, double ancho, double largo, double thickness, double tol1, double tol2)
+          public Resultados(HImage imagen, int medidas, double[,] pixeles, double[,] puntos, int numMedidas, double distancia, string id, double ancho, double largo, double thickness, double tol1, double tol2,double num1,double num2)
             {
                 _Z = imagen.CopyImage();
                 _Perfiles = medidas;
@@ -54,6 +58,8 @@ namespace Meplate
                 _Thickness = thickness;
                 _Tolerance1 = tol1;
                 _Tolerance2 = tol2;
+                _NumDefects1 = num1;
+                _NumDefects2 = num2;
 
             }
          

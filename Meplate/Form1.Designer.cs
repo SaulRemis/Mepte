@@ -81,16 +81,17 @@
             this.speedCardConnectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label_numdefects = new System.Windows.Forms.Label();
+            this.label_numdefects1 = new System.Windows.Forms.Label();
+            this.labeL_defectominimo2 = new System.Windows.Forms.Label();
             this.labeL_defectominimo1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label14 = new System.Windows.Forms.Label();
-            this.labeL_defectominimo2 = new System.Windows.Forms.Label();
+            this.label_numdefect2 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this._MeplatestatusStrip1.SuspendLayout();
             this.Menu.SuspendLayout();
@@ -540,7 +541,8 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.label_numdefects);
+            this.groupBox2.Controls.Add(this.label_numdefect2);
+            this.groupBox2.Controls.Add(this.label_numdefects1);
             this.groupBox2.Controls.Add(this.labeL_defectominimo2);
             this.groupBox2.Controls.Add(this.labeL_defectominimo1);
             this.groupBox2.Controls.Add(this.panel2);
@@ -555,14 +557,23 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "VALIDATION";
             // 
-            // label_numdefects
+            // label_numdefects1
             // 
-            this.label_numdefects.AutoSize = true;
-            this.label_numdefects.Location = new System.Drawing.Point(14, 118);
-            this.label_numdefects.Name = "label_numdefects";
-            this.label_numdefects.Size = new System.Drawing.Size(13, 13);
-            this.label_numdefects.TabIndex = 20;
-            this.label_numdefects.Text = "0";
+            this.label_numdefects1.AutoSize = true;
+            this.label_numdefects1.Location = new System.Drawing.Point(14, 118);
+            this.label_numdefects1.Name = "label_numdefects1";
+            this.label_numdefects1.Size = new System.Drawing.Size(13, 13);
+            this.label_numdefects1.TabIndex = 20;
+            this.label_numdefects1.Text = "0";
+            // 
+            // labeL_defectominimo2
+            // 
+            this.labeL_defectominimo2.AutoSize = true;
+            this.labeL_defectominimo2.Location = new System.Drawing.Point(136, 61);
+            this.labeL_defectominimo2.Name = "labeL_defectominimo2";
+            this.labeL_defectominimo2.Size = new System.Drawing.Size(13, 13);
+            this.labeL_defectominimo2.TabIndex = 19;
+            this.labeL_defectominimo2.Text = "0";
             // 
             // labeL_defectominimo1
             // 
@@ -603,6 +614,16 @@
             this.label9.TabIndex = 18;
             this.label9.Text = "MINIMUM DEFECT ACCEPTED";
             // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(182, 61);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(25, 13);
+            this.label14.TabIndex = 18;
+            this.label14.Text = "mm";
+            // 
             // label12
             // 
             this.label12.AutoSize = true;
@@ -631,24 +652,14 @@
             this.panel1.Size = new System.Drawing.Size(460, 126);
             this.panel1.TabIndex = 19;
             // 
-            // label14
+            // label_numdefect2
             // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(182, 61);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(25, 13);
-            this.label14.TabIndex = 18;
-            this.label14.Text = "mm";
-            // 
-            // labeL_defectominimo2
-            // 
-            this.labeL_defectominimo2.AutoSize = true;
-            this.labeL_defectominimo2.Location = new System.Drawing.Point(136, 61);
-            this.labeL_defectominimo2.Name = "labeL_defectominimo2";
-            this.labeL_defectominimo2.Size = new System.Drawing.Size(13, 13);
-            this.labeL_defectominimo2.TabIndex = 19;
-            this.labeL_defectominimo2.Text = "0";
+            this.label_numdefect2.AutoSize = true;
+            this.label_numdefect2.Location = new System.Drawing.Point(129, 119);
+            this.label_numdefect2.Name = "label_numdefect2";
+            this.label_numdefect2.Size = new System.Drawing.Size(13, 13);
+            this.label_numdefect2.TabIndex = 20;
+            this.label_numdefect2.Text = "0";
             // 
             // Form1
             // 
@@ -735,7 +746,7 @@
         private System.Windows.Forms.ToolStripMenuItem speedCardConnectionToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusframerate;
-        private System.Windows.Forms.Label label_numdefects;
+        private System.Windows.Forms.Label label_numdefects1;
         private System.Windows.Forms.Label labeL_defectominimo1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label10;
@@ -751,6 +762,7 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label labeL_defectominimo2;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label_numdefect2;
 
     }
 }
