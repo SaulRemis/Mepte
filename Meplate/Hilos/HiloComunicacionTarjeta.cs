@@ -25,9 +25,8 @@ namespace Meplate
             while (((SharedData<Byte[]>)SharedMemory["SocketReader"]).Elementos > 0)
             {
                
-                Byte[] val = (Byte[])((SharedData<Byte[]>)SharedMemory["SocketReader"]).Pop();
-                string mensaje = Encoding.ASCII.GetString(val);
-                short messageid = short.Parse(mensaje.Substring(16,2));
+                Byte[] val = (Byte[])((SharedData<Byte[]>)SharedMemory["SocketReader"]).Pop(); 
+                short messageid = BitConverter.ToInt16(val, 16);
                 Trace.WriteLine("New message arrived: MessageID->" + messageid);
                 switch (messageid)
                 {

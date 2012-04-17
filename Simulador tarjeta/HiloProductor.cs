@@ -44,11 +44,13 @@ namespace CardSaul
 
                 short speed = (short)(data.HILOProductorValue );
                 short avance = (short)(data.HILOProductorValue );
+                short id=26;
 
-                byte[] rv = new byte[(Encoding.ASCII.GetBytes("$TARJETA0022" + messagecounter.ToString() + "26")).Length + (BitConverter.GetBytes(speed)).Length + (BitConverter.GetBytes(avance)).Length];
-                System.Buffer.BlockCopy((Encoding.ASCII.GetBytes("$TARJETA0022" + messagecounter.ToString() + "26")), 0, rv, 0, (Encoding.ASCII.GetBytes("$TARJETA0022" + messagecounter.ToString() + "26")).Length);
-                System.Buffer.BlockCopy((BitConverter.GetBytes(speed)), 0, rv, (Encoding.ASCII.GetBytes("$TARJETA0022" + messagecounter.ToString() + "26")).Length, (BitConverter.GetBytes(speed)).Length);
-                System.Buffer.BlockCopy((BitConverter.GetBytes(avance)), 0, rv, (Encoding.ASCII.GetBytes("$TARJETA0022" + messagecounter.ToString() + "26")).Length + (BitConverter.GetBytes(speed)).Length, (BitConverter.GetBytes(avance)).Length);
+                byte[] rv = new byte[(Encoding.ASCII.GetBytes("$TARJETA0022" + messagecounter.ToString())).Length + (BitConverter.GetBytes(id)).Length + (BitConverter.GetBytes(speed)).Length + (BitConverter.GetBytes(avance)).Length];
+                System.Buffer.BlockCopy((Encoding.ASCII.GetBytes("$TARJETA0022" + messagecounter.ToString() )), 0, rv, 0, (Encoding.ASCII.GetBytes("$TARJETA0022" + messagecounter.ToString())).Length);
+                System.Buffer.BlockCopy((BitConverter.GetBytes(id)), 0, rv, (Encoding.ASCII.GetBytes("$TARJETA0022" + messagecounter.ToString())).Length, (BitConverter.GetBytes(id)).Length);
+                System.Buffer.BlockCopy((BitConverter.GetBytes(speed)), 0, rv, (Encoding.ASCII.GetBytes("$TARJETA0022" + messagecounter.ToString())).Length + (BitConverter.GetBytes(id)).Length, (BitConverter.GetBytes(speed)).Length);
+                System.Buffer.BlockCopy((BitConverter.GetBytes(avance)), 0, rv, (Encoding.ASCII.GetBytes("$TARJETA0022" + messagecounter.ToString() )).Length + 2*(BitConverter.GetBytes(speed)).Length, (BitConverter.GetBytes(avance)).Length);
 
 
                 ((HiloServidor)((CardSaul)_Padre)._DispatcherThreads["HiloServidor"]).SendMessage(rv);

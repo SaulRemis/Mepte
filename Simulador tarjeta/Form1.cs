@@ -64,18 +64,52 @@ namespace CardSaul
             if(button1.Text.Equals("Entra Chapa"))
             {
                 button1.Text = "Sale Chapa";
-                if(trackBar1.Value>=0)
-                    ((HiloServidor)((CardSaul)ejemplo)._DispatcherThreads["HiloServidor"]).SendMessage("$TARJETA0018" + messagecounter.ToString() + "21");
+                if (trackBar1.Value >= 0)
+                {
+                    short id = 21;
+
+                    byte[] rv = new byte[(Encoding.ASCII.GetBytes("$TARJETA0018" + messagecounter.ToString())).Length + (BitConverter.GetBytes(id)).Length] ;
+                    System.Buffer.BlockCopy((Encoding.ASCII.GetBytes("$TARJETA0018" + messagecounter.ToString())), 0, rv, 0, (Encoding.ASCII.GetBytes("$TARJETA0018" + messagecounter.ToString())).Length);
+                    System.Buffer.BlockCopy((BitConverter.GetBytes(id)), 0, rv, (Encoding.ASCII.GetBytes("$TARJETA0018" + messagecounter.ToString())).Length, (BitConverter.GetBytes(id)).Length);
+                   
+                    ((HiloServidor)((CardSaul)ejemplo)._DispatcherThreads["HiloServidor"]).SendMessage(rv);
+                }
+
                 else
-                    ((HiloServidor)((CardSaul)ejemplo)._DispatcherThreads["HiloServidor"]).SendMessage("$TARJETA0018" + messagecounter.ToString() + "22");
+                {
+                    short id = 22;
+
+                    byte[] rv = new byte[(Encoding.ASCII.GetBytes("$TARJETA0018" + messagecounter.ToString())).Length + (BitConverter.GetBytes(id)).Length] ;
+                    System.Buffer.BlockCopy((Encoding.ASCII.GetBytes("$TARJETA0018" + messagecounter.ToString())), 0, rv, 0, (Encoding.ASCII.GetBytes("$TARJETA0018" + messagecounter.ToString())).Length);
+                    System.Buffer.BlockCopy((BitConverter.GetBytes(id)), 0, rv, (Encoding.ASCII.GetBytes("$TARJETA0018" + messagecounter.ToString())).Length, (BitConverter.GetBytes(id)).Length);
+                   
+                    ((HiloServidor)((CardSaul)ejemplo)._DispatcherThreads["HiloServidor"]).SendMessage(rv);
+                }
+
             }
             else
             {
                 button1.Text = "Entra Chapa";
                 if (trackBar1.Value >= 0)
-                    ((HiloServidor)((CardSaul)ejemplo)._DispatcherThreads["HiloServidor"]).SendMessage("$TARJETA0018" + messagecounter.ToString() + "23");
+                {
+                     short id = 23;
+
+                    byte[] rv = new byte[(Encoding.ASCII.GetBytes("$TARJETA0018" + messagecounter.ToString())).Length + (BitConverter.GetBytes(id)).Length] ;
+                    System.Buffer.BlockCopy((Encoding.ASCII.GetBytes("$TARJETA0018" + messagecounter.ToString())), 0, rv, 0, (Encoding.ASCII.GetBytes("$TARJETA0018" + messagecounter.ToString())).Length);
+                    System.Buffer.BlockCopy((BitConverter.GetBytes(id)), 0, rv, (Encoding.ASCII.GetBytes("$TARJETA0018" + messagecounter.ToString())).Length, (BitConverter.GetBytes(id)).Length);
+                   
+                    ((HiloServidor)((CardSaul)ejemplo)._DispatcherThreads["HiloServidor"]).SendMessage(rv);
+                }
                 else
-                    ((HiloServidor)((CardSaul)ejemplo)._DispatcherThreads["HiloServidor"]).SendMessage("$TARJETA0018" + messagecounter.ToString() + "24");
+                {
+                     short id = 24;
+
+                    byte[] rv = new byte[(Encoding.ASCII.GetBytes("$TARJETA0018" + messagecounter.ToString())).Length + (BitConverter.GetBytes(id)).Length] ;
+                    System.Buffer.BlockCopy((Encoding.ASCII.GetBytes("$TARJETA0018" + messagecounter.ToString())), 0, rv, 0, (Encoding.ASCII.GetBytes("$TARJETA0018" + messagecounter.ToString())).Length);
+                    System.Buffer.BlockCopy((BitConverter.GetBytes(id)), 0, rv, (Encoding.ASCII.GetBytes("$TARJETA0018" + messagecounter.ToString())).Length, (BitConverter.GetBytes(id)).Length);
+                   
+                    ((HiloServidor)((CardSaul)ejemplo)._DispatcherThreads["HiloServidor"]).SendMessage(rv);
+                }
             }
         }
 
