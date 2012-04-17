@@ -4,7 +4,6 @@ using System.Text;
 using System.IO;
 using System.Threading;
 using SpinPlatform.Errors;
-using SpinPlatform.IO;
 using SpinPlatform.Data;
 using System.Reflection;
 using System.Runtime.Remoting;
@@ -163,26 +162,40 @@ namespace SpinPlatform.Log
 
         internal void SetData(ref dynamic data)
         {
-            if ((data.LOGTXT as IDictionary<string, object>).ContainsKey("LOGTXTMessage"))
-            {
+            dynamic contenido;
+            if ((data as IDictionary<string, object>).ContainsKey("LOGTXT"))
+                contenido = data.LOGTXT;
+            else
+                contenido = data;
+
+            if ((contenido as IDictionary<string, object>).ContainsKey("LOGTXTMessage"))
+                {
                     //We write to log
                     lock (_locker)
                     {
                         try
                         {
-                            data.LOGTXT.LOGTXTMessage = DateTime.Now + ": " + data.LOGTXT.LOGTXTMessage;
-                            addMessageToFile(data.LOGTXT.LOGTXTFilePath, true, data.LOGTXT.LOGTXTMessage);
+                            contenido.LOGTXTMessage = DateTime.Now + ": " + contenido.LOGTXTMessage;
+                            if ((contenido as IDictionary<string, object>).ContainsKey("LOGTXTFilePath"))
+                                addMessageToFile(contenido.LOGTXTFilePath, true, contenido.LOGTXTMessage);
+                            else
+                                addMessageToFile(_data.LOGTXTFilePath, true, contenido.LOGTXTMessage);
                         }
                         catch (Exception ex)
                         {
                             throw new SpinException(ex.Message, ex);
                         }
                     }
-            }
-            else
-            {
-                data.LOGTXT.LOGTXTErrors = "Message unavailable";
-            }
+                }
+                else
+                {
+                    
+                    if ((data as IDictionary<string, object>).ContainsKey("LOGTXT"))
+                        data.LOGTXT.LOGTXTErrors = "Message unavailable";
+                    else
+                        data.LOGTXTErrors = "Message unavailable";
+                }
+     
         }
 
         internal void rotate(string path)

@@ -13,10 +13,15 @@ namespace Meplate
 {
     class ComunicacionTarjeta: SpinThreadSocket
     {
-          
+        dynamic _AuxLogCom, _AuxLog, _AuxLogError;
+        Meplate _Padre;
         public ComunicacionTarjeta(SpinDispatcher padre, string name,dynamic parametros)
             : base(padre, name, (object)parametros.ComunicacionTarjeta)
-        {           
+        {
+            _Padre = (Meplate)padre;
+            _AuxLogCom = parametros.LogComunicacion;
+            _AuxLog = parametros.LogMeplate;
+            _AuxLogError = parametros.LogErrores;
         }
 
         public override void FunctionToExecuteByThread()
@@ -33,6 +38,8 @@ namespace Meplate
                     case 21:
                         Events["ComenzarMedida"].Set();
                         ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("21");
+                        _AuxLogCom.LOGTXTMessage = "ADDA : Recibido Inicio Chapa con velocidad : " + (((Tarjeta)(((SharedData<Tarjeta>)_SharedMemory["Velocidad"]).Get(0))).Velocidad / 100.0).ToString() + " m/s";
+                        _Padre.Log.SetData(ref _AuxLogCom, "Informacion");
                         break;
                     case 22:
                         ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("22");
@@ -40,10 +47,14 @@ namespace Meplate
                     case 23:
                         Events["FinalizarMedida"].Set();
                         ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("23");
+                        _AuxLogCom.LOGTXTMessage = "ADDA : Recibido Fin Chapa con velocidad : " + (((Tarjeta)(((SharedData<Tarjeta>)_SharedMemory["Velocidad"]).Get(0))).Velocidad / 100.0).ToString() + " m/s";
+                        _Padre.Log.SetData(ref _AuxLogCom, "Informacion");
                         break;
                     case 24:
                         Events["AbortarMedida"].Set();
                         ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("24");
+                        _AuxLogCom.LOGTXTMessage = "ADDA : Recibido Abortar Chapa (Sale chapa con velocidad negativa) con velocidad : " + (((Tarjeta)(((SharedData<Tarjeta>)_SharedMemory["Velocidad"]).Get(0))).Velocidad / 100.0).ToString() + " m/s";
+                        _Padre.Log.SetData(ref _AuxLogCom, "Informacion");
                         break;
                     case 26:
 

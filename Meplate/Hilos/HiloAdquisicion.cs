@@ -18,8 +18,7 @@ namespace Meplate
         double avance, avanceAcumulado, velocidad, velocidadAnterior = 0;
         TimeSpan elapsedTime, totalElapsedTime;
         DateTime t1,t2 ;
-        dynamic  _AuxMeplaca ;
-        Tarjeta avancetemp;
+        dynamic _AuxMeplaca,_AuxLogCom, _AuxLog, _AuxLogError;
 
         List<CMedida> medidas;// lista donde se van guardando todos los perfiles de una chapa
         
@@ -29,6 +28,9 @@ namespace Meplate
         {
             _Padre = (Meplate)padre;    
             _AuxMeplaca = parametros.Meplaca;
+            _AuxLogCom = parametros.LogComunicacion;
+            _AuxLog = parametros.LogMeplate;
+            _AuxLogError = parametros.LogErrores;
         }
 
         public override void FunctionToExecuteByThread()
@@ -133,8 +135,16 @@ namespace Meplate
         public override void Closing()
         {
             _Meplaca.Stop();
+
+            //Cierro los logs 
             Trace.WriteLine("ADRI:   saliendo  del HILO ADQUISICION");
-      
+
+            _AuxLog.LOGTXTMessage = "Meplate is Closing";
+            _Padre.Log.SetData(ref _AuxLog, "Informacion");
+          
+
+            _Padre.Log.Stop();
+          
 
         }
         public override bool Stop()

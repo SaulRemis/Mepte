@@ -13,6 +13,7 @@ namespace Meplate
     {
         Meplate _Padre;
         CProcesamiento _Proc;
+        dynamic _AuxLogCom, _AuxLog, _AuxLogError;
 
         double duracion;
 
@@ -21,6 +22,9 @@ namespace Meplate
         {
             _Proc = new CProcesamiento(parametros);
             _Padre = padre;
+            _AuxLogCom = parametros.LogComunicacion;
+            _AuxLog = parametros.LogMeplate;
+            _AuxLogError = parametros.LogErrores;
         }
         public override void FunctionToExecuteByThread()
         {

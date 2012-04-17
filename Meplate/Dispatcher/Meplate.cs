@@ -19,8 +19,7 @@ namespace Meplate
         //Objetos auxiliares
         dynamic configuracion;
        public  SpinLogFile Log = new SpinLogFile();
-       public SpinLogFile LogCom = new SpinLogFile();
-       public SpinLogFile LogError = new SpinLogFile();
+
 
         public Meplate()
         {
@@ -34,9 +33,6 @@ namespace Meplate
             SpinConfig con = new SpinConfig();
             configuracion.CONFFile = SpinConfigConstants.SPIN_CONFIG_XML_NAME;
             con.GetData(ref configuracion,"Parametros");
-            Log.Init(configuracion.LogMeplate);
-            LogCom.Init(configuracion.LogComunicacion);
-            LogError.Init(configuracion.LogErrores);
 
             
             // Hilos
@@ -63,8 +59,12 @@ namespace Meplate
             CreateEvent("IDChapa", new AutoResetEvent(false), "Procesamiento", "ComunicacionOP");
 
 
-            configuracion.Message = "Iniciando aplicacion";
-            Log.SetData(ref configuracion, "WriteLine");
+
+            //Inicio el Log
+            Log.Init(configuracion.LogMeplate);
+            configuracion.LOGTXTMessage = "MEPLATE is Starting";
+            Log.SetData(ref configuracion, "Informacion");
+            
 
 
 

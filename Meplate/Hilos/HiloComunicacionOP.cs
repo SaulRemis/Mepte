@@ -13,11 +13,15 @@ namespace Meplate
 {
     class ComunicacionOP: SpinThreadSocket
     {
-      
+        dynamic _AuxLogCom, _AuxLog, _AuxLogError;
+        Meplate _Padre;
         public ComunicacionOP(SpinDispatcher padre,string name,dynamic parametros)
             : base(padre, name, (object)parametros.ComunicacionOP)
         {
-          
+            _Padre = (Meplate)padre;
+            _AuxLogCom = parametros.LogComunicacion;
+            _AuxLog = parametros.LogMeplate;
+            _AuxLogError = parametros.LogErrores;
         }
 
         public override void SendMessage(string mensajeAEnviar)
@@ -95,6 +99,10 @@ namespace Meplate
             cadena += puntuacion;
             temp.COMMessage = cadena;
             _server.SetData(ref temp, "EnviarMensaje");
+
+            _AuxLogCom.LOGTXTMessage = "OP : New Plate measured : " + plateid + " Decission : " + decision + " Score : " + puntuacion;
+            _Padre.Log.SetData(ref _AuxLogCom, "Informacion");
+
         }
         public override void FunctionToExecuteByThread()
         {
@@ -105,8 +113,6 @@ namespace Meplate
                 Byte[] val = (Byte[])((SharedData<Byte[]>)SharedMemory["SocketReader"]).Pop();
                 string mensaje = Encoding.ASCII.GetString(val);
                 String messageid = mensaje.Substring(0, 2);
-                Trace.WriteLine("New message arrived: MessageID->" + messageid);
-
                 switch (messageid)
                 {
                     //TODO
@@ -123,6 +129,10 @@ namespace Meplate
 
                         PlateID valor = new PlateID (_ID,double.Parse(_Width),double.Parse(_Length),double.Parse(_Thickness)/100,double.Parse(_Tol1),double.Parse(_Tol2));
                         ((SharedData<PlateID>)SharedMemory["IDChapa"]).Add(valor);
+
+
+                        _AuxLogCom.LOGTXTMessage = "OP : New ID received : " + _ID + " Width : " + _Width + " Length : " + _Length + " Thickness : " + _Thickness + " Tol1 : " + _Tol1 + " Tol2 : " + _Tol2;
+                        _Padre.Log.SetData(ref _AuxLogCom, "Informacion");
                         break;
                 }
              
