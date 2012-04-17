@@ -76,6 +76,7 @@
     <Compile Include="Dispatcher\SpinThreadWhile.cs" />
     <Compile Include="Errores\SpinException.cs" />
     <Compile Include="Errores\SpinExceptionConstants.cs" />
+    <Compile Include="Log\SpinLogFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sensors\Meplaca\CMeplaca.cs" />
     <Compile Include="Sensors\Meplaca\CModulosCal.cs" />
@@ -86,11 +87,6 @@
       <DependentUpon>Configuracion_Meplaca.cs</DependentUpon>
     </Compile>
     <Compile Include="Sensors\Meplaca\CSerie.cs" />
-    <Compile Include="Log\SpinLog.cs" />
-    <Compile Include="IO\SpinIODB.cs" />
-    <Compile Include="IO\SpinIOTxt.cs" />
-    <Compile Include="IO\SpinIOXML.cs" />
-    <Compile Include="DataBase\SpinDataBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Sensors\Meplaca\Configuracion_Meplaca.resx">

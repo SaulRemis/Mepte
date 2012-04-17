@@ -114,12 +114,7 @@ namespace SpinPlatform
                     datos.LogElementLevel = 0;
                     datos.Message = new List<string>();
 
-                    SpinLog log = new SpinLog();
-                    log.Init(datos);
-                    datos.LogElementLevel = 4;
-                    datos.Message.Add(DateTime.Now.ToString());
-                    datos.Message.Add(this.ErrorMsg.ToString());
-                    log.SetData(datos);
+
 
                 }
                 catch (Exception e)
