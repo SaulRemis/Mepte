@@ -81,25 +81,30 @@
             this.speedCardConnectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button_Validacion = new System.Windows.Forms.Button();
+            this.label_numdefect2 = new System.Windows.Forms.Label();
             this.label_numdefects1 = new System.Windows.Forms.Label();
             this.labeL_defectominimo2 = new System.Windows.Forms.Label();
             this.labeL_defectominimo1 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label_numdefect2 = new System.Windows.Forms.Label();
-            this.button_Validacion = new System.Windows.Forms.Button();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label19 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this._MeplatestatusStrip1.SuspendLayout();
             this.Menu.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // VentanaHalconPrincipal
@@ -107,7 +112,7 @@
             this.VentanaHalconPrincipal.BackColor = System.Drawing.Color.Black;
             this.VentanaHalconPrincipal.BorderColor = System.Drawing.Color.Black;
             this.VentanaHalconPrincipal.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
-            this.VentanaHalconPrincipal.Location = new System.Drawing.Point(12, 265);
+            this.VentanaHalconPrincipal.Location = new System.Drawing.Point(19, 79);
             this.VentanaHalconPrincipal.Name = "VentanaHalconPrincipal";
             this.VentanaHalconPrincipal.Size = new System.Drawing.Size(712, 314);
             this.VentanaHalconPrincipal.TabIndex = 12;
@@ -115,6 +120,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.label_THICKNESS);
             this.groupBox1.Controls.Add(this.label_Width);
             this.groupBox1.Controls.Add(this.label_Lenght);
@@ -126,9 +134,9 @@
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 38);
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(261, 161);
+            this.groupBox1.Size = new System.Drawing.Size(351, 153);
             this.groupBox1.TabIndex = 18;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "INFORMATION";
@@ -136,7 +144,7 @@
             // label_THICKNESS
             // 
             this.label_THICKNESS.AutoSize = true;
-            this.label_THICKNESS.Location = new System.Drawing.Point(112, 118);
+            this.label_THICKNESS.Location = new System.Drawing.Point(151, 112);
             this.label_THICKNESS.Name = "label_THICKNESS";
             this.label_THICKNESS.Size = new System.Drawing.Size(13, 13);
             this.label_THICKNESS.TabIndex = 20;
@@ -145,7 +153,7 @@
             // label_Width
             // 
             this.label_Width.AutoSize = true;
-            this.label_Width.Location = new System.Drawing.Point(112, 89);
+            this.label_Width.Location = new System.Drawing.Point(151, 83);
             this.label_Width.Name = "label_Width";
             this.label_Width.Size = new System.Drawing.Size(13, 13);
             this.label_Width.TabIndex = 19;
@@ -154,7 +162,7 @@
             // label_Lenght
             // 
             this.label_Lenght.AutoSize = true;
-            this.label_Lenght.Location = new System.Drawing.Point(112, 61);
+            this.label_Lenght.Location = new System.Drawing.Point(151, 55);
             this.label_Lenght.Name = "label_Lenght";
             this.label_Lenght.Size = new System.Drawing.Size(13, 13);
             this.label_Lenght.TabIndex = 19;
@@ -163,7 +171,7 @@
             // label_ID
             // 
             this.label_ID.AutoSize = true;
-            this.label_ID.Location = new System.Drawing.Point(112, 37);
+            this.label_ID.Location = new System.Drawing.Point(151, 31);
             this.label_ID.Name = "label_ID";
             this.label_ID.Size = new System.Drawing.Size(13, 13);
             this.label_ID.TabIndex = 19;
@@ -173,7 +181,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(179, 119);
+            this.label13.Location = new System.Drawing.Point(218, 113);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(25, 13);
             this.label13.TabIndex = 18;
@@ -183,7 +191,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(7, 119);
+            this.label11.Location = new System.Drawing.Point(46, 113);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(77, 13);
             this.label11.TabIndex = 18;
@@ -193,7 +201,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(179, 89);
+            this.label8.Location = new System.Drawing.Point(218, 83);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(25, 13);
             this.label8.TabIndex = 18;
@@ -203,7 +211,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(7, 89);
+            this.label3.Location = new System.Drawing.Point(46, 83);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(49, 13);
             this.label3.TabIndex = 18;
@@ -213,7 +221,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(179, 61);
+            this.label7.Location = new System.Drawing.Point(218, 55);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(16, 13);
             this.label7.TabIndex = 18;
@@ -223,7 +231,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(7, 61);
+            this.label2.Location = new System.Drawing.Point(46, 55);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(57, 13);
             this.label2.TabIndex = 18;
@@ -233,7 +241,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(7, 37);
+            this.label1.Location = new System.Drawing.Point(46, 31);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(67, 13);
             this.label1.TabIndex = 18;
@@ -251,6 +259,7 @@
             this.Y2,
             this.Z2,
             this.DIFF});
+            this._listViewPuntos.Dock = System.Windows.Forms.DockStyle.Fill;
             this._listViewPuntos.FullRowSelect = true;
             listViewGroup1.Header = "1 m RULER";
             listViewGroup1.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
@@ -261,9 +270,9 @@
             this._listViewPuntos.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
             listViewGroup1,
             listViewGroup2});
-            this._listViewPuntos.Location = new System.Drawing.Point(810, 265);
+            this._listViewPuntos.Location = new System.Drawing.Point(832, 162);
             this._listViewPuntos.Name = "_listViewPuntos";
-            this._listViewPuntos.Size = new System.Drawing.Size(454, 305);
+            this._listViewPuntos.Size = new System.Drawing.Size(441, 401);
             this._listViewPuntos.TabIndex = 21;
             this._listViewPuntos.UseCompatibleStateImageBehavior = false;
             this._listViewPuntos.View = System.Windows.Forms.View.Details;
@@ -316,7 +325,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(29, 233);
+            this.label4.Location = new System.Drawing.Point(45, 26);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(117, 24);
             this.label4.TabIndex = 22;
@@ -326,7 +335,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(340, 233);
+            this.label5.Location = new System.Drawing.Point(356, 26);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(111, 24);
             this.label5.TabIndex = 22;
@@ -336,7 +345,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(555, 233);
+            this.label6.Location = new System.Drawing.Point(571, 26);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(111, 24);
             this.label6.TabIndex = 22;
@@ -345,7 +354,7 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.RoyalBlue;
-            this.panel3.Location = new System.Drawing.Point(309, 233);
+            this.panel3.Location = new System.Drawing.Point(325, 26);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(25, 23);
             this.panel3.TabIndex = 23;
@@ -353,7 +362,7 @@
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.GreenYellow;
-            this.panel4.Location = new System.Drawing.Point(524, 233);
+            this.panel4.Location = new System.Drawing.Point(540, 26);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(25, 23);
             this.panel4.TabIndex = 23;
@@ -370,7 +379,7 @@
             // label_escala_max
             // 
             this.label_escala_max.AutoSize = true;
-            this.label_escala_max.Location = new System.Drawing.Point(760, 263);
+            this.label_escala_max.Location = new System.Drawing.Point(776, 79);
             this.label_escala_max.Name = "label_escala_max";
             this.label_escala_max.Size = new System.Drawing.Size(38, 13);
             this.label_escala_max.TabIndex = 25;
@@ -379,7 +388,7 @@
             // label_escala_inter
             // 
             this.label_escala_inter.AutoSize = true;
-            this.label_escala_inter.Location = new System.Drawing.Point(760, 425);
+            this.label_escala_inter.Location = new System.Drawing.Point(776, 241);
             this.label_escala_inter.Name = "label_escala_inter";
             this.label_escala_inter.Size = new System.Drawing.Size(38, 13);
             this.label_escala_inter.TabIndex = 25;
@@ -558,12 +567,36 @@
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.label14);
             this.groupBox2.Controls.Add(this.label12);
-            this.groupBox2.Location = new System.Drawing.Point(309, 38);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Location = new System.Drawing.Point(360, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(415, 161);
+            this.groupBox2.Size = new System.Drawing.Size(466, 153);
             this.groupBox2.TabIndex = 28;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "VALIDATION";
+            // 
+            // button_Validacion
+            // 
+            this.button_Validacion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.button_Validacion.Enabled = false;
+            this.button_Validacion.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button_Validacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Validacion.Location = new System.Drawing.Point(262, 31);
+            this.button_Validacion.Name = "button_Validacion";
+            this.button_Validacion.Size = new System.Drawing.Size(170, 100);
+            this.button_Validacion.TabIndex = 21;
+            this.button_Validacion.Text = "OK";
+            this.button_Validacion.UseVisualStyleBackColor = false;
+            // 
+            // label_numdefect2
+            // 
+            this.label_numdefect2.AutoSize = true;
+            this.label_numdefect2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_numdefect2.Location = new System.Drawing.Point(194, 119);
+            this.label_numdefect2.Name = "label_numdefect2";
+            this.label_numdefect2.Size = new System.Drawing.Size(14, 13);
+            this.label_numdefect2.TabIndex = 20;
+            this.label_numdefect2.Text = "0";
             // 
             // label_numdefects1
             // 
@@ -604,6 +637,46 @@
             this.label10.TabIndex = 18;
             this.label10.Text = " DEFECTS OVER MINIMUM";
             // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(24, 119);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(39, 13);
+            this.label18.TabIndex = 18;
+            this.label18.Text = "1 m : ";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(24, 61);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(39, 13);
+            this.label16.TabIndex = 18;
+            this.label16.Text = "1 m : ";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(139, 119);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(39, 13);
+            this.label17.TabIndex = 18;
+            this.label17.Text = "2 m : ";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(139, 61);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(39, 13);
+            this.label15.TabIndex = 18;
+            this.label15.Text = "2 m : ";
+            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -639,7 +712,7 @@
             // 
             this.panel5.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel5.BackgroundImage")));
             this.panel5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel5.Location = new System.Drawing.Point(740, 265);
+            this.panel5.Location = new System.Drawing.Point(744, 77);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(14, 316);
             this.panel5.TabIndex = 24;
@@ -648,73 +721,58 @@
             // 
             this.panel1.BackgroundImage = global::Meplate.Properties.Resources.logo4;
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel1.Location = new System.Drawing.Point(804, 44);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(832, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(460, 126);
+            this.panel1.Size = new System.Drawing.Size(441, 153);
             this.panel1.TabIndex = 19;
             // 
-            // label_numdefect2
+            // tableLayoutPanel1
             // 
-            this.label_numdefect2.AutoSize = true;
-            this.label_numdefect2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_numdefect2.Location = new System.Drawing.Point(194, 119);
-            this.label_numdefect2.Name = "label_numdefect2";
-            this.label_numdefect2.Size = new System.Drawing.Size(14, 13);
-            this.label_numdefect2.TabIndex = 20;
-            this.label_numdefect2.Text = "0";
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
+            this.tableLayoutPanel1.Controls.Add(this.panel2, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox2, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel1, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this._listViewPuntos, 2, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 24);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 28.26855F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 71.73145F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1276, 566);
+            this.tableLayoutPanel1.TabIndex = 29;
             // 
-            // button_Validacion
+            // panel2
             // 
-            this.button_Validacion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.button_Validacion.Enabled = false;
-            this.button_Validacion.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button_Validacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Validacion.Location = new System.Drawing.Point(262, 31);
-            this.button_Validacion.Name = "button_Validacion";
-            this.button_Validacion.Size = new System.Drawing.Size(129, 100);
-            this.button_Validacion.TabIndex = 21;
-            this.button_Validacion.Text = "OK";
-            this.button_Validacion.UseVisualStyleBackColor = false;
+            this.tableLayoutPanel1.SetColumnSpan(this.panel2, 2);
+            this.panel2.Controls.Add(this.VentanaHalconPrincipal);
+            this.panel2.Controls.Add(this.label4);
+            this.panel2.Controls.Add(this.label5);
+            this.panel2.Controls.Add(this.label6);
+            this.panel2.Controls.Add(this.label19);
+            this.panel2.Controls.Add(this.label_escala_inter);
+            this.panel2.Controls.Add(this.panel3);
+            this.panel2.Controls.Add(this.label_escala_max);
+            this.panel2.Controls.Add(this.panel4);
+            this.panel2.Controls.Add(this.panel5);
+            this.panel2.Location = new System.Drawing.Point(3, 162);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(823, 401);
+            this.panel2.TabIndex = 30;
             // 
-            // label15
+            // label19
             // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(139, 61);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(39, 13);
-            this.label15.TabIndex = 18;
-            this.label15.Text = "2 m : ";
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(24, 61);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(39, 13);
-            this.label16.TabIndex = 18;
-            this.label16.Text = "1 m : ";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(139, 119);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(39, 13);
-            this.label17.TabIndex = 18;
-            this.label17.Text = "2 m : ";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(24, 119);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(39, 13);
-            this.label18.TabIndex = 18;
-            this.label18.Text = "1 m : ";
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(776, 380);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(32, 13);
+            this.label19.TabIndex = 25;
+            this.label19.Text = "0 mm";
             // 
             // Form1
             // 
@@ -722,22 +780,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1276, 614);
-            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this._MeplatestatusStrip1);
             this.Controls.Add(this.Menu);
-            this.Controls.Add(this.label_escala_inter);
-            this.Controls.Add(this.label_escala_max);
             this.Controls.Add(this.label_escala_min);
-            this.Controls.Add(this.panel5);
-            this.Controls.Add(this.panel4);
-            this.Controls.Add(this.panel3);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this._listViewPuntos);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.VentanaHalconPrincipal);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.Menu;
             this.Name = "Form1";
@@ -751,6 +797,9 @@
             this.Menu.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -822,6 +871,9 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label label19;
 
     }
 }

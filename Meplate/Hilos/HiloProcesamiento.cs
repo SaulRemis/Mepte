@@ -36,10 +36,14 @@ namespace Meplate
                 if (!((SharedData<PlateID>)SharedMemory["IDChapa"]).Vacio)
                 {
                     PlateID id = ((PlateID)((SharedData<PlateID>)SharedMemory["IDChapa"]).Get(0));
-                    duracion = _Proc.ProcesamientoDatos(measurement, id.Width,id.Tolerance1,id.Tolerance2);
+                    duracion = _Proc.ProcesamientoDatos(measurement, id.Width, id.Tolerance1, id.Tolerance2);
                 }
 
-                else duracion = _Proc.ProcesamientoDatos(measurement, 900,5,5);
+                else
+                {
+                    duracion = _Proc.ProcesamientoDatos(measurement, 900, 5, 5);
+                }
+
                 ActualizarResultados();
             }
 
@@ -81,12 +85,16 @@ namespace Meplate
                 espesor = 0;
                 tol1 = 0;
                 tol2 = 0;
+                _AuxLogError.LOGTXTMessage = "Plate measured with default Parameters. No ID sent";
+                _Padre.Log.SetData(ref _AuxLogError, "Informacion");
                
             }
-             ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessageM5(id, _Proc.Puntos, _Proc._Decision,_Proc._Puntuacion);
+             ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessageM5(id, _Proc.Puntos, _Proc._Decision,_Proc._Puntuacion*10);
              ((SharedData<Resultados>)SharedMemory["Resultados"]).Set(0, new Resultados(_Proc.Z, _Proc.columnas, _Proc.Pixeles,_Proc.Puntos, _Proc.numeroMedidas, _Proc.distancia_a_la_chapa,id,ancho,largo,espesor,tol1,tol2,_Proc._Defectos1m,_Proc._Defectos2m));
              ((SharedData<Offset>)SharedMemory["Offset"]).Set(0, new Offset(_Proc._ValoresMedios,_Proc._Referencias));
             _Padre.PrepareEvent(_Name);
+            _AuxLog.LOGTXTMessage = "New Plate measured : " + id + " Decission : " + _Proc._Decision + " Score : " + _Proc._Puntuacion + " Number of defects 1m : " + _Proc._Defectos1m + " Number of defects 2m : " + _Proc._Defectos2m;
+            _Padre.Log.SetData(ref _AuxLog, "Informacion");
             
 
         } 

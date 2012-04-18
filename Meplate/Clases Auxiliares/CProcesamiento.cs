@@ -24,7 +24,7 @@ namespace Meplate
         public double[,] Pixeles;
         public double[,] Puntos;
         public string _Decision = "Y";
-        public double _Puntuacion = 0;
+        public double _Puntuacion = 10;
         public bool _Incluir_Parcialmente_Cubiertos;
         public bool _Guardar_Imagenes_Parciales;
 
@@ -96,6 +96,7 @@ namespace Meplate
             _Defectos1m = 0;
             _Defectos2m=0;
             _Decision = "Y";
+            _Puntuacion = 10;
 
         }
         private void ObtenerImagenes(List<CMedida> medidas)
@@ -367,8 +368,10 @@ namespace Meplate
                 Pixeles[i, 4] = Puntos[i, 5] - Puntos[i, 2];
                 Puntos[i,6] = Pixeles[i,4];
                 if (Math.Abs(Puntos[i, 6]) > tol) _Defectos1m++;
+                _Puntuacion = _Puntuacion - CalcularPenalizacion(Puntos[i, 6], tol);
             }
             if (_Defectos1m > 0) _Decision = "N";
+            if (_Puntuacion < 0) _Puntuacion = 0;
 
         }
         private void CalcularDefectos_2metro(double tol)
@@ -399,9 +402,11 @@ namespace Meplate
                 Pixeles[i, 4] = Puntos[i, 5] - Puntos[i, 2];
                 Puntos[i, 6] = Pixeles[i, 4];
                 if (Math.Abs(Puntos[i, 6]) > tol) _Defectos2m++;
+                _Puntuacion = _Puntuacion - CalcularPenalizacion(Puntos[i, 6], tol);
             }
 
             if (_Defectos2m > 0) _Decision = "N";
+            if (_Puntuacion < 0) _Puntuacion = 0;
 
         }
         private void Planitud_regla_1m(HObject ho_Imagen, string modo, out HTuple hv_filasmaximos, out HTuple hv_columnasmaximos, out HTuple hv_filasminimos, out HTuple hv_columnasminimos, out HTuple hv_Diff)
@@ -798,6 +803,19 @@ hv_Index), (hv_columnasmaximos.TupleSelect(hv_Index)) + 5);
             return  dif.TupleAbs();
 
         
+        
+        
+        }
+        private double CalcularPenalizacion(double valor, double tolerancia)
+        {
+            double penalizacion = 0;
+
+            penalizacion = (5 * Math.Abs(valor) - tolerancia) / (0.8 * tolerancia);
+            if (penalizacion > 5) penalizacion = 5;
+            if (penalizacion < 0) penalizacion = 0;
+
+
+            return penalizacion;
         
         
         }
