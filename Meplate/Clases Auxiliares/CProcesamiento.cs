@@ -348,7 +348,8 @@ namespace Meplate
 
             // "fibras" o "circulos" 
             //Planitud_regla_1m(Z,"fibras", out filas_max, out columnas_max, out filas_min, out columnas_min, out diff);
-            Planitud_regla_cuadricula_elipse(1, Z, out filas_max, out columnas_max, out filas_min, out columnas_min, out diff);
+            //Planitud_max_min(1, Z, out filas_max, out columnas_max, out filas_min, out columnas_min, out diff);
+            Planitud_regla(1, Z, out filas_max, out columnas_max, out filas_min, out columnas_min, out diff);
 
             for (int i = 0; i <filas_max.Length; i++)
             {
@@ -365,7 +366,7 @@ namespace Meplate
                 Puntos[i, 3] = X.GetGrayval((int)Pixeles[i, 2], (int)Pixeles[i, 3]);
                 Puntos[i, 4] = Y.GetGrayval((int)Pixeles[i, 2], (int)Pixeles[i, 3]);
                 Puntos[i, 5] = Z.GetGrayval((int)Pixeles[i, 2], (int)Pixeles[i, 3]);
-                Pixeles[i, 4] = Puntos[i, 5] - Puntos[i, 2];
+                Pixeles[i, 4] = Puntos[i, 2] - Puntos[i, 5]; // la diferencia entre el maximo y el minimo
                 Puntos[i,6] = Pixeles[i,4];
                 if (Math.Abs(Puntos[i, 6]) > tol) _Defectos1m++;
                 _Puntuacion = _Puntuacion - CalcularPenalizacion(Puntos[i, 6], tol);
@@ -382,7 +383,8 @@ namespace Meplate
 
             // "fibras" o "circulos" 
             //Planitud_regla_1m(Z,"fibras", out filas_max, out columnas_max, out filas_min, out columnas_min, out diff);
-            Planitud_regla_cuadricula_elipse(2, Z, out filas_max, out columnas_max, out filas_min, out columnas_min, out diff);
+           // Planitud_max_min(2, Z, out filas_max, out columnas_max, out filas_min, out columnas_min, out diff);
+            Planitud_regla(2, Z, out filas_max, out columnas_max, out filas_min, out columnas_min, out diff);
 
             for (int i = numeroMedidas; i < numeroMedidas+filas_max.Length; i++)
             {
@@ -409,7 +411,7 @@ namespace Meplate
             if (_Puntuacion < 0) _Puntuacion = 0;
 
         }
-        private void Planitud_regla_1m(HObject ho_Imagen, string modo, out HTuple hv_filasmaximos, out HTuple hv_columnasmaximos, out HTuple hv_filasminimos, out HTuple hv_columnasminimos, out HTuple hv_Diff)
+        private void Planitud_max_min(HTuple regla, HObject Imagen, out HTuple hv_filasmaximos, out HTuple hv_columnasmaximos, out HTuple hv_filasminimos, out HTuple hv_columnasminimos, out HTuple hv_Diff)
         {
 
 
@@ -419,252 +421,14 @@ namespace Meplate
 
             // Local iconic variables 
 
-            HObject ho_ImagenOut, ho_LocalMaxima, ho_ConnectedRegions;
-            HObject ho_Circle = null, ho_ImageReduced1 = null, ho_Circle2 = null;
+            HObject ImagenOut, Region, Partitioned, ellipse;
+            HObject regionseleccionada = null, ImageReduced = null;
+            HObject maximo = null, minimo = null;
 
 
             // Local control variables 
 
-            HTuple hv_Area, hv_Row1, hv_Column1, hv_filas;
-            HTuple hv_columnas, hv_Grayval, hv_Indices, hv_Selected_indices;
-            HTuple hv_valoresmaximos, hv_Index, hv_Min = new HTuple();
-            HTuple hv_Max = new HTuple(), hv_Range = new HTuple(), hv_Area1 = new HTuple();
-            HTuple hv_Row2 = new HTuple(), hv_Column2 = new HTuple(), hv_valoresminimos;
-
-            // Initialize local and output iconic variables 
-            HOperatorSet.GenEmptyObj(out ho_ImagenOut);
-            HOperatorSet.GenEmptyObj(out ho_LocalMaxima);
-            HOperatorSet.GenEmptyObj(out ho_ConnectedRegions);
-            HOperatorSet.GenEmptyObj(out ho_Circle);
-            HOperatorSet.GenEmptyObj(out ho_ImageReduced1);
-            HOperatorSet.GenEmptyObj(out ho_Circle2);
-
-            ho_ImagenOut.Dispose();
-            HOperatorSet.CopyObj(ho_Imagen, out ho_ImagenOut, 1, -1);
-            OTemp[SP_O] = ho_ImagenOut.CopyObj(1, -1);
-            SP_O++;
-            ho_ImagenOut.Dispose();
-            HOperatorSet.GaussImage(OTemp[SP_O - 1], out ho_ImagenOut, 5);
-            OTemp[SP_O - 1].Dispose();
-            SP_O = 0;
-
-            ho_LocalMaxima.Dispose();
-            HOperatorSet.LocalMax(ho_ImagenOut, out ho_LocalMaxima);
-
-            ho_ConnectedRegions.Dispose();
-            HOperatorSet.Connection(ho_LocalMaxima, out ho_ConnectedRegions);
-            HOperatorSet.AreaCenter(ho_ConnectedRegions, out hv_Area, out hv_Row1, out hv_Column1);
-            HOperatorSet.TupleRound(hv_Row1, out hv_filas);
-            HOperatorSet.TupleRound(hv_Column1, out hv_columnas);
-            HOperatorSet.GetGrayval(ho_ImagenOut, hv_filas, hv_columnas, out hv_Grayval);
-            HOperatorSet.TupleSortIndex(hv_Grayval, out hv_Indices);
-            HOperatorSet.TupleSort(hv_Grayval, out hv_Grayval);
-
-
-            if (hv_Indices.TupleLength() > numeroMedidas)
-            {
-                HOperatorSet.TupleLastN(hv_Indices, (new HTuple(hv_Indices.TupleLength())) - numeroMedidas,
-               out hv_Selected_indices);
-                HOperatorSet.TupleLastN(hv_Grayval, (new HTuple(hv_Grayval.TupleLength())) - numeroMedidas,
-                    out hv_valoresmaximos);
-
-            }
-            else
-            {
-
-                hv_Selected_indices = hv_Indices;
-                hv_valoresmaximos = hv_Grayval;
-            }
-
-
-            HOperatorSet.TupleSelect(hv_filas, hv_Selected_indices, out hv_filasmaximos);
-            HOperatorSet.TupleSelect(hv_columnas, hv_Selected_indices, out hv_columnasmaximos);
-            hv_filasminimos = new HTuple();
-            hv_columnasminimos = new HTuple();
-            for (hv_Index = 0; (int)hv_Index <= (int)((new HTuple(hv_columnasmaximos.TupleLength()
-                )) - 1); hv_Index = (int)hv_Index + 1)
-            {
-                //depende si quiero medir en la fibra o en el circulo , creo una region o otra
-
-                ho_Circle.Dispose();
-
-                if (modo=="fibras")
-
-                HOperatorSet.GenRegionLine(out ho_Circle, hv_filasmaximos.TupleSelect(
-hv_Index), (hv_columnasmaximos.TupleSelect(hv_Index)) - 5, hv_filasmaximos.TupleSelect(
-hv_Index), (hv_columnasmaximos.TupleSelect(hv_Index)) + 5);
-
-                else
-                HOperatorSet.GenCircle(out ho_Circle, hv_filasmaximos.TupleSelect(hv_Index),
-                    hv_columnasmaximos.TupleSelect(hv_Index), 5);
-
-
-
-
-                HOperatorSet.MinMaxGray(ho_Circle, ho_ImagenOut, 0, out hv_Min, out hv_Max,
-                    out hv_Range);
-                ho_ImageReduced1.Dispose();
-                HOperatorSet.ReduceDomain(ho_ImagenOut, ho_Circle, out ho_ImageReduced1);
-                ho_Circle2.Dispose();
-                HOperatorSet.Threshold(ho_ImageReduced1, out ho_Circle2, 0, hv_Min);
-
-                HOperatorSet.AreaCenter(ho_Circle2, out hv_Area1, out hv_Row2, out hv_Column2);
-                hv_filasminimos = hv_filasminimos.TupleConcat(hv_Row2);
-                hv_columnasminimos = hv_columnasminimos.TupleConcat(hv_Column2);
-            }
-
-            HOperatorSet.TupleRound(hv_filasminimos, out hv_filasminimos);
-            HOperatorSet.TupleRound(hv_columnasminimos, out hv_columnasminimos);
-            HOperatorSet.GetGrayval(ho_ImagenOut, hv_filasminimos, hv_columnasminimos, out hv_valoresminimos);
-            HOperatorSet.TupleSub(hv_valoresmaximos, hv_valoresminimos, out hv_Diff);
-            HOperatorSet.TupleMult(hv_Diff, 10, out hv_Diff);
-            ho_ImagenOut.Dispose();
-            ho_LocalMaxima.Dispose();
-            ho_ConnectedRegions.Dispose();
-            ho_Circle.Dispose();
-            ho_ImageReduced1.Dispose();
-            ho_Circle2.Dispose();
-
-            return;
-        }
-        private void Planitud_regla_cuadricula(HTuple regla,  HObject ho_Imagen, out HTuple hv_filasmaximos, out HTuple hv_columnasmaximos, out HTuple hv_filasminimos, out HTuple hv_columnasminimos, out HTuple hv_Diff)
-        {
-
-
-            // Stack for temporary objects 
-            HObject[] OTemp = new HObject[20];
-            long SP_O = 0;
-
-            // Local iconic variables 
-
-            HObject ho_ImagenOut, ho_Region, ho_Partitioned,ho_ellipse;
-            HObject ho_regionseleccionada = null, ho_ImageReduced = null;
-            HObject ho_maximo = null, ho_minimo = null;
-
-
-            // Local control variables 
-
-            HTuple hv_Width, hv_Height, hv_ancho_cuadro, hv_radio1, hv_radio2;
-            HTuple hv_Min1, hv_Max1, hv_Range1, hv_Diff1, hv_Indices1;
-            HTuple hv_DiffSorted,  hv_j, hv_indice = new HTuple();
-            HTuple hv_Min3 = new HTuple(), hv_Max3 = new HTuple(), hv_Range3 = new HTuple();
-            HTuple hv_Min4 = new HTuple(), hv_Max4 = new HTuple(), hv_Range4 = new HTuple();
-            HTuple hv_Area2 = new HTuple(), hv_Row = new HTuple(), hv_Column = new HTuple();
-            HTuple hv_Area = new HTuple(), hv_Row1 = new HTuple(), hv_Column1 = new HTuple();
-
-            // Initialize local and output iconic variables 
-            HOperatorSet.GenEmptyObj(out ho_ImagenOut);
-            HOperatorSet.GenEmptyObj(out ho_Region);
-            HOperatorSet.GenEmptyObj(out ho_Partitioned);
-            HOperatorSet.GenEmptyObj(out ho_regionseleccionada);
-            HOperatorSet.GenEmptyObj(out ho_ImageReduced);
-            HOperatorSet.GenEmptyObj(out ho_maximo);
-            HOperatorSet.GenEmptyObj(out ho_minimo);
-            HOperatorSet.GenEmptyObj(out ho_ellipse);
-
-            ho_ImagenOut.Dispose();
-            HOperatorSet.CopyObj(ho_Imagen, out ho_ImagenOut, 1, -1);
-            OTemp[SP_O] = ho_ImagenOut.CopyObj(1, -1);
-            SP_O++;
-            ho_ImagenOut.Dispose();
-            HOperatorSet.GaussImage(OTemp[SP_O - 1], out ho_ImagenOut, 5);
-            OTemp[SP_O - 1].Dispose();
-            SP_O = 0;
-            ho_Region.Dispose();
-          
-           // HOperatorSet.GetDomain(ho_Imagen, out ho_Region);
-
-
-            HOperatorSet.GetImageSize(ho_ImagenOut, out hv_Width, out hv_Height);
-            HOperatorSet.GenRectangle1(out ho_Region, borde_izquierdo, 0, borde_derecho, hv_Width);
-           // hv_ancho_cuadro = hv_Width / 10;
-            hv_ancho_cuadro = 50;
-            hv_ancho_cuadro.TupleFloor();
-            //hv_ancho_cuadro = 10;
-            HOperatorSet.TupleRound(hv_ancho_cuadro, out hv_ancho_cuadro);
-            ho_Partitioned.Dispose();
-            HOperatorSet.PartitionRectangle(ho_Region, out ho_Partitioned, hv_ancho_cuadro,
-                5);
-            HOperatorSet.MinMaxGray(ho_Partitioned, ho_ImagenOut, 0, out hv_Min1, out hv_Max1,
-                out hv_Range1);
-            HOperatorSet.TupleSub(hv_Max1, hv_Min1, out hv_Diff1);
-            HOperatorSet.TupleSortIndex(hv_Diff1, out hv_Indices1);
-            HOperatorSet.TupleSort(hv_Diff1, out hv_DiffSorted);
-
-            if (hv_Indices1.TupleLength() > numeroMedidas)
-            {
-
-                HOperatorSet.TupleLastN(hv_Indices1, (new HTuple(hv_Indices1.TupleLength())) - numeroMedidas,
-                    out hv_Indices1);
-               // HOperatorSet.TupleLastN(hv_DiffSorted, (new HTuple(hv_DiffSorted.TupleLength())) - 10, out hv_Diff);
-            }
-            hv_filasmaximos = new HTuple();
-            hv_columnasmaximos = new HTuple();
-            hv_filasminimos = new HTuple();
-            hv_columnasminimos = new HTuple();
-            hv_Diff = new HTuple();
-            for (hv_j = 0; (int)hv_j <= hv_Indices1.TupleLength()-1; hv_j = (int)hv_j + 1)
-            {
-                //Calculo el maximo de la region
-                hv_indice = hv_Indices1.TupleSelect(hv_j);
-                ho_regionseleccionada.Dispose();
-                HOperatorSet.SelectObj(ho_Partitioned, out ho_regionseleccionada, hv_indice + 1);
-                HOperatorSet.MinMaxGray(ho_regionseleccionada, ho_ImagenOut, 0, out hv_Min3,
-                    out hv_Max3, out hv_Range3);
-                ho_ImageReduced.Dispose();
-                HOperatorSet.ReduceDomain(ho_ImagenOut, ho_regionseleccionada, out ho_ImageReduced
-                    );
-                ho_maximo.Dispose();
-                HOperatorSet.Threshold(ho_ImageReduced, out ho_maximo, hv_Max3, 10000);
-                HOperatorSet.AreaCenter(ho_maximo, out hv_Area2, out hv_Row, out hv_Column);
-
-               
-
-                hv_filasmaximos = hv_filasmaximos.TupleConcat(hv_Row);
-                hv_columnasmaximos = hv_columnasmaximos.TupleConcat(hv_Column);
-                ho_minimo.Dispose();
-
-
-                //Calculo un circulo de 1m de radio
-
-                hv_radio1 = CalcularRadio(hv_Column, regla*1000);
-                hv_radio2 = ((regla * 1000) / distancia_entre_sensores);
-                hv_radio2.TupleFloor();
-                HOperatorSet.GenEllipse(out ho_ellipse, hv_Row, hv_Column, 0, hv_radio1, hv_radio2);
-                HOperatorSet.Intersection(ho_Region, ho_ellipse, out ho_ellipse);
-                HOperatorSet.MinMaxGray(ho_ellipse, ho_ImagenOut, 0, out hv_Min4,
-                   out hv_Max4, out hv_Range4);
-                HOperatorSet.ReduceDomain(ho_ImagenOut, ho_ellipse, out ho_ImageReduced);
-                HOperatorSet.Threshold(ho_ImageReduced, out ho_minimo, 0, hv_Min4);
-                HOperatorSet.AreaCenter(ho_minimo, out hv_Area, out hv_Row1, out hv_Column1);
-
-
-                hv_filasminimos = hv_filasminimos.TupleConcat(hv_Row1);
-                hv_columnasminimos = hv_columnasminimos.TupleConcat(hv_Column1);
-
-                hv_Diff = hv_Diff.TupleConcat(hv_Range3 );
-            }
-
-
-        }
-        private void Planitud_regla_cuadricula_elipse(HTuple regla, HObject ho_Imagen, out HTuple hv_filasmaximos, out HTuple hv_columnasmaximos, out HTuple hv_filasminimos, out HTuple hv_columnasminimos, out HTuple hv_Diff)
-        {
-
-
-            // Stack for temporary objects 
-            HObject[] OTemp = new HObject[20];
-            long SP_O = 0;
-
-            // Local iconic variables 
-
-            HObject ho_ImagenOut, ho_Region, ho_Partitioned, ho_ellipse;
-            HObject ho_regionseleccionada = null, ho_ImageReduced = null;
-            HObject ho_maximo = null, ho_minimo = null;
-
-
-            // Local control variables 
-
-            HTuple hv_Width, hv_Height, hv_ancho_cuadro, hv_radio1, hv_radio2;
+            HTuple hv_Width, hv_Height, hv_anccuadro, hv_radio1, hv_radio2;
             HTuple hv_Min1, hv_Max1, hv_Range1, hv_Diff1, hv_Indices1;
             HTuple hv_DiffSorted, hv_j, hv_indice = new HTuple();
             HTuple hv_Min3 = new HTuple(), hv_Max3 = new HTuple(), hv_Range3 = new HTuple();
@@ -673,39 +437,39 @@ hv_Index), (hv_columnasmaximos.TupleSelect(hv_Index)) + 5);
             HTuple hv_Area = new HTuple(), hv_Row1 = new HTuple(), hv_Column1 = new HTuple();
 
             // Initialize local and output iconic variables 
-            HOperatorSet.GenEmptyObj(out ho_ImagenOut);
-            HOperatorSet.GenEmptyObj(out ho_Region);
-            HOperatorSet.GenEmptyObj(out ho_Partitioned);
-            HOperatorSet.GenEmptyObj(out ho_regionseleccionada);
-            HOperatorSet.GenEmptyObj(out ho_ImageReduced);
-            HOperatorSet.GenEmptyObj(out ho_maximo);
-            HOperatorSet.GenEmptyObj(out ho_minimo);
-            HOperatorSet.GenEmptyObj(out ho_ellipse);
+            HOperatorSet.GenEmptyObj(out ImagenOut);
+            HOperatorSet.GenEmptyObj(out Region);
+            HOperatorSet.GenEmptyObj(out Partitioned);
+            HOperatorSet.GenEmptyObj(out regionseleccionada);
+            HOperatorSet.GenEmptyObj(out ImageReduced);
+            HOperatorSet.GenEmptyObj(out maximo);
+            HOperatorSet.GenEmptyObj(out minimo);
+            HOperatorSet.GenEmptyObj(out ellipse);
 
-            ho_ImagenOut.Dispose();
-            HOperatorSet.CopyObj(ho_Imagen, out ho_ImagenOut, 1, -1);
-            OTemp[SP_O] = ho_ImagenOut.CopyObj(1, -1);
+            ImagenOut.Dispose();
+            HOperatorSet.CopyObj(Imagen, out ImagenOut, 1, -1);
+            OTemp[SP_O] = ImagenOut.CopyObj(1, -1);
             SP_O++;
-            ho_ImagenOut.Dispose();
-            HOperatorSet.GaussImage(OTemp[SP_O - 1], out ho_ImagenOut, 5);
+            ImagenOut.Dispose();
+            HOperatorSet.GaussImage(OTemp[SP_O - 1], out ImagenOut, 5);
             OTemp[SP_O - 1].Dispose();
             SP_O = 0;
-            ho_Region.Dispose();
+            Region.Dispose();
 
-            // HOperatorSet.GetDomain(ho_Imagen, out ho_Region);
+            // HOperatorSet.GetDomain(Imagen, out Region);
 
 
-            HOperatorSet.GetImageSize(ho_ImagenOut, out hv_Width, out hv_Height);
-            HOperatorSet.GenRectangle1(out ho_Region, borde_izquierdo, 0, borde_derecho, hv_Width);
-            // hv_ancho_cuadro = hv_Width / 10;
-            hv_ancho_cuadro = 50;
-            hv_ancho_cuadro.TupleFloor();
-            //hv_ancho_cuadro = 10;
-            HOperatorSet.TupleRound(hv_ancho_cuadro, out hv_ancho_cuadro);
-            ho_Partitioned.Dispose();
-            HOperatorSet.PartitionRectangle(ho_Region, out ho_Partitioned, hv_ancho_cuadro,
+            HOperatorSet.GetImageSize(ImagenOut, out hv_Width, out hv_Height);
+            HOperatorSet.GenRectangle1(out Region, borde_izquierdo, 0, borde_derecho, hv_Width);
+            // hv_anccuadro = hv_Width / 10;
+            hv_anccuadro = 50;
+            hv_anccuadro.TupleFloor();
+            //hv_anccuadro = 10;
+            HOperatorSet.TupleRound(hv_anccuadro, out hv_anccuadro);
+            Partitioned.Dispose();
+            HOperatorSet.PartitionRectangle(Region, out Partitioned, hv_anccuadro,
                 5);
-            HOperatorSet.MinMaxGray(ho_Partitioned, ho_ImagenOut, 0, out hv_Min1, out hv_Max1,
+            HOperatorSet.MinMaxGray(Partitioned, ImagenOut, 0, out hv_Min1, out hv_Max1,
                 out hv_Range1);
 
             HOperatorSet.TupleSortIndex(hv_Max1, out hv_Indices1);
@@ -727,22 +491,22 @@ hv_Index), (hv_columnasmaximos.TupleSelect(hv_Index)) + 5);
             {
                 //Calculo el maximo de la region
                 hv_indice = hv_Indices1.TupleSelect(hv_j);
-                ho_regionseleccionada.Dispose();
-                HOperatorSet.SelectObj(ho_Partitioned, out ho_regionseleccionada, hv_indice + 1);
-                HOperatorSet.MinMaxGray(ho_regionseleccionada, ho_ImagenOut, 0, out hv_Min3,
+                regionseleccionada.Dispose();
+                HOperatorSet.SelectObj(Partitioned, out regionseleccionada, hv_indice + 1);
+                HOperatorSet.MinMaxGray(regionseleccionada, ImagenOut, 0, out hv_Min3,
                     out hv_Max3, out hv_Range3);
-                ho_ImageReduced.Dispose();
-                HOperatorSet.ReduceDomain(ho_ImagenOut, ho_regionseleccionada, out ho_ImageReduced
+                ImageReduced.Dispose();
+                HOperatorSet.ReduceDomain(ImagenOut, regionseleccionada, out ImageReduced
                     );
-                ho_maximo.Dispose();
-                HOperatorSet.Threshold(ho_ImageReduced, out ho_maximo, hv_Max3, 10000);
-                HOperatorSet.AreaCenter(ho_maximo, out hv_Area2, out hv_Row, out hv_Column);
+                maximo.Dispose();
+                HOperatorSet.Threshold(ImageReduced, out maximo, hv_Max3, 10000);
+                HOperatorSet.AreaCenter(maximo, out hv_Area2, out hv_Row, out hv_Column);
 
 
 
                 hv_filasmaximos = hv_filasmaximos.TupleConcat(hv_Row);
                 hv_columnasmaximos = hv_columnasmaximos.TupleConcat(hv_Column);
-                ho_minimo.Dispose();
+                minimo.Dispose();
 
 
                 //Calculo un circulo de 1m de radio
@@ -750,13 +514,13 @@ hv_Index), (hv_columnasmaximos.TupleSelect(hv_Index)) + 5);
                 hv_radio1 = CalcularRadio(hv_Column, regla * 1000);
                 hv_radio2 = ((regla * 1000) / distancia_entre_sensores);
                 hv_radio2.TupleFloor();
-                HOperatorSet.GenEllipse(out ho_ellipse, hv_Row, hv_Column, 0, hv_radio1, hv_radio2);
-                HOperatorSet.Intersection(ho_Region, ho_ellipse, out ho_ellipse);
-                HOperatorSet.MinMaxGray(ho_ellipse, ho_ImagenOut, 0, out hv_Min4,
+                HOperatorSet.GenEllipse(out ellipse, hv_Row, hv_Column, 0, hv_radio1, hv_radio2);
+                HOperatorSet.Intersection(Region, ellipse, out ellipse);
+                HOperatorSet.MinMaxGray(ellipse, ImagenOut, 0, out hv_Min4,
                    out hv_Max4, out hv_Range4);
-                HOperatorSet.ReduceDomain(ho_ImagenOut, ho_ellipse, out ho_ImageReduced);
-                HOperatorSet.Threshold(ho_ImageReduced, out ho_minimo, 0, hv_Min4);
-                HOperatorSet.AreaCenter(ho_minimo, out hv_Area, out hv_Row1, out hv_Column1);
+                HOperatorSet.ReduceDomain(ImagenOut, ellipse, out ImageReduced);
+                HOperatorSet.Threshold(ImageReduced, out minimo, 0, hv_Min4);
+                HOperatorSet.AreaCenter(minimo, out hv_Area, out hv_Row1, out hv_Column1);
 
 
                 hv_filasminimos = hv_filasminimos.TupleConcat(hv_Row1);
@@ -767,6 +531,248 @@ hv_Index), (hv_columnasmaximos.TupleSelect(hv_Index)) + 5);
 
 
         }
+        private void Planitud_regla(HTuple regla, HObject Imagen, out HTuple hv_filasmaximos, out HTuple hv_columnasmaximos, out HTuple hv_filasminimos, out HTuple hv_columnasminimos, out HTuple hv_Diff)
+        {
+
+ 
+             #region Inicializar
+            // Stack for temporary objects 
+            HObject[] OTemp = new HObject[20];
+            long SP_O = 0;
+
+            // Local iconic variables 
+
+            HObject ImagenOut, Region, Partitioned, ellipse, localmaxima, connectedRegions, contour, region3, Imagetemp, regiontemp;
+            HObject regionseleccionada = null, ImageReduced = null;
+            HObject maximo = null, minimo = null;
+
+
+            // Local control variables 
+
+            HTuple hv_Width, hv_Height, hv_anccuadro, hv_radio1, hv_radio2;
+            HTuple hv_Min1, hv_Max1, hv_Range1, hv_Diff1, hv_Indices1, hv_Max, hmax,rowmin,colmin,h;
+            HTuple hv_MaxSorted, hv_j, hv_indice = new HTuple();
+            HTuple hv_Min3 = new HTuple(), hv_Max3 = new HTuple(), hv_Range3 = new HTuple();
+            HTuple hv_Min4 = new HTuple(), hv_Max4 = new HTuple(), hv_Range4 = new HTuple();
+            HTuple hv_Min5 = new HTuple(), hv_Max5 = new HTuple(), hv_Range5 = new HTuple();
+            HTuple hv_Area2 = new HTuple(), hv_Row = new HTuple(), hv_Column = new HTuple();
+            HTuple hv_Area3 = new HTuple(), hv_Row3 = new HTuple(), hv_Column3 = new HTuple();
+            HTuple hv_Area = new HTuple(), hv_Row1 = new HTuple(), hv_Column1 = new HTuple();
+            HTuple hv_Areatemp = new HTuple(), hv_Rowtemp = new HTuple(), hv_Columntemp = new HTuple();
+
+            // Initialize local and output iconic variables 
+            HOperatorSet.GenEmptyObj(out ImagenOut);
+            HOperatorSet.GenEmptyObj(out Region);
+            HOperatorSet.GenEmptyObj(out Partitioned);
+            HOperatorSet.GenEmptyObj(out regionseleccionada);
+            HOperatorSet.GenEmptyObj(out ImageReduced);
+            HOperatorSet.GenEmptyObj(out localmaxima);
+            HOperatorSet.GenEmptyObj(out connectedRegions);
+            HOperatorSet.GenEmptyObj(out maximo);
+            HOperatorSet.GenEmptyObj(out minimo);
+            HOperatorSet.GenEmptyObj(out ellipse); 
+            HOperatorSet.GenEmptyObj(out contour);
+            HOperatorSet.GenEmptyObj(out region3);
+            HOperatorSet.GenEmptyObj(out Imagetemp);
+            HOperatorSet.GenEmptyObj(out regiontemp); 
+
+            #endregion
+
+            ///<>  Filtro la imagen . Divido la imagen en rectangulos y busco las maximas alturas           
+             #region BuscaMaximos
+            ImagenOut.Dispose();
+            HOperatorSet.CopyObj(Imagen, out ImagenOut, 1, -1);
+            OTemp[SP_O] = ImagenOut.CopyObj(1, -1);
+            SP_O++;
+            ImagenOut.Dispose();
+            HOperatorSet.GaussImage(OTemp[SP_O - 1], out ImagenOut, 5);
+            OTemp[SP_O - 1].Dispose();
+            SP_O = 0;
+            Region.Dispose();
+
+            // HOperatorSet.GetDomain(Imagen, out Region);
+
+            
+         
+            HOperatorSet.GetImageSize(ImagenOut, out hv_Width, out hv_Height);
+            HOperatorSet.GenRectangle1(out Region, borde_izquierdo, 0, borde_derecho, hv_Width);
+            // hv_anccuadro = hv_Width / 10;
+            hv_anccuadro = 50;
+            hv_anccuadro.TupleFloor();
+            //hv_anccuadro = 10;
+            HOperatorSet.TupleRound(hv_anccuadro, out hv_anccuadro);
+            Partitioned.Dispose();
+            HOperatorSet.PartitionRectangle(Region, out Partitioned, hv_anccuadro,
+                5);
+            HOperatorSet.MinMaxGray(Partitioned, ImagenOut, 0, out hv_Min1, out hv_Max1,
+                out hv_Range1);
+
+            HOperatorSet.TupleSortIndex(hv_Max1, out hv_Indices1);
+            HOperatorSet.TupleSort(hv_Max1, out hv_MaxSorted);
+
+            if (hv_Indices1.TupleLength() > numeroMedidas)
+            {
+
+                HOperatorSet.TupleLastN(hv_Indices1, (new HTuple(hv_Indices1.TupleLength())) - numeroMedidas, out hv_Indices1);
+
+
+            } 
+            #endregion
+
+
+            /// <Comment>analizo las 10 regiones con los puntos mas altos. Busco los maximos y calculo un circulo de 1 o 2 metros alrededor.
+            /// En ese circulo busco los maximos relativos y probandolos todos veo en cual deberia apoyar la regla
+            /// para que me de el maximo defectos. Los resultados los guardo en las variables de salida
+            #region Buscar defectos
+
+            hv_filasmaximos = new HTuple();
+            hv_columnasmaximos = new HTuple();
+            hv_filasminimos = new HTuple();
+            hv_columnasminimos = new HTuple();
+            hv_Diff = new HTuple();
+
+            for (hv_j = 0; (int)hv_j <= hv_Indices1.TupleLength() - 1; hv_j = (int)hv_j + 1)
+            {   
+
+                ///<code>Calculo el maximo de la region
+                hv_indice = hv_Indices1.TupleSelect(hv_j);
+                regionseleccionada.Dispose();
+                HOperatorSet.SelectObj(Partitioned, out regionseleccionada, hv_indice + 1);
+                HOperatorSet.MinMaxGray(regionseleccionada, ImagenOut, 0, out hv_Min3, out hv_Max3, out hv_Range3);
+                ImageReduced.Dispose();
+                HOperatorSet.ReduceDomain(ImagenOut, regionseleccionada, out ImageReduced);
+                maximo.Dispose();
+                HOperatorSet.Threshold(ImageReduced, out maximo, hv_Max3, 10000);
+                HOperatorSet.AreaCenter(maximo, out hv_Area2, out hv_Row, out hv_Column);
+                hv_filasmaximos = hv_filasmaximos.TupleConcat(hv_Row);
+                hv_columnasmaximos = hv_columnasmaximos.TupleConcat(hv_Column);
+                minimo.Dispose();
+
+
+                ///<code>Calculo un circulo (elipse) de 1m o 2m de radio
+
+                hv_radio1 = CalcularRadio(hv_Column, regla * 1000);
+                hv_radio2 = ((regla * 1000) / distancia_entre_sensores);
+                hv_radio2.TupleFloor();
+                HOperatorSet.GenEllipse(out ellipse, hv_Row, hv_Column, 0, hv_radio1, hv_radio2);
+                HOperatorSet.Intersection(Region, ellipse, out ellipse);
+
+                ///<Busco los maximos locales
+                HOperatorSet.ReduceDomain(ImagenOut, ellipse, out ImageReduced);
+                HOperatorSet.LocalMax(ImageReduced, out localmaxima);
+                HOperatorSet.Connection(localmaxima, out connectedRegions);
+                HOperatorSet.AreaCenter(connectedRegions, out hv_Area, out hv_Row1, out hv_Column1);
+
+                ///<code>  Si hay alguun maximos local analizo todos los maximos locales y el defecto que me darian al apoyar la regla
+                /// Si no cojo el puntyo minimo y apoyo en el la regla
+                if (hv_Row1.Length>0)
+                {
+                                    
+
+                    hmax = 0;
+                    rowmin = 0;
+                    colmin = 0;
+
+
+
+                    for (int i = 0; i < hv_Row1.Length - 1; i++)
+                    {
+      
+                     //   HOperatorSet.GenContourPolygonXld(out contour, new HTuple((double)hv_Row, (double)hv_Row1[i]), new HTuple((double)hv_Column, (double)hv_Column1[i]));
+                        HOperatorSet.GenContourPolygonXld(out contour, hv_Row.TupleConcat(hv_Row1[i]), hv_Column.TupleConcat(hv_Column1[i]));
+                        HOperatorSet.GenRegionContourXld(contour, out region3, "filled");
+                        HOperatorSet.AreaCenter(connectedRegions, out hv_Area3, out hv_Row3, out hv_Column3);
+                        if (hv_Area3.Length > 20)
+                        {
+                            HOperatorSet.Difference(region3, maximo, out region3);
+                            HOperatorSet.MinMaxGray(region3, ImagenOut, 0, out hv_Min5, out hv_Max5, out hv_Range5);
+                            if (hv_Min5>0)
+                            {
+                                HOperatorSet.ReduceDomain(ImagenOut, region3, out Imagetemp);
+                                HOperatorSet.Threshold(Imagetemp, out regiontemp, 0, hv_Min5);
+                                HOperatorSet.AreaCenter(regiontemp, out hv_Areatemp, out hv_Rowtemp, out hv_Columntemp);
+                                if (hv_Areatemp > 1)
+                                {
+                                    hv_Rowtemp = hv_Rowtemp[0];
+                                    hv_Columntemp = hv_Columntemp[0];
+
+                                }
+                                h = CalcularAltura(
+                                    X.GetGrayval((int)hv_Row.D, (int)hv_Column.D), Y.GetGrayval((int)hv_Row.D, (int)hv_Column.D), Z.GetGrayval((int)hv_Row.D, (int)hv_Column.D),
+                                    X.GetGrayval((int)hv_Row1[i].D, (int)hv_Column1[i].D), Y.GetGrayval((int)hv_Row1[i].D, (int)hv_Column1[i].D), Z.GetGrayval((int)hv_Row1[i].D, (int)hv_Column1[i].D),
+                                    X.GetGrayval((int)hv_Rowtemp.D, (int)hv_Columntemp.D), Y.GetGrayval((int)hv_Rowtemp.D, (int)hv_Columntemp.D), Z.GetGrayval((int)hv_Rowtemp.D, (int)hv_Columntemp.D));
+                                if (h > hmax)
+                                {
+                                    hmax = h;
+                                    rowmin = hv_Rowtemp;
+                                    colmin = hv_Columntemp;
+
+                                } 
+                            }
+
+                        }
+                      
+
+
+                    }
+                    if (rowmin.D==0)
+                    {
+                        HOperatorSet.MinMaxGray(ellipse, ImagenOut, 0, out hv_Min4, out hv_Max4, out hv_Range4);
+                        HOperatorSet.ReduceDomain(ImagenOut, ellipse, out ImageReduced);
+                        HOperatorSet.Threshold(ImageReduced, out minimo, 0, hv_Min4);
+                        HOperatorSet.AreaCenter(minimo, out hv_Area, out hv_Row1, out hv_Column1);
+
+
+                        hv_filasminimos = hv_filasminimos.TupleConcat(hv_Row1);
+                        hv_columnasminimos = hv_columnasminimos.TupleConcat(hv_Column1);
+                        hv_Diff = hv_Diff.TupleConcat(hv_Range3);
+
+                    
+                    }
+                    else
+                    {
+                        hv_filasminimos = hv_filasminimos.TupleConcat(rowmin);
+                        hv_columnasminimos = hv_columnasminimos.TupleConcat(colmin);
+                        hv_Diff = hv_Diff.TupleConcat(hmax);
+                    }
+                  
+                    
+                }
+
+                else
+                {
+
+
+                    HOperatorSet.MinMaxGray(ellipse, ImagenOut, 0, out hv_Min4, out hv_Max4, out hv_Range4);
+                    HOperatorSet.ReduceDomain(ImagenOut, ellipse, out ImageReduced);
+                    HOperatorSet.Threshold(ImageReduced, out minimo, 0, hv_Min4);
+                    HOperatorSet.AreaCenter(minimo, out hv_Area, out hv_Row1, out hv_Column1);
+
+
+                    hv_filasminimos = hv_filasminimos.TupleConcat(hv_Row1);
+                    hv_columnasminimos = hv_columnasminimos.TupleConcat(hv_Column1);
+                    hv_Diff = hv_Diff.TupleConcat(hv_Range3);
+
+                }
+
+             
+            }
+
+
+            localmaxima.Dispose();
+            connectedRegions.Dispose();
+            ellipse.Dispose();
+            contour.Dispose();
+            region3.Dispose();
+            Imagetemp.Dispose();
+            regiontemp.Dispose();
+           
+            
+            
+            #endregion
+
+           
+        }       
         private HTuple CalcularRadio(HTuple column, int distancia)
         {
             HTuple hv_Width, hv_Height;
@@ -805,6 +811,26 @@ hv_Index), (hv_columnasmaximos.TupleSelect(hv_Index)) + 5);
         
         
         
+        }
+        private HTuple CalcularAltura(double x1, double y1, double z1, double x2, double y2, double z2, double x3, double y3, double z3)
+        {
+            if (z3==0)
+            {
+                return 0;
+            }
+            HTuple h,a,b,c,S,AA;
+
+
+            //recalculo x3 para asegurarme que esta en la recta
+            
+            x3 = ((y3 - y1) * (x2 - x1) / (y2 - y1)) + x1;
+            a=Math.Sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) + (z1 - z2) * (z1 - z2));
+            b = Math.Sqrt((x1 - x3) * (x1 - x3) + (y1 - y3) * (y1 - y3) + (z1 - z3) * (z1 - z3));
+            c = Math.Sqrt((x2 - x3) * (x2 - x3) + (y2 - y3) * (y2 - y3) + (z2 - z3) * (z2 - z3));
+            S = 0.5 * (a + b + c);
+            AA = Math.Sqrt(S * (S - a) * (S - b) * (S - c));
+            h = 2 * AA / a;
+            return h;
         }
         private double CalcularPenalizacion(double valor, double tolerancia)
         {

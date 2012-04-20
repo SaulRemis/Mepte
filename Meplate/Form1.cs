@@ -87,8 +87,12 @@ namespace Meplate
                                 else VentanaHalconPrincipal.HalconWindow.SetColor("green");
                                 VentanaHalconPrincipal.HalconWindow.DispLine(pixeles[i, 0], pixeles[i,1], pixeles[i,2], pixeles[i,3]);
                                 VentanaHalconPrincipal.HalconWindow.SetColor("black");
-                                VentanaHalconPrincipal.HalconWindow.SetTposition((int)pixeles[i,0], (int)pixeles[i,1]);
-                                VentanaHalconPrincipal.HalconWindow.WriteString(pixeles[i,4].ToString("F1"));
+                                if (i < 5)
+                                {
+                                    VentanaHalconPrincipal.HalconWindow.SetTposition((int)pixeles[i, 0], (int)pixeles[i, 1]);
+                                    VentanaHalconPrincipal.HalconWindow.WriteString(pixeles[i, 4].ToString("F1"));
+                                }
+
 
                             }
 
