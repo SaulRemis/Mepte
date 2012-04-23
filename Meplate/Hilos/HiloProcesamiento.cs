@@ -5,6 +5,7 @@ using System.Text;
 using SpinPlatform.Dispatcher;
 using System.Diagnostics;
 using SpinPlatform.Data;
+using  SpinPlatform.FTP;
 
 
 namespace Meplate
@@ -12,9 +13,9 @@ namespace Meplate
     class HiloProcesamiento: SpinThreadEvent
     {
         Meplate _Padre;
+        SpinFTP _FTP; 
         CProcesamiento _Proc;
-        dynamic _AuxLogCom, _AuxLog, _AuxLogError;
-
+        dynamic _AuxLogCom, _AuxLog, _AuxLogError, _AuxFTP;
         double duracion;
 
         public HiloProcesamiento(Meplate padre, string name, dynamic parametros)
@@ -25,6 +26,9 @@ namespace Meplate
             _AuxLogCom = parametros.LogComunicacion;
             _AuxLog = parametros.LogMeplate;
             _AuxLogError = parametros.LogErrores;
+            _AuxFTP = parametros;
+            _FTP = new SpinFTP();
+           
         }
         public override void FunctionToExecuteByThread()
         {
@@ -51,6 +55,8 @@ namespace Meplate
         public override void Initializate()
         {
             _WakeUpThreadEvent = _Events["ChapaMedida"];
+            _FTP.Init(_AuxFTP);
+            _FTP.Start();
             Trace.WriteLine("ADRI:   Entrando en el HILO PROCESAMIENTO");
             duracion = 0; 
         }
@@ -95,6 +101,9 @@ namespace Meplate
             _Padre.PrepareEvent(_Name);
             _AuxLog.LOGTXTMessage = "New Plate measured : " + id + " Decission : " + _Proc._Decision + " Score : " + _Proc._Puntuacion + " Number of defects 1m : " + _Proc._Defectos1m + " Number of defects 2m : " + _Proc._Defectos2m;
             _Padre.Log.SetData(ref _AuxLog, "Informacion");
+
+            _AuxFTP.FTP.FTPNombreArchivo = "ZCORREGIDA.tif";
+            _FTP.SetData(ref _AuxFTP, "SubirArchivo");
             
 
         } 

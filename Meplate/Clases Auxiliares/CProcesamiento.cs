@@ -44,6 +44,7 @@ namespace Meplate
             Pixeles = new double[ numeroMedidas*2,5];
             Puntos = new double[ numeroMedidas*2,7];
             _Incluir_Parcialmente_Cubiertos = bool.Parse(parametros.Procesamiento.PROincluirparcialmentecubiertos);
+            _Guardar_Imagenes_Parciales = bool.Parse(parametros.Procesamiento.PROGuardarImagenesParciales);
             //Pixeles2 = new double[numeroMedidas, 5];
             //Puntos2 = new double[numeroMedidas, 7];
 
@@ -152,12 +153,9 @@ namespace Meplate
 
             media.Dispose();
 
-            if (_Guardar_Imagenes_Parciales)
-            {
-                Z.WriteImage("tiff", 0, "ZCORREGIDA.jpg");
-              
-            }
-        
+            //  if (_Guardar_Imagenes_Parciales)  Z.WriteImage("tiff", 0, "ZCORREGIDA");
+            Z.WriteImage("tiff", 0, "ZCORREGIDA");
+           
 
         }
         public void ObtenerBordes(double ancho)
@@ -401,7 +399,7 @@ namespace Meplate
                 Puntos[i, 3] = X.GetGrayval((int)Pixeles[i, 2], (int)Pixeles[i, 3]);
                 Puntos[i, 4] = Y.GetGrayval((int)Pixeles[i, 2], (int)Pixeles[i, 3]);
                 Puntos[i, 5] = Z.GetGrayval((int)Pixeles[i, 2], (int)Pixeles[i, 3]);
-                Pixeles[i, 4] = Puntos[i, 5] - Puntos[i, 2];
+                Pixeles[i, 4] = Puntos[i, 2] - Puntos[i, 5];
                 Puntos[i, 6] = Pixeles[i, 4];
                 if (Math.Abs(Puntos[i, 6]) > tol) _Defectos2m++;
                 _Puntuacion = _Puntuacion - CalcularPenalizacion(Puntos[i, 6], tol);
