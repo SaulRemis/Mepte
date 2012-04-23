@@ -124,7 +124,7 @@ namespace SpinPlatform.FTP
                             CrearDirectorioFTP(data);
                             break;
                         default:
-                            data.LOGTXTErrors = "Wrong Query";
+                            data.FTPErrors = "Wrong Query";
                             break;
                     }
                 }
