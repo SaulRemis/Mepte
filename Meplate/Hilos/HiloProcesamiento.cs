@@ -70,13 +70,14 @@ namespace Meplate
         }
          void ActualizarResultados()
         {
-            string id;
+            string id,id_file;
              double ancho,largo, espesor, tol1, tol2;
             PlateID temp = (PlateID)((SharedData<PlateID>)SharedMemory["IDChapa"]).Get(0);
 
             if (temp != null)
             {
                 id=temp.ID;
+                id_file = id;
                 ancho=temp.Width;
                 largo= temp.Length;
                 tol1 = temp.Tolerance1;
@@ -87,6 +88,7 @@ namespace Meplate
             {
                 DateTime now = DateTime.Now;
                 id = now.Hour.ToString() + "/" + now.Minute.ToString() + "/" + now.Second.ToString() + now.Hour.ToString() + "/" + now.Minute.ToString() + "/" + now.Second.ToString();
+                id_file = now.Day.ToString() + "_" + now.Month.ToString() + "_" + now.Year.ToString() + "_" + now.Hour.ToString() + "_" + now.Minute.ToString() + "_" + now.Second.ToString();
                 ancho=0;
                 largo=0;
                 espesor = 0;
@@ -112,17 +114,22 @@ namespace Meplate
             _AuxLog.LOGTXTMessage = "New Plate measured : " + id + " Decission : " + _Proc._Decision + " Score : " + _Proc._Puntuacion + " Number of defects 1m : " + _Proc._Defectos1m + " Number of defects 2m : " + _Proc._Defectos2m;
             _Padre.Log.SetData(ref _AuxLog, "Informacion");
 
-             //Envio por ftp
-            File.Move("ZCORREGIDA.tif", id + ".tif");
-            _AuxFTP.FTP.FTPNombreArchivo = id + ".tif";
+             //Envio por ftpj jjjjjj 
+            if (!File.Exists(id_file + ".tif"))
+            {
+                File.Move("ZCORREGIDA.tif", id_file + ".tif");
+                _AuxLogError.LOGTXTMessage = "File " + id_file + ".tif"+" already exists in Imeges directory";
+                _Padre.Log.SetData(ref _AuxLogError, "Informacion");
+            } 
+            _AuxFTP.FTP.FTPNombreArchivo = id_file + ".tif";
             _FTP.SetData(ref _AuxFTP, "SubirArchivo");
             if (_AuxFTP.FTPErrors != "")
             {
-                // guardo al log los resultados
-                _AuxLog.LOGTXTMessage = "Error sending via FTP : " + _AuxFTP.FTPErrors;
+               
+                _AuxLogError.LOGTXTMessage = "Error sending via FTP : " + _AuxFTP.FTPErrors;
                 _Padre.Log.SetData(ref _AuxLogError, "Informacion");
             }
-            File.Delete(id + ".tif");
+            File.Delete(id_file + ".tif");
 
             
 

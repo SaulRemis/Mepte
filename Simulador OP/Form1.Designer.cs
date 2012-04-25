@@ -29,12 +29,19 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.label4 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.textBox_Puntuacion = new System.Windows.Forms.TextBox();
+            this.textBox_decision = new System.Windows.Forms.TextBox();
+            this.textBox_IDrecibido = new System.Windows.Forms.TextBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.label4 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -48,13 +55,6 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.textBox_Puntuacion = new System.Windows.Forms.TextBox();
-            this.textBox_decision = new System.Windows.Forms.TextBox();
-            this.textBox_IDrecibido = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -93,24 +93,65 @@
             this.splitContainer1.SplitterDistance = 218;
             this.splitContainer1.TabIndex = 0;
             // 
-            // label4
+            // label8
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 212);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(0, 13);
-            this.label4.TabIndex = 8;
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(12, 128);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(61, 13);
+            this.label8.TabIndex = 12;
+            this.label8.Text = "Puntuacion";
             // 
-            // button2
+            // label9
             // 
-            this.button2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(0, 328);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(143, 23);
-            this.button2.TabIndex = 7;
-            this.button2.Text = "Connect to MEPLACA";
-            this.button2.UseVisualStyleBackColor = true;
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(13, 82);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(48, 13);
+            this.label9.TabIndex = 11;
+            this.label9.Text = "Decision";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(12, 10);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(102, 13);
+            this.label11.TabIndex = 10;
+            this.label11.Text = "Mensajes Recibidos";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(12, 39);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(45, 13);
+            this.label10.TabIndex = 10;
+            this.label10.Text = "Plate ID";
+            // 
+            // textBox_Puntuacion
+            // 
+            this.textBox_Puntuacion.Location = new System.Drawing.Point(12, 142);
+            this.textBox_Puntuacion.Name = "textBox_Puntuacion";
+            this.textBox_Puntuacion.Size = new System.Drawing.Size(121, 20);
+            this.textBox_Puntuacion.TabIndex = 9;
+            this.textBox_Puntuacion.Text = "12345";
+            // 
+            // textBox_decision
+            // 
+            this.textBox_decision.Location = new System.Drawing.Point(12, 97);
+            this.textBox_decision.Name = "textBox_decision";
+            this.textBox_decision.Size = new System.Drawing.Size(121, 20);
+            this.textBox_decision.TabIndex = 8;
+            this.textBox_decision.Text = "0900";
+            // 
+            // textBox_IDrecibido
+            // 
+            this.textBox_IDrecibido.Location = new System.Drawing.Point(12, 54);
+            this.textBox_IDrecibido.Name = "textBox_IDrecibido";
+            this.textBox_IDrecibido.Size = new System.Drawing.Size(121, 20);
+            this.textBox_IDrecibido.TabIndex = 7;
+            this.textBox_IDrecibido.Text = "1234567890123456";
             // 
             // splitContainer2
             // 
@@ -180,6 +221,25 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.Size = new System.Drawing.Size(378, 351);
             this.dataGridView1.TabIndex = 1;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 212);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(0, 13);
+            this.label4.TabIndex = 8;
+            // 
+            // button2
+            // 
+            this.button2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.button2.Enabled = false;
+            this.button2.Location = new System.Drawing.Point(0, 328);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(143, 23);
+            this.button2.TabIndex = 7;
+            this.button2.Text = "Connect to MEPLACA";
+            this.button2.UseVisualStyleBackColor = true;
             // 
             // label7
             // 
@@ -281,7 +341,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(121, 20);
             this.textBox1.TabIndex = 1;
-            this.textBox1.Text = "1234567890123456";
+            this.textBox1.Text = "0000000000000000";
             // 
             // button1
             // 
@@ -292,66 +352,6 @@
             this.button1.TabIndex = 0;
             this.button1.Text = "Send to MEPLACA";
             this.button1.UseVisualStyleBackColor = true;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(12, 128);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(61, 13);
-            this.label8.TabIndex = 12;
-            this.label8.Text = "Puntuacion";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(13, 82);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(48, 13);
-            this.label9.TabIndex = 11;
-            this.label9.Text = "Decision";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(12, 39);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(45, 13);
-            this.label10.TabIndex = 10;
-            this.label10.Text = "Plate ID";
-            // 
-            // textBox_Puntuacion
-            // 
-            this.textBox_Puntuacion.Location = new System.Drawing.Point(12, 142);
-            this.textBox_Puntuacion.Name = "textBox_Puntuacion";
-            this.textBox_Puntuacion.Size = new System.Drawing.Size(121, 20);
-            this.textBox_Puntuacion.TabIndex = 9;
-            this.textBox_Puntuacion.Text = "12345";
-            // 
-            // textBox_decision
-            // 
-            this.textBox_decision.Location = new System.Drawing.Point(12, 97);
-            this.textBox_decision.Name = "textBox_decision";
-            this.textBox_decision.Size = new System.Drawing.Size(121, 20);
-            this.textBox_decision.TabIndex = 8;
-            this.textBox_decision.Text = "0900";
-            // 
-            // textBox_IDrecibido
-            // 
-            this.textBox_IDrecibido.Location = new System.Drawing.Point(12, 54);
-            this.textBox_IDrecibido.Name = "textBox_IDrecibido";
-            this.textBox_IDrecibido.Size = new System.Drawing.Size(121, 20);
-            this.textBox_IDrecibido.TabIndex = 7;
-            this.textBox_IDrecibido.Text = "1234567890123456";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(12, 10);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(102, 13);
-            this.label11.TabIndex = 10;
-            this.label11.Text = "Mensajes Recibidos";
             // 
             // Form1
             // 

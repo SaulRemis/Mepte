@@ -65,6 +65,9 @@ namespace OPSaul
                 textBox_IDrecibido.Text = resultados.Plateid;
                 textBox_decision.Text = resultados.Decision;
                 textBox_Puntuacion.Text = resultados.Puntuacion.ToString("F01");
+                decimal  temp = decimal.Parse(textBox1.Text);
+                 temp++;
+                textBox1.Text = temp.ToString("0000000000000000");
             }
         }
 

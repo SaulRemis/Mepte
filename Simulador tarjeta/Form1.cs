@@ -119,5 +119,18 @@ namespace CardSaul
             ejemplo.SetData(ref ConfigData,"");
         }
 
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            timer1.Enabled = checkBox1.Checked;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            button1_Click(new object(),new EventArgs());
+            Thread.Sleep((int)(timer1.Interval * 0.75));
+            button1_Click(new object(), new EventArgs());
+
+        }
+
     }
 }
