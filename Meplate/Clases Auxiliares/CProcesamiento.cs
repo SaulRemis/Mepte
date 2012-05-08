@@ -27,6 +27,7 @@ namespace Meplate
         public double _Puntuacion = 10;
         public bool _Incluir_Parcialmente_Cubiertos;
         public bool _Guardar_Imagenes_Parciales;
+        public bool _EnviarFTP;
 
 
 
@@ -45,6 +46,8 @@ namespace Meplate
             Puntos = new double[ numeroMedidas*2,7];
             _Incluir_Parcialmente_Cubiertos = bool.Parse(parametros.Procesamiento.PROincluirparcialmentecubiertos);
             _Guardar_Imagenes_Parciales = bool.Parse(parametros.Procesamiento.PROGuardarImagenesParciales);
+            _EnviarFTP = bool.Parse(parametros.Procesamiento.PROEnviarFtp);
+
             //Pixeles2 = new double[numeroMedidas, 5];
             //Puntos2 = new double[numeroMedidas, 7];
 
@@ -113,7 +116,9 @@ namespace Meplate
                     for (int j = 0; j < filas; j++)
                     {
                         Y.SetGrayval(j, i, medidas[i].distancia - distancia_inicial);
-                        Z.SetGrayval(j, i, medidas[i].perfil[j] * 10);  // lo paso a mm
+                        if ( medidas[i].perfil[j]>0)      Z.SetGrayval(j, i, medidas[i].perfil[j] * 10);  // lo paso a mm
+                        else Z.SetGrayval(j, i, 0); 
+                     
                     }
                 }
             }
@@ -146,15 +151,17 @@ namespace Meplate
                         _Referencias[j] = distancia_a_la_chapa;
      
                         valor = Z.GetGrayval(j, i);
-                        Z.SetGrayval(j, i, distancia_a_la_chapa + valor - med);
+                        if (distancia_a_la_chapa + valor - med>0)     Z.SetGrayval(j, i, distancia_a_la_chapa + valor - med);
+                        else Z.SetGrayval(j, i, 0); 
+
                     }
                 }
             }
 
             media.Dispose();
 
-            //  if (_Guardar_Imagenes_Parciales)  Z.WriteImage("tiff", 0, "ZCORREGIDA");
-            Z.WriteImage("tiff", 0, "ZCORREGIDA");
+            if (_Guardar_Imagenes_Parciales || _EnviarFTP) Z.WriteImage("tiff", 0, "ZCORREGIDA");
+
            
 
         }

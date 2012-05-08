@@ -126,7 +126,9 @@
     <None Include="Resources\escale.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\Debug\AppConfig.xml" />
+    <Content Include="bin\Debug\AppConfig.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="bin\Release\AppConfig.xml" />
     <Content Include="Resources\logo cuadrado32x32.ico" />
     <None Include="Resources\logo4.png" />

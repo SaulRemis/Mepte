@@ -112,28 +112,35 @@ namespace Meplate
 
                 Byte[] val = (Byte[])((SharedData<Byte[]>)SharedMemory["SocketReader"]).Pop();
                 string mensaje = Encoding.ASCII.GetString(val);
-                String messageid = mensaje.Substring(0, 2);
-                switch (messageid)
+                try
                 {
-                    //TODO
-                    case "M9":
-                        Events["IDChapa"].Set();
+                    String messageid = mensaje.Substring(0, 2);
+                    switch (messageid)
+                    {
+                        //TODO
+                        case "M9":
+                            Events["IDChapa"].Set();
 
-                        string _ID = mensaje.Substring(2, 16);
-                        string _Width = mensaje.Substring(18, 4);
-                        string _Length = mensaje.Substring(22, 5);
-                        string _Thickness = mensaje.Substring(27, 5);
-                        string _Tol1 = mensaje.Substring(32, 2);
-                        string _Tol2 = mensaje.Substring(34, 2);
+                            string _ID = mensaje.Substring(2, 16);
+                            string _Width = mensaje.Substring(18, 4);
+                            string _Length = mensaje.Substring(22, 5);
+                            string _Thickness = mensaje.Substring(27, 5);
+                            string _Tol1 = mensaje.Substring(32, 2);
+                            string _Tol2 = mensaje.Substring(34, 2);
 
 
-                        PlateID valor = new PlateID (_ID,double.Parse(_Width),double.Parse(_Length),double.Parse(_Thickness)/100,double.Parse(_Tol1),double.Parse(_Tol2));
-                        ((SharedData<PlateID>)SharedMemory["IDChapa"]).Add(valor);
-
-
-                        _AuxLogCom.LOGTXTMessage = "OP : New ID received : " + _ID + " Width : " + _Width + " Length : " + _Length + " Thickness : " + _Thickness + " Tol1 : " + _Tol1 + " Tol2 : " + _Tol2;
-                        _Padre.Log.SetData(ref _AuxLogCom, "Informacion");
-                        break;
+                            PlateID valor = new PlateID(_ID, double.Parse(_Width), double.Parse(_Length), double.Parse(_Thickness) / 100, double.Parse(_Tol1), double.Parse(_Tol2));
+                            ((SharedData<PlateID>)SharedMemory["IDChapa"]).Add(valor);
+                            _AuxLogCom.LOGTXTMessage = "OP : New ID received : " + _ID + " Width : " + _Width + " Length : " + _Length + " Thickness : " + _Thickness + " Tol1 : " + _Tol1 + " Tol2 : " + _Tol2;
+                            _Padre.Log.SetData(ref _AuxLogCom, "Informacion");
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _AuxLogError.LOGTXTMessage ="Error receiving ID from Process computer : "+ ex.Message;
+                    _Padre.Log.SetData(ref _AuxLogError, "Informacion");
+                   
                 }
              
             }

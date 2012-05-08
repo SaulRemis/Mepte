@@ -28,7 +28,7 @@ namespace Meplate
             _AuxLog = parametros.LogMeplate;
             _AuxLogError = parametros.LogErrores;
             _AuxFTP = parametros;
-            _FTP = new SpinFTP();
+            if (_Proc._EnviarFTP)  _FTP = new SpinFTP();
            
         }
         public override void FunctionToExecuteByThread()
@@ -43,7 +43,6 @@ namespace Meplate
                     PlateID id = ((PlateID)((SharedData<PlateID>)SharedMemory["IDChapa"]).Get(0));
                     duracion = _Proc.ProcesamientoDatos(measurement, id.Width, id.Tolerance1, id.Tolerance2);
                 }
-
                 else
                 {
                     duracion = _Proc.ProcesamientoDatos(measurement, 900, 5, 5);
@@ -56,8 +55,9 @@ namespace Meplate
         public override void Initializate()
         {
             _WakeUpThreadEvent = _Events["ChapaMedida"];
-            _FTP.Init(_AuxFTP);
-            _FTP.Start();
+
+            if (_Proc._EnviarFTP) _FTP.Init(_AuxFTP);
+            if (_Proc._EnviarFTP) _FTP.Start();
             Trace.WriteLine("ADRI:   Entrando en el HILO PROCESAMIENTO");
             duracion = 0; 
         }
@@ -72,10 +72,12 @@ namespace Meplate
         {
             string id,id_file;
              double ancho,largo, espesor, tol1, tol2;
-            PlateID temp = (PlateID)((SharedData<PlateID>)SharedMemory["IDChapa"]).Get(0);
 
-            if (temp != null)
-            {
+             if (!((SharedData<PlateID>)SharedMemory["IDChapa"]).Vacio)
+             { 
+                   
+                PlateID temp = (PlateID)((SharedData<PlateID>)SharedMemory["IDChapa"]).Pop();
+          
                 id=temp.ID;
                 id_file = id;
                 ancho=temp.Width;
@@ -115,21 +117,24 @@ namespace Meplate
             _Padre.Log.SetData(ref _AuxLog, "Informacion");
 
              //Envio por ftpj jjjjjj 
-            if (!File.Exists(id_file + ".tif"))
+            if (_Proc._EnviarFTP)
             {
-                File.Move("ZCORREGIDA.tif", id_file + ".tif");
-                _AuxLogError.LOGTXTMessage = "File " + id_file + ".tif"+" already exists in Imeges directory";
-                _Padre.Log.SetData(ref _AuxLogError, "Informacion");
-            } 
-            _AuxFTP.FTP.FTPNombreArchivo = id_file + ".tif";
-            _FTP.SetData(ref _AuxFTP, "SubirArchivo");
-            if (_AuxFTP.FTPErrors != "")
-            {
-               
-                _AuxLogError.LOGTXTMessage = "Error sending via FTP : " + _AuxFTP.FTPErrors;
-                _Padre.Log.SetData(ref _AuxLogError, "Informacion");
+                if (!File.Exists(id_file + ".tif"))
+                {
+                    File.Move("ZCORREGIDA.tif", id_file + ".tif");
+                    _AuxLogError.LOGTXTMessage = "File " + id_file + ".tif" + " already exists in Imeges directory";
+                    _Padre.Log.SetData(ref _AuxLogError, "Informacion");
+                }
+                _AuxFTP.FTP.FTPNombreArchivo = id_file + ".tif";
+                _FTP.SetData(ref _AuxFTP, "SubirArchivo");
+                if (_AuxFTP.FTPErrors != "")
+                {
+
+                    _AuxLogError.LOGTXTMessage = "Error sending via FTP : " + _AuxFTP.FTPErrors;
+                    _Padre.Log.SetData(ref _AuxLogError, "Informacion");
+                }
+                File.Delete(id_file + ".tif"); 
             }
-            File.Delete(id_file + ".tif");
 
             
 
