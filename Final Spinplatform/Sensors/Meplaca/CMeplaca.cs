@@ -162,7 +162,7 @@ namespace SpinPlatform.Sensors.Meplaca
         /// <param name="offsets">offset en mm </param>
         void enviarOffsets(double[] valores, double[] referencias)
         {
-            UInt16 dist, valor;
+            int dist, valor,diff;
                        
              for (int i = 0; i < _NumeroModulos; i++)
                 {
@@ -175,9 +175,17 @@ namespace SpinPlatform.Sensors.Meplaca
                         }
                         else
                         {
-                            dist = (UInt16)Math.Round((calibracion.Modulos[i].Sensores[j].a / (referencias[6 * i + j] - calibracion.Modulos[i].Sensores[j].c)) + calibracion.Modulos[i].Sensores[j].b);
-                             valor = (UInt16)Math.Round((calibracion.Modulos[i].Sensores[j].a / (valores[6 * i + j] - calibracion.Modulos[i].Sensores[j].c)) + calibracion.Modulos[i].Sensores[j].b);
-                             serie._Offset[6 * i + j] = (UInt16)(serie._Offset[6 * i + j]+ valor - dist);
+                            if (_Meplate)
+                            {
+                                referencias[6 * i + j] = referencias[6 * i + j] / 4;
+                                valores[6 * i + j] = valores[6 * i + j] / 4;
+                            }
+                           
+                                dist = (int)Math.Round((calibracion.Modulos[i].Sensores[j].a / (referencias[6 * i + j] - calibracion.Modulos[i].Sensores[j].c)) + calibracion.Modulos[i].Sensores[j].b);
+                                valor = (int)Math.Round((calibracion.Modulos[i].Sensores[j].a / (valores[6 * i + j] - calibracion.Modulos[i].Sensores[j].c)) + calibracion.Modulos[i].Sensores[j].b);
+                                diff =(int)Math.Round((double)((valor - dist) / 8));
+                        
+                            serie._Offset[6 * i + j] = (UInt16)(serie._Offset[6 * i + j] + diff);
                         }
                     }
                 

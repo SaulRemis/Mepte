@@ -110,5 +110,36 @@ namespace SpinPlatform.Sensors.Meplaca
         {
             this.Close();
         }
+
+        private void button_Auto_Click(object sender, EventArgs e)
+        {
+            double[] Referencias = new double[_NumeroModulos * 6];
+            double[] medidas = new double[_NumeroModulos * 6];
+            medidas=(double[])Aux_meplaca.MEPUltimoPerfil; 
+
+            double valor = double.Parse(textBox_value.Text);
+            double limder = double.Parse(textBox_limder.Text);
+            double limizq = double.Parse(textBox_limizq.Text);
+
+            _Meplaca.GetData(ref Aux_meplaca, "UltimaMedida");
+
+            for (int i = 0; i < Referencias.Length; i++)
+            {
+                if ((i >= limizq) && (i <= limder))
+                {
+                    Referencias[i] = valor;
+                }
+                else
+                {
+                    medidas[i] = 0;
+                    Referencias[i] = 0;
+                }
+            }
+
+
+            Aux_meplaca.MEPOffsets = medidas; 
+            Aux_meplaca.MEPReferencias = Referencias;
+            _Meplaca.SetData(ref Aux_meplaca, "EnviarOffsets");
+        }
     }
 }
