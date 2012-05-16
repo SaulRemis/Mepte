@@ -24,6 +24,7 @@ namespace SpinPlatform.Sensors.Meplaca
         double _Distancia_a_la_chapa;
         string _Puerto;
         string[] _PathDatosCalibracion;
+        bool _Meplate;
 
         public double MinimoAvanceParaMedir{get { return _MinimoAvanceParaMedir; }}
 
@@ -73,9 +74,19 @@ namespace SpinPlatform.Sensors.Meplaca
                 { 
                     for (int j = 0; j < 6; j++)
                     {
-                        valor=calibracion.Modulos[i].Sensores[j].a/(tensiones[k][6*i+j]-calibracion.Modulos[i].Sensores[j].b)+calibracion.Modulos[i].Sensores[j].c;
-                        if (valor>10) valor=10;
-                        if (valor<2) valor =2;
+                        if (_Meplate)
+                        {
+                            valor = 4*calibracion.Modulos[i].Sensores[j].a / (tensiones[k][6 * i + j] - calibracion.Modulos[i].Sensores[j].b) +4* calibracion.Modulos[i].Sensores[j].c;
+                            if (valor > 25) valor = 25;
+                            if (valor < 5) valor = 5;
+                            
+                        }
+                        else
+                        {
+                            valor = calibracion.Modulos[i].Sensores[j].a / (tensiones[k][6 * i + j] - calibracion.Modulos[i].Sensores[j].b) + calibracion.Modulos[i].Sensores[j].c;
+                            if (valor > 10) valor = 10;
+                            if (valor < 2) valor = 2; 
+                        }
                         temp[6 * i + j] = valor;
                     }
                 
@@ -110,9 +121,20 @@ namespace SpinPlatform.Sensors.Meplaca
             {
                 for (int j = 0; j < 6; j++)
                 {
-                    valor = calibracion.Modulos[i].Sensores[j].a / (tensiones[6 * i + j] - calibracion.Modulos[i].Sensores[j].b) + calibracion.Modulos[i].Sensores[j].c;
-                    if (valor > 10) valor = 10;
-                    if (valor < 2) valor = 2;
+
+                    if (_Meplate)
+                    {
+                        valor =4* calibracion.Modulos[i].Sensores[j].a / (tensiones[6 * i + j] - calibracion.Modulos[i].Sensores[j].b) +4* calibracion.Modulos[i].Sensores[j].c;
+                        if (valor > 25) valor = 25;
+                        if (valor < 5) valor = 5;
+                        
+                    }
+                    else
+                    {
+                        valor = calibracion.Modulos[i].Sensores[j].a / (tensiones[6 * i + j] - calibracion.Modulos[i].Sensores[j].b) + calibracion.Modulos[i].Sensores[j].c;
+                        if (valor > 10) valor = 10;
+                        if (valor < 2) valor = 2; 
+                    }
                     temp[6 * i + j] = valor;
                 }
 
@@ -287,6 +309,7 @@ namespace SpinPlatform.Sensors.Meplaca
             _Distancia_a_la_chapa = double.Parse(parametros.MEPDistancia_nominal_trabajo);
             _NumeroModulos = int.Parse(parametros.MEPNumeroModulos);
             _Puerto = parametros.MEPPuertoSerie;
+            _Meplate = bool.Parse(parametros.MEPMeplate);
             _PathDatosCalibracion = new string[_NumeroModulos];
             _PathDatosCalibracion[0] = parametros.MEPCalibracion.calibracionModulo1;
             _PathDatosCalibracion[1] = parametros.MEPCalibracion.calibracionModulo2;

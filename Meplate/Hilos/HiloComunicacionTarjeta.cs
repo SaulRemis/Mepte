@@ -32,7 +32,7 @@ namespace Meplate
                
                 Byte[] val = (Byte[])((SharedData<Byte[]>)SharedMemory["SocketReader"]).Pop(); 
                 short messageid = BitConverter.ToInt16(val, 16);
-                Trace.WriteLine("New message arrived: MessageID->" + messageid);
+               // Trace.WriteLine("New message arrived: MessageID->" + messageid);
                 switch (messageid)
                 {
                     case 21:

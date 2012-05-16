@@ -24,7 +24,7 @@ namespace CardSaul
             while (((SharedData<String>)SharedMemory["ConsProd"]).Elementos > 0)
             {
                 String temp = (String)((SharedData<String>)SharedMemory["ConsProd"]).Pop();
-                Trace.WriteLine("Sent new data: " + temp + " quedan " + ((SharedData<String>)SharedMemory["ConsProd"]).Elementos);
+              //  Trace.WriteLine("Sent new data: " + temp + " quedan " + ((SharedData<String>)SharedMemory["ConsProd"]).Elementos);
                 ((SharedData<String>)SharedMemory["Resultados"]).Set(0,temp);
 
                 _Padre.PrepareEvent(_Name);

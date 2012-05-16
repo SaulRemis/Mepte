@@ -112,6 +112,7 @@ namespace Meplate
 
                 Byte[] val = (Byte[])((SharedData<Byte[]>)SharedMemory["SocketReader"]).Pop();
                 string mensaje = Encoding.ASCII.GetString(val);
+                Trace.WriteLine(mensaje);
                 try
                 {
                     String messageid = mensaje.Substring(0, 2);

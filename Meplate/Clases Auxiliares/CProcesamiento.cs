@@ -834,6 +834,7 @@ namespace Meplate
             c = Math.Sqrt((x2 - x3) * (x2 - x3) + (y2 - y3) * (y2 - y3) + (z2 - z3) * (z2 - z3));
             S = 0.5 * (a + b + c);
             AA = Math.Sqrt(S * (S - a) * (S - b) * (S - c));
+            
             h = 2 * AA / a;
             return h;
         }
