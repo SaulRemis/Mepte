@@ -73,9 +73,9 @@ namespace Meplate
                             resultados.Z.SetGrayval(0, 0, 0);  // para fijar la escala de colores
                            // label_escala_min.Text = "0";
 
-                            resultados.Z.SetGrayval(alto - 1, ancho - 1, resultados.Distancia_nominal + 10); // para fijar la escala de valores
-                            label_escala_max.Text = (resultados.Distancia_nominal + 10).ToString() + " mm";
-                            label_escala_inter.Text = ((resultados.Distancia_nominal + 10)/2).ToString() + " mm";
+                            resultados.Z.SetGrayval(alto - 1, ancho - 1, resultados.Distancia_nominal + 100); // para fijar la escala de valores
+                            label_escala_max.Text = (resultados.Distancia_nominal + 100).ToString() + " mm";
+                            label_escala_inter.Text = ((resultados.Distancia_nominal + 100)/2).ToString() + " mm";
 
                             VentanaHalconPrincipal.HalconWindow.DispObj(resultados.Z);
 

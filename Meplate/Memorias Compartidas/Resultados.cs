@@ -46,7 +46,7 @@ namespace Meplate
         //metodos
           public Resultados(HImage imagen, int medidas, double[,] pixeles, double[,] puntos, int numMedidas, double distancia, string id, double ancho, double largo, double thickness, double tol1, double tol2,double num1,double num2)
             {
-                _Z = imagen.CopyImage();
+                _Z = imagen;
                 _Perfiles = medidas;
                 _Puntos = (double[,])puntos.Clone();
                 _Pixeles = (double[,])pixeles.Clone();

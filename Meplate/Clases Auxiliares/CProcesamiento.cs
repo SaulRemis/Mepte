@@ -147,8 +147,8 @@ namespace Meplate
                     {
                        
                         med = media.GetGrayval(j, 0);
-                        _ValoresMedios[j] = med;
-                        _Referencias[j] = distancia_a_la_chapa;
+                        _ValoresMedios[j] = med/10; // para pasarlo a cm que es como trabaja el meplaca
+                        _Referencias[j] = distancia_a_la_chapa/10;  //para pasarlo a cm que es como trabaja el meplaca
      
                         valor = Z.GetGrayval(j, i);
                         if (distancia_a_la_chapa + valor - med>0)     Z.SetGrayval(j, i, distancia_a_la_chapa + valor - med);
