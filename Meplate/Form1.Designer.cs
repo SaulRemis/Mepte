@@ -397,13 +397,12 @@
             // _MeplatestatusStrip1
             // 
             this._MeplatestatusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusframerate,
-            this.toolStripStatusSpeed,
+            this.toolStripStatusProcessComputer,
             this.toolStripStatusTarjeta,
-            this.toolStripStatusProcessComputer});
+            this.toolStripStatusframerate,
+            this.toolStripStatusSpeed});
             this._MeplatestatusStrip1.Location = new System.Drawing.Point(0, 590);
             this._MeplatestatusStrip1.Name = "_MeplatestatusStrip1";
-            this._MeplatestatusStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this._MeplatestatusStrip1.Size = new System.Drawing.Size(1276, 24);
             this._MeplatestatusStrip1.TabIndex = 26;
             this._MeplatestatusStrip1.Text = "statusStrip1";
@@ -411,7 +410,7 @@
             // toolStripStatusframerate
             // 
             this.toolStripStatusframerate.Name = "toolStripStatusframerate";
-            this.toolStripStatusframerate.Size = new System.Drawing.Size(315, 19);
+            this.toolStripStatusframerate.Size = new System.Drawing.Size(307, 19);
             this.toolStripStatusframerate.Spring = true;
             this.toolStripStatusframerate.Text = "FRAMERATE : 0 ";
             // 
@@ -422,7 +421,7 @@
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.toolStripStatusSpeed.BorderStyle = System.Windows.Forms.Border3DStyle.Adjust;
             this.toolStripStatusSpeed.Name = "toolStripStatusSpeed";
-            this.toolStripStatusSpeed.Size = new System.Drawing.Size(315, 19);
+            this.toolStripStatusSpeed.Size = new System.Drawing.Size(307, 19);
             this.toolStripStatusSpeed.Spring = true;
             this.toolStripStatusSpeed.Text = "SPEED : 0 m/min";
             // 
@@ -434,7 +433,7 @@
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.toolStripStatusTarjeta.BorderStyle = System.Windows.Forms.Border3DStyle.Adjust;
             this.toolStripStatusTarjeta.Name = "toolStripStatusTarjeta";
-            this.toolStripStatusTarjeta.Size = new System.Drawing.Size(315, 19);
+            this.toolStripStatusTarjeta.Size = new System.Drawing.Size(307, 19);
             this.toolStripStatusTarjeta.Spring = true;
             this.toolStripStatusTarjeta.Text = "Speed Card : Non Connected";
             // 
@@ -446,7 +445,7 @@
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.toolStripStatusProcessComputer.BorderStyle = System.Windows.Forms.Border3DStyle.Adjust;
             this.toolStripStatusProcessComputer.Name = "toolStripStatusProcessComputer";
-            this.toolStripStatusProcessComputer.Size = new System.Drawing.Size(315, 19);
+            this.toolStripStatusProcessComputer.Size = new System.Drawing.Size(307, 19);
             this.toolStripStatusProcessComputer.Spring = true;
             this.toolStripStatusProcessComputer.Text = "Process Computer : Non Connected";
             // 
