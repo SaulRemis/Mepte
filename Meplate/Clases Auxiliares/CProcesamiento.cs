@@ -16,7 +16,9 @@ namespace Meplate
         double distancia_entre_sensores ;
         public double distancia_a_la_chapa ;
         double sigma_bordes;
+        double sigma_cabeza;
         double umbral_bordes;
+        double umbral_cabeza;
         public double[] _ValoresMedios;
         public double[] _Referencias;
         public double BI, BD;
@@ -38,7 +40,9 @@ namespace Meplate
             distancia_a_la_chapa = double.Parse(parametros.Meplaca.MEPDistancia_nominal_trabajo);
             numeroMedidas = int.Parse(parametros.Procesamiento.numeroMedidas);
             sigma_bordes = double.Parse(parametros.Procesamiento.sigma_bordes);
+            sigma_cabeza = double.Parse(parametros.Procesamiento.sigma_cabeza);
             umbral_bordes = double.Parse(parametros.Procesamiento.umbral_bordes);
+            umbral_cabeza = double.Parse(parametros.Procesamiento.umbral_cabeza);
             filas = numeroModulos * 6;
             _ValoresMedios = new double[filas];
             _Referencias = new double[filas];
@@ -105,30 +109,72 @@ namespace Meplate
         }
         private void ObtenerImagenes(List<CMedida> medidas)
         {
-
+            HTuple filas_borde, columnas_borde, amplitude, distance, indices;
+            int cabeza=0;
             // la X la creo cuando conozca los bordes
             if (medidas.Count > 0)
             {
-                double distancia_inicial = medidas[0].distancia;
-
+                
+                //creo la imagen Z
                 for (int i = 0; i < columnas; i++)
                 {
                     for (int j = 0; j < filas; j++)
                     {
-                        Y.SetGrayval(j, i, medidas[i].distancia - distancia_inicial);
-                        if ( medidas[i].perfil[j]>0)      Z.SetGrayval(j, i, medidas[i].perfil[j] * 10);  // lo paso a mm
+                       if ( medidas[i].perfil[j]>0)      Z.SetGrayval(j, i, medidas[i].perfil[j] * 10);  // lo paso a mm
                         else Z.SetGrayval(j, i, 0); 
                      
                     }
                 }
+
+               // corto La cabeza donde no hay chapa
+                HMeasure bordes = new HMeasure((double)6, (double)columnas / 2 - 1, (double)0, (int)Math.Round((double)(columnas / 2.0)-2), 5, columnas, filas, "nearest_neighbor");
+                //HMeasure bordes = new HMeasure(20, 20, -(double)Math.PI / 2.0, 5,5, columnas , filas , "nearest_neighbor");
+                bordes.MeasurePos(Z, sigma_cabeza, umbral_bordes, "all", "all", out filas_borde, out columnas_borde, out amplitude, out distance);
+                amplitude = amplitude.TupleAbs();
+                indices = amplitude.TupleSortIndex();
+                if (indices.Length > 1)
+                {
+                    cabeza = columnas_borde[indices[0]];
+                    cabeza = (int)Math.Ceiling(BI) ;
+                   
+                }
+                else
+                {
+                    cabeza = 0;
+                }
+                Z.CropRectangle1(0, cabeza, filas-1, columnas-1);
+            
+                //creo la imagen Y, aunque solo relleno la parte con chpaa, queda espacio sin rellenar
+                Z.GetImageSize(out columnas, out filas);
+               
+                X = new HImage("real", columnas, filas);
+                Y = new HImage("real", columnas, filas);
+
+                double distancia_inicial = medidas[cabeza].distancia;
+                for (int i = cabeza; i < columnas ; i++)
+                {
+                    for (int j = 0; j < filas; j++)
+                    {
+                        Y.SetGrayval(j, i-cabeza, medidas[i].distancia - distancia_inicial);
+                       
+
+                    }
+                }
+
+
+                if (_Guardar_Imagenes_Parciales)
+                {
+                    Z.WriteImage("tiff", 0, "ZRAW" + (string)DateTime.Now.Minute.ToString() + (string)DateTime.Now.Second.ToString());
+                    Y.WriteImage("tiff", 0, "YRAW" + (string)DateTime.Now.Minute.ToString() + (string)DateTime.Now.Second.ToString());
+                }
+           
+
             }
 
-            if (_Guardar_Imagenes_Parciales)
-            {
-                Z.WriteImage("tiff", 0, "ZRAW.jpg");
-                Y.WriteImage("tiff", 0, "YRAW.jpg");
-            }
-           
+
+
+
+
 
         }
         private void CorregirImagen()
@@ -160,7 +206,7 @@ namespace Meplate
 
             media.Dispose();
 
-            if (_Guardar_Imagenes_Parciales || _EnviarFTP) Z.WriteImage("tiff", 0, "ZCORREGIDA");
+            if (_Guardar_Imagenes_Parciales || _EnviarFTP) Z.WriteImage("tiff", 0, "ZCORREGIDA" + (string)DateTime.Now.Minute.ToString() + (string)DateTime.Now.Second.ToString());
 
            
 
@@ -169,7 +215,7 @@ namespace Meplate
         {
             if (ancho > 0)
             {
-                ObtenerBordesConAncho(ancho);
+                ObtenerBordesConAncho3(ancho);
                 if (borde_derecho == filas - 1 && borde_izquierdo == 0)
                 {
                     ObtenerBordesSinAncho();
@@ -213,8 +259,8 @@ namespace Meplate
 
             if (_Guardar_Imagenes_Parciales)
             {
-                Z.WriteImage("tiff", 0, "Z_sinbordes");
-                X.WriteImage("tiff", 0, "XRAW.jpg");
+                Z.WriteImage("tiff", 0, "Z_sinbordes" + (string)DateTime.Now.Minute.ToString() + (string)DateTime.Now.Second.ToString());
+                X.WriteImage("tiff", 0, "XRAW.jpg" + (string)DateTime.Now.Minute.ToString() + (string)DateTime.Now.Second.ToString());
             }
             //
 
@@ -268,16 +314,18 @@ namespace Meplate
 
 
         }
+       
         public void ObtenerBordesConAncho(double ancho)
         {
-            HTuple filas_borde, columnas_borde, amplitude, distance;
+            HTuple filas_borde, columnas_borde, amplitude, distance,width,lenght;
 
             double max = 0;
             double distancia = 0;
 
+            Z.GetImageSize(out width, out lenght);
             // int modulos = (int)Math.Round(ancho / distancia_entre_sensores);
             int modulos = (int)Math.Round(ancho / 52);
-            int anchura = (int)Math.Round((double)(columnas / 2.0));
+            int anchura = (int)Math.Round((double)(columnas / 2.0)-1);
             if (anchura > 100) anchura = 100;
             if (anchura > 5)
             {
@@ -341,6 +389,98 @@ namespace Meplate
                 borde_izquierdo = 0;
             }
 
+
+
+
+        }
+
+        //igual que el anterior pero pone el borde izq en 0
+        public void ObtenerBordesConAncho2(double ancho)
+        {
+            HTuple filas_borde, columnas_borde, amplitude, distance, width, lenght;
+
+            double max = 0;
+            double distancia = 0;
+
+
+             int modulos = (int)Math.Round(ancho / distancia_entre_sensores);
+           // int modulos = (int)Math.Round(ancho / 52);
+            int anchura = (int)Math.Round((double)(columnas / 2.0) - 1);
+            if (anchura > 100) anchura = 100;
+            if (anchura > 5)
+            {
+                HMeasure bordes = new HMeasure((double)filas / 2 - 1, (double)columnas / 2 - 1, (double)Math.PI / 2.0, anchura, (int)Math.Round((double)(filas / 2.0)), columnas, filas, "nearest_neighbor");
+                //HMeasure bordes = new HMeasure(20, 20, -(double)Math.PI / 2.0, 5,5, columnas , filas , "nearest_neighbor");
+                bordes.MeasurePos(Z, sigma_bordes, umbral_bordes, "all", "all", out filas_borde, out columnas_borde, out amplitude, out distance);
+                // bordes.MeasurePairs(Z, sigma_bordes, 0.01, "all", "all", out rowEdgeFirst, out columnEdgeFirst, out amplitudeFirst, out rowEdgeSecond, out columnEdgeSecond, out amplitudeSecond, out intraDistance, out interDistance);
+
+                if (filas_borde.Length > 1)
+                {
+                    for (int i = 0; i < filas_borde.Length; i++)
+                    {
+                       
+                            distancia = Math.Abs(filas_borde[i].D );
+                            if (Math.Abs(distancia - modulos) < 4.0)
+                            {
+                                if (Math.Abs(amplitude[i].D ) > max)
+                                {
+                                    max = Math.Abs(amplitude[i].D - 1);
+                                    BD = filas_borde[i];
+                                    BI = 0;
+
+
+                                }
+                           
+                        }
+
+                    }
+                    if (BI == 0 && BD == 0)
+                    {
+                        borde_derecho = filas - 1;
+                        borde_izquierdo = 0;
+
+                    }
+                    else
+                    {
+                        if (BI > BD)
+                        {
+                            double temp2 = BD;
+                            BD = BI;
+                            BI = temp2;
+                        }
+                        borde_derecho = (int)Math.Floor(BD) - 2;
+                        borde_izquierdo = 0;
+                    }
+
+
+                }
+                else
+                {
+                    borde_derecho = filas - 1;
+                    borde_izquierdo = 0;
+                }
+
+                bordes.Dispose();
+            }
+            else
+            {
+                borde_derecho = filas - 1;
+                borde_izquierdo = 0;
+            }
+
+
+
+
+        }
+        //pone el borde izq en 0 y el derecho en donde coincida el ancho 
+        public void ObtenerBordesConAncho3(double ancho)
+        {
+           
+
+            int modulos = (int)Math.Round(ancho / distancia_entre_sensores);
+           
+                        borde_derecho = modulos -1;
+                        borde_izquierdo = 0;
 
 
 
@@ -601,8 +741,8 @@ namespace Meplate
          
             HOperatorSet.GetImageSize(ImagenOut, out hv_Width, out hv_Height);
             HOperatorSet.GenRectangle1(out Region, borde_izquierdo, 0, borde_derecho, hv_Width);
-            // hv_anccuadro = hv_Width / 10;
-            hv_anccuadro = 50;
+             hv_anccuadro = hv_Width / 10;
+           // hv_anccuadro = 50;
             hv_anccuadro.TupleFloor();
             //hv_anccuadro = 10;
             HOperatorSet.TupleRound(hv_anccuadro, out hv_anccuadro);

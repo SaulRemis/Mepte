@@ -17,14 +17,26 @@ namespace SpinPlatform.Log
     [Serializable()]
     public class SpinLogFile : ISpinPlatformInterface
     {
+        /// <summary>
+        /// Módulo para LOGS a archivo
+        /// Éste módulo realiza la escritura a un LOG o varios de las trazas que vayamos poniendo en nuestro código.
+        /// Guarda cada entrada con un TIMESTAMP
+        /// Existen tres niveles de trazas Desarrollo, Errores e Información que podrán o no escribirse al log en función de los parámetros
+        /// del fichero de configuración.
+        /// NOTA: Para su uso solo es necesario realizar un "Init" de configuración y un "Start" para rotar hasta 9 ficheros logs. 
+        /// Posteriormente usaremos el log como : nombreModulo.SetData("Frase a escribir","Desarrollo"); y cerraremos con un "Stop" al terminar si nos lo permite la aplicación (No es estrictamente necesario).
+        /// No es necesario el uso del método GetData (Sin implementar)
+        /// </summary>
+
         #region Variables
-        //parametros
-        dynamic _data = new ExpandoObject(); //variable dinamica que alamcena datos internos del módulo
-        bool permiteErrores = false;
-        bool permiteDesarrollo = false;
-        bool permiteInformacion = false;
-        readonly object _locker = new object();
-        static Dictionary<string, StreamWriter> filesWrite = new Dictionary<string, StreamWriter>();//objeto encargado de la escritura oportuna
+        private string _LOGTXTTraceLevel;
+        private int _LOGTXTMaxFileSize;
+        private string _LOGTXTFilePath;
+        private bool _permiteErrores = false;
+        private bool _permiteDesarrollo = false;
+        private bool _permiteInformacion = false;
+        private readonly object _locker = new object();
+        static Dictionary<string, StreamWriter> _filesWrite = new Dictionary<string, StreamWriter>();//objeto encargado de la escritura oportuna
         #endregion
 
         #region Implementación de interface
@@ -42,16 +54,24 @@ namespace SpinPlatform.Log
         public void Init(dynamic obj)
         {
             if ((obj as IDictionary<string, object>).ContainsKey("LOGTXT"))
-                _data = obj.LOGTXT; //Guardo la sección que me interesa para este módulo
+            {
+                _LOGTXTTraceLevel = obj.LOGTXT.LOGTXTTraceLevel ;
+                _LOGTXTMaxFileSize = obj.LOGTXT.LOGTXTMaxFileSize;
+                _LOGTXTFilePath = obj.LOGTXT.LOGTXTFilePath;
+            }
             else
-                _data = obj; // me enviaron directamente los datos del módulo de LOG 
+            {
+                _LOGTXTTraceLevel = obj.LOGTXTTraceLevel;
+                _LOGTXTMaxFileSize = obj.LOGTXTMaxFileSize;
+                _LOGTXTFilePath = obj.LOGTXTFilePath;
+            }
 
-            if (_data.LOGTXTTraceLevel.Contains("D"))
-                permiteDesarrollo = true;
-            if (_data.LOGTXTTraceLevel.Contains("I"))
-                permiteInformacion = true;
-            if (_data.LOGTXTTraceLevel.Contains("E"))
-                permiteErrores = true;
+            if (_LOGTXTTraceLevel.Contains("D"))
+                _permiteDesarrollo = true;
+            if (_LOGTXTTraceLevel.Contains("I"))
+                _permiteInformacion = true;
+            if (_LOGTXTTraceLevel.Contains("E"))
+                _permiteErrores = true;
 
             Start();
         }
@@ -74,8 +94,8 @@ namespace SpinPlatform.Log
         /// </summary>
         /// <param name="data">
         /// Variable dinamica de donde obtener los datos a establecer \n
-        /// LOGTXT.LOGTXTMessage (string) mensaje de log a guardar \n
-        /// LOGTXT.LOGTXTFilePath (string) fichero destino para guardar \n
+        /// LOGTXTMessage (string) mensaje de log a guardar \n
+        /// LOGTXTFilePath (string) fichero destino para guardar \n
         /// </param>
         /// <param name="parameters">
         /// "Error" - Guarda una nueva línea en el log de tipo Error si la configuración del módulo lo permite \n
@@ -92,15 +112,15 @@ namespace SpinPlatform.Log
                     switch (valor)
                     {
                         case "Error":
-                            if(permiteErrores)
+                            if(_permiteErrores)
                                 SetData(ref data);
                             break;
                         case "Desarrollo":
-                            if(permiteDesarrollo)
+                            if(_permiteDesarrollo)
                                 SetData(ref data);
                             break;
                         case "Informacion":
-                            if(permiteInformacion)
+                            if(_permiteInformacion)
                                 SetData(ref data);
                             break;
                         default:
@@ -117,13 +137,11 @@ namespace SpinPlatform.Log
         }
 
         /// <summary>
-        /// Abre un nuevo streamwriter para el fichero proporcionado 
+        /// Realiza un rotate para el fichero proporcionado 
         /// </summary>
         public void Start()
         {
-            rotate(_data.LOGTXTFilePath);
-            if (!filesWrite.ContainsKey(_data.LOGTXTFilePath))
-                filesWrite.Add(_data.LOGTXTFilePath, openFileWriter(_data.LOGTXTFilePath, true));
+            rotate(_LOGTXTFilePath);
         }
 
         /// <summary>
@@ -132,11 +150,11 @@ namespace SpinPlatform.Log
         public void Stop()
         {
             //Cierro los streamwriters
-            Dictionary<string, StreamWriter> escritores = new Dictionary<string,StreamWriter>(filesWrite);
+            Dictionary<string, StreamWriter> escritores = new Dictionary<string,StreamWriter>(_filesWrite);
             foreach (string key in escritores.Keys)
             {
-            filesWrite[key].Close();
-            filesWrite.Remove(key);
+            _filesWrite[key].Close();
+            _filesWrite.Remove(key);
             }
         }
 
@@ -179,7 +197,7 @@ namespace SpinPlatform.Log
                             if ((contenido as IDictionary<string, object>).ContainsKey("LOGTXTFilePath"))
                                 addMessageToFile(contenido.LOGTXTFilePath, true, contenido.LOGTXTMessage);
                             else
-                                addMessageToFile(_data.LOGTXTFilePath, true, contenido.LOGTXTMessage);
+                                addMessageToFile(_LOGTXTFilePath, true, contenido.LOGTXTMessage);
                         }
                         catch (Exception ex)
                         {
@@ -216,13 +234,15 @@ namespace SpinPlatform.Log
 
         internal void addMessageToFile(string path, bool isOverride, string Message)
         {
-            if (!filesWrite.ContainsKey(path))
+
+            if (!_filesWrite.ContainsKey(path))
             {
                 rotate(path);
-                filesWrite.Add(path, openFileWriter(path, isOverride));
+                _filesWrite.Add(path, openFileWriter(path, isOverride));
             }
-
-            filesWrite[path].WriteLine(Message);
+            _filesWrite[path].WriteLine(Message);
+            _filesWrite[path].Close();
+            _filesWrite.Remove(path);
         }
 
         #endregion

@@ -113,18 +113,27 @@ namespace SpinPlatform.Sensors.Meplaca
            int modulo=0;
            byte[] trama_temp = new byte[longitudtrama];
           
-           for (int i = 0; i < trama.Length-5; i++)
+           for (int i = 0; i < trama.Length-13; i++)
            {
-              if (trama[i] == 255 && trama[i +13-p] == 255)
+              if (trama[i] == 255 && trama[i +13-1] == 255)
               {
                  modulo =(int) Math.Truncate((double)i/13);
-                           i++;
+                 if (modulo > 0) Array.Copy(trama, 0, trama_temp, 0, modulo * 13);
+                 Array.Copy(ultimatrama, modulo * 13, trama_temp, modulo * 13, 13);
+                 if (modulo < modulos - 1) Array.Copy(trama, ((modulo + 1) * 13) - p, trama_temp, (modulo + 1) * 13, ((modulos - modulo - 1) * 13) + 1);
+      
+                   
+              }
+              if (trama[i] == 255 && trama[i + 13 - 2] == 255)
+              {
+                  modulo = (int)Math.Truncate((double)i / 13);
+                  if (modulo > 0) Array.Copy(trama, 0, trama_temp, 0, modulo * 13);
+                  Array.Copy(ultimatrama, modulo * 13, trama_temp, modulo * 13, 13);
+                  if (modulo < modulos - 1) Array.Copy(trama, ((modulo + 1) * 13) - p, trama_temp, (modulo + 1) * 13, ((modulos - modulo - 1) * 13) + 1);
+
               }
            }
-           if(modulo>0) Array.Copy(trama,0,trama_temp,0,modulo*13); 
-           Array.Copy(ultimatrama,modulo*13,trama_temp,modulo*13,13);
-           if (modulo < modulos - 1) Array.Copy(trama, ((modulo + 1) * 13) - p, trama_temp, (modulo + 1) * 13,((modulos- modulo-1) * 13)+1);
-           tramas.Add(trama);
+               tramas.Add(trama);
        }
        public bool Buscar_Final()
        {

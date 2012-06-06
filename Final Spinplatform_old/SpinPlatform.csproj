@@ -81,6 +81,7 @@
     <Compile Include="Errores\SpinException.cs" />
     <Compile Include="Errores\SpinExceptionConstants.cs" />
     <Compile Include="FTP\SpinFTP.cs" />
+    <Compile Include="Log\SpinLog.cs" />
     <Compile Include="Log\SpinLogFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sensors\Meplaca\CMeplaca.cs" />
