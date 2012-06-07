@@ -109,7 +109,7 @@ namespace Meplate
         }
         private void ObtenerImagenes(List<CMedida> medidas)
         {
-            HTuple filas_borde, columnas_borde, amplitude, distance, indices;
+            HTuple filas_cabeza, columnas_cabeza, amplitude, distance, indices;
             int cabeza=0;
             // la X la creo cuando conozca los bordes
             if (medidas.Count > 0)
@@ -134,12 +134,12 @@ namespace Meplate
                // corto La cabeza donde no hay chapa
                 HMeasure bordes = new HMeasure((double)6, (double)columnas / 2 - 1, (double)0, (int)Math.Round((double)(columnas / 2.0)-2), 5, columnas, filas, "nearest_neighbor");
                 //HMeasure bordes = new HMeasure(20, 20, -(double)Math.PI / 2.0, 5,5, columnas , filas , "nearest_neighbor");
-                bordes.MeasurePos(Z, sigma_cabeza, umbral_bordes, "all", "all", out filas_borde, out columnas_borde, out amplitude, out distance);
+                bordes.MeasurePos(Z, sigma_cabeza, umbral_cabeza, "all", "all", out filas_cabeza, out columnas_cabeza, out amplitude, out distance);
                 amplitude = amplitude.TupleAbs();
                 indices = amplitude.TupleSortIndex();
                 if (indices.Length > 1)
                 {
-                    double temp = columnas_borde.DArr[indices[indices.Length-1]];
+                    double temp = columnas_cabeza.DArr[indices[indices.Length - 1]];
                     cabeza = (int)Math.Ceiling(temp);
                    
                 }
