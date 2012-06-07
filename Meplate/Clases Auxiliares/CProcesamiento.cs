@@ -66,7 +66,7 @@ namespace Meplate
             Inicializar(measurement);
             ObtenerImagenes(measurement);
             //proc.ObtenerBordes();
-            ObtenerBordes(ancho);
+            ObtenerBordesCrop(ancho);
             CorregirImagen();
             CalcularDefectos_1metro(tol1);
             CalcularDefectos_2metro(tol2);
@@ -157,9 +157,8 @@ namespace Meplate
                 else Z=Z.CropRectangle1(0, cabeza, filas - 1, columnas - 1);
             
                 //creo la imagen Y, aunque solo relleno la parte con chpaa, queda espacio sin rellenar
-                Z.GetImageSize(out columnas, out filas);
-               
-                X = new HImage("real", columnas, filas);
+                Z.GetImageSize(out columnas, out filas);               
+              
                 Y = new HImage("real", columnas, filas);
 
                 double distancia_inicial = medidas[cabeza].distancia;
@@ -271,6 +270,67 @@ namespace Meplate
                     //Empiezo a conta en el borde por lo que le resto el borde izq a la j 
                     else X.SetGrayval(j, i, (((j - borde_izquierdo) + 1) * distancia_entre_sensores) - (distancia_entre_sensores / 2));
                        
+                }
+            }
+
+
+            // HRegion Chapa = new HRegion((double)borde_izquierdo+1 , (double)0, (double)borde_derecho-1 , (double)columnas - 1);
+            //HRegion imagen = new HRegion((double)0, (double)0, (double)filas - 1, (double)columnas - 1);
+            //Z.ReduceDomain(Chapa);
+
+            if (_Guardar_Imagenes_Parciales)
+            {
+                filename = "Z_sinbordes_" + (string)DateTime.Now.Hour.ToString() + "_" + (string)DateTime.Now.Minute.ToString();
+                Z.WriteImage("tiff", 0, filename);
+                if (!System.IO.File.Exists(_PathImages + filename + ".tif")) System.IO.File.Move(filename + ".tif", _PathImages + filename + ".tif");
+
+                filename = "XRAW.jpg_" + (string)DateTime.Now.Hour.ToString() + "_" + (string)DateTime.Now.Minute.ToString();
+                X.WriteImage("tiff", 0, filename);
+                if (!System.IO.File.Exists(_PathImages + filename + ".tif")) System.IO.File.Move(filename + ".tif", _PathImages + filename + ".tif");
+
+            }
+            //
+
+
+        }
+        public void ObtenerBordesCrop(double ancho)
+        {
+            if (ancho > 0)
+            {
+                ObtenerBordesConAncho3(ancho);
+                if (borde_derecho == filas - 1 && borde_izquierdo == 0)
+                {
+                    ObtenerBordesSinAncho();
+                }
+            }
+            else ObtenerBordesSinAncho();
+
+
+            //si quiero incluir los parcialmente cubiertos
+            if (_Incluir_Parcialmente_Cubiertos)
+            {
+                if (borde_izquierdo > 0) borde_izquierdo = borde_izquierdo - 1;
+                if (borde_izquierdo < filas - 1) borde_derecho = borde_derecho + 1;
+            }
+
+            //quito la parte de la imgen fuera de la chapa y creo la imagen X
+
+
+            Z = Z.CropRectangle1(borde_izquierdo, 0,borde_derecho, columnas - 1);
+            Y = Y.CropRectangle1(borde_izquierdo, 0, borde_derecho, columnas - 1);
+
+            Z.GetImageSize(out columnas, out filas);
+            X = new HImage("real", columnas, filas);
+
+            for (int i = 0; i < columnas; i++)
+            {
+                for (int j = 0; j < filas; j++)
+                {
+
+                     //considero como punto la distancia media entre 2 sensores , por lo que empizo en 100 (distancia_entre_sensores / 2). 
+                    //Empiezo a conta en el borde por lo que le resto el borde izq a la j 
+                    X.SetGrayval(j, i, ((j  + 1) * distancia_entre_sensores) - (distancia_entre_sensores / 2));
+
                 }
             }
 

@@ -35,7 +35,7 @@ namespace Meplate
         {
             List<CMedida> measurement = (List<CMedida>)((SharedData<List<CMedida>>)_SharedMemory["Chapas"]).Pop();
 
-            if (measurement.Count > 0)
+            if (measurement.Count > 5)
             {
                 // si ya he recibido el ancho lo uso para procesar , si no pongo ancho =0 y proceso sin el
                 if (!((SharedData<PlateID>)SharedMemory["IDChapa"]).Vacio)

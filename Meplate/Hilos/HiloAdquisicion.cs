@@ -62,7 +62,7 @@ namespace Meplate
                             // si la cahapa no avanzo deshecho las medidas acumuladas
                             if (avanceParcial==0 )
                             {                               
-                                _Meplaca.SetData(ref _AuxMeplaca, "VaciarBuffer");
+                              //  _Meplaca.SetData(ref _AuxMeplaca, "VaciarBuffer");
                             }
                         }
                         else avance = avance + 40;
@@ -84,7 +84,7 @@ namespace Meplate
 
                                     if (medidas.Count % 10 == 0) 
                                     {
-                                        ((SharedData<Informacion>)SharedMemory["Informacion"]).Set(0, new Informacion(avanceAcumulado, (double)(10 / totalElapsedTime.TotalSeconds)));
+                                        ((SharedData<Informacion>)SharedMemory["Informacion"]).Set(0, new Informacion(avanceAcumulado, (double)(10 / (totalElapsedTime.TotalMilliseconds/1000))));
 
                                        _Padre.PrepareEvent(_Name);   
                                         totalElapsedTime = TimeSpan.Zero;
