@@ -223,6 +223,15 @@ namespace SpinPlatform.Sensors.Meplaca
 
            }
        }
+       public void VaciarBuffer()
+       {
+           lock (_locker)
+           {
+               
+               tensiones.Clear();
+           }
+       
+       }
        public void CerrarPuerto()
        {
            if (PuertoSerie.IsOpen) PuertoSerie.Close();

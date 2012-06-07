@@ -143,6 +143,11 @@ namespace SpinPlatform.Sensors.Meplaca
             return temp;
         
         }
+        void VaciarBuffer()
+        {
+            serie.VaciarBuffer();
+        
+        }
          void enviarOffsetsArchivo()
         {
 
@@ -362,6 +367,9 @@ namespace SpinPlatform.Sensors.Meplaca
                             break;
                         case "LeerOffsetsArchivo":
                             LeerOffsetsArchivo();
+                            break;
+                        case "VaciarBuffer":
+                            VaciarBuffer();
                             break;
 
                         default:
