@@ -15,7 +15,7 @@ namespace Meplate
     {
         Meplate _Padre;
         public  CMeplaca _Meplaca;
-        double avance, avanceAcumulado,avanceParcial velocidad, velocidadAnterior = 0;
+        double avance, avanceAcumulado,avanceParcial, velocidad, velocidadAnterior = 0;
         TimeSpan elapsedTime, totalElapsedTime;
         DateTime t1,t2 ;
         dynamic _AuxMeplaca,_AuxLogCom, _AuxLog, _AuxLogError;
