@@ -19,6 +19,7 @@ namespace Meplate
         //Objetos auxiliares
         dynamic configuracion;
        public  SpinLogFile Log = new SpinLogFile();
+       public SpinLogFile LogCom = new SpinLogFile();
 
 
         public Meplate()
@@ -62,6 +63,8 @@ namespace Meplate
 
             //Inicio el Log
             Log.Init(configuracion.LogMeplate);
+            LogCom.Init(configuracion.LogComunicacion);
+
             configuracion.LOGTXTMessage = "MEPLATE is Starting";
             Log.SetData(ref configuracion, "Informacion");
             
