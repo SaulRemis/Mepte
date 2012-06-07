@@ -15,6 +15,8 @@ namespace Meplate
     {
         dynamic _AuxLogCom, _AuxLog, _AuxLogError;
         Meplate _Padre;
+
+        public bool _Midiendo = false;
         public ComunicacionTarjeta(SpinDispatcher padre, string name,dynamic parametros)
             : base(padre, name, (object)parametros.ComunicacionTarjeta)
         {
@@ -36,25 +38,37 @@ namespace Meplate
                 switch (messageid)
                 {
                     case 21:
-                        Events["ComenzarMedida"].Set();
-                        ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("21");
-                        _AuxLogCom.LOGTXTMessage = "ADDA : Recibido Inicio Chapa con velocidad : " + (((Tarjeta)(((SharedData<Tarjeta>)_SharedMemory["Velocidad"]).Get(0))).Velocidad / 100.0).ToString() + " m/s";
-                        _Padre.Log.SetData(ref _AuxLogCom, "Informacion");
+                        if (_Midiendo == false)
+                        {
+                            Events["ComenzarMedida"].Set();
+                            ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("21");
+                            _AuxLogCom.LOGTXTMessage = "ADDA : Recibido Inicio Chapa con velocidad : " + (((Tarjeta)(((SharedData<Tarjeta>)_SharedMemory["Velocidad"]).Get(0))).Velocidad / 100.0).ToString() + " m/s";
+                            _Padre.Log.SetData(ref _AuxLogCom, "Informacion"); 
+                        }
+                        _Midiendo = true;
                         break;
                     case 22:
                         ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("22");
                         break;
                     case 23:
-                        Events["FinalizarMedida"].Set();
-                        ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("23");
-                        _AuxLogCom.LOGTXTMessage = "ADDA : Recibido Fin Chapa con velocidad : " + (((Tarjeta)(((SharedData<Tarjeta>)_SharedMemory["Velocidad"]).Get(0))).Velocidad / 100.0).ToString() + " m/s";
-                        _Padre.Log.SetData(ref _AuxLogCom, "Informacion");
+                        if (_Midiendo == true)
+                        {
+                            Events["FinalizarMedida"].Set();
+                            ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("23");
+                            _AuxLogCom.LOGTXTMessage = "ADDA : Recibido Fin Chapa con velocidad : " + (((Tarjeta)(((SharedData<Tarjeta>)_SharedMemory["Velocidad"]).Get(0))).Velocidad / 100.0).ToString() + " m/s";
+                            _Padre.Log.SetData(ref _AuxLogCom, "Informacion"); 
+                        }
+                        _Midiendo = false;
                         break;
                     case 24:
-                        Events["AbortarMedida"].Set();
-                        ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("24");
-                        _AuxLogCom.LOGTXTMessage = "ADDA : Recibido Abortar Chapa (Sale chapa con velocidad negativa) con velocidad : " + (((Tarjeta)(((SharedData<Tarjeta>)_SharedMemory["Velocidad"]).Get(0))).Velocidad / 100.0).ToString() + " m/s";
-                        _Padre.Log.SetData(ref _AuxLogCom, "Informacion");
+                        if (_Midiendo == true)
+                        {
+                            Events["AbortarMedida"].Set();
+                            ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("24");
+                            _AuxLogCom.LOGTXTMessage = "ADDA : Recibido Abortar Chapa (Sale chapa con velocidad negativa) con velocidad : " + (((Tarjeta)(((SharedData<Tarjeta>)_SharedMemory["Velocidad"]).Get(0))).Velocidad / 100.0).ToString() + " m/s";
+                            _Padre.Log.SetData(ref _AuxLogCom, "Informacion"); 
+                        }
+                        _Midiendo = false;
                         break;
                     case 26:
 
