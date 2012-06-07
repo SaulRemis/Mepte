@@ -59,7 +59,7 @@ namespace Meplate
                             avanceParcial= LeerAvance(elapsedTime);
                             avance = avance +avanceParcial; // en mm
 
-                            // si la cahapa no avanzo deshecho las medidas acumuladas
+                           
                             if (avanceParcial==0 )
                             {                               
                               //  _Meplaca.SetData(ref _AuxMeplaca, "VaciarBuffer");
@@ -174,6 +174,10 @@ namespace Meplate
         {
 
             velocidad = LeerVelocidad();
+
+            // si la cahapa no avanzo deshecho las medidas acumuladas
+            if (velocidad == 0 & velocidadAnterior == 0) _Meplaca.SetData(ref _AuxMeplaca, "VaciarBuffer");
+
             if (velocidadAnterior != 0) velocidad = (velocidad + velocidadAnterior) / 2;
             velocidadAnterior = velocidad;
             return  velocidad * elapsedTime.TotalMinutes; //mm

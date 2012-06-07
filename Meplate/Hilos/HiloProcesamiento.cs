@@ -97,7 +97,7 @@ namespace Meplate
                 tol1 = 0;
                 tol2 = 0;
                 _AuxLogError.LOGTXTMessage = "Plate measured with default Parameters. No ID sent";
-                _Padre.Log.SetData(ref _AuxLogError, "Informacion");
+                _Padre.LogError.SetData(ref _AuxLogError, "Informacion");
                
             }
 
