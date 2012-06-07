@@ -38,12 +38,14 @@ namespace Meplate
                 switch (messageid)
                 {
                     case 21:
+                        _AuxLogCom.LOGTXTMessage = "ADDA : Recibido Inicio Chapa con velocidad : " + (((Tarjeta)(((SharedData<Tarjeta>)_SharedMemory["Velocidad"]).Get(0))).Velocidad / 100.0).ToString() + " m/s";
+                        _Padre.LogCom.SetData(ref _AuxLogCom, "Informacion"); 
                         if (_Midiendo == false)
                         {
                             Events["ComenzarMedida"].Set();
                             ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("21");
-                            _AuxLogCom.LOGTXTMessage = "ADDA : Recibido Inicio Chapa con velocidad : " + (((Tarjeta)(((SharedData<Tarjeta>)_SharedMemory["Velocidad"]).Get(0))).Velocidad / 100.0).ToString() + " m/s";
-                            _Padre.Log.SetData(ref _AuxLogCom, "Informacion"); 
+                            _AuxLogCom.LOGTXTMessage = "ADDA : Empieza a medir ";
+                            _Padre.LogCom.SetData(ref _AuxLogCom, "Informacion"); 
                         }
                         _Midiendo = true;
                         break;
@@ -51,12 +53,14 @@ namespace Meplate
                         ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("22");
                         break;
                     case 23:
+                        _AuxLogCom.LOGTXTMessage = "ADDA : Recibido Fin Chapa con velocidad : " + (((Tarjeta)(((SharedData<Tarjeta>)_SharedMemory["Velocidad"]).Get(0))).Velocidad / 100.0).ToString() + " m/s";
+                        _Padre.LogCom.SetData(ref _AuxLogCom, "Informacion"); 
                         if (_Midiendo == true)
                         {
                             Events["FinalizarMedida"].Set();
                             ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("23");
-                            _AuxLogCom.LOGTXTMessage = "ADDA : Recibido Fin Chapa con velocidad : " + (((Tarjeta)(((SharedData<Tarjeta>)_SharedMemory["Velocidad"]).Get(0))).Velocidad / 100.0).ToString() + " m/s";
-                            _Padre.Log.SetData(ref _AuxLogCom, "Informacion"); 
+                            _AuxLogCom.LOGTXTMessage = "ADDA : Acaba de medir ";
+                            _Padre.LogCom.SetData(ref _AuxLogCom, "Informacion"); 
                         }
                         _Midiendo = false;
                         break;
@@ -66,7 +70,7 @@ namespace Meplate
                             Events["AbortarMedida"].Set();
                             ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("24");
                             _AuxLogCom.LOGTXTMessage = "ADDA : Recibido Abortar Chapa (Sale chapa con velocidad negativa) con velocidad : " + (((Tarjeta)(((SharedData<Tarjeta>)_SharedMemory["Velocidad"]).Get(0))).Velocidad / 100.0).ToString() + " m/s";
-                            _Padre.Log.SetData(ref _AuxLogCom, "Informacion"); 
+                            _Padre.LogCom.SetData(ref _AuxLogCom, "Informacion"); 
                         }
                         _Midiendo = false;
                         break;
