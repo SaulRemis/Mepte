@@ -63,10 +63,10 @@
             this.label_escala_max = new System.Windows.Forms.Label();
             this.label_escala_inter = new System.Windows.Forms.Label();
             this._MeplatestatusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusProcessComputer = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusTarjeta = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusframerate = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusSpeed = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusTarjeta = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusProcessComputer = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerEstado = new System.Windows.Forms.Timer(this.components);
             this.Menu = new System.Windows.Forms.MenuStrip();
             this.MeplateMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -99,6 +99,7 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label19 = new System.Windows.Forms.Label();
+            this.toolStripStatusMidiendo = new System.Windows.Forms.ToolStripStatusLabel();
             this.groupBox1.SuspendLayout();
             this._MeplatestatusStrip1.SuspendLayout();
             this.Menu.SuspendLayout();
@@ -400,17 +401,42 @@
             this.toolStripStatusProcessComputer,
             this.toolStripStatusTarjeta,
             this.toolStripStatusframerate,
-            this.toolStripStatusSpeed});
+            this.toolStripStatusSpeed,
+            this.toolStripStatusMidiendo});
             this._MeplatestatusStrip1.Location = new System.Drawing.Point(0, 590);
             this._MeplatestatusStrip1.Name = "_MeplatestatusStrip1";
             this._MeplatestatusStrip1.Size = new System.Drawing.Size(1276, 24);
             this._MeplatestatusStrip1.TabIndex = 26;
             this._MeplatestatusStrip1.Text = "statusStrip1";
             // 
+            // toolStripStatusProcessComputer
+            // 
+            this.toolStripStatusProcessComputer.BackColor = System.Drawing.Color.Red;
+            this.toolStripStatusProcessComputer.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.toolStripStatusProcessComputer.BorderStyle = System.Windows.Forms.Border3DStyle.Adjust;
+            this.toolStripStatusProcessComputer.Name = "toolStripStatusProcessComputer";
+            this.toolStripStatusProcessComputer.Size = new System.Drawing.Size(291, 19);
+            this.toolStripStatusProcessComputer.Spring = true;
+            this.toolStripStatusProcessComputer.Text = "Process Computer : Non Connected";
+            // 
+            // toolStripStatusTarjeta
+            // 
+            this.toolStripStatusTarjeta.BackColor = System.Drawing.Color.Red;
+            this.toolStripStatusTarjeta.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.toolStripStatusTarjeta.BorderStyle = System.Windows.Forms.Border3DStyle.Adjust;
+            this.toolStripStatusTarjeta.Name = "toolStripStatusTarjeta";
+            this.toolStripStatusTarjeta.Size = new System.Drawing.Size(291, 19);
+            this.toolStripStatusTarjeta.Spring = true;
+            this.toolStripStatusTarjeta.Text = "Speed Card : Non Connected";
+            // 
             // toolStripStatusframerate
             // 
             this.toolStripStatusframerate.Name = "toolStripStatusframerate";
-            this.toolStripStatusframerate.Size = new System.Drawing.Size(307, 19);
+            this.toolStripStatusframerate.Size = new System.Drawing.Size(291, 19);
             this.toolStripStatusframerate.Spring = true;
             this.toolStripStatusframerate.Text = "FRAMERATE : 0 ";
             // 
@@ -421,33 +447,9 @@
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.toolStripStatusSpeed.BorderStyle = System.Windows.Forms.Border3DStyle.Adjust;
             this.toolStripStatusSpeed.Name = "toolStripStatusSpeed";
-            this.toolStripStatusSpeed.Size = new System.Drawing.Size(307, 19);
+            this.toolStripStatusSpeed.Size = new System.Drawing.Size(291, 19);
             this.toolStripStatusSpeed.Spring = true;
             this.toolStripStatusSpeed.Text = "SPEED : 0 m/min";
-            // 
-            // toolStripStatusTarjeta
-            // 
-            this.toolStripStatusTarjeta.BackColor = System.Drawing.Color.Red;
-            this.toolStripStatusTarjeta.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.toolStripStatusTarjeta.BorderStyle = System.Windows.Forms.Border3DStyle.Adjust;
-            this.toolStripStatusTarjeta.Name = "toolStripStatusTarjeta";
-            this.toolStripStatusTarjeta.Size = new System.Drawing.Size(307, 19);
-            this.toolStripStatusTarjeta.Spring = true;
-            this.toolStripStatusTarjeta.Text = "Speed Card : Non Connected";
-            // 
-            // toolStripStatusProcessComputer
-            // 
-            this.toolStripStatusProcessComputer.BackColor = System.Drawing.Color.Red;
-            this.toolStripStatusProcessComputer.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.toolStripStatusProcessComputer.BorderStyle = System.Windows.Forms.Border3DStyle.Adjust;
-            this.toolStripStatusProcessComputer.Name = "toolStripStatusProcessComputer";
-            this.toolStripStatusProcessComputer.Size = new System.Drawing.Size(307, 19);
-            this.toolStripStatusProcessComputer.Spring = true;
-            this.toolStripStatusProcessComputer.Text = "Process Computer : Non Connected";
             // 
             // timerEstado
             // 
@@ -773,6 +775,12 @@
             this.label19.TabIndex = 25;
             this.label19.Text = "0 mm";
             // 
+            // toolStripStatusMidiendo
+            // 
+            this.toolStripStatusMidiendo.Name = "toolStripStatusMidiendo";
+            this.toolStripStatusMidiendo.Size = new System.Drawing.Size(95, 19);
+            this.toolStripStatusMidiendo.Text = "Waiting for Plate";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -873,6 +881,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusMidiendo;
 
     }
 }

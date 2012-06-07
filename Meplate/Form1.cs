@@ -187,6 +187,10 @@ namespace Meplate
                 if (temp.MEPErrors=="")
                 {
                     toolStripStatusSpeed.Text = "SPEED : "+ (temp.MEPVelocidad/100).ToString() +"  m/min";
+                    if (temp.MEPMidiendo) toolStripStatusMidiendo.Text = "Measuring Plate";
+                    else toolStripStatusMidiendo.Text = "Waiting for Plate";                   
+                    
+                    
                     if (temp.MEPOPConnected)
                     {
                         toolStripStatusProcessComputer.BackColor = Color.Green;

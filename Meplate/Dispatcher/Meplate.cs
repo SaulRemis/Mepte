@@ -108,6 +108,7 @@ namespace Meplate
                             Data.MEPOPConnected = Data.COMSocketDatosConnected;
                             ((ComunicacionTarjeta)_DispatcherThreads["ComunicacionTarjeta"])._server.GetData(ref Data, "EstadoSocket");
                             Data.MEPTarjetaConnected = Data.COMSocketDatosConnected;
+                            Data.MEPMidiendo = ((ComunicacionTarjeta)_DispatcherThreads["ComunicacionTarjeta"])._Midiendo;
                             break;
                         case "Informacion":
                             Data.MEPInformacion = (Informacion)((SharedData<Informacion>)_DispatcherSharedMemory["Informacion"]).Get(0);
