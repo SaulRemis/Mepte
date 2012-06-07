@@ -15,7 +15,7 @@ namespace Meplate
     {
         Meplate _Padre;
         public  CMeplaca _Meplaca;
-        double avance, avanceAcumulado, velocidad, velocidadAnterior = 0;
+        double avance, avanceAcumulado,avanceParcial velocidad, velocidadAnterior = 0;
         TimeSpan elapsedTime, totalElapsedTime;
         DateTime t1,t2 ;
         dynamic _AuxMeplaca,_AuxLogCom, _AuxLog, _AuxLogError;
@@ -41,9 +41,10 @@ namespace Meplate
             if (_StopEvent.WaitOne(0, true)) return; // si se pulso stop se sale del while del Spinthreadevent
            
                 // Inicializo todo
-                _Meplaca.GetData(ref _AuxMeplaca, "Medidas"); //Lo usamos para limpiar la lista de medidas                
+               _Meplaca.SetData(ref _AuxMeplaca, "VaciarBuffer"); //Lo usamos para limpiar la lista de medidas                
                 avance = 0;
                 avanceAcumulado = 0;
+            avanceParcial=0;
                 t1 = DateTime.Now;
                 totalElapsedTime = TimeSpan.Zero;
 
@@ -53,7 +54,17 @@ namespace Meplate
                         t2 = DateTime.Now;
                         elapsedTime = t2 - t1;
                         ((ComunicacionTarjeta)_Padre._DispatcherThreads["ComunicacionTarjeta"])._server.GetData(ref _AuxMeplaca,"EstadoSocket");
-                        if (_AuxMeplaca.COMSocketDatosConnected) avance = avance + LeerAvance(elapsedTime); // en mm
+                        if (_AuxMeplaca.COMSocketDatosConnected)
+                        {
+                            avanceParcial= LeerAvance(elapsedTime);
+                            avance = avance +avanceParcial; // en mm
+
+                            // si la cahapa no avanzo deshecho las medidas acumuladas
+                            if (avanceParcial==0 )
+                            {                               
+                                _Meplaca.SetData(ref _AuxMeplaca, "VaciarBuffer");
+                            }
+                        }
                         else avance = avance + 40;
                         totalElapsedTime = totalElapsedTime + elapsedTime;
                         t1 = t2;

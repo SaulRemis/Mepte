@@ -30,6 +30,8 @@ namespace Meplate
         public bool _Incluir_Parcialmente_Cubiertos;
         public bool _Guardar_Imagenes_Parciales;
         public bool _EnviarFTP;
+        public string _PathImages;
+        string filename;
 
 
 
@@ -51,6 +53,7 @@ namespace Meplate
             _Incluir_Parcialmente_Cubiertos = bool.Parse(parametros.Procesamiento.PROincluirparcialmentecubiertos);
             _Guardar_Imagenes_Parciales = bool.Parse(parametros.Procesamiento.PROGuardarImagenesParciales);
             _EnviarFTP = bool.Parse(parametros.Procesamiento.PROEnviarFtp);
+            _PathImages = parametros.Procesamiento.PROPathImagenesParciales;
 
             //Pixeles2 = new double[numeroMedidas, 5];
             //Puntos2 = new double[numeroMedidas, 7];
@@ -112,7 +115,7 @@ namespace Meplate
             HTuple filas_cabeza, columnas_cabeza, amplitude, distance, indices;
             int cabeza=0;
             // la X la creo cuando conozca los bordes
-            if (medidas.Count > 0)
+            if (medidas.Count >20)
             {
                 
                 //creo la imagen Z
@@ -128,8 +131,11 @@ namespace Meplate
 
                 if (_Guardar_Imagenes_Parciales)
                 {
-                    Z.WriteImage("tiff", 0, "ZRAW" + (string)DateTime.Now.Minute.ToString() + (string)DateTime.Now.Second.ToString());
-                     }
+                    filename = "ZRAW_" + (string)DateTime.Now.Hour.ToString() + "_" + (string)DateTime.Now.Minute.ToString();
+                    Z.WriteImage("tiff", 0, filename);
+                    if (!System.IO.File.Exists(_PathImages + filename + ".tif")) System.IO.File.Move(filename + ".tif", _PathImages + filename + ".tif");
+                    
+                 }
 
                // corto La cabeza donde no hay chapa
                 HMeasure bordes = new HMeasure((double)6, (double)columnas / 2 - 1, (double)0, (int)Math.Round((double)(columnas / 2.0)-2), 5, columnas, filas, "nearest_neighbor");
@@ -137,7 +143,7 @@ namespace Meplate
                 bordes.MeasurePos(Z, sigma_cabeza, umbral_cabeza, "all", "all", out filas_cabeza, out columnas_cabeza, out amplitude, out distance);
                 amplitude = amplitude.TupleAbs();
                 indices = amplitude.TupleSortIndex();
-                if (indices.Length > 1)
+                if (indices.Length > 0)
                 {
                     double temp = columnas_cabeza.DArr[indices[indices.Length - 1]];
                     cabeza = (int)Math.Ceiling(temp);
@@ -147,8 +153,8 @@ namespace Meplate
                 {
                     cabeza = 0;
                 }
-                if (cabeza + 3 < columnas - 1) Z.CropRectangle1 (0, cabeza, filas - 1, columnas - 1);
-                else Z.CropRectangle1(0, cabeza, filas - 1, columnas - 1);
+                if (cabeza + 1 < columnas - 1)Z= Z.CropRectangle1 (0, cabeza+1, filas - 1, columnas - 1);
+                else Z=Z.CropRectangle1(0, cabeza, filas - 1, columnas - 1);
             
                 //creo la imagen Y, aunque solo relleno la parte con chpaa, queda espacio sin rellenar
                 Z.GetImageSize(out columnas, out filas);
@@ -170,16 +176,19 @@ namespace Meplate
 
                 if (_Guardar_Imagenes_Parciales)
                 {
-                    Z.WriteImage("tiff", 0, "Z_Cortada" + (string)DateTime.Now.Minute.ToString() + (string)DateTime.Now.Second.ToString());
-                    Y.WriteImage("tiff", 0, "YRAW" + (string)DateTime.Now.Minute.ToString() + (string)DateTime.Now.Second.ToString());
+                    filename = "Z_Cortada_" + (string)DateTime.Now.Hour.ToString() + "_" + (string)DateTime.Now.Minute.ToString();
+                    Z.WriteImage("tiff", 0, filename);
+                    if (!System.IO.File.Exists(_PathImages + filename + ".tif")) System.IO.File.Move(filename + ".tif", _PathImages + filename + ".tif");
+
+                    filename = "YRAW_" + (string)DateTime.Now.Hour.ToString() + "_" + (string)DateTime.Now.Minute.ToString();
+                    Y.WriteImage("tiff", 0, filename);
+                    if (!System.IO.File.Exists(_PathImages + filename + ".tif")) System.IO.File.Move(filename + ".tif", _PathImages + filename + ".tif");
+
+
                 }
            
 
             }
-
-
-
-
 
 
         }
@@ -212,9 +221,16 @@ namespace Meplate
 
             media.Dispose();
 
-            if (_Guardar_Imagenes_Parciales || _EnviarFTP) Z.WriteImage("tiff", 0, "ZCORREGIDA" + (string)DateTime.Now.Minute.ToString() + (string)DateTime.Now.Second.ToString());
+            if ( _EnviarFTP) Z.WriteImage("tiff", 0, "ZCORREGIDA");
+            if (_Guardar_Imagenes_Parciales)
+            {
 
-           
+                filename = "ZCORREGIDA_" + (string)DateTime.Now.Hour.ToString() + "_" + (string)DateTime.Now.Minute.ToString();
+                Z.WriteImage("tiff", 0, filename);
+                if (!System.IO.File.Exists(_PathImages + filename + ".tif")) System.IO.File.Move(filename + ".tif", _PathImages + filename + ".tif");
+
+               
+            }
 
         }
         public void ObtenerBordes(double ancho)
@@ -265,8 +281,14 @@ namespace Meplate
 
             if (_Guardar_Imagenes_Parciales)
             {
-                Z.WriteImage("tiff", 0, "Z_sinbordes" + (string)DateTime.Now.Minute.ToString() + (string)DateTime.Now.Second.ToString());
-                X.WriteImage("tiff", 0, "XRAW.jpg" + (string)DateTime.Now.Minute.ToString() + (string)DateTime.Now.Second.ToString());
+                filename = "Z_sinbordes_" + (string)DateTime.Now.Hour.ToString() + "_" + (string)DateTime.Now.Minute.ToString();
+                Z.WriteImage("tiff", 0, filename);
+                if (!System.IO.File.Exists(_PathImages + filename + ".tif")) System.IO.File.Move(filename + ".tif", _PathImages + filename + ".tif");
+
+                filename = "XRAW.jpg_" + (string)DateTime.Now.Hour.ToString() + "_" + (string)DateTime.Now.Minute.ToString();
+                X.WriteImage("tiff", 0, filename);
+                if (!System.IO.File.Exists(_PathImages + filename + ".tif")) System.IO.File.Move(filename + ".tif", _PathImages + filename + ".tif");
+
             }
             //
 

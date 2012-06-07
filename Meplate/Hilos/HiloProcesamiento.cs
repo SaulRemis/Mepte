@@ -116,7 +116,7 @@ namespace Meplate
             _AuxLog.LOGTXTMessage = "New Plate measured : " + id + " Decission : " + _Proc._Decision + " Score : " + _Proc._Puntuacion + " Number of defects 1m : " + _Proc._Defectos1m + " Number of defects 2m : " + _Proc._Defectos2m;
             _Padre.Log.SetData(ref _AuxLog, "Informacion");
 
-             //Envio por ftpj jjjjjj 
+             //Envio por ftpj
             if (_Proc._EnviarFTP)
             {
                 if (!File.Exists(id_file + ".tif"))
