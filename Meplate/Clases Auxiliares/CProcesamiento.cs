@@ -126,6 +126,11 @@ namespace Meplate
                     }
                 }
 
+                if (_Guardar_Imagenes_Parciales)
+                {
+                    Z.WriteImage("tiff", 0, "ZRAW" + (string)DateTime.Now.Minute.ToString() + (string)DateTime.Now.Second.ToString());
+                     }
+
                // corto La cabeza donde no hay chapa
                 HMeasure bordes = new HMeasure((double)6, (double)columnas / 2 - 1, (double)0, (int)Math.Round((double)(columnas / 2.0)-2), 5, columnas, filas, "nearest_neighbor");
                 //HMeasure bordes = new HMeasure(20, 20, -(double)Math.PI / 2.0, 5,5, columnas , filas , "nearest_neighbor");
@@ -134,15 +139,16 @@ namespace Meplate
                 indices = amplitude.TupleSortIndex();
                 if (indices.Length > 1)
                 {
-                    cabeza = columnas_borde[indices[0]];
-                    cabeza = (int)Math.Ceiling(BI) ;
+                    double temp = columnas_borde.DArr[indices[indices.Length-1]];
+                    cabeza = (int)Math.Ceiling(temp);
                    
                 }
                 else
                 {
                     cabeza = 0;
                 }
-                Z.CropRectangle1(0, cabeza, filas-1, columnas-1);
+                if (cabeza + 3 < columnas - 1) Z.CropRectangle1 (0, cabeza, filas - 1, columnas - 1);
+                else Z.CropRectangle1(0, cabeza, filas - 1, columnas - 1);
             
                 //creo la imagen Y, aunque solo relleno la parte con chpaa, queda espacio sin rellenar
                 Z.GetImageSize(out columnas, out filas);
@@ -164,7 +170,7 @@ namespace Meplate
 
                 if (_Guardar_Imagenes_Parciales)
                 {
-                    Z.WriteImage("tiff", 0, "ZRAW" + (string)DateTime.Now.Minute.ToString() + (string)DateTime.Now.Second.ToString());
+                    Z.WriteImage("tiff", 0, "Z_Cortada" + (string)DateTime.Now.Minute.ToString() + (string)DateTime.Now.Second.ToString());
                     Y.WriteImage("tiff", 0, "YRAW" + (string)DateTime.Now.Minute.ToString() + (string)DateTime.Now.Second.ToString());
                 }
            
@@ -741,7 +747,8 @@ namespace Meplate
          
             HOperatorSet.GetImageSize(ImagenOut, out hv_Width, out hv_Height);
             HOperatorSet.GenRectangle1(out Region, borde_izquierdo, 0, borde_derecho, hv_Width);
-             hv_anccuadro = hv_Width / 10;
+            if (hv_Width > 20) hv_anccuadro = hv_Width / 10;
+            else hv_anccuadro = 1;
            // hv_anccuadro = 50;
             hv_anccuadro.TupleFloor();
             //hv_anccuadro = 10;
