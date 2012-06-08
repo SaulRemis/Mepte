@@ -280,11 +280,6 @@ namespace Meplate
 
         }
 
-        private void checkBox_3D_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_3D.Checked) VentanaHalconPrincipal.HalconWindow.SetPaint("3d_plot");
-            else VentanaHalconPrincipal.HalconWindow.SetPaint("default");
-        }
-              
+       
     }
 }

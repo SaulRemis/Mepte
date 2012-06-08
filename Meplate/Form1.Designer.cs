@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("1 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("2 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("1 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("2 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.VentanaHalconPrincipal = new HalconDotNet.HWindowControl();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -100,7 +100,6 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label19 = new System.Windows.Forms.Label();
-            this.checkBox_3D = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this._MeplatestatusStrip1.SuspendLayout();
             this.Menu.SuspendLayout();
@@ -263,15 +262,15 @@
             this.DIFF});
             this._listViewPuntos.Dock = System.Windows.Forms.DockStyle.Fill;
             this._listViewPuntos.FullRowSelect = true;
-            listViewGroup1.Header = "1 m RULER";
-            listViewGroup1.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup1.Name = "listViewGroup1m";
-            listViewGroup2.Header = "2 m RULER";
-            listViewGroup2.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup2.Name = "listViewGroup2m";
+            listViewGroup3.Header = "1 m RULER";
+            listViewGroup3.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup3.Name = "listViewGroup1m";
+            listViewGroup4.Header = "2 m RULER";
+            listViewGroup4.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup4.Name = "listViewGroup2m";
             this._listViewPuntos.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2});
+            listViewGroup3,
+            listViewGroup4});
             this._listViewPuntos.Location = new System.Drawing.Point(832, 162);
             this._listViewPuntos.Name = "_listViewPuntos";
             this._listViewPuntos.Size = new System.Drawing.Size(441, 401);
@@ -758,7 +757,6 @@
             // panel2
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.panel2, 2);
-            this.panel2.Controls.Add(this.checkBox_3D);
             this.panel2.Controls.Add(this.VentanaHalconPrincipal);
             this.panel2.Controls.Add(this.label4);
             this.panel2.Controls.Add(this.label5);
@@ -782,17 +780,6 @@
             this.label19.Size = new System.Drawing.Size(32, 13);
             this.label19.TabIndex = 25;
             this.label19.Text = "0 mm";
-            // 
-            // checkBox_3D
-            // 
-            this.checkBox_3D.AutoSize = true;
-            this.checkBox_3D.Location = new System.Drawing.Point(728, 26);
-            this.checkBox_3D.Name = "checkBox_3D";
-            this.checkBox_3D.Size = new System.Drawing.Size(40, 17);
-            this.checkBox_3D.TabIndex = 26;
-            this.checkBox_3D.Text = "3D";
-            this.checkBox_3D.UseVisualStyleBackColor = true;
-            this.checkBox_3D.CheckedChanged += new System.EventHandler(this.checkBox_3D_CheckedChanged);
             // 
             // Form1
             // 
@@ -895,7 +882,6 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusMidiendo;
-        private System.Windows.Forms.CheckBox checkBox_3D;
 
     }
 }

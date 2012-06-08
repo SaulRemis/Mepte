@@ -1109,22 +1109,22 @@ namespace Meplate
             columnEdgeFirst = columnEdgeFirst.TupleFloor();
             columnEdgeSecond = columnEdgeSecond.TupleCeil();
 
-
+            //DWEBUG puede que haya que filtrar solo los saltos de cierto espesor o lo que estan muy cerca con las distancoas
             //por cada salto 
             for (int i = 0; i < rowEdgeFirst.DArr.Length; i++)
             {
 
                 //calculo los _ValoresMedios medios antes y despues del salto
-                mediaantes = (media.GetGrayval((HTuple)1, columnEdgeFirst - 1) + media.GetGrayval((HTuple)1, columnEdgeFirst - 2)) / 2;
-                mediadespues = (media.GetGrayval((HTuple)1, columnEdgeSecond + 1) + media.GetGrayval((HTuple)1, columnEdgeSecond + 2)) / 2;
-                for (int j = columnEdgeFirst; j < columnEdgeSecond ; j++)
+                mediaantes = (media.GetGrayval((HTuple)1, columnEdgeFirst.DArr[i] - 1) + media.GetGrayval((HTuple)1, columnEdgeFirst.DArr[i] - 2)) / 2;
+                mediadespues = (media.GetGrayval((HTuple)1, columnEdgeSecond.DArr[i] + 1) + media.GetGrayval((HTuple)1, columnEdgeSecond.DArr[i] + 2)) / 2;
+                for (int j = (int)columnEdgeFirst.DArr[i]; j < columnEdgeSecond.DArr[i]; j++)
                 {
                     mediasalto = mediasalto + media.GetGrayval(1, j);
                 }
-                mediasalto = mediasalto / (columnEdgeSecond - columnEdgeFirst);
+                mediasalto = mediasalto / (columnEdgeSecond.DArr[i] - columnEdgeFirst.DArr[i]);
 
                 // corrijo los valores del salto con la diferencia de las medias
-                for (int j = columnEdgeFirst; j < columnEdgeSecond; j++)
+                for (int j = (int)columnEdgeFirst.DArr[i]; j < columnEdgeSecond.DArr[i]; j++)
                 {   
                     for (int z = 0; z < filas; z++)
                     {
