@@ -32,6 +32,7 @@ namespace Meplate
         public bool _EnviarFTP;
         public string _PathImages;
         string filename;
+        public int modulos;
 
 
 
@@ -68,6 +69,7 @@ namespace Meplate
             //proc.ObtenerBordes();
             ObtenerBordesCrop(ancho);
             CorregirImagen();
+            CorregirSaltos();
             CalcularDefectos_1metro(tol1);
             CalcularDefectos_2metro(tol2);
 
@@ -79,6 +81,8 @@ namespace Meplate
 
 
         }
+
+      
         public void Dispose()
         {
 
@@ -220,11 +224,11 @@ namespace Meplate
 
             media.Dispose();
 
-            if ( _EnviarFTP) Z.WriteImage("tiff", 0, "ZCORREGIDA");
+           
             if (_Guardar_Imagenes_Parciales)
             {
 
-                filename = "ZCORREGIDA_" + (string)DateTime.Now.Hour.ToString() + "_" + (string)DateTime.Now.Minute.ToString();
+                filename = "ZCon saltos_" + (string)DateTime.Now.Hour.ToString() + "_" + (string)DateTime.Now.Minute.ToString();
                 Z.WriteImage("tiff", 0, filename);
                 if (!System.IO.File.Exists(_PathImages + filename + ".tif")) System.IO.File.Move(filename + ".tif", _PathImages + filename + ".tif");
 
@@ -412,7 +416,7 @@ namespace Meplate
 
             Z.GetImageSize(out width, out lenght);
             // int modulos = (int)Math.Round(ancho / distancia_entre_sensores);
-            int modulos = (int)Math.Round(ancho / 52);
+            modulos = (int)Math.Round(ancho / 52);
             int anchura = (int)Math.Round((double)(columnas / 2.0)-1);
             if (anchura > 100) anchura = 100;
             if (anchura > 5)
@@ -491,8 +495,8 @@ namespace Meplate
             double distancia = 0;
 
 
-             int modulos = (int)Math.Round(ancho / distancia_entre_sensores);
-           // int modulos = (int)Math.Round(ancho / 52);
+           modulos = (int)Math.Round(ancho / distancia_entre_sensores);
+           // modulos = (int)Math.Round(ancho / 52);
             int anchura = (int)Math.Round((double)(columnas / 2.0) - 1);
             if (anchura > 100) anchura = 100;
             if (anchura > 5)
@@ -565,7 +569,7 @@ namespace Meplate
         {
            
 
-            int modulos = (int)Math.Round(ancho / distancia_entre_sensores);
+           modulos = (int)Math.Round(ancho / distancia_entre_sensores);
            
                         borde_derecho = modulos -1;
                         borde_izquierdo = 0;
@@ -782,7 +786,7 @@ namespace Meplate
 
             // Local control variables 
 
-            HTuple hv_Width, hv_Height, hv_anccuadro, hv_radio1, hv_radio2;
+            HTuple hv_Width, hv_Height, hv_anccuadro, hv_radio1, hv_radio2, hv_altocuadro;
             HTuple hv_Min1, hv_Max1, hv_Range1, hv_Diff1, hv_Indices1, hv_Max, hmax,rowmin,colmin,h;
             HTuple hv_MaxSorted, hv_j, hv_indice = new HTuple();
             HTuple hv_Min3 = new HTuple(), hv_Max3 = new HTuple(), hv_Range3 = new HTuple();
@@ -828,16 +832,19 @@ namespace Meplate
             
          
             HOperatorSet.GetImageSize(ImagenOut, out hv_Width, out hv_Height);
-            HOperatorSet.GenRectangle1(out Region, borde_izquierdo, 0, borde_derecho, hv_Width);
-            if (hv_Width > 20) hv_anccuadro = hv_Width / 10;
+           // HOperatorSet.GenRectangle1(out Region, borde_izquierdo, 0, borde_derecho, hv_Width);
+            HOperatorSet.GenRectangle1(out Region, 0, 0, hv_Height-1, hv_Width-1);
+            if (hv_Width > 20) hv_anccuadro = hv_Width / 5;
             else hv_anccuadro = 1;
            // hv_anccuadro = 50;
             hv_anccuadro.TupleFloor();
             //hv_anccuadro = 10;
-            HOperatorSet.TupleRound(hv_anccuadro, out hv_anccuadro);
+           // HOperatorSet.TupleRound(hv_anccuadro, out hv_anccuadro);
             Partitioned.Dispose();
-            HOperatorSet.PartitionRectangle(Region, out Partitioned, hv_anccuadro,
-                5);
+            if (modulos != 0) hv_altocuadro = modulos / 2;
+            else hv_altocuadro = 18;
+            hv_altocuadro.TupleFloor();
+            HOperatorSet.PartitionRectangle(Region, out Partitioned, hv_anccuadro, hv_altocuadro);
             HOperatorSet.MinMaxGray(Partitioned, ImagenOut, 0, out hv_Min1, out hv_Max1,
                 out hv_Range1);
 
@@ -1079,6 +1086,68 @@ namespace Meplate
             return penalizacion;
         
         
+        }
+        private void CorregirSaltos()
+        {
+            double fila, columna, phi, lenght1,lenght2;
+            HTuple rowEdgeFirst, rowEdgeSecond, amplitudeFirst, columnEdgeFirst, columnEdgeSecond, amplitudeSecond, intraDistance, interDistance;
+            double mediasalto=0, mediaantes, mediadespues,valor;
+
+
+
+            //detecto donde estan los saltos
+            HRegion regionZ2= new HRegion((double)2, 2, filas - 3, columnas - 3);
+
+            HImage media = Z.MeanImage(1,filas);
+           
+            regionZ2.SmallestRectangle2(out fila, out columna, out phi, out lenght1, out lenght2);
+
+            HMeasure saltos = new HMeasure(fila, columna, phi, lenght1, lenght2, columnas, filas, "nearest_neighbor");
+
+            saltos.MeasurePairs(Z, 1, 1, "negative", "all", out rowEdgeFirst, out columnEdgeFirst, out amplitudeFirst, out rowEdgeSecond, out columnEdgeSecond, out amplitudeSecond, out intraDistance, out interDistance);
+
+            columnEdgeFirst = columnEdgeFirst.TupleFloor();
+            columnEdgeSecond = columnEdgeSecond.TupleCeil();
+
+
+            //por cada salto 
+            for (int i = 0; i < rowEdgeFirst.DArr.Length; i++)
+            {
+
+                //calculo los _ValoresMedios medios antes y despues del salto
+                mediaantes = (media.GetGrayval((HTuple)1, columnEdgeFirst - 1) + media.GetGrayval((HTuple)1, columnEdgeFirst - 2)) / 2;
+                mediadespues = (media.GetGrayval((HTuple)1, columnEdgeSecond + 1) + media.GetGrayval((HTuple)1, columnEdgeSecond + 2)) / 2;
+                for (int j = columnEdgeFirst; j < columnEdgeSecond ; j++)
+                {
+                    mediasalto = mediasalto + media.GetGrayval(1, j);
+                }
+                mediasalto = mediasalto / (columnEdgeSecond - columnEdgeFirst);
+
+                // corrijo los valores del salto con la diferencia de las medias
+                for (int j = columnEdgeFirst; j < columnEdgeSecond; j++)
+                {   
+                    for (int z = 0; z < filas; z++)
+                    {
+                        valor=Z.GetGrayval(z,j);
+                        Z.SetGrayval(z, j, valor - (mediasalto - ((mediaantes + mediadespues) / 2)));
+                    }
+                   
+                }
+            }
+
+            if (_EnviarFTP) Z.WriteImage("tiff", 0, "ZCORREGIDA");
+            if (_Guardar_Imagenes_Parciales)
+            {
+
+                filename = "ZCORREGIDA_" + (string)DateTime.Now.Hour.ToString() + "_" + (string)DateTime.Now.Minute.ToString();
+                Z.WriteImage("tiff", 0, filename);
+                if (!System.IO.File.Exists(_PathImages + filename + ".tif")) System.IO.File.Move(filename + ".tif", _PathImages + filename + ".tif");
+
+
+            }
+
+
+
         }
     }
 }

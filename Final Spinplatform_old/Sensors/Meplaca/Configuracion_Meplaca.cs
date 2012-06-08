@@ -90,10 +90,18 @@ namespace SpinPlatform.Sensors.Meplaca
 
         private void button_newoffset_Click(object sender, EventArgs e)
         {
-            Aux_meplaca.MEPModulo = Math.Truncate((decimal)trackBar_sensores.Value / 6);
-            Aux_meplaca.MEPSensor = trackBar_sensores.Value % 6;
-            Aux_meplaca.MEPOffset = UInt16.Parse(textBox_newoffset.Text);
-            _Meplaca.SetData(ref Aux_meplaca, "EnviarOffsetsSensor");
+            try
+            {
+                Aux_meplaca.MEPModulo = Math.Truncate((decimal)trackBar_sensores.Value / 6);
+                Aux_meplaca.MEPSensor = trackBar_sensores.Value % 6;
+                Aux_meplaca.MEPOffset = UInt16.Parse(textBox_newoffset.Text);
+                _Meplaca.SetData(ref Aux_meplaca, "EnviarOffsetsSensor");
+            }
+            catch (Exception )
+            {
+                
+            
+            }
         }
 
         private void button_sobreescribir_Click(object sender, EventArgs e)

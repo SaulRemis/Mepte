@@ -67,6 +67,7 @@
             this.toolStripStatusTarjeta = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusframerate = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusSpeed = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusMidiendo = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerEstado = new System.Windows.Forms.Timer(this.components);
             this.Menu = new System.Windows.Forms.MenuStrip();
             this.MeplateMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -99,7 +100,7 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label19 = new System.Windows.Forms.Label();
-            this.toolStripStatusMidiendo = new System.Windows.Forms.ToolStripStatusLabel();
+            this.checkBox_3D = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this._MeplatestatusStrip1.SuspendLayout();
             this.Menu.SuspendLayout();
@@ -451,6 +452,12 @@
             this.toolStripStatusSpeed.Spring = true;
             this.toolStripStatusSpeed.Text = "SPEED : 0 m/min";
             // 
+            // toolStripStatusMidiendo
+            // 
+            this.toolStripStatusMidiendo.Name = "toolStripStatusMidiendo";
+            this.toolStripStatusMidiendo.Size = new System.Drawing.Size(95, 19);
+            this.toolStripStatusMidiendo.Text = "Waiting for Plate";
+            // 
             // timerEstado
             // 
             this.timerEstado.Interval = 500;
@@ -751,6 +758,7 @@
             // panel2
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.panel2, 2);
+            this.panel2.Controls.Add(this.checkBox_3D);
             this.panel2.Controls.Add(this.VentanaHalconPrincipal);
             this.panel2.Controls.Add(this.label4);
             this.panel2.Controls.Add(this.label5);
@@ -775,11 +783,16 @@
             this.label19.TabIndex = 25;
             this.label19.Text = "0 mm";
             // 
-            // toolStripStatusMidiendo
+            // checkBox_3D
             // 
-            this.toolStripStatusMidiendo.Name = "toolStripStatusMidiendo";
-            this.toolStripStatusMidiendo.Size = new System.Drawing.Size(95, 19);
-            this.toolStripStatusMidiendo.Text = "Waiting for Plate";
+            this.checkBox_3D.AutoSize = true;
+            this.checkBox_3D.Location = new System.Drawing.Point(728, 26);
+            this.checkBox_3D.Name = "checkBox_3D";
+            this.checkBox_3D.Size = new System.Drawing.Size(40, 17);
+            this.checkBox_3D.TabIndex = 26;
+            this.checkBox_3D.Text = "3D";
+            this.checkBox_3D.UseVisualStyleBackColor = true;
+            this.checkBox_3D.CheckedChanged += new System.EventHandler(this.checkBox_3D_CheckedChanged);
             // 
             // Form1
             // 
@@ -882,6 +895,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusMidiendo;
+        private System.Windows.Forms.CheckBox checkBox_3D;
 
     }
 }
