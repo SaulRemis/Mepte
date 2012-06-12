@@ -357,7 +357,7 @@ namespace SpinPlatform.Sensors.Meplaca
                             enviarOffsetsArchivo();
                             break;
                         case "EnviarOffsets":
-                            enviarOffsets(data.MEPOffsets,data.MEPReferencias);
+                            enviarOffsets(data.MEPValores, data.MEPReferencias);
                             break;
                         case "EnviarOffsetsSensor":
                             serie.EnviarOffset((int)data.MEPModulo, (int)data.MEPSensor, (UInt16)data.MEPOffset);

@@ -1092,6 +1092,7 @@ namespace Meplate
             double fila, columna, phi, lenght1,lenght2;
             HTuple rowEdgeFirst, rowEdgeSecond, amplitudeFirst, columnEdgeFirst, columnEdgeSecond, amplitudeSecond, intraDistance, interDistance;
             double mediasalto=0, mediaantes, mediadespues,valor;
+            HTuple width, height;
 
 
 
@@ -1099,6 +1100,8 @@ namespace Meplate
             HRegion regionZ2= new HRegion((double)2, 2, filas - 3, columnas - 3);
 
             HImage media = Z.MeanImage(1,filas);
+
+            media.GetImageSize(out width, out height);
            
             regionZ2.SmallestRectangle2(out fila, out columna, out phi, out lenght1, out lenght2);
 
@@ -1113,18 +1116,18 @@ namespace Meplate
             //por cada salto 
             for (int i = 0; i < rowEdgeFirst.DArr.Length; i++)
             {
-
+               
                 //calculo los _ValoresMedios medios antes y despues del salto
-                mediaantes = (media.GetGrayval((HTuple)1, columnEdgeFirst.DArr[i] - 1) + media.GetGrayval((HTuple)1, columnEdgeFirst.DArr[i] - 2)) / 2;
-                mediadespues = (media.GetGrayval((HTuple)1, columnEdgeSecond.DArr[i] + 1) + media.GetGrayval((HTuple)1, columnEdgeSecond.DArr[i] + 2)) / 2;
-                for (int j = (int)columnEdgeFirst.DArr[i]; j < columnEdgeSecond.DArr[i]; j++)
+                mediaantes = (media.GetGrayval(1, (int)columnEdgeFirst.DArr[i] - 1) + media.GetGrayval(1, (int)columnEdgeFirst.DArr[i] - 2)) / 2;
+                mediadespues = (media.GetGrayval(1, (int)columnEdgeSecond.DArr[i] + 1) + media.GetGrayval(1, (int)columnEdgeSecond.DArr[i] + 2)) / 2;
+                for (int j = (int)columnEdgeFirst.DArr[i]; j < (int)columnEdgeSecond.DArr[i]; j++)
                 {
                     mediasalto = mediasalto + media.GetGrayval(1, j);
                 }
                 mediasalto = mediasalto / (columnEdgeSecond.DArr[i] - columnEdgeFirst.DArr[i]);
 
                 // corrijo los valores del salto con la diferencia de las medias
-                for (int j = (int)columnEdgeFirst.DArr[i]; j < columnEdgeSecond.DArr[i]; j++)
+                for (int j = (int)columnEdgeFirst.DArr[i]; j < (int)columnEdgeSecond.DArr[i]; j++)
                 {   
                     for (int z = 0; z < filas; z++)
                     {

@@ -15,10 +15,10 @@ namespace Meplate
     {
         Meplate _Padre;
         public  CMeplaca _Meplaca;
-        double avance, avanceAcumulado,avanceParcial, velocidad, velocidadAnterior = 0;
+        double avance, avanceAcumulado, velocidad, velocidadAnterior = 0;
         TimeSpan elapsedTime, totalElapsedTime;
         DateTime t1,t2 ;
-        dynamic _AuxMeplaca,_AuxLogCom, _AuxLog, _AuxLogError;
+        dynamic _AuxMeplaca,_AuxLogCom, _AuxLog, _AuxLogError,_Parameters;
 
         List<CMedida> medidas;// lista donde se van guardando todos los perfiles de una chapa
         
@@ -26,7 +26,8 @@ namespace Meplate
         public HiloAdquisicion(SpinDispatcher padre, string name, dynamic parametros)
             : base(name)
         {
-            _Padre = (Meplate)padre;    
+            _Padre = (Meplate)padre;
+            _Parameters = parametros;
             _AuxMeplaca = parametros.Meplaca;
             _AuxLogCom = parametros.LogComunicacion;
             _AuxLog = parametros.LogMeplate;
@@ -44,7 +45,7 @@ namespace Meplate
                _Meplaca.SetData(ref _AuxMeplaca, "VaciarBuffer"); //Lo usamos para limpiar la lista de medidas                
                 avance = 0;
                 avanceAcumulado = 0;
-            avanceParcial=0;
+ 
                 t1 = DateTime.Now;
                 totalElapsedTime = TimeSpan.Zero;
 
@@ -54,17 +55,8 @@ namespace Meplate
                         t2 = DateTime.Now;
                         elapsedTime = t2 - t1;
                         ((ComunicacionTarjeta)_Padre._DispatcherThreads["ComunicacionTarjeta"])._server.GetData(ref _AuxMeplaca,"EstadoSocket");
-                        if (_AuxMeplaca.COMSocketDatosConnected)
-                        {
-                            avanceParcial= LeerAvance(elapsedTime);
-                            avance = avance +avanceParcial; // en mm
 
-                           
-                            if (avanceParcial==0 )
-                            {                               
-                              //  _Meplaca.SetData(ref _AuxMeplaca, "VaciarBuffer");
-                            }
-                        }
+                        if (_AuxMeplaca.COMSocketDatosConnected)  avance = avance + LeerAvance(elapsedTime); // en mm                       
                         else avance = avance + 40;
                         totalElapsedTime = totalElapsedTime + elapsedTime;
                         t1 = t2;
@@ -104,13 +96,13 @@ namespace Meplate
 
                             //envio los offsets
 
-                            /*    if (!((SharedData<Offset>)_SharedMemory["Offset"]).Vacio)
+                                if (!((SharedData<Offset>)_SharedMemory["Offset"]).Vacio)
                                   {
-                                      Offset off_temp = (Offset)((SharedData<Offset>)SharedMemory["Offset"]).Get(0);
-                                      _AuxMeplaca.MEPOffsets = (double[])off_temp.Valores;
+                                      Offset off_temp = (Offset)((SharedData<Offset>)SharedMemory["Offset"]).Pop();
+                                      _AuxMeplaca.MEPValores = (double[])off_temp.Valores;
                                       _AuxMeplaca.MEPReferencias = (double[])off_temp.Referencias;
                                       _Meplaca.SetData(ref _AuxMeplaca, "EnviarOffsets");
-                                                                 }*/
+                                     }
                             break;
                         }
                         // Si llega la señal de aborat medida borro todas las medidas
@@ -176,11 +168,61 @@ namespace Meplate
             velocidad = LeerVelocidad();
 
             // si la cahapa no avanzo deshecho las medidas acumuladas
-            if (velocidad == 0 & velocidadAnterior == 0) _Meplaca.SetData(ref _AuxMeplaca, "VaciarBuffer");
+            if (velocidad == 0 & velocidadAnterior == 0)
+            {
+                CalcularOffset();
+
+                _Meplaca.SetData(ref _AuxMeplaca, "VaciarBuffer");
+            }
 
             if (velocidadAnterior != 0) velocidad = (velocidad + velocidadAnterior) / 2;
             velocidadAnterior = velocidad;
             return  velocidad * elapsedTime.TotalMinutes; //mm
+        }
+
+        private void CalcularOffset()
+        {
+            ((ComunicacionTarjeta)_Padre._DispatcherThreads["ComunicacionTarjeta"])._server.GetData(ref _AuxMeplaca, "EstadoSocket");
+            int _NumeroModulos = int.Parse(_AuxMeplaca.MEPNumeroModulos);
+            double distancia_a_la_chapa = double.Parse(_AuxMeplaca.MEPDistancia_nominal_trabajo);
+            double distancia_entre_sensores = double.Parse(_AuxMeplaca.MEPDistancia_entre_sensores);
+            double[] Referencias = new double[_NumeroModulos * 6];
+            double[] medidas = new double[_NumeroModulos * 6];
+
+            if (!((SharedData<PlateID>)SharedMemory["IDChapa"]).Vacio)
+            {
+                PlateID id = ((PlateID)((SharedData<PlateID>)SharedMemory["IDChapa"]).Get(0));
+              
+
+               _Meplaca.GetData(ref _AuxMeplaca, "UltimaMedida");
+               medidas = (double[])_AuxMeplaca.MEPUltimoPerfil;
+
+               double valor = id.Thickness + distancia_a_la_chapa;
+               double limder = (int)Math.Round(id.Width / distancia_entre_sensores);
+               double limizq =  1;
+
+
+
+               for (int i = 0; i < Referencias.Length; i++)
+               {
+                   if ((i >= limizq) && (i <= limder))
+                   {
+                       Referencias[i] = valor;
+                   }
+                   else
+                   {
+                       medidas[i] = 0;
+                       Referencias[i] = 0;
+                   }
+               }
+                ((SharedData<Offset>)SharedMemory["Offset"]).Set(0, new Offset(medidas, Referencias));
+           }
+            //guardo los offset para enviarlos luego
+          
+
+            Aux_meplaca.MEPOffsets = medidas;
+            Aux_meplaca.MEPReferencias = Referencias;
+            _Meplaca.SetData(ref Aux_meplaca, "EnviarOffsets");
         }
         private double LeerVelocidad()
         {

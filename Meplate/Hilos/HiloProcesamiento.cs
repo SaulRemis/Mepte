@@ -109,8 +109,7 @@ namespace Meplate
              ((SharedData<Resultados>)SharedMemory["Resultados"]).Set(0, new Resultados(_Proc.Z, _Proc.columnas, _Proc.Pixeles,_Proc.Puntos, _Proc.numeroMedidas, _Proc.distancia_a_la_chapa,id,ancho,largo,espesor,tol1,tol2,_Proc._Defectos1m,_Proc._Defectos2m));
              _Padre.PrepareEvent(_Name);
 
-             //guardo los offset para enviarlos luego
-            ((SharedData<Offset>)SharedMemory["Offset"]).Set(0, new Offset(_Proc._ValoresMedios, _Proc._Referencias));
+            
 
              // guardo al log los resultados
             _AuxLog.LOGTXTMessage = "New Plate measured : " + id + " Decission : " + _Proc._Decision + " Score : " + _Proc._Puntuacion + " Number of defects 1m : " + _Proc._Defectos1m + " Number of defects 2m : " + _Proc._Defectos2m;

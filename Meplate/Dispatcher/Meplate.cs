@@ -58,7 +58,7 @@ namespace Meplate
             CreateEvent("ComenzarMedida", new AutoResetEvent(false), "Adquisicion", "ComunicacionTarjeta");
             CreateEvent("FinalizarMedida", new AutoResetEvent(false), "Adquisicion", "ComunicacionTarjeta");
             CreateEvent("AbortarMedida", new AutoResetEvent(false), "Adquisicion", "ComunicacionTarjeta");
-            CreateEvent("IDChapa", new AutoResetEvent(false), "Procesamiento", "ComunicacionOP");
+            CreateEvent("IDChapa", new AutoResetEvent(false), "Procesamiento", "ComunicacionOP", "Adquisicion");
 
 
 
