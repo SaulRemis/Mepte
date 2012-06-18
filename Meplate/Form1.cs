@@ -22,19 +22,27 @@ namespace Meplate
 
         public Form1()
         {
-            dynamic ConfigData= new ExpandoObject() ;
-            InitializeComponent();
-            _Meplate = new Meplate();
-            _Meplate.Init(ConfigData);
-            _Meplate.NewResultEvent += new ResultEventHandler(_Meplate_NewResultEvent);
-            d_PintarResultados = new delegatePintarresultados(PintarResultados);
+            try
+            {
+                dynamic ConfigData = new ExpandoObject();
+                InitializeComponent();
+                _Meplate = new Meplate();
+                _Meplate.Init(ConfigData);
+                _Meplate.NewResultEvent += new ResultEventHandler(_Meplate_NewResultEvent);
+                d_PintarResultados = new delegatePintarresultados(PintarResultados);
 
 
-            VentanaHalconPrincipal.HalconWindow.SetLineWidth(2);
-            VentanaHalconPrincipal.HalconWindow.SetLut("temperature");
+                VentanaHalconPrincipal.HalconWindow.SetLineWidth(2);
+                VentanaHalconPrincipal.HalconWindow.SetLut("temperature");
 
-            _Meplate.Start();
-            timerEstado.Enabled = true;
+                _Meplate.Start();
+                timerEstado.Enabled = true;
+            }
+            catch (Exception e)
+            {
+
+
+            }
         }
 
         void _Meplate_NewResultEvent(object sender, DataEventArgs res)

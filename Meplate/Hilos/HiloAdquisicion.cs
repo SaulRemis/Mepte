@@ -219,10 +219,6 @@ namespace Meplate
            }
             //guardo los offset para enviarlos luego
           
-
-            Aux_meplaca.MEPOffsets = medidas;
-            Aux_meplaca.MEPReferencias = Referencias;
-            _Meplaca.SetData(ref Aux_meplaca, "EnviarOffsets");
         }
         private double LeerVelocidad()
         {

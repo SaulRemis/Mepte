@@ -11,7 +11,8 @@
     <RootNamespace>Meplate</RootNamespace>
     <AssemblyName>Meplate</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -42,6 +43,9 @@
     <Reference Include="halcondotnet">
       <HintPath>C:\Program Files\MVTec\HALCON-10.0\bin\dotnet35\halcondotnet.dll</HintPath>
     </Reference>
+    <Reference Include="SpinPlatform_Controls">
+      <HintPath>.\SpinPlatform_Controls.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
@@ -56,6 +60,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clases Auxiliares\CProcesamiento.cs" />
+    <Compile Include="FormSaul.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSaul.designer.cs">
+      <DependentUpon>FormSaul.cs</DependentUpon>
+    </Compile>
     <Compile Include="Hilos\HiloComunicacionOP.cs" />
     <Compile Include="Hilos\HiloComunicacionTarjeta.cs" />
     <Compile Include="Memorias Compartidas\CMedida.cs" />
@@ -78,6 +88,9 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormSaul.resx">
+      <DependentUpon>FormSaul.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -88,6 +101,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -123,7 +137,9 @@
     <Content Include="bin\Debug\AppConfig.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="bin\Release\AppConfig.xml" />
+    <Content Include="bin\Release\AppConfig.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Resources\logo cuadrado32x32.ico" />
     <None Include="Resources\logo4.png" />
     <None Include="Resources\logo3.png" />

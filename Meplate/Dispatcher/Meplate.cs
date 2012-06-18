@@ -8,6 +8,7 @@ using System.Threading;
 using System.Dynamic;
 using SpinPlatform.Config;
 using SpinPlatform.Log;
+using System.Windows.Forms;
 
 namespace Meplate
 {
@@ -32,44 +33,52 @@ namespace Meplate
         /// </summary>
         public void Init(dynamic parameters)
         {
-            SpinConfig con = new SpinConfig();
-            configuracion.CONFFile = SpinConfigConstants.SPIN_CONFIG_XML_NAME;
-            con.GetData(ref configuracion,"Parametros");
-
-            
-            // Hilos
-            _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion(this, "Adquisicion", configuracion));
-            _DispatcherThreads.Add("Procesamiento", new HiloProcesamiento(this, "Procesamiento", configuracion));
-            _DispatcherThreads.Add("ComunicacionTarjeta", new ComunicacionTarjeta(this, "ComunicacionTarjeta", configuracion));
-            _DispatcherThreads.Add("ComunicacionOP", new ComunicacionOP(this, "ComunicacionOP", configuracion));
-            
-
-            //memorias Ompartidas
-            ConnectMemory("Chapas", new SharedData<List<CMedida>>(20), "Adquisicion", "Procesamiento");
-            ConnectMemory("Offset", new SharedData<Offset>(1), "Adquisicion", "Procesamiento");
-            ConnectMemory("Informacion", new SharedData<Informacion>(1), "Adquisicion");
-            ConnectMemory("Resultados", new SharedData<Resultados>(1), "Procesamiento");
-            ConnectMemory("Velocidad", new SharedData<Tarjeta>(1), "Adquisicion", "ComunicacionTarjeta");
-            ConnectMemory("IDChapa", new SharedData<PlateID>(1), "Procesamiento", "ComunicacionOP");
+            try
+            {
+                SpinConfig con = new SpinConfig();
+                configuracion.CONFFile = SpinConfigConstants.SPIN_CONFIG_XML_NAME;
+                con.GetData(ref configuracion, "Parametros");
 
 
-            //Eventos de sincronizacion
-            CreateEvent("ChapaMedida", new AutoResetEvent(false), "Adquisicion", "Procesamiento");
-            CreateEvent("ComenzarMedida", new AutoResetEvent(false), "Adquisicion", "ComunicacionTarjeta");
-            CreateEvent("FinalizarMedida", new AutoResetEvent(false), "Adquisicion", "ComunicacionTarjeta");
-            CreateEvent("AbortarMedida", new AutoResetEvent(false), "Adquisicion", "ComunicacionTarjeta");
-            CreateEvent("IDChapa", new AutoResetEvent(false), "Procesamiento", "ComunicacionOP", "Adquisicion");
+                // Hilos
+                _DispatcherThreads.Add("Adquisicion", new HiloAdquisicion(this, "Adquisicion", configuracion));
+                _DispatcherThreads.Add("Procesamiento", new HiloProcesamiento(this, "Procesamiento", configuracion));
+                _DispatcherThreads.Add("ComunicacionTarjeta", new ComunicacionTarjeta(this, "ComunicacionTarjeta", configuracion));
+                _DispatcherThreads.Add("ComunicacionOP", new ComunicacionOP(this, "ComunicacionOP", configuracion));
+
+
+                //memorias Ompartidas
+                ConnectMemory("Chapas", new SharedData<List<CMedida>>(20), "Adquisicion", "Procesamiento");
+                ConnectMemory("Offset", new SharedData<Offset>(1), "Adquisicion", "Procesamiento");
+                ConnectMemory("Informacion", new SharedData<Informacion>(1), "Adquisicion");
+                ConnectMemory("Resultados", new SharedData<Resultados>(1), "Procesamiento");
+                ConnectMemory("Velocidad", new SharedData<Tarjeta>(1), "Adquisicion", "ComunicacionTarjeta");
+                ConnectMemory("IDChapa", new SharedData<PlateID>(1), "Procesamiento", "ComunicacionOP", "Adquisicion");
+
+
+                //Eventos de sincronizacion
+                CreateEvent("ChapaMedida", new AutoResetEvent(false), "Adquisicion", "Procesamiento");
+                CreateEvent("ComenzarMedida", new AutoResetEvent(false), "Adquisicion", "ComunicacionTarjeta");
+                CreateEvent("FinalizarMedida", new AutoResetEvent(false), "Adquisicion", "ComunicacionTarjeta");
+                CreateEvent("AbortarMedida", new AutoResetEvent(false), "Adquisicion", "ComunicacionTarjeta");
+                CreateEvent("IDChapa", new AutoResetEvent(false), "Procesamiento", "ComunicacionOP", "Adquisicion");
 
 
 
-            //Inicio el Log
-            Log.Init(configuracion.LogMeplate);
-            LogCom.Init(configuracion.LogComunicacion);
-            LogError.Init(configuracion.LogErrores);
-            configuracion.LOGTXTMessage = "MEPLATE is Starting";
-            Log.SetData(ref configuracion, "Informacion");
-            
+                //Inicio el Log
+                Log.Init(configuracion.LogMeplate);
+                LogCom.Init(configuracion.LogComunicacion);
+                LogError.Init(configuracion.LogErrores);
+                configuracion.LOGTXTMessage = "MEPLATE is Starting";
+                Log.SetData(ref configuracion, "Informacion");
 
+
+            }
+            catch (Exception e)
+            {
+                
+             MessageBox.Show( e.Message + " \n Please check config file","Error Initializating Program");
+            }
 
 
         }

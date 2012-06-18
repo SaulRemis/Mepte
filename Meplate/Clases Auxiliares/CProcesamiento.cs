@@ -38,26 +38,32 @@ namespace Meplate
 
         public CProcesamiento(dynamic parametros)
         {
-            numeroModulos = int.Parse(parametros.Meplaca.MEPNumeroModulos);
-            distancia_entre_sensores = double.Parse(parametros.Meplaca.MEPDistancia_entre_sensores);
-            distancia_a_la_chapa = double.Parse(parametros.Meplaca.MEPDistancia_nominal_trabajo);
-            numeroMedidas = int.Parse(parametros.Procesamiento.numeroMedidas);
-            sigma_bordes = double.Parse(parametros.Procesamiento.sigma_bordes);
-            sigma_cabeza = double.Parse(parametros.Procesamiento.sigma_cabeza);
-            umbral_bordes = double.Parse(parametros.Procesamiento.umbral_bordes);
-            umbral_cabeza = double.Parse(parametros.Procesamiento.umbral_cabeza);
-            filas = numeroModulos * 6;
-            _ValoresMedios = new double[filas];
-            _Referencias = new double[filas];
-            Pixeles = new double[ numeroMedidas*2,5];
-            Puntos = new double[ numeroMedidas*2,7];
-            _Incluir_Parcialmente_Cubiertos = bool.Parse(parametros.Procesamiento.PROincluirparcialmentecubiertos);
-            _Guardar_Imagenes_Parciales = bool.Parse(parametros.Procesamiento.PROGuardarImagenesParciales);
-            _EnviarFTP = bool.Parse(parametros.Procesamiento.PROEnviarFtp);
-            _PathImages = parametros.Procesamiento.PROPathImagenesParciales;
+            try
+            {
+                numeroModulos = int.Parse(parametros.Meplaca.MEPNumeroModulos);
+                distancia_entre_sensores = double.Parse(parametros.Meplaca.MEPDistancia_entre_sensores);
+                distancia_a_la_chapa = double.Parse(parametros.Meplaca.MEPDistancia_nominal_trabajo);
+                numeroMedidas = int.Parse(parametros.Procesamiento.numeroMedidas);
+                sigma_bordes = double.Parse(parametros.Procesamiento.sigma_bordes);
+                sigma_cabeza = double.Parse(parametros.Procesamiento.sigma_cabeza);
+                umbral_bordes = double.Parse(parametros.Procesamiento.umbral_bordes);
+                umbral_cabeza = double.Parse(parametros.Procesamiento.umbral_cabeza);
+                filas = numeroModulos * 6;
+                _ValoresMedios = new double[filas];
+                _Referencias = new double[filas];
+                Pixeles = new double[numeroMedidas * 2, 5];
+                Puntos = new double[numeroMedidas * 2, 7];
+                _Incluir_Parcialmente_Cubiertos = bool.Parse(parametros.Procesamiento.PROincluirparcialmentecubiertos);
+                _Guardar_Imagenes_Parciales = bool.Parse(parametros.Procesamiento.PROGuardarImagenesParciales);
+                _EnviarFTP = bool.Parse(parametros.Procesamiento.PROEnviarFtp);
+                _PathImages = parametros.Procesamiento.PROPathImagenesParciales;
+            }
+            catch (Exception e )
+            {
+                
+                throw new SpinPlatform.Errors.SpinException(e.Message) ;
+            }
 
-            //Pixeles2 = new double[numeroMedidas, 5];
-            //Puntos2 = new double[numeroMedidas, 7];
 
         }
         public double ProcesamientoDatos(List<CMedida> measurement, double ancho,double tol1,double tol2)
