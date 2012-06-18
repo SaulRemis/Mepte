@@ -14,20 +14,20 @@ using SpinPlatform.Sensors.Meplaca;
 
 namespace Meplate
 {
-    delegate void delegatePintarresultadossaul(dynamic result);
-    public partial class FormSaul : Form
+    delegate void delegatePintarresultados2(dynamic result);
+    public partial class FormSpin : Form
     {
         Meplate _Meplate;
-        delegatePintarresultadossaul d_PintarResultados;  //puntero a la funcion de pintar
+        delegatePintarresultados2 d_PintarResultados;  //puntero a la funcion de pintar
        
-        public FormSaul()
+        public FormSpin()
         {
             dynamic ConfigData = new ExpandoObject();
             InitializeComponent();
             _Meplate = new Meplate();
             _Meplate.Init(ConfigData);
             _Meplate.NewResultEvent += new ResultEventHandler(_Meplate_NewResultEvent);
-            d_PintarResultados = new delegatePintarresultadossaul(PintarResultados);
+            d_PintarResultados = new delegatePintarresultados2(PintarResultados);
 
 
             VentanaHalconPrincipal.HalconWindow.SetLineWidth(2);

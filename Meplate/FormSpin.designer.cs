@@ -1,6 +1,6 @@
 ﻿namespace Meplate
 {
-    partial class FormSaul
+    partial class FormSpin
     {
         /// <summary>
         /// Required designer variable.
@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSaul));
-            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("1 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("2 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSpin));
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("1 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("2 m RULER", System.Windows.Forms.HorizontalAlignment.Center);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this._MeplatestatusStrip1 = new System.Windows.Forms.StatusStrip();
             this.ToolStripConnectionPC = new SpinPlatform_Controls.SpinToolStripConnectionControl();
@@ -151,9 +151,9 @@
             this.ToolStripConnectionPC.FontColor = System.Drawing.Color.White;
             this.ToolStripConnectionPC.ForeColor = System.Drawing.Color.White;
             this.ToolStripConnectionPC.Name = "ToolStripConnectionPC";
-            this.ToolStripConnectionPC.Size = new System.Drawing.Size(119, 22);
+            this.ToolStripConnectionPC.Size = new System.Drawing.Size(338, 19);
             this.ToolStripConnectionPC.StatusConnection = SpinPlatform_Controls.spinConnectionStatus.disconnected;
-            this.ToolStripConnectionPC.Text = "  Process Computer   ";
+            this.ToolStripConnectionPC.Text = "Process Computer";
             // 
             // ToolStripConnectionSpeed
             // 
@@ -162,14 +162,15 @@
             this.ToolStripConnectionSpeed.FontColor = System.Drawing.Color.White;
             this.ToolStripConnectionSpeed.ForeColor = System.Drawing.Color.White;
             this.ToolStripConnectionSpeed.Name = "ToolStripConnectionSpeed";
-            this.ToolStripConnectionSpeed.Size = new System.Drawing.Size(120, 22);
+            this.ToolStripConnectionSpeed.Size = new System.Drawing.Size(276, 19);
+            this.ToolStripConnectionSpeed.Spring = true;
             this.ToolStripConnectionSpeed.StatusConnection = SpinPlatform_Controls.spinConnectionStatus.disconnected;
-            this.ToolStripConnectionSpeed.Text = "  Speed Card  ";
+            this.ToolStripConnectionSpeed.Text = " Speed Card";
             // 
             // toolStripStatusframerate
             // 
             this.toolStripStatusframerate.Name = "toolStripStatusframerate";
-            this.toolStripStatusframerate.Size = new System.Drawing.Size(463, 19);
+            this.toolStripStatusframerate.Size = new System.Drawing.Size(276, 19);
             this.toolStripStatusframerate.Spring = true;
             this.toolStripStatusframerate.Text = "FRAMERATE : 0 ";
             // 
@@ -180,7 +181,7 @@
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.toolStripStatusSpeed.BorderStyle = System.Windows.Forms.Border3DStyle.Adjust;
             this.toolStripStatusSpeed.Name = "toolStripStatusSpeed";
-            this.toolStripStatusSpeed.Size = new System.Drawing.Size(463, 19);
+            this.toolStripStatusSpeed.Size = new System.Drawing.Size(276, 19);
             this.toolStripStatusSpeed.Spring = true;
             this.toolStripStatusSpeed.Text = "SPEED : 0 m/min";
             // 
@@ -561,7 +562,7 @@
             this.spinControl1.ContainerPanel.TabIndex = 1;
             this.spinControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.spinControl1.FontBarColor = System.Drawing.Color.White;
-            this.spinControl1.InfoText = null;
+            this.spinControl1.InfoText = new string[0];
             this.spinControl1.Location = new System.Drawing.Point(0, 0);
             this.spinControl1.Margin = new System.Windows.Forms.Padding(0);
             this.spinControl1.Name = "spinControl1";
@@ -728,15 +729,15 @@
             this.DIFF});
             this._listViewPuntos.Dock = System.Windows.Forms.DockStyle.Fill;
             this._listViewPuntos.FullRowSelect = true;
-            listViewGroup5.Header = "1 m RULER";
-            listViewGroup5.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup5.Name = "listViewGroup1m";
-            listViewGroup6.Header = "2 m RULER";
-            listViewGroup6.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup6.Name = "listViewGroup2m";
+            listViewGroup1.Header = "1 m RULER";
+            listViewGroup1.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup1.Name = "listViewGroup1m";
+            listViewGroup2.Header = "2 m RULER";
+            listViewGroup2.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup2.Name = "listViewGroup2m";
             this._listViewPuntos.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup5,
-            listViewGroup6});
+            listViewGroup1,
+            listViewGroup2});
             this._listViewPuntos.Location = new System.Drawing.Point(3, 3);
             this._listViewPuntos.Margin = new System.Windows.Forms.Padding(0);
             this._listViewPuntos.Name = "_listViewPuntos";

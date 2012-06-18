@@ -40,11 +40,25 @@
     <ApplicationIcon>Resources\logo cuadrado32x32.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AlphaBlendTextBox">
+      <HintPath>..\Dll´s\AlphaBlendTextBox.dll</HintPath>
+    </Reference>
+    <Reference Include="ftplib, Version=1.0.1.3, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dll´s\ftplib.dll</HintPath>
+    </Reference>
     <Reference Include="halcondotnet">
       <HintPath>C:\Program Files\MVTec\HALCON-10.0\bin\dotnet35\halcondotnet.dll</HintPath>
     </Reference>
-    <Reference Include="SpinPlatform_Controls">
-      <HintPath>.\SpinPlatform_Controls.dll</HintPath>
+    <Reference Include="SpinPlatform_common">
+      <HintPath>..\Dll´s\SpinPlatform_common.dll</HintPath>
+    </Reference>
+    <Reference Include="SpinPlatform_Controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dll´s\SpinPlatform_Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="SpinPlatform_IO">
+      <HintPath>..\Dll´s\SpinPlatform_IO.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -60,11 +74,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clases Auxiliares\CProcesamiento.cs" />
-    <Compile Include="FormSaul.cs">
+    <Compile Include="FormSpin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormSaul.designer.cs">
-      <DependentUpon>FormSaul.cs</DependentUpon>
+    <Compile Include="FormSpin.designer.cs">
+      <DependentUpon>FormSpin.cs</DependentUpon>
     </Compile>
     <Compile Include="Hilos\HiloComunicacionOP.cs" />
     <Compile Include="Hilos\HiloComunicacionTarjeta.cs" />
@@ -88,8 +102,8 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormSaul.resx">
-      <DependentUpon>FormSaul.cs</DependentUpon>
+    <EmbeddedResource Include="FormSpin.resx">
+      <DependentUpon>FormSpin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -145,9 +159,9 @@
     <None Include="Resources\logo3.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Final Spinplatform_old\SpinPlatform.csproj">
-      <Project>{6CA428E1-FF39-453C-B775-2806EBECC474}</Project>
-      <Name>SpinPlatform</Name>
+    <ProjectReference Include="..\SpinPlatform_Sensors\SpinPlatform_Sensors.csproj">
+      <Project>{D1822214-0326-4EDF-B6F3-B76E2239B7F7}</Project>
+      <Name>SpinPlatform_Sensors</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
