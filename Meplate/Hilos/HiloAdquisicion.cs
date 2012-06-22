@@ -96,13 +96,13 @@ namespace Meplate
 
                             //envio los offsets
 
-                                if (!((SharedData<Offset>)_SharedMemory["Offset"]).Vacio)
-                                  {
-                                      Offset off_temp = (Offset)((SharedData<Offset>)SharedMemory["Offset"]).Pop();
-                                      _AuxMeplaca.MEPValores = (double[])off_temp.Valores;
-                                      _AuxMeplaca.MEPReferencias = (double[])off_temp.Referencias;
-                                      _Meplaca.SetData(ref _AuxMeplaca, "EnviarOffsets");
-                                     }
+                                //if (!((SharedData<Offset>)_SharedMemory["Offset"]).Vacio)
+                                //  {
+                                //      Offset off_temp = (Offset)((SharedData<Offset>)SharedMemory["Offset"]).Pop();
+                                //      _AuxMeplaca.MEPValores = (double[])off_temp.Valores;
+                                //      _AuxMeplaca.MEPReferencias = (double[])off_temp.Referencias;
+                                //      _Meplaca.SetData(ref _AuxMeplaca, "EnviarOffsets");
+                                //     }
                             break;
                         }
                         // Si llega la señal de aborat medida borro todas las medidas

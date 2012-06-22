@@ -562,7 +562,7 @@
             this.spinControl1.ContainerPanel.TabIndex = 1;
             this.spinControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.spinControl1.FontBarColor = System.Drawing.Color.White;
-            this.spinControl1.InfoText = new string[0];
+            this.spinControl1.InfoText = null;
             this.spinControl1.Location = new System.Drawing.Point(0, 0);
             this.spinControl1.Margin = new System.Windows.Forms.Padding(0);
             this.spinControl1.Name = "spinControl1";
