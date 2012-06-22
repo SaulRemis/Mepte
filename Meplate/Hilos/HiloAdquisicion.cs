@@ -32,6 +32,61 @@ namespace Meplate
             _AuxLogCom = parametros.LogComunicacion;
             _AuxLog = parametros.LogMeplate;
             _AuxLogError = parametros.LogErrores;
+            _Meplaca = new CMeplaca();
+            _Meplaca.NewResultEvent += new ResultEventHandler(_Meplaca_NewResultEvent);
+        }
+
+        void _Meplaca_NewResultEvent(object sender, DataEventArgs res)
+        {
+            double vel = LeerVelocidad();
+            dynamic temp = (dynamic)res.DataArgs;
+            string msg = temp.MEPMessage;
+            switch (msg)
+            {
+                case "InicioChapa":
+
+                    if (vel>0)
+                    {
+                        _AuxLogCom.LOGTXTMessage = "MEPLACA : Recibido Inicio Chapa con velocidad : " + vel.ToString() + " m/s";
+                        _Padre.LogCom.SetData(ref _AuxLogCom, "Informacion");
+                       
+                            Events["ComenzarMedida"].Set();
+                            ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("21");
+                          
+                     
+                        break;
+                        
+                    }
+                    
+                    break;
+                case "FinChapa":
+
+                    if (vel > 0)
+                    {
+                        _AuxLogCom.LOGTXTMessage = "MEPLACA : Recibido Fin Chapa con velocidad : " + vel.ToString() + " m/s";
+                        _Padre.LogCom.SetData(ref _AuxLogCom, "Informacion");
+                       
+                            Events["FinalizarMedida"].Set();
+                            ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("23");
+                       
+                        break;
+
+                    }
+                    else
+                    {
+                        Events["AbortarMedida"].Set();
+                        //((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("24");
+                        _AuxLogCom.LOGTXTMessage = "MEPLACA : Recibido Abortar Chapa (Sale chapa con velocidad negativa) con velocidad : " + (((Tarjeta)(((SharedData<Tarjeta>)_SharedMemory["Velocidad"]).Get(0))).Velocidad / 100.0).ToString() + " m/s";
+                        _Padre.LogCom.SetData(ref _AuxLogCom, "Informacion"); 
+
+                    }
+
+                    break;
+                default:
+                    break;
+            }
+           
+         
         }
 
         public override void FunctionToExecuteByThread()
@@ -126,7 +181,7 @@ namespace Meplate
             _WakeUpThreadEvent = _Events["ComenzarMedida"];
             Trace.WriteLine("ADRI:   Entrando en el HILO ADQUISICION");
             //INICIALIZAR
-            _Meplaca = new CMeplaca();
+
             _Meplaca.Init(_AuxMeplaca);
             _Meplaca.Start();
             medidas = new List<CMedida>();

@@ -6,6 +6,8 @@ using System.Xml;
 using System.Threading;
 using SpinPlatform;
 using System.Dynamic;
+using SpinPlatform.Dispatcher;
+using SpinPlatform.Data;
 
 namespace SpinPlatform.Sensors.Meplaca
 {
@@ -27,7 +29,7 @@ namespace SpinPlatform.Sensors.Meplaca
         bool _Meplate;
 
         public double MinimoAvanceParaMedir{get { return _MinimoAvanceParaMedir; }}
-
+        public event SpinPlatform.Dispatcher.ResultEventHandler NewResultEvent;
             # endregion
 
         #region Metodos Privados
@@ -226,6 +228,22 @@ namespace SpinPlatform.Sensors.Meplaca
             }
             serie.EnviarOffsets();
         }
+
+        public void PrepareEvent(string msg)
+        {
+            dynamic temp = new ExpandoObject();
+            temp.MEPMessage = msg;
+
+                DataEventArgs args = new DataEventArgs(temp);
+
+                if (NewResultEvent != null)  // Por si nadie escucha el evento o esta en proceso de parar
+                {
+                    NewResultEvent(this, args);
+                }
+
+        }
+       
+
         #endregion
 
         #region Miembros de ISpinPlatformInterface2
@@ -390,7 +408,7 @@ namespace SpinPlatform.Sensors.Meplaca
 
        
 
-        public event SpinPlatform.Dispatcher.ResultEventHandler NewResultEvent;
+        
 
         #endregion
     }

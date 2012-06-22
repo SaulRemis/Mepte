@@ -65,11 +65,9 @@ namespace SpinPlatform.Sensors.Meplaca
                media = media + trama[i];
            }
            media = media / 6;
-           if (media > 1500 && !chapa) chapa = true;
+           if (media > 1400 && !chapa) { chapa = true; _Padre.PrepareEvent("InicioChapa"); }
 
-           if (media < 1500 && chapa) chapa = false;
-
-           
+           if (media < 1400 && chapa) { chapa = false; _Padre.PrepareEvent("FinChapa"); }          
 
        }
        public bool Buscar_Inicio2()
