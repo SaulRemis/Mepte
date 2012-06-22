@@ -16,6 +16,7 @@ namespace SpinPlatform.Sensors.Meplaca
         int longitudtrama=0;
         List<int[]> tensiones;
         System.IO.Ports.SerialPort PuertoSerie;
+        double _UmbralCabeza;
         CMeplaca _Padre;
         bool chapa = false;
 
@@ -23,7 +24,7 @@ namespace SpinPlatform.Sensors.Meplaca
 
         public UInt16[] _Offset;
 
-       public CSerie(int mod,string puerto, CMeplaca padre)
+       public CSerie(int mod,string puerto,double umbral, CMeplaca padre)
         {
             _Padre = padre;
             modulos = mod;
@@ -37,6 +38,7 @@ namespace SpinPlatform.Sensors.Meplaca
             PuertoSerie.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(PuertoSerie_DataReceived);
             _locker = new object();
             _Offset = new UInt16[modulos * 6];
+            _UmbralCabeza = umbral;
 
         }
 
@@ -65,9 +67,9 @@ namespace SpinPlatform.Sensors.Meplaca
                media = media + trama[i];
            }
            media = media / 6;
-           if (media > 1400 && !chapa) { chapa = true; _Padre.PrepareEvent("InicioChapa"); }
+           if (media > _UmbralCabeza && !chapa) { chapa = true; _Padre.PrepareEvent("InicioChapa"); }
 
-           if (media < 1400 && chapa) { chapa = false; _Padre.PrepareEvent("FinChapa"); }          
+           if (media < _UmbralCabeza && chapa) { chapa = false; _Padre.PrepareEvent("FinChapa"); }          
 
        }
        public bool Buscar_Inicio2()
