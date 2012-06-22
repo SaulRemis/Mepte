@@ -331,7 +331,7 @@ namespace SpinPlatform.Sensors.Meplaca
             _PathDatosCalibracion[4] = parametros.MEPCalibracion.calibracionModulo5;
             _PathDatosCalibracion[5] = parametros.MEPCalibracion.calibracionModulo6;
             calibracion = new CModulosCal(_NumeroModulos, _PathDatosCalibracion);
-            serie = new CSerie(_NumeroModulos, _Puerto);
+            serie = new CSerie(_NumeroModulos, _Puerto, this);
         }
 
         /// <summary>

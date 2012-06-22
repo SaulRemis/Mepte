@@ -16,13 +16,16 @@ namespace SpinPlatform.Sensors.Meplaca
         int longitudtrama=0;
         List<int[]> tensiones;
         System.IO.Ports.SerialPort PuertoSerie;
+        CMeplaca _Padre;
+        bool chapa = false;
 
         readonly object _locker;
 
         public UInt16[] _Offset;
 
-       public CSerie(int mod,string puerto)
+       public CSerie(int mod,string puerto, CMeplaca padre)
         {
+            _Padre = padre;
             modulos = mod;
             longitudtrama = mod * 12 + mod + 1;
             bufferlocal = new byte[100000];
@@ -41,13 +44,33 @@ namespace SpinPlatform.Sensors.Meplaca
        {
            if (PuertoSerie.IsOpen)
            {
-               int NumBytes = PuertoSerie.BytesToRead;
-              
-                   PuertoSerie.Read(bufferlocal, marcador, NumBytes);
-                   marcador = marcador + NumBytes;
-                   if (Buscar_Inicio2()) ProcesarTramas();
+                int NumBytes = PuertoSerie.BytesToRead;
+                PuertoSerie.Read(bufferlocal, marcador, NumBytes);
+                marcador = marcador + NumBytes;
+                if (Buscar_Inicio2())
+                {
+                    ProcesarTramas();
+                    DetectarCabeza();
+                }
             
            }
+       }
+
+       public void DetectarCabeza()
+       {
+           int[] trama = UltimaTension();
+           float media=0;
+           for (int i = 1; i < 8; i++)
+           {
+               media = media + trama[i];
+           }
+           media = media / 6;
+           if (media > 1500 && !chapa) chapa = true;
+
+           if (media < 1500 && chapa) chapa = false;
+
+           
+
        }
        public bool Buscar_Inicio2()
        {
