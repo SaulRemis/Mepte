@@ -24,22 +24,22 @@ namespace SpinPlatform.Sensors.Meplaca
 
         public UInt16[] _Offset;
 
-       public CSerie(int mod,string puerto,double umbralbajo,double umbralalto, CMeplaca padre)
+       public CSerie( CMeplaca padre)
         {
             _Padre = padre;
-            modulos = mod;
-            longitudtrama = mod * 12 + mod + 1;
+            modulos = _Padre._NumeroModulos;
+            longitudtrama = modulos * 12 + modulos + 1;
             bufferlocal = new byte[100000];
             ultimatrama = new byte[longitudtrama];
             tramas= new List<byte[]>();
             tramas.Capacity = 100;
             tensiones= new List<int[]>();
-            PuertoSerie = new System.IO.Ports.SerialPort(puerto, 250000);
+            PuertoSerie = new System.IO.Ports.SerialPort(_Padre._Puerto, 250000);
             PuertoSerie.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(PuertoSerie_DataReceived);
             _locker = new object();
             _Offset = new UInt16[modulos * 6];
-            _UmbralBajoCabeza = umbralbajo;
-            _UmbralAltoCabeza = umbralalto;
+            _UmbralBajoCabeza =_Padre._UmbralBajoDeteccionCabeza ;
+            _UmbralAltoCabeza = _Padre._UmbralAltoDeteccionCabeza;
 
         }
 

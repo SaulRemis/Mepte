@@ -21,13 +21,15 @@ namespace SpinPlatform.Sensors.Meplaca
         #region Definicion de variables
         CSerie serie;
         CModulosCal calibracion;
-        int _NumeroModulos;
+        public int _NumeroModulos;
         double _MinimoAvanceParaMedir;
         double _Distancia_a_la_chapa;
-        string _Puerto;
+       public string _Puerto;
         string[] _PathDatosCalibracion;
         bool _Meplate;
-        double _UmbralAltoDeteccionCabeza, _UmbralBajoDeteccionCabeza;
+        public double _UmbralAltoDeteccionCabeza, _UmbralBajoDeteccionCabeza;
+        public List<UInt16[]> _ListaOffset;
+
 
         public double MinimoAvanceParaMedir{get { return _MinimoAvanceParaMedir; }}
         public event SpinPlatform.Dispatcher.ResultEventHandler NewResultEvent;
@@ -170,7 +172,8 @@ namespace SpinPlatform.Sensors.Meplaca
         /// <param name="offsets">offset en mm </param>
         void enviarOffsets(double[] valores, double[] referencias)
         {
-            int dist, valor,diff;
+            int dist, valor, diff;
+            UInt16[] Offset = new UInt16[_NumeroModulos * 6];
                        
              for (int i = 0; i < _NumeroModulos; i++)
                 {
@@ -193,12 +196,31 @@ namespace SpinPlatform.Sensors.Meplaca
                                 valor = (int)Math.Round((calibracion.Modulos[i].Sensores[j].a / (valores[6 * i + j] - calibracion.Modulos[i].Sensores[j].c)) + calibracion.Modulos[i].Sensores[j].b);
                                 diff =(int)Math.Round((double)((valor - dist) / 8));
                         
-                            serie._Offset[6 * i + j] = (UInt16)(serie._Offset[6 * i + j] + diff);
+                          //  serie._Offset[6 * i + j] = (UInt16)(serie._Offset[6 * i + j] + diff);
+                            Offset[6 * i + j] = (UInt16)(serie._Offset[6 * i + j] + diff);
                         }
                     }
                 
                 }
-            serie.EnviarOffsets();
+
+             _ListaOffset.Add(Offset);
+             double temp = 0;
+             if (_ListaOffset.Count>9)
+             {
+                 for (int i = 0; i < _NumeroModulos*6;i++)
+                 {
+                     foreach (UInt16[] vector in _ListaOffset)
+                     {
+                         temp = temp + (double)vector[i];
+                     }
+                     temp = temp / _ListaOffset.Count;
+                     serie._Offset[i] = (UInt16)Math.Round(temp);
+                 }                
+                 
+                 serie.EnviarOffsets();
+                 _ListaOffset.Clear();
+             }
+            
         }
         void ActualizaArchivoOffset()
         {
@@ -351,9 +373,10 @@ namespace SpinPlatform.Sensors.Meplaca
             _PathDatosCalibracion[4] = parametros.MEPCalibracion.calibracionModulo5;
             _PathDatosCalibracion[5] = parametros.MEPCalibracion.calibracionModulo6;
             calibracion = new CModulosCal(_NumeroModulos, _PathDatosCalibracion);
+            _ListaOffset = new List<UInt16[]>();
             _UmbralAltoDeteccionCabeza = double.Parse(parametros.MEPUmbralAltoDeteccionCabeza);
             _UmbralBajoDeteccionCabeza = double.Parse(parametros.MEPUmbralBajoDeteccionCabeza);
-            serie = new CSerie(_NumeroModulos, _Puerto, _UmbralBajoDeteccionCabeza  , _UmbralAltoDeteccionCabeza, this);
+            serie = new CSerie( this);
             
         }
 
@@ -380,6 +403,8 @@ namespace SpinPlatform.Sensors.Meplaca
                             enviarOffsetsArchivo();
                             break;
                         case "EnviarOffsets":
+                            enviarOffsets(data.MEPValores, data.MEPReferencias);
+                            enviarOffsets(data.MEPValores, data.MEPReferencias);
                             enviarOffsets(data.MEPValores, data.MEPReferencias);
                             break;
                         case "EnviarOffsetsSensor":

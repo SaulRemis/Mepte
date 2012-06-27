@@ -46,23 +46,23 @@ namespace Meplate
             {
                 case "InicioChapa":
 
-                    if (vel>0)
+                    if (vel > 0)
                     {
-                        _AuxLog.LOGTXTMessage = "MEPLACA : Recibido Inicio Chapa con velocidad : " + vel.ToString() + " m/s y tension media = " + temp.MEPVoltage ;
+                        _AuxLog.LOGTXTMessage = "MEPLACA : Recibido Inicio Chapa con velocidad : " + vel.ToString() + " m/s y tension media = " + temp.MEPVoltage;
                         _Padre.Log.SetData(ref _AuxLogCom, "Informacion");
 
-                        if (_Midiendo==false)
+                        if (_Midiendo == false)
                         {
                             Events["ComenzarMedida"].Set();
                             ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("21");
                             _Midiendo = true;
                         }
-                          
-                     
+
+
                         break;
-                        
+
                     }
-                    
+
                     break;
                 case "FinChapa":
 

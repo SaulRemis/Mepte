@@ -145,7 +145,7 @@ namespace SpinPlatform.Sensors.Meplaca
             }
 
 
-            Aux_meplaca.MEPOffsets = medidas; 
+            Aux_meplaca.MEPValores = medidas; 
             Aux_meplaca.MEPReferencias = Referencias;
             _Meplaca.SetData(ref Aux_meplaca, "EnviarOffsets");
         }
