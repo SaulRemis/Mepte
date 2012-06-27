@@ -126,6 +126,7 @@ namespace Meplate
                                     spinBlackDataLabelControl5.PageStartColor = Color.DarkGreen;
                                     spinBlackDataLabelControl5.PageEndColor = Color.FromArgb(0, 192, 0);
                                     spinBlackDataLabelControl5.MainText = "OK";
+                                    spinBlackDataLabelControl5.SubtitleText = "Plate Accepted";
 
                                 }
                                 else
@@ -133,6 +134,7 @@ namespace Meplate
                                     spinBlackDataLabelControl5.PageStartColor = Color.Maroon;
                                     spinBlackDataLabelControl5.PageEndColor = Color.Red;
                                     spinBlackDataLabelControl5.MainText = "NO";
+                                    spinBlackDataLabelControl5.SubtitleText = "Plate Rejected";
 
                                 }
 

@@ -27,7 +27,7 @@ namespace SpinPlatform.Sensors.Meplaca
         string _Puerto;
         string[] _PathDatosCalibracion;
         bool _Meplate;
-        double _UmbralDeteccionCabeza;
+        double _UmbralAltoDeteccionCabeza, _UmbralBajoDeteccionCabeza;
 
         public double MinimoAvanceParaMedir{get { return _MinimoAvanceParaMedir; }}
         public event SpinPlatform.Dispatcher.ResultEventHandler NewResultEvent;
@@ -230,10 +230,11 @@ namespace SpinPlatform.Sensors.Meplaca
             serie.EnviarOffsets();
         }
 
-        public void PrepareEvent(string msg)
+        public void PrepareEvent(string msg, double media)
         {
             dynamic temp = new ExpandoObject();
             temp.MEPMessage = msg;
+            temp.MEPVoltage = media;
 
                 DataEventArgs args = new DataEventArgs(temp);
 
@@ -350,9 +351,10 @@ namespace SpinPlatform.Sensors.Meplaca
             _PathDatosCalibracion[4] = parametros.MEPCalibracion.calibracionModulo5;
             _PathDatosCalibracion[5] = parametros.MEPCalibracion.calibracionModulo6;
             calibracion = new CModulosCal(_NumeroModulos, _PathDatosCalibracion);
-            _UmbralDeteccionCabeza = double.Parse(parametros.MEPUmbralDeteccionCabeza);
-            serie = new CSerie(_NumeroModulos, _Puerto, _UmbralDeteccionCabeza, this);
-           
+            _UmbralAltoDeteccionCabeza = double.Parse(parametros.MEPUmbralAltoDeteccionCabeza);
+            _UmbralBajoDeteccionCabeza = double.Parse(parametros.MEPUmbralBajoDeteccionCabeza);
+            serie = new CSerie(_NumeroModulos, _Puerto, _UmbralBajoDeteccionCabeza  , _UmbralAltoDeteccionCabeza, this);
+            
         }
 
         /// <summary>

@@ -19,7 +19,8 @@ namespace Meplate
         TimeSpan elapsedTime, totalElapsedTime;
         DateTime t1,t2 ;
         dynamic _AuxMeplaca,_AuxLogCom, _AuxLog, _AuxLogError,_Parameters;
-
+        public  bool _Midiendo = false;
+        bool _CalculaOffset = true;
         List<CMedida> medidas;// lista donde se van guardando todos los perfiles de una chapa
         
 
@@ -47,11 +48,15 @@ namespace Meplate
 
                     if (vel>0)
                     {
-                        _AuxLogCom.LOGTXTMessage = "MEPLACA : Recibido Inicio Chapa con velocidad : " + vel.ToString() + " m/s";
-                        _Padre.LogCom.SetData(ref _AuxLogCom, "Informacion");
-                       
+                        _AuxLog.LOGTXTMessage = "MEPLACA : Recibido Inicio Chapa con velocidad : " + vel.ToString() + " m/s y tension media = " + temp.MEPVoltage ;
+                        _Padre.Log.SetData(ref _AuxLogCom, "Informacion");
+
+                        if (_Midiendo==false)
+                        {
                             Events["ComenzarMedida"].Set();
                             ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("21");
+                            _Midiendo = true;
+                        }
                           
                      
                         break;
@@ -63,22 +68,29 @@ namespace Meplate
 
                     if (vel > 0)
                     {
-                        _AuxLogCom.LOGTXTMessage = "MEPLACA : Recibido Fin Chapa con velocidad : " + vel.ToString() + " m/s";
-                        _Padre.LogCom.SetData(ref _AuxLogCom, "Informacion");
-                       
+                        if (_Midiendo == true)
+                        {
+                            _AuxLog.LOGTXTMessage = "MEPLACA : Recibido Fin Chapa con velocidad : " + vel.ToString() + " m/s y tension media = " + temp.MEPVoltage;
+                            _Padre.Log.SetData(ref _AuxLogCom, "Informacion");
+
                             Events["FinalizarMedida"].Set();
                             ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("23");
-                       
+                            _Midiendo = false;
+                        }
                         break;
 
                     }
                     else
                     {
-                        Events["AbortarMedida"].Set();
-                        //((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("24");
-                        _AuxLogCom.LOGTXTMessage = "MEPLACA : Recibido Abortar Chapa (Sale chapa con velocidad negativa) con velocidad : " + (((Tarjeta)(((SharedData<Tarjeta>)_SharedMemory["Velocidad"]).Get(0))).Velocidad / 100.0).ToString() + " m/s";
-                        _Padre.LogCom.SetData(ref _AuxLogCom, "Informacion"); 
+                        if (_Midiendo == true)
+                        {
 
+                            Events["AbortarMedida"].Set();
+                            //((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("24");
+                            _AuxLog.LOGTXTMessage = "MEPLACA : Recibido Abortar Chapa (Sale chapa con velocidad negativa) con velocidad : " + vel.ToString() + " m/s y tension media = " + temp.MEPVoltage;
+                            _Padre.Log.SetData(ref _AuxLogCom, "Informacion");
+                            _Midiendo = false;
+                        }
                     }
 
                     break;
@@ -151,13 +163,13 @@ namespace Meplate
 
                             //envio los offsets
 
-                                //if (!((SharedData<Offset>)_SharedMemory["Offset"]).Vacio)
-                                //  {
-                                //      Offset off_temp = (Offset)((SharedData<Offset>)SharedMemory["Offset"]).Pop();
-                                //      _AuxMeplaca.MEPValores = (double[])off_temp.Valores;
-                                //      _AuxMeplaca.MEPReferencias = (double[])off_temp.Referencias;
-                                //      _Meplaca.SetData(ref _AuxMeplaca, "EnviarOffsets");
-                                //     }
+                            if (!((SharedData<Offset>)_SharedMemory["Offset"]).Vacio)
+                            {
+                                Offset off_temp = (Offset)((SharedData<Offset>)SharedMemory["Offset"]).Get(0);
+                                _AuxMeplaca.MEPValores = (double[])off_temp.Valores;
+                                _AuxMeplaca.MEPReferencias = (double[])off_temp.Referencias;
+                                _Meplaca.SetData(ref _AuxMeplaca, "EnviarOffsets");
+                            }
                             break;
                         }
                         // Si llega la señal de aborat medida borro todas las medidas
@@ -186,8 +198,8 @@ namespace Meplate
             _Meplaca.Start();
             medidas = new List<CMedida>();
 
-            Tarjeta valor = new Tarjeta(0, 0);
-            ((SharedData<Tarjeta>)SharedMemory["Velocidad"]).Set(0, valor);
+            //Tarjeta valor = new Tarjeta(0, 0);
+            //((SharedData<Tarjeta>)SharedMemory["Velocidad"]).Set(0, valor);
 
         }
         public override void Closing()
@@ -225,10 +237,15 @@ namespace Meplate
             // si la cahapa no avanzo deshecho las medidas acumuladas
             if (velocidad == 0 & velocidadAnterior == 0)
             {
-                CalcularOffset();
+                if (_CalculaOffset)
+                {
+                    CalcularOffset();
+                    _CalculaOffset = false;
+                }
 
                 _Meplaca.SetData(ref _AuxMeplaca, "VaciarBuffer");
             }
+            else _CalculaOffset = true;
 
             if (velocidadAnterior != 0) velocidad = (velocidad + velocidadAnterior) / 2;
             velocidadAnterior = velocidad;

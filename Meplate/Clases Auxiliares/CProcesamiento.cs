@@ -107,7 +107,7 @@ namespace Meplate
 
             _ValoresMedios.Initialize();
             _Referencias.Initialize();
-            columnas = medidas.Count;
+            columnas = medidas.Count-10;
             X = new HImage("real", columnas, filas);
             Y = new HImage("real", columnas, filas);
             Z = new HImage("real", columnas, filas);
@@ -122,7 +122,7 @@ namespace Meplate
         }
         private void ObtenerImagenes(List<CMedida> medidas)
         {
-            HTuple filas_cabeza, columnas_cabeza, amplitude, distance, indices;
+            //HTuple filas_cabeza, columnas_cabeza, amplitude, distance, indices;
             int cabeza=0;
             // la X la creo cuando conozca los bordes
             if (medidas.Count >20)
@@ -139,32 +139,32 @@ namespace Meplate
                     }
                 }
 
-                if (_Guardar_Imagenes_Parciales)
-                {
-                    filename = "ZRAW_" + (string)DateTime.Now.Hour.ToString() + "_" + (string)DateTime.Now.Minute.ToString();
-                    Z.WriteImage("tiff", 0, filename);
-                    if (!System.IO.File.Exists(_PathImages + filename + ".tif")) System.IO.File.Move(filename + ".tif", _PathImages + filename + ".tif");
+                //if (_Guardar_Imagenes_Parciales)
+                //{
+                //    filename = "ZRAW_" + (string)DateTime.Now.Hour.ToString() + "_" + (string)DateTime.Now.Minute.ToString();
+                //    Z.WriteImage("tiff", 0, filename);
+                //    if (!System.IO.File.Exists(_PathImages + filename + ".tif")) System.IO.File.Move(filename + ".tif", _PathImages + filename + ".tif");
                     
-                 }
+                // }
 
-               // corto La cabeza donde no hay chapa
-                HMeasure bordes = new HMeasure((double)6, (double)columnas / 2 - 1, (double)0, (int)Math.Round((double)(columnas / 2.0)-2), 5, columnas, filas, "nearest_neighbor");
-                //HMeasure bordes = new HMeasure(20, 20, -(double)Math.PI / 2.0, 5,5, columnas , filas , "nearest_neighbor");
-                bordes.MeasurePos(Z, sigma_cabeza, umbral_cabeza, "all", "all", out filas_cabeza, out columnas_cabeza, out amplitude, out distance);
-                amplitude = amplitude.TupleAbs();
-                indices = amplitude.TupleSortIndex();
-                if (indices.Length > 0)
-                {
-                    double temp = columnas_cabeza.DArr[indices[indices.Length - 1]];
-                    cabeza = (int)Math.Ceiling(temp);
+               //// corto La cabeza donde no hay chapa
+               // HMeasure bordes = new HMeasure((double)6, (double)columnas / 2 - 1, (double)0, (int)Math.Round((double)(columnas / 2.0)-2), 5, columnas, filas, "nearest_neighbor");
+               // //HMeasure bordes = new HMeasure(20, 20, -(double)Math.PI / 2.0, 5,5, columnas , filas , "nearest_neighbor");
+               // bordes.MeasurePos(Z, sigma_cabeza, umbral_cabeza, "all", "all", out filas_cabeza, out columnas_cabeza, out amplitude, out distance);
+               // amplitude = amplitude.TupleAbs();
+               // indices = amplitude.TupleSortIndex();
+               // if (indices.Length > 0)
+               // {
+               //     double temp = columnas_cabeza.DArr[indices[indices.Length - 1]];
+               //     cabeza = (int)Math.Ceiling(temp);
                    
-                }
-                else
-                {
-                    cabeza = 0;
-                }
-                if (cabeza + 1 < columnas - 1)Z= Z.CropRectangle1 (0, cabeza+1, filas - 1, columnas - 1);
-                else Z=Z.CropRectangle1(0, cabeza, filas - 1, columnas - 1);
+               // }
+               // else
+               // {
+               //     cabeza = 0;
+               // }
+               // if (cabeza + 1 < columnas - 1)Z= Z.CropRectangle1 (0, cabeza+1, filas - 1, columnas - 1);
+               // else Z=Z.CropRectangle1(0, cabeza, filas - 1, columnas - 1);
             
                 //creo la imagen Y, aunque solo relleno la parte con chpaa, queda espacio sin rellenar
                 Z.GetImageSize(out columnas, out filas);               
@@ -177,15 +177,13 @@ namespace Meplate
                     for (int j = 0; j < filas; j++)
                     {
                         Y.SetGrayval(j, i-cabeza, medidas[i].distancia - distancia_inicial);
-                       
-
                     }
                 }
 
 
                 if (_Guardar_Imagenes_Parciales)
                 {
-                    filename = "Z_Cortada_" + (string)DateTime.Now.Hour.ToString() + "_" + (string)DateTime.Now.Minute.ToString();
+                    filename = "ZRAW_" + (string)DateTime.Now.Hour.ToString() + "_" + (string)DateTime.Now.Minute.ToString();
                     Z.WriteImage("tiff", 0, filename);
                     if (!System.IO.File.Exists(_PathImages + filename + ".tif")) System.IO.File.Move(filename + ".tif", _PathImages + filename + ".tif");
 
@@ -227,7 +225,9 @@ namespace Meplate
                     }
                 }
             }
-
+            //Le añado un smoothing gaussiano y una mediana
+            //Z.MedianImage("circle",4,"mirrored");
+            Z.GaussImage(5);
             media.Dispose();
 
            
@@ -1101,47 +1101,50 @@ namespace Meplate
             HTuple width, height;
 
 
-
-            //detecto donde estan los saltos
-            HRegion regionZ2= new HRegion((double)2, 2, filas - 3, columnas - 3);
-
-            HImage media = Z.MeanImage(1,filas);
-
-            media.GetImageSize(out width, out height);
-           
-            regionZ2.SmallestRectangle2(out fila, out columna, out phi, out lenght1, out lenght2);
-
-            HMeasure saltos = new HMeasure(fila, columna, phi, lenght1, lenght2, columnas, filas, "nearest_neighbor");
-
-            saltos.MeasurePairs(Z, 1, 1, "negative", "all", out rowEdgeFirst, out columnEdgeFirst, out amplitudeFirst, out rowEdgeSecond, out columnEdgeSecond, out amplitudeSecond, out intraDistance, out interDistance);
-
-            columnEdgeFirst = columnEdgeFirst.TupleFloor();
-            columnEdgeSecond = columnEdgeSecond.TupleCeil();
-
-            //DWEBUG puede que haya que filtrar solo los saltos de cierto espesor o lo que estan muy cerca con las distancoas
-            //por cada salto 
-            for (int i = 0; i < rowEdgeFirst.DArr.Length; i++)
+            if (columnas>8)
             {
-               
-                //calculo los _ValoresMedios medios antes y despues del salto
-                mediaantes = (media.GetGrayval(1, (int)columnEdgeFirst.DArr[i] - 1) + media.GetGrayval(1, (int)columnEdgeFirst.DArr[i] - 2)) / 2;
-                mediadespues = (media.GetGrayval(1, (int)columnEdgeSecond.DArr[i] + 1) + media.GetGrayval(1, (int)columnEdgeSecond.DArr[i] + 2)) / 2;
-                for (int j = (int)columnEdgeFirst.DArr[i]; j < (int)columnEdgeSecond.DArr[i]; j++)
-                {
-                    mediasalto = mediasalto + media.GetGrayval(1, j);
-                }
-                mediasalto = mediasalto / (columnEdgeSecond.DArr[i] - columnEdgeFirst.DArr[i]);
 
-                // corrijo los valores del salto con la diferencia de las medias
-                for (int j = (int)columnEdgeFirst.DArr[i]; j < (int)columnEdgeSecond.DArr[i]; j++)
-                {   
-                    for (int z = 0; z < filas; z++)
+                //detecto donde estan los saltos
+                HRegion regionZ2 = new HRegion((double)2, 2, filas - 3, columnas - 3);
+
+                HImage media = Z.MeanImage(1, filas);
+
+                media.GetImageSize(out width, out height);
+
+                regionZ2.SmallestRectangle2(out fila, out columna, out phi, out lenght1, out lenght2);
+
+                HMeasure saltos = new HMeasure(fila, columna, phi, lenght1, lenght2, columnas, filas, "nearest_neighbor");
+
+                saltos.MeasurePairs(Z, 1, 1, "negative", "all", out rowEdgeFirst, out columnEdgeFirst, out amplitudeFirst, out rowEdgeSecond, out columnEdgeSecond, out amplitudeSecond, out intraDistance, out interDistance);
+
+                columnEdgeFirst = columnEdgeFirst.TupleFloor();
+                columnEdgeSecond = columnEdgeSecond.TupleCeil();
+
+                //DWEBUG puede que haya que filtrar solo los saltos de cierto espesor o lo que estan muy cerca con las distancoas
+                //por cada salto 
+                for (int i = 0; i < rowEdgeFirst.DArr.Length; i++)
+                {
+
+                    //calculo los _ValoresMedios medios antes y despues del salto
+                    mediaantes = (media.GetGrayval(1, (int)columnEdgeFirst.DArr[i] - 1) + media.GetGrayval(1, (int)columnEdgeFirst.DArr[i] - 2)) / 2;
+                    mediadespues = (media.GetGrayval(1, (int)columnEdgeSecond.DArr[i] + 1) + media.GetGrayval(1, (int)columnEdgeSecond.DArr[i] + 2)) / 2;
+                    for (int j = (int)columnEdgeFirst.DArr[i]; j < (int)columnEdgeSecond.DArr[i]; j++)
                     {
-                        valor=Z.GetGrayval(z,j);
-                        Z.SetGrayval(z, j, valor - (mediasalto - ((mediaantes + mediadespues) / 2)));
+                        mediasalto = mediasalto + media.GetGrayval(1, j);
                     }
-                   
-                }
+                    mediasalto = mediasalto / (columnEdgeSecond.DArr[i] - columnEdgeFirst.DArr[i]);
+
+                    // corrijo los valores del salto con la diferencia de las medias
+                    for (int j = (int)columnEdgeFirst.DArr[i]; j < (int)columnEdgeSecond.DArr[i]; j++)
+                    {
+                        for (int z = 0; z < filas; z++)
+                        {
+                            valor = Z.GetGrayval(z, j);
+                            Z.SetGrayval(z, j, valor - (mediasalto - ((mediaantes + mediadespues) / 2)));
+                        }
+
+                    }
+                } 
             }
 
             if (_EnviarFTP) Z.WriteImage("tiff", 0, "ZCORREGIDA");

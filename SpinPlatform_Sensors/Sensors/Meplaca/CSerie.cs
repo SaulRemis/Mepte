@@ -16,7 +16,7 @@ namespace SpinPlatform.Sensors.Meplaca
         int longitudtrama=0;
         List<int[]> tensiones;
         System.IO.Ports.SerialPort PuertoSerie;
-        double _UmbralCabeza;
+        double _UmbralAltoCabeza,_UmbralBajoCabeza;
         CMeplaca _Padre;
         bool chapa = false;
 
@@ -24,7 +24,7 @@ namespace SpinPlatform.Sensors.Meplaca
 
         public UInt16[] _Offset;
 
-       public CSerie(int mod,string puerto,double umbral, CMeplaca padre)
+       public CSerie(int mod,string puerto,double umbralbajo,double umbralalto, CMeplaca padre)
         {
             _Padre = padre;
             modulos = mod;
@@ -38,7 +38,8 @@ namespace SpinPlatform.Sensors.Meplaca
             PuertoSerie.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(PuertoSerie_DataReceived);
             _locker = new object();
             _Offset = new UInt16[modulos * 6];
-            _UmbralCabeza = umbral;
+            _UmbralBajoCabeza = umbralbajo;
+            _UmbralAltoCabeza = umbralalto;
 
         }
 
@@ -67,9 +68,22 @@ namespace SpinPlatform.Sensors.Meplaca
                media = media + trama[i];
            }
            media = media / 6;
-           if (media > _UmbralCabeza && !chapa) { chapa = true; _Padre.PrepareEvent("InicioChapa"); }
+           if (media > _UmbralAltoCabeza && !chapa) { 
+               
+               chapa = true;
+               //Debug
+               //_UmbralCabeza = media - 100;
+               
+               _Padre.PrepareEvent("InicioChapa",media); }
 
-           if (media < _UmbralCabeza && chapa) { chapa = false; _Padre.PrepareEvent("FinChapa"); }          
+           if (media < _UmbralBajoCabeza && chapa) {
+               
+               chapa = false;
+               //Debug
+               //_UmbralCabeza = media + 100;
+               _Padre.PrepareEvent("FinChapa",media);
+           
+           }          
 
        }
        public bool Buscar_Inicio2()
@@ -279,10 +293,10 @@ namespace SpinPlatform.Sensors.Meplaca
        public int[] UltimaTension()
        {
            int [] temp= new int[modulos*6];
-           if (tensiones.Count>0)
+          
  //Inicio seccion critica
            lock (_locker)
-           {
+           { if (tensiones.Count>0)
                temp = tensiones[tensiones.Count - 1];
               // tensiones.Clear(); 
            }
