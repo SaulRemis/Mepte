@@ -61,7 +61,7 @@ namespace Meplate
                 CreateEvent("ComenzarMedida", new AutoResetEvent(false), "Adquisicion", "ComunicacionTarjeta");
                 CreateEvent("FinalizarMedida", new AutoResetEvent(false), "Adquisicion", "ComunicacionTarjeta");
                 CreateEvent("AbortarMedida", new AutoResetEvent(false), "Adquisicion", "ComunicacionTarjeta");
-                CreateEvent("IDChapa", new AutoResetEvent(false), "Procesamiento", "ComunicacionOP", "Adquisicion");
+                //CreateEvent("IDChapa", new AutoResetEvent(false), "Procesamiento", "ComunicacionOP", "Adquisicion");
 
 
 
@@ -131,6 +131,10 @@ namespace Meplate
                         Data.MEPMeplaca = ((HiloAdquisicion)_DispatcherThreads["Adquisicion"])._Meplaca;
                         break;
 
+                        case "ComunicacionOP":
+                        Data.MEPID = (PlateID)((SharedData<PlateID>)_DispatcherSharedMemory["IDChapa"]).Get(0);
+                        break;
+
                         default:
                         Data.MEPErrors = "Wrong Query";
                             break;
@@ -159,6 +163,9 @@ namespace Meplate
                     break;
                 case "Adquisicion":
                     GetData(ref temp, "Informacion");
+                    break;
+                case "ComunicacionOP":
+                    GetData(ref temp, "ComunicacionOP");
                     break;
                 default:
                     break;

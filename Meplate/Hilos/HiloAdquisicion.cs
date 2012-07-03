@@ -269,7 +269,7 @@ namespace Meplate
                _Meplaca.GetData(ref _AuxMeplaca, "UltimaMedida");
                medidas = (double[])_AuxMeplaca.MEPUltimoPerfil;
 
-               double valor = id.Thickness + distancia_a_la_chapa;
+               double valor = (distancia_a_la_chapa - id.Thickness  )/10;
                double limder = (int)Math.Round(id.Width / distancia_entre_sensores);
                double limizq =  1;
 

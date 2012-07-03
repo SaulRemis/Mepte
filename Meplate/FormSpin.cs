@@ -144,6 +144,24 @@ namespace Meplate
                             }
                             #endregion
                             break;
+                        case "ComunicacionOP":
+                            #region ID
+                            PlateID ID = datos.MEPID;
+                            //Actualizo la informacion de la chapa
+                            labelPlateId.MainText = ID.ID;
+                            labelLength.MainText = ID.Length.ToString();
+                            labelWidth.MainText =ID.Width.ToString();
+                            labelThickness.MainText = ID.Thickness.ToString();
+                            labelMinimum1.MainText = ID.Tolerance1.ToString();
+                            labelMinimum2.MainText = ID.Tolerance2.ToString();
+                            
+                            spinBlackDataLabelControl5.PageStartColor = Color.DarkGreen;
+                            spinBlackDataLabelControl5.PageEndColor = Color.FromArgb(0, 192, 0);
+                            spinBlackDataLabelControl5.MainText = "OK";
+                            spinBlackDataLabelControl5.SubtitleText = "Plate Accepted";
+                            #endregion
+
+                            break;
                         case "Informacion":
                             #region informacion
 

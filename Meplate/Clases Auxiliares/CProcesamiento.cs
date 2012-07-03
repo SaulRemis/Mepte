@@ -123,7 +123,7 @@ namespace Meplate
         private void ObtenerImagenes(List<CMedida> medidas)
         {
             //HTuple filas_cabeza, columnas_cabeza, amplitude, distance, indices;
-            int cabeza=0;
+
             // la X la creo cuando conozca los bordes
             if (medidas.Count >20)
             {
@@ -139,33 +139,15 @@ namespace Meplate
                     }
                 }
 
-                //if (_Guardar_Imagenes_Parciales)
-                //{
-                //    filename = "ZRAW_" + (string)DateTime.Now.Hour.ToString() + "_" + (string)DateTime.Now.Minute.ToString();
-                //    Z.WriteImage("tiff", 0, filename);
-                //    if (!System.IO.File.Exists(_PathImages + filename + ".tif")) System.IO.File.Move(filename + ".tif", _PathImages + filename + ".tif");
-                    
-                // }
+                if (_Guardar_Imagenes_Parciales)
+                {
+                    filename = "ZRAW_" + (string)DateTime.Now.Hour.ToString() + "_" + (string)DateTime.Now.Minute.ToString();
+                    Z.WriteImage("tiff", 0, filename);
+                    if (!System.IO.File.Exists(_PathImages + filename + ".tif")) System.IO.File.Move(filename + ".tif", _PathImages + filename + ".tif");
 
-               //// corto La cabeza donde no hay chapa
-               // HMeasure bordes = new HMeasure((double)6, (double)columnas / 2 - 1, (double)0, (int)Math.Round((double)(columnas / 2.0)-2), 5, columnas, filas, "nearest_neighbor");
-               // //HMeasure bordes = new HMeasure(20, 20, -(double)Math.PI / 2.0, 5,5, columnas , filas , "nearest_neighbor");
-               // bordes.MeasurePos(Z, sigma_cabeza, umbral_cabeza, "all", "all", out filas_cabeza, out columnas_cabeza, out amplitude, out distance);
-               // amplitude = amplitude.TupleAbs();
-               // indices = amplitude.TupleSortIndex();
-               // if (indices.Length > 0)
-               // {
-               //     double temp = columnas_cabeza.DArr[indices[indices.Length - 1]];
-               //     cabeza = (int)Math.Ceiling(temp);
-                   
-               // }
-               // else
-               // {
-               //     cabeza = 0;
-               // }
-               // if (cabeza + 1 < columnas - 1)Z= Z.CropRectangle1 (0, cabeza+1, filas - 1, columnas - 1);
-               // else Z=Z.CropRectangle1(0, cabeza, filas - 1, columnas - 1);
-            
+                }
+                // corto La cabeza donde no hay chapa 
+                int cabeza = CortarCabeza();
                 //creo la imagen Y, aunque solo relleno la parte con chpaa, queda espacio sin rellenar
                 Z.GetImageSize(out columnas, out filas);               
               
@@ -199,6 +181,31 @@ namespace Meplate
 
 
         }
+
+        private int CortarCabeza()
+        {
+            int cabeza = 0;
+
+            HMeasure bordes = new HMeasure((double)6, (double)columnas / 2 - 1, (double)0, (int)Math.Round((double)(columnas / 2.0) - 2), 5, columnas, filas, "nearest_neighbor");
+            //HMeasure bordes = new HMeasure(20, 20, -(double)Math.PI / 2.0, 5,5, columnas , filas , "nearest_neighbor");
+            bordes.MeasurePos(Z, sigma_cabeza, umbral_cabeza, "all", "all", out filas_cabeza, out columnas_cabeza, out amplitude, out distance);
+            amplitude = amplitude.TupleAbs();
+            indices = amplitude.TupleSortIndex();
+            if (indices.Length > 0)
+            {
+                double temp = columnas_cabeza.DArr[indices[indices.Length - 1]];
+                cabeza = (int)Math.Ceiling(temp);
+
+            }
+            else
+            {
+                cabeza = 0;
+            }
+            if (cabeza + 1 < columnas - 1) Z = Z.CropRectangle1(0, cabeza + 1, filas - 1, columnas - 1);
+            else Z = Z.CropRectangle1(0, cabeza, filas - 1, columnas - 1);
+
+            return cabeza;
+        }
         private void CorregirImagen()
         {
 
@@ -226,7 +233,7 @@ namespace Meplate
                 }
             }
             //Le añado un smoothing gaussiano y una mediana
-            //Z.MedianImage("circle",4,"mirrored");
+            Z.MedianImage("circle",4,"mirrored");
             Z.GaussImage(5);
             media.Dispose();
 

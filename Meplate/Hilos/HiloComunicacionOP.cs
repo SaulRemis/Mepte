@@ -120,7 +120,7 @@ namespace Meplate
                     {
                         //TODO
                         case "M9":
-                            Events["IDChapa"].Set();
+                            //Events["IDChapa"].Set();
 
                             string _ID = mensaje.Substring(2, 16);
                             string _Width = mensaje.Substring(18, 4);
@@ -134,6 +134,8 @@ namespace Meplate
                             ((SharedData<PlateID>)SharedMemory["IDChapa"]).Add(valor);
                             _AuxLogCom.LOGTXTMessage = "OP : New ID received : " + _ID + " Width : " + _Width + " Length : " + _Length + " Thickness : " + _Thickness + " Tol1 : " + _Tol1 + " Tol2 : " + _Tol2;
                             _Padre.Log.SetData(ref _AuxLogCom, "Informacion");
+
+                            _Padre.PrepareEvent(_Name);
                             break;
                     }
                 }

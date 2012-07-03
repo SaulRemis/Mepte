@@ -29,7 +29,7 @@ namespace SpinPlatform.Sensors.Meplaca
         bool _Meplate;
         public double _UmbralAltoDeteccionCabeza, _UmbralBajoDeteccionCabeza;
         public List<UInt16[]> _ListaOffset;
-
+        double _MediaOffset;
 
         public double MinimoAvanceParaMedir{get { return _MinimoAvanceParaMedir; }}
         public event SpinPlatform.Dispatcher.ResultEventHandler NewResultEvent;
@@ -205,16 +205,19 @@ namespace SpinPlatform.Sensors.Meplaca
 
              _ListaOffset.Add(Offset);
              double temp = 0;
-             if (_ListaOffset.Count>9)
+             int ceros = 0;
+             if (_ListaOffset.Count>=_MediaOffset)
              {
                  for (int i = 0; i < _NumeroModulos*6;i++)
                  {
                      foreach (UInt16[] vector in _ListaOffset)
                      {
+                         if ((double)vector[i] == 0) ceros++;
                          temp = temp + (double)vector[i];
                      }
-                     temp = temp / _ListaOffset.Count;
+                     temp = temp /( _ListaOffset.Count-ceros);
                      serie._Offset[i] = (UInt16)Math.Round(temp);
+                     ceros = 0;
                  }                
                  
                  serie.EnviarOffsets();
@@ -376,6 +379,7 @@ namespace SpinPlatform.Sensors.Meplaca
             _ListaOffset = new List<UInt16[]>();
             _UmbralAltoDeteccionCabeza = double.Parse(parametros.MEPUmbralAltoDeteccionCabeza);
             _UmbralBajoDeteccionCabeza = double.Parse(parametros.MEPUmbralBajoDeteccionCabeza);
+            _MediaOffset  = double.Parse(parametros.MEPMediaOffset);
             serie = new CSerie( this);
             
         }
