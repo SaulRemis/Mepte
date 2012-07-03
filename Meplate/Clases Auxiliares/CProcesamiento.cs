@@ -166,11 +166,11 @@ namespace Meplate
                 Y = new HImage("real", columnas, filas);
 
                 double distancia_inicial = medidas[cabeza].distancia;
-                for (int i = cabeza; i < cola+1 ; i++)
+                for (int i = 0; i < columnas ; i++)
                 {
                     for (int j = 0; j < filas; j++)
                     {
-                        Y.SetGrayval(j, i-cabeza, medidas[i].distancia - distancia_inicial);
+                        Y.SetGrayval(j, i, medidas[i+cabeza].distancia - distancia_inicial);
                     }
                 }
 
