@@ -17,6 +17,8 @@ namespace Meplate
         public double distancia_a_la_chapa ;
         double sigma_bordes;
         double sigma_cabeza;
+        double umbral_cola;
+        double sigma_cola;
         double umbral_bordes;
         double umbral_cabeza;
         public double[] _ValoresMedios;
@@ -28,7 +30,9 @@ namespace Meplate
         public string _Decision = "Y";
         public double _Puntuacion = 10;
         public bool _Incluir_Parcialmente_Cubiertos;
-        public bool _Guardar_Imagenes_Parciales;
+        public bool _Guardar_Imagenes_Parciales; 
+        public bool _Cortar_Cabeza;
+        public bool _Cortar_Cola;
         public bool _EnviarFTP;
         public string _PathImages;
         string filename;
@@ -43,11 +47,13 @@ namespace Meplate
                 numeroModulos = int.Parse(parametros.Meplaca.MEPNumeroModulos);
                 distancia_entre_sensores = double.Parse(parametros.Meplaca.MEPDistancia_entre_sensores);
                 distancia_a_la_chapa = double.Parse(parametros.Meplaca.MEPDistancia_nominal_trabajo);
-                numeroMedidas = int.Parse(parametros.Procesamiento.numeroMedidas);
-                sigma_bordes = double.Parse(parametros.Procesamiento.sigma_bordes);
-                sigma_cabeza = double.Parse(parametros.Procesamiento.sigma_cabeza);
-                umbral_bordes = double.Parse(parametros.Procesamiento.umbral_bordes);
-                umbral_cabeza = double.Parse(parametros.Procesamiento.umbral_cabeza);
+                numeroMedidas = int.Parse(parametros.Procesamiento.PROnumeroMedidas);
+                sigma_bordes = double.Parse(parametros.Procesamiento.PROsigma_bordes);
+                sigma_cabeza = double.Parse(parametros.Procesamiento.PROsigma_cabeza);
+                umbral_bordes = double.Parse(parametros.Procesamiento.PROumbral_bordes);
+                sigma_cola = double.Parse(parametros.Procesamiento.PROsigma_cola);
+                umbral_cola = double.Parse(parametros.Procesamiento.PROumbral_cola);
+                umbral_cabeza = double.Parse(parametros.Procesamiento.PROumbral_cabeza);
                 filas = numeroModulos * 6;
                 _ValoresMedios = new double[filas];
                 _Referencias = new double[filas];
@@ -56,6 +62,8 @@ namespace Meplate
                 _Incluir_Parcialmente_Cubiertos = bool.Parse(parametros.Procesamiento.PROincluirparcialmentecubiertos);
                 _Guardar_Imagenes_Parciales = bool.Parse(parametros.Procesamiento.PROGuardarImagenesParciales);
                 _EnviarFTP = bool.Parse(parametros.Procesamiento.PROEnviarFtp);
+                _Cortar_Cabeza = bool.Parse(parametros.Procesamiento.PROCortarCabeza);
+                _Cortar_Cola = bool.Parse(parametros.Procesamiento.PROCortarCola);
                 _PathImages = parametros.Procesamiento.PROPathImagenesParciales;
             }
             catch (Exception e )
@@ -122,7 +130,7 @@ namespace Meplate
         }
         private void ObtenerImagenes(List<CMedida> medidas)
         {
-            //HTuple filas_cabeza, columnas_cabeza, amplitude, distance, indices;
+     
 
             // la X la creo cuando conozca los bordes
             if (medidas.Count >20)
@@ -147,14 +155,18 @@ namespace Meplate
 
                 }
                 // corto La cabeza donde no hay chapa 
-                int cabeza = CortarCabeza();
+                int cabeza=0, cola=columnas-1;
+                if (_Cortar_Cabeza) cabeza= CortarCabeza();
+                if (_Cortar_Cola) cola= CortarCola();
+
+                 
                 //creo la imagen Y, aunque solo relleno la parte con chpaa, queda espacio sin rellenar
                 Z.GetImageSize(out columnas, out filas);               
               
                 Y = new HImage("real", columnas, filas);
 
                 double distancia_inicial = medidas[cabeza].distancia;
-                for (int i = cabeza; i < columnas ; i++)
+                for (int i = cabeza; i < cola+1 ; i++)
                 {
                     for (int j = 0; j < filas; j++)
                     {
@@ -165,7 +177,7 @@ namespace Meplate
 
                 if (_Guardar_Imagenes_Parciales)
                 {
-                    filename = "ZRAW_" + (string)DateTime.Now.Hour.ToString() + "_" + (string)DateTime.Now.Minute.ToString();
+                    filename = "Z_Cortada_" + (string)DateTime.Now.Hour.ToString() + "_" + (string)DateTime.Now.Minute.ToString();
                     Z.WriteImage("tiff", 0, filename);
                     if (!System.IO.File.Exists(_PathImages + filename + ".tif")) System.IO.File.Move(filename + ".tif", _PathImages + filename + ".tif");
 
@@ -185,7 +197,7 @@ namespace Meplate
         private int CortarCabeza()
         {
             int cabeza = 0;
-
+            HTuple filas_cabeza, columnas_cabeza, amplitude, distance, indices;
             HMeasure bordes = new HMeasure((double)6, (double)columnas / 2 - 1, (double)0, (int)Math.Round((double)(columnas / 2.0) - 2), 5, columnas, filas, "nearest_neighbor");
             //HMeasure bordes = new HMeasure(20, 20, -(double)Math.PI / 2.0, 5,5, columnas , filas , "nearest_neighbor");
             bordes.MeasurePos(Z, sigma_cabeza, umbral_cabeza, "all", "all", out filas_cabeza, out columnas_cabeza, out amplitude, out distance);
@@ -205,6 +217,30 @@ namespace Meplate
             else Z = Z.CropRectangle1(0, cabeza, filas - 1, columnas - 1);
 
             return cabeza;
+        }
+        private int CortarCola()
+        {
+            int cola = 0;
+            HTuple filas_cola, columnas_cola, amplitude, distance, indices;
+            HMeasure bordes = new HMeasure((double)6, (double)columnas / 2 - 1, (double)0, (int)Math.Round((double)(columnas / 2.0) - 2), 5, columnas, filas, "nearest_neighbor");
+            //HMeasure bordes = new HMeasure(20, 20, -(double)Math.PI / 2.0, 5,5, columnas , filas , "nearest_neighbor");
+            bordes.MeasurePos(Z, sigma_cola, umbral_cola, "all", "all", out filas_cola, out columnas_cola, out amplitude, out distance);
+            amplitude = amplitude.TupleAbs();
+            indices = amplitude.TupleSortIndex();
+            if (indices.Length > 0)
+            {
+                double temp = columnas_cola.DArr[indices[indices.Length - 1]];
+                cola = (int)Math.Ceiling(temp);
+
+            }
+            else
+            {
+                cola = 0;
+            }
+            if (cola -1 > 0) Z = Z.CropRectangle1(0, 0, filas - 1, cola - 1);
+            if (cola  > 0) Z = Z.CropRectangle1(0, 0, filas - 1, cola);
+
+            return cola;
         }
         private void CorregirImagen()
         {
