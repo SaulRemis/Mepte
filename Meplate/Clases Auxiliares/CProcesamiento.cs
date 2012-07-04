@@ -116,6 +116,7 @@ namespace Meplate
             _ValoresMedios.Initialize();
             _Referencias.Initialize();
             columnas = medidas.Count-10;
+            filas = numeroModulos * 6;
             X = new HImage("real", columnas, filas);
             Y = new HImage("real", columnas, filas);
             Z = new HImage("real", columnas, filas);
@@ -157,6 +158,7 @@ namespace Meplate
                 // corto La cabeza donde no hay chapa 
                 int cabeza=0, cola=columnas-1;
                 if (_Cortar_Cabeza) cabeza= CortarCabeza();
+                Z.GetImageSize(out columnas, out filas);           
                 if (_Cortar_Cola) cola= CortarCola();
 
                  
@@ -170,10 +172,12 @@ namespace Meplate
                 {
                     for (int j = 0; j < filas; j++)
                     {
-                        Y.SetGrayval(j, i, medidas[i+cabeza].distancia - distancia_inicial);
+                        if (i+cabeza<medidas.Count)
+                        {
+                            Y.SetGrayval(j, i, medidas[i + cabeza].distancia - distancia_inicial);
+                        } 
                     }
                 }
-
 
                 if (_Guardar_Imagenes_Parciales)
                 {
@@ -185,20 +189,15 @@ namespace Meplate
                     Y.WriteImage("tiff", 0, filename);
                     if (!System.IO.File.Exists(_PathImages + filename + ".tif")) System.IO.File.Move(filename + ".tif", _PathImages + filename + ".tif");
 
-
                 }
-           
-
             }
-
-
         }
 
         private int CortarCabeza()
         {
             int cabeza = 0;
             HTuple filas_cabeza, columnas_cabeza, amplitude, distance, indices;
-            HMeasure bordes = new HMeasure((double)6, (double)columnas / 2 - 1, (double)0, (int)Math.Round((double)(columnas / 2.0) - 2), 5, columnas, filas, "nearest_neighbor");
+            HMeasure bordes = new HMeasure((double)6, (double)(columnas / 8) - 1, (double)0, (int)Math.Round((double)(columnas / 8) - 2), 5, columnas, filas, "nearest_neighbor");
             //HMeasure bordes = new HMeasure(20, 20, -(double)Math.PI / 2.0, 5,5, columnas , filas , "nearest_neighbor");
             bordes.MeasurePos(Z, sigma_cabeza, umbral_cabeza, "all", "all", out filas_cabeza, out columnas_cabeza, out amplitude, out distance);
             amplitude = amplitude.TupleAbs();
@@ -213,23 +212,35 @@ namespace Meplate
             {
                 cabeza = 0;
             }
-            if (cabeza + 1 < columnas - 1) Z = Z.CropRectangle1(0, cabeza + 1, filas - 1, columnas - 1);
-            else Z = Z.CropRectangle1(0, cabeza, filas - 1, columnas - 1);
+            if (cabeza>0)
+            {
+                if (cabeza + 1 < columnas - 1) Z = Z.CropRectangle1(0, cabeza + 1, filas - 1, columnas - 1);
+                else Z = Z.CropRectangle1(0, cabeza, filas - 1, columnas - 1); 
+            }
 
             return cabeza;
         }
         private int CortarCola()
         {
             int cola = 0;
-            HTuple filas_cola, columnas_cola, amplitude, distance, indices;
-            HMeasure bordes = new HMeasure((double)6, (double)columnas / 2 - 1, (double)0, (int)Math.Round((double)(columnas / 2.0) - 2), 5, columnas, filas, "nearest_neighbor");
+            HTuple filas_cola, columnas_cola, amplitude, distance;
+            HMeasure bordes = new HMeasure((double)6, (double)(7*(columnas / 8)) - 1, (double)0, (int)Math.Round((double)(columnas / 8.0) - 2), 5, columnas, filas, "nearest_neighbor");
             //HMeasure bordes = new HMeasure(20, 20, -(double)Math.PI / 2.0, 5,5, columnas , filas , "nearest_neighbor");
             bordes.MeasurePos(Z, sigma_cola, umbral_cola, "all", "all", out filas_cola, out columnas_cola, out amplitude, out distance);
-            amplitude = amplitude.TupleAbs();
-            indices = amplitude.TupleSortIndex();
-            if (indices.Length > 0)
-            {
-                double temp = columnas_cola.DArr[indices[indices.Length - 1]];
+            //amplitude = amplitude.TupleAbs();
+            //indices = columnas_cola.TupleSortIndex();
+            //if (indices.Length > 0)
+            //{
+            //    double temp = columnas_cola.DArr[indices[indices.Length - 1]];
+            //    cola = (int)Math.Ceiling(temp);
+
+            //}
+           
+
+            if (columnas_cola.Length > 0)
+            { 
+                columnas_cola = columnas_cola.TupleSort();
+                double temp = columnas_cola.DArr[0];
                 cola = (int)Math.Ceiling(temp);
 
             }
@@ -238,7 +249,7 @@ namespace Meplate
                 cola = 0;
             }
             if (cola -1 > 0) Z = Z.CropRectangle1(0, 0, filas - 1, cola - 1);
-            if (cola  > 0) Z = Z.CropRectangle1(0, 0, filas - 1, cola);
+            else if (cola  > 0) Z = Z.CropRectangle1(0, 0, filas - 1, cola);
 
             return cola;
         }
