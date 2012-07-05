@@ -205,21 +205,23 @@ namespace SpinPlatform.Sensors.Meplaca
 
              _ListaOffset.Add(Offset);
              double temp = 0;
-             int ceros = 0;
+             //int ceros = 0;
              if (_ListaOffset.Count>=_MediaOffset)
              {
                  for (int i = 0; i < _NumeroModulos*6;i++)
                  {
                      foreach (UInt16[] vector in _ListaOffset)
                      {
-                         if ((double)vector[i] == 0) ceros++;
+                         //if ((double)vector[i] == 0) ceros++;
                          temp = temp + (double)vector[i];
                      }
-                     temp = temp /( _ListaOffset.Count-ceros);
+                     //temp = temp /( _ListaOffset.Count-ceros);
+                     temp = temp / (_ListaOffset.Count );
                      serie._Offset[i] = (UInt16)Math.Round(temp);
-                     ceros = 0;
-                 }                
-                 
+                     //ceros = 0;
+                 }
+
+                 serie.EnviarOffsets();
                  serie.EnviarOffsets();
                  _ListaOffset.Clear();
              }
