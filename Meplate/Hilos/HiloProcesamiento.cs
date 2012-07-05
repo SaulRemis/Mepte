@@ -33,22 +33,31 @@ namespace Meplate
         }
         public override void FunctionToExecuteByThread()
         {
-            List<CMedida> measurement = (List<CMedida>)((SharedData<List<CMedida>>)_SharedMemory["Chapas"]).Pop();
-
-            if (measurement.Count > 5)
+            try
             {
-                // si ya he recibido el ancho lo uso para procesar , si no pongo ancho =0 y proceso sin el
-                if (!((SharedData<PlateID>)SharedMemory["IDChapa"]).Vacio)
-                {
-                    PlateID id = ((PlateID)((SharedData<PlateID>)SharedMemory["IDChapa"]).Get(0));
-                    duracion = _Proc.ProcesamientoDatos(measurement, id.Width, id.Tolerance1, id.Tolerance2);
-                }
-                else
-                {
-                    duracion = _Proc.ProcesamientoDatos(measurement, 900, 5, 5);
-                }
+                List<CMedida> measurement = (List<CMedida>)((SharedData<List<CMedida>>)_SharedMemory["Chapas"]).Pop();
 
-                ActualizarResultados();
+                if (measurement.Count > 5)
+                {
+                    // si ya he recibido el ancho lo uso para procesar , si no pongo ancho =0 y proceso sin el
+                    if (!((SharedData<PlateID>)SharedMemory["IDChapa"]).Vacio)
+                    {
+                        PlateID id = ((PlateID)((SharedData<PlateID>)SharedMemory["IDChapa"]).Get(0));
+                        duracion = _Proc.ProcesamientoDatos(measurement, id.Width, id.Tolerance1, id.Tolerance2);
+                    }
+                    else
+                    {
+                        duracion = _Proc.ProcesamientoDatos(measurement, 900, 5, 5);
+                    }
+
+                    ActualizarResultados();
+                }
+            }
+            catch (Exception e)
+            {
+                _AuxLogError.LOGTXTMessage = "PROCESAMIENTO : ERROR en el procesamiento : " + e.Message ;
+                     _Padre.LogError.SetData(ref _AuxLogError, "Informacion");
+               
             }
 
         }

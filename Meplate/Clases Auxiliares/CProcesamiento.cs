@@ -198,9 +198,19 @@ namespace Meplate
         {
             int cabeza = 0;
             HTuple filas_cabeza, columnas_cabeza, amplitude, distance, indices;
-            HMeasure bordes = new HMeasure((double)6, (double)(columnas / 8) - 1, (double)0, (int)Math.Round((double)(columnas / 8) - 2), 5, columnas, filas, "nearest_neighbor");
+
+            if (columnas > 136)
+            {
+                HMeasure bordes = new HMeasure((double)6, (double)(columnas / 2) - 1, (double)0, (int)Math.Round((double)(columnas / 2) - 2), 5, columnas, filas, "nearest_neighbor");
+                bordes.MeasurePos(Z, sigma_cabeza, umbral_cabeza, "all", "all", out filas_cabeza, out columnas_cabeza, out amplitude, out distance);
+            }
+            else
+            {
+                HMeasure bordes = new HMeasure((double)6, (double)(columnas / 8) - 1, (double)0, (int)Math.Round((double)(columnas / 8) - 2), 5, columnas, filas, "nearest_neighbor");
+                bordes.MeasurePos(Z, sigma_cabeza, umbral_cabeza, "all", "all", out filas_cabeza, out columnas_cabeza, out amplitude, out distance);
+            }
             //HMeasure bordes = new HMeasure(20, 20, -(double)Math.PI / 2.0, 5,5, columnas , filas , "nearest_neighbor");
-            bordes.MeasurePos(Z, sigma_cabeza, umbral_cabeza, "all", "all", out filas_cabeza, out columnas_cabeza, out amplitude, out distance);
+            
             amplitude = amplitude.TupleAbs();
             indices = amplitude.TupleSortIndex();
             if (indices.Length > 0)
@@ -641,10 +651,10 @@ namespace Meplate
         {
            
 
-           modulos = (int)Math.Round(ancho / distancia_entre_sensores);
+           modulos = (int)Math.Floor(ancho / distancia_entre_sensores);
            
-                        borde_derecho = modulos -1;
-                        borde_izquierdo = 0;
+                        borde_derecho = modulos;
+                        borde_izquierdo = 1;
 
 
 

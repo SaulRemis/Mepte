@@ -151,6 +151,9 @@
     <Content Include="bin\Debug\AppConfig.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="bin\Release\AppConfig.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Resources\logo cuadrado32x32.ico" />
     <None Include="Resources\logo4.png" />
     <None Include="Resources\logo3.png" />
