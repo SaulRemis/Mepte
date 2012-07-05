@@ -22,6 +22,8 @@ namespace SpinPlatform.Sensors.Meplaca
         int[] _Contador_Errores_Sensores;
        public bool[] _Errores_Sensores;
        int _Contador_Tramas=0;
+       int _ContadorPerfilesChapa=0;
+       double _UmbralTemporal=0;
 
         readonly object _locker;
 
@@ -74,19 +76,28 @@ namespace SpinPlatform.Sensors.Meplaca
                media = media + trama[i];
            }
            media = media / 6;
+
+           if (chapa)
+           {
+               _ContadorPerfilesChapa++;
+               _UmbralTemporal = (_UmbralTemporal + media);
+               
+           }
            if (media > _UmbralAltoCabeza && !chapa) { 
                
-               chapa = true;
-               //Debug
-               //_UmbralCabeza = media - 100;
-               
+               chapa = true; 
                _Padre.PrepareEvent("InicioChapa",media); }
 
-           if (media < _UmbralBajoCabeza && chapa) {
-               
-               chapa = false;
-               //Debug
-               //_UmbralCabeza = media + 100;
+           if (media < _UmbralBajoCabeza && chapa)
+           { 
+               _UmbralTemporal = _UmbralTemporal /_ContadorPerfilesChapa;
+               _UmbralAltoCabeza = _UmbralTemporal - 50;
+               _UmbralBajoCabeza = _UmbralTemporal - 100;
+
+                chapa = false;
+               _ContadorPerfilesChapa = 0;
+               _UmbralTemporal = 0;
+
                _Padre.PrepareEvent("FinChapa",media);
            
            }          
