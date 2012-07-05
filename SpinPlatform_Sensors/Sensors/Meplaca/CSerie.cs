@@ -91,8 +91,8 @@ namespace SpinPlatform.Sensors.Meplaca
            if (media < _UmbralBajoCabeza && chapa)
            { 
                _UmbralTemporal = _UmbralTemporal /_ContadorPerfilesChapa;
-               _UmbralAltoCabeza = _UmbralTemporal - 50;
-               _UmbralBajoCabeza = _UmbralTemporal - 100;
+               _UmbralAltoCabeza = _UmbralTemporal - 100;
+               _UmbralBajoCabeza = _UmbralTemporal - 200;
 
                 chapa = false;
                _ContadorPerfilesChapa = 0;

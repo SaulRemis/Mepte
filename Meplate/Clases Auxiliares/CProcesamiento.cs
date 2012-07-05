@@ -859,7 +859,91 @@ namespace Meplate
             HObject[] OTemp = new HObject[20];
             long SP_O = 0;
 
+<<<<<<< HEAD
             // Local iconic variables 
+=======
+                #region Inicializar
+                // Stack for temporary objects 
+                HObject[] OTemp = new HObject[20];
+                long SP_O = 0;
+
+                // Local iconic variables 
+
+                HObject ImagenOut, Region, Partitioned, ellipse, localmaxima, connectedRegions, contour, region3, Imagetemp, regiontemp;
+                HObject regionseleccionada = null, ImageReduced = null;
+                HObject maximo = null, minimo = null;
+
+
+                // Local control variables 
+
+                HTuple hv_Width, hv_Height, hv_anccuadro, hv_radio1, hv_radio2, hv_altocuadro;
+                HTuple hv_Min1, hv_Max1, hv_Range1, hv_Diff1, hv_Indices1, hv_Max, hmax, rowmin, colmin, h;
+                HTuple hv_MaxSorted, hv_j, hv_indice = new HTuple();
+                HTuple hv_Min3 = new HTuple(), hv_Max3 = new HTuple(), hv_Range3 = new HTuple();
+                HTuple hv_Min4 = new HTuple(), hv_Max4 = new HTuple(), hv_Range4 = new HTuple();
+                HTuple hv_Min5 = new HTuple(), hv_Max5 = new HTuple(), hv_Range5 = new HTuple();
+                HTuple hv_Area2 = new HTuple(), hv_Row = new HTuple(), hv_Column = new HTuple();
+                HTuple hv_Area3 = new HTuple(), hv_Row3 = new HTuple(), hv_Column3 = new HTuple();
+                HTuple hv_Area = new HTuple(), hv_Row1 = new HTuple(), hv_Column1 = new HTuple();
+                HTuple hv_Areatemp = new HTuple(), hv_Rowtemp = new HTuple(), hv_Columntemp = new HTuple();
+
+                // Initialize local and output iconic variables 
+                HOperatorSet.GenEmptyObj(out ImagenOut);
+                HOperatorSet.GenEmptyObj(out Region);
+                HOperatorSet.GenEmptyObj(out Partitioned);
+                HOperatorSet.GenEmptyObj(out regionseleccionada);
+                HOperatorSet.GenEmptyObj(out ImageReduced);
+                HOperatorSet.GenEmptyObj(out localmaxima);
+                HOperatorSet.GenEmptyObj(out connectedRegions);
+                HOperatorSet.GenEmptyObj(out maximo);
+                HOperatorSet.GenEmptyObj(out minimo);
+                HOperatorSet.GenEmptyObj(out ellipse);
+                HOperatorSet.GenEmptyObj(out contour);
+                HOperatorSet.GenEmptyObj(out region3);
+                HOperatorSet.GenEmptyObj(out Imagetemp);
+                HOperatorSet.GenEmptyObj(out regiontemp);
+
+                #endregion
+
+                ///<>  Filtro la imagen . Divido la imagen en rectangulos y busco las maximas alturas           
+                #region BuscaMaximos
+                ImagenOut.Dispose();
+                HOperatorSet.CopyObj(Imagen, out ImagenOut, 1, -1);
+                OTemp[SP_O] = ImagenOut.CopyObj(1, -1);
+                SP_O++;
+                ImagenOut.Dispose();
+                HOperatorSet.GaussImage(OTemp[SP_O - 1], out ImagenOut, 5);
+                OTemp[SP_O - 1].Dispose();
+                SP_O = 0;
+                Region.Dispose();
+
+                // HOperatorSet.GetDomain(Imagen, out Region);
+
+
+
+                HOperatorSet.GetImageSize(ImagenOut, out hv_Width, out hv_Height);
+                // HOperatorSet.GenRectangle1(out Region, borde_izquierdo, 0, borde_derecho, hv_Width);
+                HOperatorSet.GenRectangle1(out Region, 0, 0, hv_Height - 1, hv_Width - 1);
+                if (hv_Width > 20) hv_anccuadro = hv_Width / 5;
+                else hv_anccuadro = 1;
+                // hv_anccuadro = 50;
+                hv_anccuadro.TupleFloor();
+                //hv_anccuadro = 10;
+                // HOperatorSet.TupleRound(hv_anccuadro, out hv_anccuadro);
+                Partitioned.Dispose();
+                if (modulos != 0) hv_altocuadro = modulos / 2;
+                else hv_altocuadro = 18;
+                hv_altocuadro.TupleFloor();
+                HOperatorSet.PartitionRectangle(Region, out Partitioned, hv_anccuadro, hv_altocuadro);
+                HOperatorSet.MinMaxGray(Partitioned, ImagenOut, 0, out hv_Min1, out hv_Max1,
+                    out hv_Range1);
+
+                HOperatorSet.TupleSortIndex(hv_Max1, out hv_Indices1);
+                HOperatorSet.TupleSort(hv_Max1, out hv_MaxSorted);
+
+                if (hv_Indices1.TupleLength() > numeroMedidas)
+                {
+>>>>>>> parent of f8a5ad3... Actualización desde versión pura del ordenador de chapa
 
             HObject ImagenOut, Region, Partitioned, ellipse, localmaxima, connectedRegions, contour, region3, Imagetemp, regiontemp;
             HObject regionseleccionada = null, ImageReduced = null;
