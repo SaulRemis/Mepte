@@ -19,6 +19,9 @@ namespace SpinPlatform.Sensors.Meplaca
         double _UmbralAltoCabeza,_UmbralBajoCabeza;
         CMeplaca _Padre;
         bool chapa = false;
+        int[] _Contador_Errores_Sensores;
+       public bool[] _Errores_Sensores;
+       int _Contador_Tramas=0;
 
         readonly object _locker;
 
@@ -40,6 +43,8 @@ namespace SpinPlatform.Sensors.Meplaca
             _Offset = new UInt16[modulos * 6];
             _UmbralBajoCabeza =_Padre._UmbralBajoDeteccionCabeza ;
             _UmbralAltoCabeza = _Padre._UmbralAltoDeteccionCabeza;
+            _Contador_Errores_Sensores = new int[modulos * 6];
+           _Errores_Sensores= new bool[modulos*6];
 
         }
 
@@ -50,6 +55,7 @@ namespace SpinPlatform.Sensors.Meplaca
                 int NumBytes = PuertoSerie.BytesToRead;
                 PuertoSerie.Read(bufferlocal, marcador, NumBytes);
                 marcador = marcador + NumBytes;
+               //busco el inicio de una trama y las voy gusradando en una lista
                 if (Buscar_Inicio2())
                 {
                     ProcesarTramas();
@@ -223,6 +229,15 @@ namespace SpinPlatform.Sensors.Meplaca
            byte[] sensor= new byte [2];
            foreach (byte[] trama in tramas)
            {
+               _Contador_Tramas++;
+               if (_Contador_Tramas>10000)
+               {
+                   _Contador_Tramas=0;
+                   for (int i = 0; i < _Contador_Errores_Sensores.Length; i++)
+                   {
+                       _Contador_Errores_Sensores[i] = 0;
+                   }
+               }
                for (int i = 0; i < modulos; i++)
                {
                    vector.Initialize();
@@ -238,6 +253,38 @@ namespace SpinPlatform.Sensors.Meplaca
                   
                
                }
+
+
+               ///Corrijo si hay algun error en la trama
+               ///si hay una diferencia con los vecinos de mas de 2000
+               ///si esta saturado y los vecinos no
+               for (int i = 1; i < modulos*6-1; i++)
+               {
+
+                   if (Math.Abs(vector[i] - vector[i - 1]) > 2000 && Math.Abs(vector[i] - vector[i + 1]) > 2000
+                       || vector[i] == 0 && vector[i + 1] > 500 && vector[i - 1] > 500
+                       || vector[i] > 4090 && vector[i + 1] < 3500 && vector[i - 1] <3500)
+                   {
+                       vector[i]=(vector[i - 1]+vector[i + 1])/2;
+                       if (!_Errores_Sensores[i])
+                       {
+                           _Contador_Errores_Sensores[i] = _Contador_Errores_Sensores[i] + 1;
+                           if (_Contador_Errores_Sensores[i] >= 100)
+                           {
+                               _Errores_Sensores[i] = true;
+                               _Contador_Errores_Sensores[i] = 0;
+                               _Padre.PrepareEvent("SensorError", i);
+                           } 
+                       }
+                       
+                   }
+
+
+               }
+
+
+
+
 
               //Inicio seccion critica
                lock (_locker)

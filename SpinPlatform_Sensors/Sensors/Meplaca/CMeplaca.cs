@@ -292,11 +292,22 @@ namespace SpinPlatform.Sensors.Meplaca
             serie.EnviarOffsets();
         }
 
-        public void PrepareEvent(string msg, double media)
+        public void PrepareEvent(string msg, double valor)
         {
             dynamic temp = new ExpandoObject();
             temp.MEPMessage = msg;
-            temp.MEPVoltage = media;
+            switch (msg)
+            {
+                case "SensorError":
+
+                    temp.MEPSensor = valor;
+                    temp.MEPSensoresDanados = serie._Errores_Sensores;
+                    break;
+                default:
+                        temp.MEPVoltage = valor;
+                    break;
+            }
+          
 
                 DataEventArgs args = new DataEventArgs(temp);
 
