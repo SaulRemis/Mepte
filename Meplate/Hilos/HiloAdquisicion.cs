@@ -66,7 +66,7 @@ namespace Meplate
                     break;
                 case "FinChapa":
 
-                    if (vel > 0)
+                    if (vel >= 0)
                     {
                         if (_Midiendo == true)
                         {
@@ -94,6 +94,21 @@ namespace Meplate
                     }
 
                     break;
+
+
+                case "SensorError":
+                    int contador = 0;
+                    int sensor = (int)temp.MEPSensor;
+                    foreach (bool item in temp.MEPSensoresDanados)
+                    {
+                        if (item) contador++;
+                    }
+                     _AuxLogError.LOGTXTMessage = "MEPLACA : El sensor nº  " + sensor.ToString() +" esta dañado. Hay "+ contador.ToString()+ " sensores dañados";
+                     _Padre.LogError.SetData(ref _AuxLogError, "Informacion");
+
+
+                    break;
+
                 default:
                     break;
             }
