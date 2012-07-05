@@ -49,7 +49,7 @@ namespace Meplate
                     if (vel > 0)
                     {
                         _AuxLog.LOGTXTMessage = "MEPLACA : Recibido Inicio Chapa con velocidad : " + vel.ToString() + " m/s y tension media = " + temp.MEPVoltage;
-                        _Padre.Log.SetData(ref _AuxLogCom, "Informacion");
+                        _Padre.Log.SetData(ref _AuxLog, "Informacion");
 
                         if (_Midiendo == false)
                         {
@@ -71,7 +71,7 @@ namespace Meplate
                         if (_Midiendo == true)
                         {
                             _AuxLog.LOGTXTMessage = "MEPLACA : Recibido Fin Chapa con velocidad : " + vel.ToString() + " m/s y tension media = " + temp.MEPVoltage;
-                            _Padre.Log.SetData(ref _AuxLogCom, "Informacion");
+                            _Padre.Log.SetData(ref _AuxLog, "Informacion");
 
                             Events["FinalizarMedida"].Set();
                             ((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("23");
@@ -88,7 +88,7 @@ namespace Meplate
                             Events["AbortarMedida"].Set();
                             //((ComunicacionOP)((Meplate)_Padre)._DispatcherThreads["ComunicacionOP"]).SendMessage("24");
                             _AuxLog.LOGTXTMessage = "MEPLACA : Recibido Abortar Chapa (Sale chapa con velocidad negativa) con velocidad : " + vel.ToString() + " m/s y tension media = " + temp.MEPVoltage;
-                            _Padre.Log.SetData(ref _AuxLogCom, "Informacion");
+                            _Padre.Log.SetData(ref _AuxLog, "Informacion");
                             _Midiendo = false;
                         }
                     }

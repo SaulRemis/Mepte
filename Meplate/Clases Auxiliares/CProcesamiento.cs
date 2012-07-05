@@ -82,8 +82,9 @@ namespace Meplate
             ObtenerImagenes(measurement);
             //proc.ObtenerBordes();
             ObtenerBordesCrop(ancho);
-            CorregirImagen();
-            CorregirSaltos();
+            CorregirImagen();           
+            CorregirSaltos(); 
+            SmoothImage();
             CalcularDefectos_1metro(tol1);
             CalcularDefectos_2metro(tol2);
 
@@ -241,7 +242,7 @@ namespace Meplate
             { 
                 columnas_cola = columnas_cola.TupleSort();
                 double temp = columnas_cola.DArr[0];
-                cola = (int)Math.Ceiling(temp);
+                cola = (int)Math.Floor(temp);
 
             }
             else
@@ -263,8 +264,6 @@ namespace Meplate
             {
                 for (int j = 0; j < filas; j++)
                 {
-                   
-                   
                     if (j >= borde_izquierdo && j <= borde_derecho)
                     {
                        
@@ -279,22 +278,35 @@ namespace Meplate
                     }
                 }
             }
-            //Le añado un smoothing gaussiano y una mediana
-            Z.MedianImage("circle",4,"mirrored");
-            Z.GaussImage(5);
+           
             media.Dispose();
 
            
             if (_Guardar_Imagenes_Parciales)
             {
 
-                filename = "ZCon saltos_" + (string)DateTime.Now.Hour.ToString() + "_" + (string)DateTime.Now.Minute.ToString();
+                filename = "Z_corregidos_offset" + (string)DateTime.Now.Hour.ToString() + "_" + (string)DateTime.Now.Minute.ToString();
                 Z.WriteImage("tiff", 0, filename);
                 if (!System.IO.File.Exists(_PathImages + filename + ".tif")) System.IO.File.Move(filename + ".tif", _PathImages + filename + ".tif");
 
                
             }
 
+        }
+        private void SmoothImage()
+        {
+            //Le añado un smoothing gaussiano y una mediana
+            Z.MedianImage("circle",4,"mirrored");
+            Z.GaussImage(5);
+                if (_Guardar_Imagenes_Parciales)
+            {
+
+                filename = "Z_suavizada_" + (string)DateTime.Now.Hour.ToString() + "_" + (string)DateTime.Now.Minute.ToString();
+                Z.WriteImage("tiff", 0, filename);
+                if (!System.IO.File.Exists(_PathImages + filename + ".tif")) System.IO.File.Move(filename + ".tif", _PathImages + filename + ".tif");
+
+               
+            }
         }
         public void ObtenerBordes(double ancho)
         {
@@ -1171,8 +1183,8 @@ namespace Meplate
 
                 saltos.MeasurePairs(Z, 1, 1, "negative", "all", out rowEdgeFirst, out columnEdgeFirst, out amplitudeFirst, out rowEdgeSecond, out columnEdgeSecond, out amplitudeSecond, out intraDistance, out interDistance);
 
-                columnEdgeFirst = columnEdgeFirst.TupleFloor();
-                columnEdgeSecond = columnEdgeSecond.TupleCeil();
+                columnEdgeFirst = columnEdgeFirst.TupleCeil();
+                columnEdgeSecond = columnEdgeSecond.TupleFloor();
 
                 //DWEBUG puede que haya que filtrar solo los saltos de cierto espesor o lo que estan muy cerca con las distancoas
                 //por cada salto 
@@ -1187,16 +1199,23 @@ namespace Meplate
                         mediasalto = mediasalto + media.GetGrayval(1, j);
                     }
                     mediasalto = mediasalto / (columnEdgeSecond.DArr[i] - columnEdgeFirst.DArr[i]);
+                    double diferencia_salto=Math.Abs(mediaantes-mediadespues);
+                    double diferencia_antes =Math.Abs(mediasalto-mediaantes);
+                    double diferencia_despues=Math.Abs(mediasalto-mediadespues);
 
-                    // corrijo los valores del salto con la diferencia de las medias
-                    for (int j = (int)columnEdgeFirst.DArr[i]; j < (int)columnEdgeSecond.DArr[i]; j++)
+
+                    if (diferencia_antes>diferencia_salto&&diferencia_despues>diferencia_salto)
                     {
-                        for (int z = 0; z < filas; z++)
+                        // corrijo los valores del salto con la diferencia de las medias
+                        for (int j = (int)columnEdgeFirst.DArr[i]; j < (int)columnEdgeSecond.DArr[i]; j++)
                         {
-                            valor = Z.GetGrayval(z, j);
-                            Z.SetGrayval(z, j, valor - (mediasalto - ((mediaantes + mediadespues) / 2)));
-                        }
+                            for (int z = 0; z < filas; z++)
+                            {
+                                valor = Z.GetGrayval(z, j);
+                                Z.SetGrayval(z, j, valor - (mediasalto - ((mediaantes + mediadespues) / 2)));
+                            }
 
+                        } 
                     }
                 } 
             }
