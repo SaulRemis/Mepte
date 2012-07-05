@@ -297,7 +297,7 @@ namespace SpinPlatform.Sensors.Meplaca
  //Inicio seccion critica
            lock (_locker)
            { if (tensiones.Count>0)
-               temp = tensiones[tensiones.Count - 1];
+            tensiones[tensiones.Count - 1].CopyTo((Array)temp,0);
               // tensiones.Clear(); 
            }
 //Fin seccion critica

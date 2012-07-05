@@ -123,13 +123,14 @@ namespace SpinPlatform.Sensors.Meplaca
         {
             double[] Referencias = new double[_NumeroModulos * 6];
             double[] medidas = new double[_NumeroModulos * 6];
+            _Meplaca.GetData(ref Aux_meplaca, "UltimaMedida");
             medidas=(double[])Aux_meplaca.MEPUltimoPerfil; 
 
             double valor = double.Parse(textBox_value.Text);
             double limder = double.Parse(textBox_limder.Text);
             double limizq = double.Parse(textBox_limizq.Text);
 
-            _Meplaca.GetData(ref Aux_meplaca, "UltimaMedida");
+           
 
             for (int i = 0; i < Referencias.Length; i++)
             {
@@ -147,7 +148,7 @@ namespace SpinPlatform.Sensors.Meplaca
 
             Aux_meplaca.MEPValores = medidas; 
             Aux_meplaca.MEPReferencias = Referencias;
-            _Meplaca.SetData(ref Aux_meplaca, "EnviarOffsets");
+            _Meplaca.SetData(ref Aux_meplaca, "EnviarOffsetsAutomatico");
         }
     }
 }

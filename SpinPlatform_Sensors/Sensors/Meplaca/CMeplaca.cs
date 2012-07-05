@@ -181,7 +181,7 @@ namespace SpinPlatform.Sensors.Meplaca
                     {
                         if (valores[6 * i + j] == 0)
                         {
-                            serie._Offset[6 * i + j] = serie._Offset[6 * i + j];
+                            Offset[6 * i + j] = serie._Offset[6 * i + j];
 
                         }
                         else
@@ -224,6 +224,41 @@ namespace SpinPlatform.Sensors.Meplaca
                  _ListaOffset.Clear();
              }
             
+        }
+        void enviarOffsetsAutomatico(double[] valores, double[] referencias)
+        {
+            int dist, valor, diff;
+            UInt16[] Offset = new UInt16[_NumeroModulos * 6];
+
+            for (int i = 0; i < _NumeroModulos; i++)
+            {
+                for (int j = 0; j < 6; j++)
+                {
+                    if (valores[6 * i + j] == 0)
+                    {
+                        serie._Offset[6 * i + j] = serie._Offset[6 * i + j];
+
+                    }
+                    else
+                    {
+                        if (_Meplate)
+                        {
+                            referencias[6 * i + j] = referencias[6 * i + j] / 4;
+                            valores[6 * i + j] = valores[6 * i + j] / 4;
+                        }
+
+                        dist = (int)Math.Round((calibracion.Modulos[i].Sensores[j].a / (referencias[6 * i + j] - calibracion.Modulos[i].Sensores[j].c)) + calibracion.Modulos[i].Sensores[j].b);
+                        valor = (int)Math.Round((calibracion.Modulos[i].Sensores[j].a / (valores[6 * i + j] - calibracion.Modulos[i].Sensores[j].c)) + calibracion.Modulos[i].Sensores[j].b);
+                        diff = (int)Math.Round((double)((valor - dist) / 8));
+
+                        serie._Offset[6 * i + j] = (UInt16)(serie._Offset[6 * i + j] + diff);
+
+                    }
+                }
+            }
+
+            serie.EnviarOffsets();
+            serie.EnviarOffsets();
         }
         void ActualizaArchivoOffset()
         {
@@ -408,8 +443,9 @@ namespace SpinPlatform.Sensors.Meplaca
                             break;
                         case "EnviarOffsets":
                             enviarOffsets(data.MEPValores, data.MEPReferencias);
-                            enviarOffsets(data.MEPValores, data.MEPReferencias);
-                            enviarOffsets(data.MEPValores, data.MEPReferencias);
+                            break; 
+                        case "EnviarOffsetsAutomatico":
+                            enviarOffsetsAutomatico(data.MEPValores, data.MEPReferencias);                           
                             break;
                         case "EnviarOffsetsSensor":
                             serie.EnviarOffset((int)data.MEPModulo, (int)data.MEPSensor, (UInt16)data.MEPOffset);
