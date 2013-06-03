@@ -21,7 +21,7 @@ namespace Meplate
         dynamic _AuxMeplaca,_AuxLogCom, _AuxLog, _AuxLogError,_Parameters;
         public  bool _Midiendo = false;
         bool _CalculaOffset = true;
-        List<CMedida> medidas;// lista donde se van guardando todos los perfiles de una chapa
+        List<CMedida> medidas;// lista donde se van guardando todos los perfiles de una chapaa
         
 
         public HiloAdquisicion(SpinDispatcher padre, string name, dynamic parametros)
