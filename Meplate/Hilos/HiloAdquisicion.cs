@@ -6,7 +6,7 @@ using SpinPlatform.Dispatcher;
 using SpinPlatform.Data;
 using System.Diagnostics;
 using SpinPlatform.Sensors.Meplaca;
-
+   
 using System.Dynamic;
 
 namespace Meplate
